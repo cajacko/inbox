@@ -1,0 +1,16 @@
+{
+  "name": "@cajacko/src",
+  "version": "0.1.0",
+  "private": true,
+  "main": "lib/index.js",
+  "typings": "lib/index.d.ts",
+  "scripts": {
+    "prepare": "yarn run build",
+    "start": "yarn build -w",
+    "build": "tsc"
+  },
+  "files": ["lib"],
+  "devDependencies": {
+    "typescript": "3.2.2"
+  }
+}
