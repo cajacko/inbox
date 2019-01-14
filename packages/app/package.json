@@ -1,5 +1,5 @@
 {
-  "name": "@cajacko/src",
+  "name": "cajackoinbox",
   "version": "0.0.1",
   "private": true,
   "main": "lib/index.js",
@@ -10,7 +10,6 @@
     "test": "jest"
   },
   "dependencies": {
-    "@cajacko/src": "*",
     "react": "16.6.3",
     "react-native": "0.57.8"
   },
