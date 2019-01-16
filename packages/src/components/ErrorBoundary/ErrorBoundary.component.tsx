@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Children } from '../../types/libs';
+import { Children } from 'src/lib/types/libs';
 import ErrorBoundary from './ErrorBoundary.render';
 
 interface IProps {

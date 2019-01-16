@@ -1,3 +1,3 @@
-import { View } from '../../../../ui';
+import { View } from 'src/ui';
 
 export default View;

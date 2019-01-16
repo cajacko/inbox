@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Button as UIButton, Text } from '../../../ui';
+import { Button as UIButton, Text } from 'src/ui';
 
 interface IProps {
   text: string;

@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { Children } from '../../types/libs';
-import Button from '../Button';
-import View from '../Layout/View';
-import Text from '../Text';
+import Button from 'src/lib/components/Button';
+import Text from 'src/lib/components/Text';
+import { Children } from 'src/lib/types/libs';
+import { Container } from './ErrorBoundary.style';
 
 interface IProps {
   hasError: boolean;
@@ -31,12 +31,12 @@ const ErrorBoundary = ({
   }
 
   return (
-    <View>
+    <Container>
       {code ? <Text text={`Code: ${code}`} /> : null}
       {title ? <Text text={`Title: ${title}`} /> : null}
       {message ? <Text text={`Message: ${message}`} /> : null}
       {actionText && action ? <Button text={actionText} /> : null}
-    </View>
+    </Container>
   );
 };
 

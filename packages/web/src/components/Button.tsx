@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Children } from '../lib/types/libs';
+import { Children } from 'src/lib/types/libs';
 
 interface IProps {
   action?: () => void;

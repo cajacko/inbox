@@ -1,6 +1,7 @@
 {
   "extends": ["airbnb"],
   "rules": {
+    "import/no-unresolved": "off",
     "no-unused-vars": "off",
     "id-length": [
       "error",
@@ -101,10 +102,7 @@
       }
     },
     {
-      "files": ["packages/src/**/*", "packages/functions/src/lib/**/*"],
-      "rules": {
-        "import/no-unresolved": "off"
-      }
+      "files": ["packages/src/**/*", "packages/functions/src/lib/**/*"]
     }
   ],
   "settings": {
