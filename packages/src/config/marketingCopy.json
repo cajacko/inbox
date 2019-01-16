@@ -1,0 +1,27 @@
+{
+  "General": {
+    "Set": "Set",
+    "Cancel": "Cancel"
+  },
+  "Navigation": {
+    "GoBack": "Go back",
+    "GoToHome": "Go to home"
+  },
+  "GenericErrorBoundary": {
+    "ErrorCode": "Error Code"
+  },
+  "Errors": {
+    "General": {
+      "Title": "Damn! We've had a crash",
+      "Message": "Don't worry, we've notified our rescue team that something went wrong"
+    },
+    "404": {
+      "Title": "Where are you!",
+      "Message": "We're not sure how you got here, but this page does not exist"
+    },
+    "DevError": {
+      "Title": "Damn! We've messed up.",
+      "Message": "Looks like we broke something. Don't worry, we've notified our rescue team that something went wrong"
+    }
+  }
+}

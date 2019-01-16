@@ -2,7 +2,12 @@ import * as React from 'react';
 import Button from 'src/lib/components/Button';
 import Text from 'src/lib/components/Text';
 import { Children } from 'src/lib/types/libs';
-import { Container } from './ErrorBoundary.style';
+import {
+  BottomMargin,
+  Button as ButtonContainer,
+  Container,
+  Inner,
+} from './ErrorBoundary.style';
 
 interface IProps {
   hasError: boolean;
@@ -31,12 +36,38 @@ const ErrorBoundary = ({
     return <>{children}</>;
   }
 
+  const showButton = !!(actionText && action);
+  const titleHasMargin = !!(message || code || showButton);
+  const messageHasMargin = !!(code || showButton);
+  const codeHasMargin = showButton;
+
   return (
     <Container>
-      {code ? <Text text={`Code: ${code}`} /> : null}
-      {title ? <Text text={`Title: ${title}`} /> : null}
-      {message ? <Text text={`Message: ${message}`} /> : null}
-      {actionText && action ? <Button text={actionText} /> : null}
+      <Inner>
+        {title && (
+          <BottomMargin hasMargin={titleHasMargin}>
+            <Text text={title} />
+          </BottomMargin>
+        )}
+
+        {message && (
+          <BottomMargin hasMargin={messageHasMargin}>
+            <Text text={message} />
+          </BottomMargin>
+        )}
+
+        {code && (
+          <BottomMargin hasMargin={codeHasMargin}>
+            <Text text={code} />
+          </BottomMargin>
+        )}
+
+        {showButton && actionText && (
+          <ButtonContainer>
+            <Button action={action} text={actionText} />
+          </ButtonContainer>
+        )}
+      </Inner>
     </Container>
   );
 };

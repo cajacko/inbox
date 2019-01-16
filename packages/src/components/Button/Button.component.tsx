@@ -3,6 +3,7 @@ import Button from './Button.render';
 
 interface IProps {
   text: string;
+  action?: () => void;
 }
 
 /**
@@ -26,6 +27,10 @@ class ButtonComponent extends React.Component<IProps> {
   private action() {
     // eslint-disable-next-line
     console.log('action');
+
+    if (this.props.action) {
+      this.props.action();
+    }
   }
 
   /**
