@@ -1,15 +1,37 @@
 {
   "compilerOptions": {
-    "allowJs": true,
+    "baseUrl": ".",
+    "outDir": "build/dist",
+    "module": "esnext",
+    "target": "esnext",
+    "lib": ["es6"],
+    "sourceMap": true,
+    "allowJs": false,
+    "jsx": "react-native",
+    "moduleResolution": "node",
+    "rootDir": "src",
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "noImplicitAny": true,
+    "importHelpers": true,
+    "strictNullChecks": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "noUnusedLocals": true,
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "isolatedModules": true,
-    "jsx": "react-native",
-    "lib": ["es6"],
-    "moduleResolution": "node",
     "noEmit": true,
-    "strict": true,
-    "target": "esnext"
+    "strict": true
   },
-  "exclude": ["node_modules"]
+  "include": ["src"],
+  "exclude": [
+    "node_modules",
+    "build",
+    "scripts",
+    "acceptance-tests",
+    "webpack",
+    "jest",
+    "src/setupTests.ts"
+  ]
 }

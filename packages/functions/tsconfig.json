@@ -1,12 +1,34 @@
 {
   "compilerOptions": {
-    "lib": ["es6"],
+    "baseUrl": ".",
+    "outDir": "build/dist",
     "module": "commonjs",
-    "noImplicitReturns": true,
-    "outDir": "dist",
+    "target": "es6",
+    "lib": ["es6"],
     "sourceMap": true,
-    "target": "es6"
+    "allowJs": false,
+    "jsx": "react",
+    "moduleResolution": "node",
+    "rootDir": "src",
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "noImplicitAny": true,
+    "importHelpers": true,
+    "strictNullChecks": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "noUnusedLocals": true
   },
   "compileOnSave": true,
-  "include": ["src"]
+  "include": ["src"],
+  "exclude": [
+    "node_modules",
+    "build",
+    "scripts",
+    "acceptance-tests",
+    "webpack",
+    "jest",
+    "src/setupTests.ts",
+    "src/lib/components"
+  ]
 }
