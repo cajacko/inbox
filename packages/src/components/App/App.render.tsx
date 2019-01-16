@@ -3,7 +3,8 @@ import ErrorBoundary from 'src/lib/components/ErrorBoundary';
 import Text from 'src/lib/components/Text';
 
 /**
- * The main entry file. Sets up the global structure of the app, including any providers etc
+ * The main entry file. Sets up the global structure of the app, including any
+ * providers etc
  */
 const App = () => (
   <ErrorBoundary>

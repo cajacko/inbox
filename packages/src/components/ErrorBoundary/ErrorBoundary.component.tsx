@@ -16,8 +16,9 @@ interface IState {
 }
 
 /**
- * Business logic for the error boundary component, handles when the children crashes and decides
- * what code, title, message and actions to display. Will also fire off error logs
+ * Business logic for the error boundary component, handles when the children
+ * crashes and decides what code, title, message and actions to display. Will
+ * also fire off error logs
  */
 class ErrorBoundaryComponent extends React.Component<IProps, IState> {
   /**

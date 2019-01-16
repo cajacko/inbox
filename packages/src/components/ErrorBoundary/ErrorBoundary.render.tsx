@@ -15,7 +15,8 @@ interface IProps {
 }
 
 /**
- * Markup for the error boundary component, displays the error message and optional actions
+ * Markup for the error boundary component, displays the error message and
+ * optional actions
  */
 const ErrorBoundary = ({
   hasError,
