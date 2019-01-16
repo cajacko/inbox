@@ -1,4 +1,4 @@
-import Text from "./components/Text";
-import Button from "./components/Button";
+import Button from './components/Button';
+import Text from './components/Text';
 
 export { Text, Button };

@@ -1,13 +1,13 @@
 {
   "name": "functions",
   "scripts": {
-    "lint": "tslint --project tsconfig.json",
     "build": "tsc",
-    "serve": "npm run build && firebase serve --only functions",
-    "shell": "npm run build && firebase functions:shell",
-    "start": "npm run serve",
     "deploy": "firebase deploy --only functions",
-    "logs": "firebase functions:log"
+    "logs": "firebase functions:log",
+    "serve": "firebase serve --only functions",
+    "shell": "firebase functions:shell",
+    "start": "yarn build && yarn watch",
+    "watch": "concurrently \"yarn build -w\" \"yarn serve\""
   },
   "main": "build/dist/index.js",
   "dependencies": {
@@ -15,6 +15,7 @@
     "firebase-functions": "^2.1.0"
   },
   "devDependencies": {
+    "concurrently": "^4.1.0",
     "tslint": "~5.8.0",
     "typescript": "~2.8.3"
   },

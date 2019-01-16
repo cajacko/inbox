@@ -2,12 +2,33 @@
   "name": "root",
   "private": true,
   "scripts": {
-    "watch:src": "baf packages/src packages/app/src/lib packages/web/src/lib packages/functions/src/lib",
+    "start": "concurrently \"yarn start:app\" \"yarn start:functions\" \"yarn start:web\"",
+    "start:app": "cd packages/app && yarn start",
+    "start:functions": "cd packages/functions && yarn start",
+    "start:web": "cd packages/web && yarn start",
+    "test:lint": "yarn test:tslint && yarn test:eslint",
+    "test:tslint": "tslint -c tslint.json 'packages/**/*.ts*'",
+    "test:eslint": "eslint packages --ext .jsx,.js,.ts,.tsx",
+    "start:src": "baf packages/src packages/app/src/lib packages/web/src/lib packages/functions/src/lib",
     "postinstall": "lerna bootstrap"
   },
   "devDependencies": {
     "concurrently": "^4.1.0",
-    "lerna": "^3.10.5"
+    "eslint": "4.18.1",
+    "eslint-config-airbnb": "16.1.0",
+    "eslint-config-react-app": "2.1.0",
+    "eslint-loader": "1.9.0",
+    "eslint-plugin-cajacko": "1.0.0",
+    "eslint-plugin-import": "2.9.0",
+    "eslint-plugin-jest": "21.12.2",
+    "eslint-plugin-jsx-a11y": "6.0.3",
+    "eslint-plugin-react": "7.7.0",
+    "lerna": "^3.10.5",
+    "tslint": "^5.7.0",
+    "tslint-config-prettier": "^1.10.0",
+    "tslint-react": "^3.2.0",
+    "typescript": "3.1.1",
+    "typescript-eslint-parser": "^21.0.2"
   },
   "dependencies": {
     "back-and-forth": "^0.1.0"

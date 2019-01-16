@@ -1,3 +1,3 @@
-import { Text } from "../../../ui";
+import { Text } from '../../../ui';
 
 export default Text;

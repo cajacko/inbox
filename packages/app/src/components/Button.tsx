@@ -1,12 +1,15 @@
-import * as React from "react";
-import { TouchableOpacity } from "react-native";
+import * as React from 'react';
+import { TouchableOpacity } from 'react-native';
 
-interface Props {
+interface IProps {
   action?: () => void;
   children: React.ReactNode;
 }
 
-const Button = ({ action, children }: Props) => (
+/**
+ * Render a native button
+ */
+const Button = ({ action, children }: IProps) => (
   <TouchableOpacity onPress={action}>{children}</TouchableOpacity>
 );
 

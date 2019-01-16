@@ -6,7 +6,9 @@
   "typings": "lib/index.d.ts",
   "files": ["lib"],
   "scripts": {
-    "start": "node node_modules/react-native/local-cli/cli.js start",
+    "start": "concurrently \"yarn start:metro\" \"yarn start:ios\"",
+    "start:ios": "react-native run-ios",
+    "start:metro": "node node_modules/react-native/local-cli/cli.js start",
     "test": "jest"
   },
   "dependencies": {
@@ -19,6 +21,7 @@
     "@types/react-native": "^0.57.27",
     "@types/react-test-renderer": "^16.0.3",
     "babel-jest": "23.6.0",
+    "concurrently": "^4.1.0",
     "jest": "23.6.0",
     "metro-react-native-babel-preset": "0.51.1",
     "react-test-renderer": "16.6.3",

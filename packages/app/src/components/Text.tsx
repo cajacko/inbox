@@ -1,10 +1,13 @@
-import * as React from "react";
-import { Text as RNText } from "react-native";
+import * as React from 'react';
+import { Text as RNText } from 'react-native';
 
-interface Props {
+interface IProps {
   text: string;
 }
 
-const Text = ({ text }: Props) => <RNText>{text}</RNText>;
+/**
+ * Render native text
+ */
+const Text = ({ text }: IProps) => <RNText>{text}</RNText>;
 
 export default Text;

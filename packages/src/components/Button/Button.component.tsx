@@ -1,5 +1,5 @@
-import * as React from "react";
-import Button from "./Button.render";
+import * as React from 'react';
+import Button from './Button.render';
 
 interface IProps {
   text: string;
@@ -27,9 +27,12 @@ class ButtonComponent extends React.Component<IProps> {
     return <Button action={this.action} {...this.props} />;
   }
 
+  /**
+   * Run the button action
+   */
   private action() {
-    // tslint:disable-next-line
-    console.log("action");
+    // eslint-disable-next-line
+    console.log('action');
   }
 }
 
