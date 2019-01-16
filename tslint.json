@@ -2,7 +2,8 @@
   "extends": ["tslint:recommended", "tslint-react", "tslint-config-prettier"],
   "rules": {
     "no-console": false,
-    "member-ordering": false
+    "member-ordering": false,
+    "curly": false
   },
   "linterOptions": {
     "exclude": [

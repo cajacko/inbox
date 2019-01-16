@@ -1,8 +1,9 @@
 import * as React from 'react';
+import { Children } from '../lib/types/libs';
 
 interface IProps {
   action?: () => void;
-  children: React.ReactNode;
+  children: Children;
 }
 
 /**
