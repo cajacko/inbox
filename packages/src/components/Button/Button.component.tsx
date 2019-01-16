@@ -21,18 +21,18 @@ class ButtonComponent extends React.Component<IProps> {
   }
 
   /**
-   * Render the component
-   */
-  public render() {
-    return <Button action={this.action} {...this.props} />;
-  }
-
-  /**
    * Run the button action
    */
   private action() {
     // eslint-disable-next-line
     console.log('action');
+  }
+
+  /**
+   * Render the component
+   */
+  public render() {
+    return <Button action={this.action} {...this.props} />;
   }
 }
 

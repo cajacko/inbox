@@ -6,6 +6,7 @@
     "start:app": "cd packages/app && yarn start",
     "start:functions": "cd packages/functions && yarn start",
     "start:web": "cd packages/web && yarn start",
+    "test": "yarn test:lint",
     "test:lint": "yarn test:tslint && yarn test:eslint",
     "test:tslint": "tslint -c tslint.json 'packages/**/*.ts*'",
     "test:eslint": "eslint packages --ext .jsx,.js,.ts,.tsx",
