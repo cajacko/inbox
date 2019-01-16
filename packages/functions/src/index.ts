@@ -1,5 +1,5 @@
 import * as functions from "firebase-functions";
-import sharedExample from "../lib/sharedExample";
+import sharedExample from "./lib/sharedExample";
 
 // // Start writing Firebase Functions
 // // https://firebase.google.com/docs/functions/typescript

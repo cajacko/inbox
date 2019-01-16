@@ -2,6 +2,7 @@
   "name": "root",
   "private": true,
   "scripts": {
+    "watch:src": "baf packages/src packages/app/src/lib packages/web/src/lib packages/functions/src/lib",
     "postinstall": "lerna bootstrap"
   },
   "devDependencies": {
