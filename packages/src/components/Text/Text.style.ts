@@ -1,7 +1,7 @@
+import { Text as UIText } from 'src/components';
 import { Type, TYPES } from 'src/lib/config/styles/text';
 import textIconColor from 'src/lib/utils/textIconColor';
-import { Text as UIText } from 'src/ui';
-import unit from 'src/unit';
+import unit from 'src/utils/unit';
 import styled from 'styled-components';
 import { IProps } from './Text.render';
 

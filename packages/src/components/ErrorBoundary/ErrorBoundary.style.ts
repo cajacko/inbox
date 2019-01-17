@@ -1,6 +1,6 @@
+import { View } from 'src/components';
 import { BACKGROUND_COLORS } from 'src/lib/config/styles/textIconColors';
-import { View } from 'src/ui';
-import unit from 'src/unit';
+import unit from 'src/utils/unit';
 import styled from 'styled-components';
 
 const STANDARD_SPACING = 10;

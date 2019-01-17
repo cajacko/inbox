@@ -1,8 +1,8 @@
 import * as React from 'react';
+import { Button as UIButton } from 'src/components';
 import Text from 'src/lib/components/Text';
 import { BACKGROUND_COLORS } from 'src/lib/config/styles/textIconColors';
 import { Text as TextType } from 'src/lib/types/general';
-import { Button as UIButton } from 'src/ui';
 
 interface IProps {
   text: TextType;
