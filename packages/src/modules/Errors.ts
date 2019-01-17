@@ -100,7 +100,12 @@ class Errors {
       errors: this.errors,
     });
 
-    return null;
+    return {
+      code: '100-000',
+      label: 'Dev Error',
+      message: 'Errors.DevError.Message',
+      title: 'Errors.DevError.Title',
+    };
   }
 
   /**
@@ -113,7 +118,15 @@ class Errors {
   /**
    * Get an error object from the error code
    */
-  public getError(code: string) {
+  public getError(e: string | AppError): IExtendedError {
+    let code;
+
+    if (e instanceof AppError) {
+      code = AppError.parseErrorCode(e);
+    } else {
+      code = e;
+    }
+
     if (code) {
       const error = this.errors[code];
 

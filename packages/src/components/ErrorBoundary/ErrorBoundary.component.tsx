@@ -1,6 +1,7 @@
 /* eslint max-lines: 0 */
 import * as React from 'react';
 import AppError from 'src/lib/modules/AppError';
+import SplashScreen from 'src/lib/modules/SplashScreen';
 import { IExtendedError } from 'src/lib/types/general';
 import { Children } from 'src/lib/types/libs';
 import errors from 'src/lib/utils/errors';
@@ -134,6 +135,8 @@ class ErrorBoundaryComponent extends React.Component<IProps, IState> {
       };
 
     if (state.hasError) {
+      SplashScreen.hide();
+
       const loggerProps: ILoggerProps = {
         error,
         errorObject: newState,
