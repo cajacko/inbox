@@ -1,17 +1,18 @@
-// @flow
-
 type OnLogType = (
   level: string,
   message: string,
-  data?: ?any,
-  isConsoleWrap: boolean
+  data?: any,
+  isConsoleWrap?: boolean
 ) => void;
 
-interface LogLevelsType { [key: string]: string }
+interface ILogLevelsType {
+  [key: string]: string;
+}
 
-export type LoggerInstance = {
-  [key: string]: (string, ...params: any) => void,
-};
+export interface ILoggerInstance {
+  [key: string]: (arg0: string, ...params: any) => void;
+}
+
 /**
  * When we are not in development, catch every console statement and send it
  * to our log server. Making sure to still show the log in the console.
@@ -21,15 +22,15 @@ class Logger {
    * Initialise the logger
    */
   constructor(
-    onLog?: ?OnLogType,
-    logLevels?: ?LogLevelsType,
+    onLog?: OnLogType,
+    logLevels?: ILogLevelsType,
     shouldWrapConsole?: boolean
   ) {
     this.consoleLogLevels = {
-      log: 'info',
-      info: 'info',
-      warn: 'warning',
       error: 'error',
+      info: 'info',
+      log: 'info',
+      warn: 'warning',
     };
 
     this.onLog = onLog || this.onLogDefault;
@@ -41,38 +42,26 @@ class Logger {
     this.setLogger();
   }
 
-  consoleLogLevels: { [key: string]: string };
-  logger: LoggerInstance;
-  logLevels: LogLevelsType;
-  onLog: OnLogType;
+  private consoleLogLevels: { [key: string]: string };
+  private logger: ILoggerInstance;
+  private logLevels: ILogLevelsType;
+  private onLog: OnLogType;
 
   /**
    *  Default log function
-   *
-   * @param {String} level The log level
-   * @param {String} message The log message
-   * @param {Any} data Data that was passed with the log
-   * @param {Boolean} isConsoleWrap Did this log come from the console
-   *  wrapper
-   *
-   * @return {Void} No return value
    */
-  onLogDefault(
+  private onLogDefault(
     level: string,
     message: string,
-    data?: ?any,
-    isConsoleWrap?: ?boolean
+    data?: any,
+    isConsoleWrap?: boolean
   ) {
     if (isConsoleWrap) return;
 
     /**
      * Does the log level have a console function
-     *
-     * @param {String} key The console log func name
-     *
-     * @return {Boolean} Whether the log level has a console counterpart
      */
-    const isConsole = key => this.consoleLogLevels[key] === level;
+    const isConsole = (key: string) => this.consoleLogLevels[key] === level;
 
     const consoleFuncName = Object.keys(this.consoleLogLevels).find(isConsole);
 
@@ -88,14 +77,12 @@ class Logger {
   /**
    * Set the logger object that we will eventually return to be used within
    * our app
-   *
-   * @return {Void} No Return value
    */
-  setLogger() {
+  private setLogger() {
     this.logger = Object.keys(this.logLevels).reduce(
       (logger, logLevel) =>
         Object.assign(logger, {
-          [logLevel]: (message, data) =>
+          [logLevel]: (message: string, data?: any) =>
             this.onLog(this.logLevels[logLevel], message, data, false),
         }),
       {}
@@ -104,41 +91,38 @@ class Logger {
 
   /**
    * Return the logger object
-   *
-   * @return {Object} The logger object, to be used instead of console
    */
-  getLogger() {
+  public getLogger() {
     return this.logger;
   }
 
   /**
    * Wrap the console object and send all the logs through our onLog function.
    * Currently only works in browsers.
-   *
-   * @return {Void} No return value
    */
-  wrapConsole() {
+  private wrapConsole() {
     if (window && window.console) {
       // Store a ref to the original console object
       const actualConsole = window.console;
 
       // Set the console object as blank object, we'll add the functionality
       // back in
+      // @ts-ignore: We are hacking this
       window.console = {};
 
       // Add back all the props/values to the console object, but for the
       // functions, send the log to our server as well.
-      Object.keys(actualConsole).forEach((m) => {
+      Object.keys(actualConsole).forEach((method) => {
         // Only need to wrap the functions
-        if (typeof actualConsole[m] === 'function') {
+        if (typeof actualConsole[method] === 'function') {
           // Set the wrapper, which pings our log server
-          window.console[m] = (...args) => {
+          window.console[method] = (...args: any) => {
             // Only ping our log server for the functions we've mapped out a log
             // level for
-            if (this.consoleLogLevels[m]) {
+            if (this.consoleLogLevels[method]) {
               this.onLog(
-                this.consoleLogLevels[m],
-                typeof args[0] === 'string' ? args[0] : m,
+                this.consoleLogLevels[method],
+                typeof args[0] === 'string' ? args[0] : method,
                 args,
                 true
               );
@@ -146,11 +130,11 @@ class Logger {
 
             // Perform the original console function, so it appears in the
             // console
-            actualConsole[m](...args);
+            actualConsole[method](...args);
           };
         } else {
           // Not concerned with this, so put it back as usual
-          window.console[m] = actualConsole[m];
+          window.console[method] = actualConsole[method];
         }
       });
     }

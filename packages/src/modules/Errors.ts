@@ -1,28 +1,56 @@
-// @flow
-
+import { ErrorCode } from 'src/lib/config/errors';
+import AppError from 'src/lib/modules/AppError';
+import { IError, IErrors, IExtendedErrors } from 'src/lib/types/general';
 import logger from 'src/lib/utils/logger';
-import AppError from 'src/lib/AppError';
 
+type Func = (e: AppError) => null | IError;
+type ErrorBoundaryFunc = null | Func;
+
+/**
+ * Handle the getting and setting of the errors to use in the app
+ */
 class Errors {
-  constructor(errors, defaultErrorCode, customGetErrorBoundaryError = null) {
+  private errorBoundaryFunc: null | ErrorBoundaryFunc;
+  private errors: IExtendedErrors;
+  private defaultErrorCode: ErrorCode;
+
+  /**
+   * Set the initial errors
+   */
+  constructor(
+    errors: IErrors,
+    defaultErrorCode: ErrorCode,
+    errorBoundaryFunc: ErrorBoundaryFunc = null
+  ) {
     this.setErrors(errors, defaultErrorCode, true, true);
-    this.customGetErrorBoundaryError = customGetErrorBoundaryError;
+    this.errorBoundaryFunc = errorBoundaryFunc;
   }
 
-  getErrorBoundaryError(error, info, props) {
-    if (this.customGetErrorBoundaryError) {
-      return (
-        this.customGetErrorBoundaryError(error, info, props) ||
-        this.getDefaultError()
-      );
+  /**
+   * Given the error boundary params, get the error object we should use
+   */
+  public getErrorBoundaryError(error: AppError) {
+    if (this.errorBoundaryFunc) {
+      return this.errorBoundaryFunc(error) || this.getDefaultError();
     }
 
     return this.getDefaultError();
   }
 
-  setErrors(errors, defaultErrorCode, replace, errorIfNotPassed) {
+  /**
+   * Set the errors we'll be using
+   */
+  public setErrors(
+    errors: IErrors,
+    defaultErrorCode: ErrorCode,
+    replace?: boolean,
+    errorIfNotPassed?: boolean
+  ) {
     if ((errorIfNotPassed || replace) && (!errors || !defaultErrorCode)) {
-      throw new AppError('Errors.setErrors(errors, defaultError) requires both an errors object and a default error.');
+      throw new AppError(
+        'Errors.setErrors(errors, defaultError) requires both an errors object and a default error.',
+        '100-003'
+      );
     }
 
     if (replace) {
@@ -31,20 +59,24 @@ class Errors {
 
     if (errors) {
       Object.keys(errors).forEach((code) => {
-        this.errors[code] = this.mapError(code, errors[code]);
+        this.errors[code] = { code, ...errors[code] };
       });
     }
 
-    if (defaultErrorCode) {
-      this.defaultErrorCode = defaultErrorCode;
+    this.defaultErrorCode = defaultErrorCode;
 
-      if (!this.getDefaultError()) {
-        throw new AppError('Errors.setError could not get the default error');
-      }
+    if (!this.getDefaultError()) {
+      throw new AppError(
+        'Errors.setError could not get the default error',
+        '100-003'
+      );
     }
   }
 
-  getDefaultError() {
+  /**
+   * Get the default error if all else fails, should never get this far
+   */
+  public getDefaultError() {
     const error = this.errors[this.defaultErrorCode];
 
     if (error) return error;
@@ -53,32 +85,39 @@ class Errors {
       defaultErrorCode: this.defaultErrorCode,
       errors: this.errors,
     });
+
+    return null;
   }
 
-  mapError(code, error) {
-    return { code, ...error };
+  /**
+   * Set the error boundary error func
+   */
+  public setErrorBoundaryError(errorBoundaryFunc: ErrorBoundaryFunc) {
+    this.errorBoundaryFunc = errorBoundaryFunc;
   }
 
-  setErrorBoundaryError(customGetErrorBoundaryError) {
-    this.customGetErrorBoundaryError = customGetErrorBoundaryError;
-  }
+  /**
+   * Get an error object from the error code
+   */
+  public getError(code: string) {
+    if (code) {
+      const error = this.errors[code];
 
-  getError(code) {
-    if (!code) return this.defaultError;
-
-    const error = this.errors[code];
-
-    if (error) return error;
+      if (error) return error;
+    }
 
     logger.error(`Could not get error with code ${code}`, {
-      errors: this.errors,
       code,
+      errors: this.errors,
     });
 
     return this.getDefaultError();
   }
 
-  getErrors() {
+  /**
+   * Get all the error objects
+   */
+  public getErrors() {
     return this.errors;
   }
 }

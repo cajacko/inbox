@@ -3,6 +3,30 @@
 // colors handled in ~/config/styles/textIconColors.js
 
 export const TYPES = {
+  body1: {
+    letterSpacing: 0.1,
+    size: 16,
+    uppercase: false,
+    weight: 'regular',
+  },
+  body2: {
+    letterSpacing: 0.25,
+    size: 14,
+    uppercase: false,
+    weight: 'regular',
+  },
+  button: {
+    letterSpacing: 0.75,
+    size: 14,
+    uppercase: true,
+    weight: 'medium',
+  },
+  caption: {
+    letterSpacing: 0.4,
+    size: 12,
+    uppercase: false,
+    weight: 'regular',
+  },
   h1: {
     letterSpacing: -1.5,
     size: 96,
@@ -39,6 +63,12 @@ export const TYPES = {
     uppercase: false,
     weight: 'medium',
   },
+  overline: {
+    letterSpacing: 1.5,
+    size: 10,
+    uppercase: true,
+    weight: 'regular',
+  },
   subtitle1: {
     letterSpacing: 0.15,
     size: 16,
@@ -50,36 +80,6 @@ export const TYPES = {
     size: 14,
     uppercase: false,
     weight: 'medium',
-  },
-  body1: {
-    letterSpacing: 0.1,
-    size: 16,
-    uppercase: false,
-    weight: 'regular',
-  },
-  body2: {
-    letterSpacing: 0.25,
-    size: 14,
-    uppercase: false,
-    weight: 'regular',
-  },
-  button: {
-    letterSpacing: 0.75,
-    size: 14,
-    uppercase: true,
-    weight: 'medium',
-  },
-  caption: {
-    letterSpacing: 0.4,
-    size: 12,
-    uppercase: false,
-    weight: 'regular',
-  },
-  overline: {
-    letterSpacing: 1.5,
-    size: 10,
-    uppercase: true,
-    weight: 'regular',
   },
 };
 

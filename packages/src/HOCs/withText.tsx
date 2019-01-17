@@ -5,17 +5,17 @@ import cloneDeep from 'lodash/cloneDeep';
 import * as React from 'react';
 import getText from 'src/lib/utils/getText';
 
-type PropKeys = Array<string>;
+type PropKeys = string[];
 
-interface IProps = { [key: string]: any }
+interface IProps {
+  [key: string]: any;
+}
 
 /**
  * Get the actual text for the component, given the marketing text or
  * an override object.
- *
- * Eslint and prettier won't wrap this properly, damn it
  */
-const withText = (...propKeys: PropKeys) => (Component) => (props: IProps) => {
+const withText = (...propKeys: PropKeys) => (Component: React.ComponentType<IProps>) => (props: IProps) => {
   const newProps = cloneDeep(props);
 
   propKeys.forEach((key) => {

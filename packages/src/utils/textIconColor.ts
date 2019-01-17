@@ -29,7 +29,7 @@ const textIconColor = ({
   highlight,
   greyedOut,
   error,
-}: IProps) => {
+}: IProps): string => {
   let finalTextColor;
   let finalBackgroundColor;
 

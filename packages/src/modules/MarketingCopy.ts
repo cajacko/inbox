@@ -1,41 +1,32 @@
-import merge from 'lodash/merge';
 import get from 'lodash/get';
+import merge from 'lodash/merge';
+import AppError from 'src/lib/modules/AppError';
+import { MarketingTextKey, MarketingTextValue } from 'src/lib/types/general';
 
-type Copy = {
-  [string]: Copy | string;
-};
+interface ICopy {
+  [key: string]: ICopy | MarketingTextValue;
+}
 
-type ID = string | { key: string; [string]: string };
+// eslint-disable-next-line id-length
+type ID = MarketingTextKey | { key: MarketingTextKey; [key: string]: string };
 
 /**
  * Handle getting text from the marketing copy file
  */
 class MarketingCopy {
-  copy: Copy;
+  private copy: ICopy;
 
   /**
-   * Set the intial props and error class to use
+   * Set the initial props and error class to use
    */
-  constructor(copy: Copy) {
+  constructor(copy: ICopy) {
     this.copy = copy;
-
-    // Can't use AppError here, as AppError imports all the errors, which relies
-    // on all the marketing copy stuff being setup first.
-    this.Error = Error;
-  }
-
-  /**
-   * Set the error class to use, as sometimes we want to use a custom one that
-   * contains error codes
-   */
-  setErrorClass(CustomError) {
-    this.Error = CustomError;
   }
 
   /**
    * Set the marketing copy
    */
-  set(copy: Copy, replace?: boolean) {
+  public set(copy: ICopy, replace?: boolean) {
     if (replace) this.copy = {};
 
     this.copy = merge(this.copy, copy);
@@ -44,41 +35,46 @@ class MarketingCopy {
   /**
    * Get the text from the copy by an id
    */
-  _getText(id: string) {
+  private getText(id: string) {
     const text = get(this.copy, id);
 
-    if (text) return text;
+    if (!text) {
+      throw new AppError(`Could not find any text at the id: ${id}`, '100-003');
+    }
 
-    const CustomError = this.Error;
+    if (typeof text !== 'string') {
+      throw new AppError(`Text is not a string at id: ${id}`, '100-003');
+    }
 
-    throw new CustomError(`Could not find any text at the id: ${id}`);
+    return text;
   }
 
   /**
    * Get a specific piece of copy
    */
-  get(id: ID) {
+  public get(id: ID) {
     // If the id is an object it means it's a template, so replace the template
     // bits with the vars
     if (typeof id === 'object') {
       const { key, ...vars } = id;
 
-      let text = this._getText(key);
+      let text = this.getText(key);
 
       Object.keys(vars).forEach((varKey) => {
+        // eslint-disable-next-line no-useless-escape
         text = text.replace(`\$\{${varKey}\}`, String(vars[varKey]));
       });
 
       return text;
     }
 
-    return this._getText(id);
+    return this.getText(id);
   }
 
   /**
    * Get all the copy
    */
-  getAll() {
+  public getAll() {
     return this.copy;
   }
 }

@@ -1,19 +1,26 @@
 import Logger from 'src/lib/modules/Logger';
 
-function logToServer(level, message, data) {
+type levels = 'debug' | 'info' | 'log' | 'warn' | 'error';
+
+/**
+ * Example logging transport, replace with something that actually goes to the
+ * server
+ */
+const logToServer = (level: levels, message: string, data: any) => {
+  // eslint-disable-next-line no-console
   console[level]({
+    data,
     level,
     message,
-    data,
   });
-}
+};
 
 const logLevels = {
   debug: 'debug',
-  log: 'info',
-  info: 'info',
-  warn: 'warning',
   error: 'error',
+  info: 'info',
+  log: 'info',
+  warn: 'warning',
 };
 
 const logger = new Logger(logToServer, logLevels);

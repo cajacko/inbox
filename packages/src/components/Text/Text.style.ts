@@ -2,6 +2,7 @@ import { Type, TYPES } from 'src/lib/config/styles/text';
 import textIconColor from 'src/lib/utils/textIconColor';
 import { Text as UIText } from 'src/ui';
 import styled from 'styled-components';
+import { IProps } from './Text.render';
 
 /**
  * Get the text style, default to body1
@@ -11,7 +12,7 @@ const getStyle = (type?: Type) => (type && TYPES[type]) || TYPES.body1;
 /**
  * Transform the actual text, uppercase etc
  */
-export const transformText = (text: string, { type }: { type?: Type }) => {
+export const transformText = (text: string, { type }: IProps) => {
   const { uppercase } = getStyle(type);
 
   let transformedText = text;
@@ -24,7 +25,7 @@ export const transformText = (text: string, { type }: { type?: Type }) => {
 /**
  * Get the style to use for the text
  */
-const getTextStyle = ({ type }: { type?: Type }) => {
+const getTextStyle = ({ type }: IProps) => {
   const { size, weight, letterSpacing } = getStyle(type);
 
   let fontWeight;
@@ -45,20 +46,19 @@ const getTextStyle = ({ type }: { type?: Type }) => {
     font-size: ${size};
     font-weight: ${fontWeight};
     letter-spacing: ${letterSpacing};
-
   `;
 };
 
 /**
  * Figure out the text alignment
  */
-const textAlign = ({ center }: { center?: boolean }) => {
+const textAlign = ({ center }: IProps) => {
   if (!center) return '';
 
   return 'text-align: center;';
 };
 
-export const Text = styled(UIText)`
+export const Text = styled(UIText)<IProps>`
   ${getTextStyle};
   color: ${textIconColor};
   ${textAlign};
