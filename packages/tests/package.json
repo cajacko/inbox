@@ -5,10 +5,20 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "test": "./node_modules/.bin/cucumber-js"
+    "watch": "tsc -w",
+    "test": "./node_modules/.bin/cucumber-js --require build/require/**/*.js"
   },
   "dependencies": {
+    "@types/chai": "^4.1.7",
     "chai": "^4.2.0",
-    "cucumber": "^5.1.0"
+    "cucumber": "^5.1.0",
+    "fs-extra": "^7.0.1",
+    "puppeteer": "^1.11.0",
+    "typescript": "^3.2.2"
+  },
+  "devDependencies": {
+    "@types/cucumber": "^4.0.4",
+    "@types/fs-extra": "^5.0.4",
+    "@types/puppeteer": "^1.11.1"
   }
 }

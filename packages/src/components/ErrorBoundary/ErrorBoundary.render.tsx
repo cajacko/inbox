@@ -47,7 +47,7 @@ const ErrorBoundary = ({
   const codeHasMargin = showButton;
 
   return (
-    <Container>
+    <Container testID="ErrorBoundary">
       <Inner>
         {title && (
           <BottomMargin hasMargin={titleHasMargin}>
@@ -75,6 +75,7 @@ const ErrorBoundary = ({
               type="overline"
               center
               backgroundColor={BACKGROUND_COLOR}
+              testID="ErrorBoundary__Code"
             />
           </BottomMargin>
         )}
