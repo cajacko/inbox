@@ -1,9 +1,17 @@
 import { ErrorCode } from 'src/lib/config/errors';
 import AppError from 'src/lib/modules/AppError';
-import { IError, IErrors, IExtendedErrors } from 'src/lib/types/general';
+import {
+  IErrors,
+  IExtendedError,
+  IExtendedErrors,
+} from 'src/lib/types/general';
 import logger from 'src/lib/utils/logger';
 
-type Func = (e: AppError) => null | IError;
+type Func = (
+  e: AppError,
+  info?: any,
+  props?: { [key: string]: any }
+) => null | IExtendedError;
 type ErrorBoundaryFunc = null | Func;
 
 /**
@@ -29,9 +37,15 @@ class Errors {
   /**
    * Given the error boundary params, get the error object we should use
    */
-  public getErrorBoundaryError(error: AppError) {
+  public getErrorBoundaryError(
+    error: AppError,
+    info?: any,
+    props?: { [key: string]: any }
+  ) {
     if (this.errorBoundaryFunc) {
-      return this.errorBoundaryFunc(error) || this.getDefaultError();
+      return (
+        this.errorBoundaryFunc(error, info, props) || this.getDefaultError()
+      );
     }
 
     return this.getDefaultError();

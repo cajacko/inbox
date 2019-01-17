@@ -6,11 +6,9 @@ const errors = new Errors(defaultErrors, '100-001');
 
 errors.setErrorBoundaryError((error: AppError) => {
   try {
-    const match = error.message.match(/Code: ([0-9]+)/);
+    const code = AppError.parseErrorCode(error);
 
-    if (!match) return null;
-
-    const code = match[1];
+    if (!code) return null;
 
     return errors.getError(code);
   } catch (e) {

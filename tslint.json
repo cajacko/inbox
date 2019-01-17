@@ -3,7 +3,8 @@
   "rules": {
     "no-console": false,
     "member-ordering": false,
-    "curly": false
+    "curly": false,
+    "jsx-boolean-value": false
   },
   "linterOptions": {
     "exclude": [

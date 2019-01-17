@@ -1,8 +1,8 @@
 import * as React from 'react';
 import Button from 'src/lib/components/Button';
 import Text from 'src/lib/components/Text';
-import { Text as TextType } from 'src/lib/types/general';
 import { Children } from 'src/lib/types/libs';
+import marketingCopy from 'src/lib/utils/marketingCopy';
 import {
   BACKGROUND_COLOR,
   BottomMargin,
@@ -11,13 +11,15 @@ import {
   Inner,
 } from './ErrorBoundary.style';
 
+type Func = () => void;
+
 interface IProps {
   hasError: boolean;
-  title?: TextType;
-  message?: TextType;
-  code?: TextType;
-  action?: () => void;
-  actionText?: TextType;
+  title?: string;
+  message?: string;
+  code?: string;
+  action?: Func;
+  actionText?: string;
   children: Children;
 }
 
@@ -66,7 +68,9 @@ const ErrorBoundary = ({
         {code && (
           <BottomMargin hasMargin={codeHasMargin}>
             <Text
-              text={code}
+              text={{
+                _textFromConst: `${marketingCopy.get('GenericErrorBoundary.ErrorCode')}: ${code}`,
+              }}
               type="overline"
               center
               backgroundColor={BACKGROUND_COLOR}
@@ -76,7 +80,7 @@ const ErrorBoundary = ({
 
         {showButton && actionText && (
           <ButtonContainer>
-            <Button action={action} text={actionText} />
+            <Button action={action} text={{ _textFromConst: actionText }} />
           </ButtonContainer>
         )}
       </Inner>

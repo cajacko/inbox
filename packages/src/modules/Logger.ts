@@ -2,7 +2,7 @@ type OnLogType = (
   level: string,
   message: string,
   data?: any,
-  isConsoleWrap?: boolean
+  isFromConsoleWrap?: boolean
 ) => void;
 
 interface ILogLevelsType {

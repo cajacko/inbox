@@ -16,6 +16,30 @@ class AppError extends Error {
 
     super(message);
   }
+
+  /**
+   * Get the error code from an AppError or string
+   */
+  public static parseErrorCode(error: AppError | string) {
+    let message;
+
+    if (typeof error === 'string') {
+      message = error;
+    } else if (error && error.message) {
+      ({ message } = error);
+    } else {
+      return null;
+    }
+
+    // eslint-disable-next-line no-useless-escape
+    const match = message.match(/Code: ([0-9\-]+);/);
+
+    if (!match) return null;
+
+    const code = match[1];
+
+    return code || null;
+  }
 }
 
 export default AppError;
