@@ -8,7 +8,18 @@
       {
         "min": 3,
         "max": 24,
-        "exceptions": ["x", "y", "i", "e", "cb", "fs", "id", "db", "is"]
+        "exceptions": [
+          "x",
+          "y",
+          "i",
+          "e",
+          "cb",
+          "fs",
+          "id",
+          "db",
+          "is",
+          "componentWillReceiveProps"
+        ]
       }
     ],
     "func-names": "off",

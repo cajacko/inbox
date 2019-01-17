@@ -1,3 +1,5 @@
+import * as React from 'react';
+
 export type Text = string | { _textFromConst: string };
 
 // Maybe one day we can figure out how to type these as the actual content?
@@ -20,4 +22,10 @@ export interface IErrors {
 
 export interface IExtendedErrors {
   [key: string]: IExtendedError;
+}
+
+export interface IRoute {
+  exact?: boolean;
+  path?: string;
+  component: React.ComponentType;
 }

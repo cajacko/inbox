@@ -2,7 +2,7 @@
 import * as React from 'react';
 import AppError from 'src/lib/modules/AppError';
 import SplashScreen from 'src/lib/modules/SplashScreen';
-import { IExtendedError } from 'src/lib/types/general';
+import { IExtendedError, Text } from 'src/lib/types/general';
 import { Children } from 'src/lib/types/libs';
 import errors from 'src/lib/utils/errors';
 import logger from 'src/lib/utils/logger';
@@ -18,10 +18,10 @@ interface IState {
 }
 
 interface IProps {
-  children: Children;
+  children?: Children;
   error?: IExtendedError;
   action?: (state: IState) => () => void;
-  actionText?: (state: IState) => string;
+  actionText?: (state: IState) => Text;
 }
 
 interface ILoggerProps {

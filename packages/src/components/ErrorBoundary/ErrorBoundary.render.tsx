@@ -1,6 +1,7 @@
 import * as React from 'react';
 import Button from 'src/lib/components/Button';
 import Text from 'src/lib/components/Text';
+import { Text as TextType } from 'src/lib/types/general';
 import { Children } from 'src/lib/types/libs';
 import marketingCopy from 'src/lib/utils/marketingCopy';
 import {
@@ -19,7 +20,7 @@ interface IProps {
   message?: string;
   code?: string;
   action?: Func;
-  actionText?: string;
+  actionText?: TextType;
   children: Children;
 }
 
@@ -36,7 +37,7 @@ const ErrorBoundary = ({
   actionText,
   children,
 }: IProps) => {
-  if (!hasError) {
+  if (!hasError && children) {
     return <>{children}</>;
   }
 
@@ -80,7 +81,7 @@ const ErrorBoundary = ({
 
         {showButton && actionText && (
           <ButtonContainer>
-            <Button action={action} text={{ _textFromConst: actionText }} />
+            <Button action={action} text={actionText} />
           </ButtonContainer>
         )}
       </Inner>

@@ -2,7 +2,7 @@ import AppError from 'src/lib/modules/AppError';
 import { Children } from 'src/lib/types/libs';
 
 interface IProps {
-  children: Children;
+  children?: Children;
   [key: string]: any;
 }
 
