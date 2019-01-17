@@ -1,8 +1,9 @@
 import * as React from 'react';
+import { Text } from 'src/lib/types/general';
 import Button from './Button.render';
 
 interface IProps {
-  text: string;
+  text: Text;
   action?: () => void;
 }
 

@@ -1,6 +1,7 @@
 import { Type, TYPES } from 'src/lib/config/styles/text';
 import textIconColor from 'src/lib/utils/textIconColor';
 import { Text as UIText } from 'src/ui';
+import unit from 'src/unit';
 import styled from 'styled-components';
 import { IProps } from './Text.render';
 
@@ -43,9 +44,9 @@ const getTextStyle = ({ type }: IProps) => {
   }
 
   return `
-    font-size: ${size};
+    font-size: ${unit(size)};
     font-weight: ${fontWeight};
-    letter-spacing: ${letterSpacing};
+    letter-spacing: ${unit(letterSpacing)};
   `;
 };
 

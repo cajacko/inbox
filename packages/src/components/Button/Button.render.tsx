@@ -1,8 +1,11 @@
 import * as React from 'react';
-import { Button as UIButton, Text } from 'src/ui';
+import Text from 'src/lib/components/Text';
+import { BACKGROUND_COLORS } from 'src/lib/config/styles/textIconColors';
+import { Text as TextType } from 'src/lib/types/general';
+import { Button as UIButton } from 'src/ui';
 
 interface IProps {
-  text: string;
+  text: TextType;
   action: () => void;
 }
 
@@ -11,7 +14,7 @@ interface IProps {
  */
 const Button = ({ action, text }: IProps) => (
   <UIButton action={action}>
-    <Text text={text} />
+    <Text text={text} backgroundColor={BACKGROUND_COLORS.PRIMARY} />
   </UIButton>
 );
 

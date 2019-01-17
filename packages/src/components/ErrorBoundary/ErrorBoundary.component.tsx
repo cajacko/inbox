@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Text } from 'src/lib/types/general';
 import { Children } from 'src/lib/types/libs';
 import ErrorBoundary from './ErrorBoundary.render';
 
@@ -8,11 +9,11 @@ interface IProps {
 
 interface IState {
   hasError: boolean;
-  title?: string;
-  message?: string;
-  code?: string;
+  title?: Text;
+  message?: Text;
+  code?: Text;
   action?: () => void;
-  actionText?: string;
+  actionText?: Text;
 }
 
 /**
@@ -29,11 +30,11 @@ class ErrorBoundaryComponent extends React.Component<IProps, IState> {
 
     this.state = {
       action: () => null,
-      actionText: 'Action',
-      code: 'error-code',
+      actionText: { _textFromConst: 'Action' },
+      code: { _textFromConst: 'Error Code' },
       hasError: true,
-      message: 'Error message',
-      title: 'Error title',
+      message: { _textFromConst: 'Error message' },
+      title: { _textFromConst: 'Error title' },
     };
   }
 

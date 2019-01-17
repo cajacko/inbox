@@ -1,3 +1,1 @@
-import { Text } from 'src/ui';
-
-export default Text;
+export { default } from './Text.render';

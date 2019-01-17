@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 interface IProps {
-  text: string;
+  children: string;
   className?: string;
   [key: string]: any;
 }
@@ -9,8 +9,8 @@ interface IProps {
 /**
  * Render text on the web
  */
-const Text = ({ text, className }: IProps) => (
-  <span className={className}>{text}</span>
+const Text = ({ children, className }: IProps) => (
+  <span className={className}>{children}</span>
 );
 
 export default Text;

@@ -1,7 +1,6 @@
 import { View } from 'src/ui';
+import unit from 'src/unit';
 import styled from 'styled-components';
-
-const unit = (value: number) => `${value}px`;
 
 const STANDARD_SPACING = 10;
 export const BACKGROUND_COLOR = 'white';

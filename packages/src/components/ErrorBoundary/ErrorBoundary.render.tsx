@@ -1,6 +1,8 @@
 import * as React from 'react';
 import Button from 'src/lib/components/Button';
 import Text from 'src/lib/components/Text';
+import { BACKGROUND_COLORS } from 'src/lib/config/styles/textIconColors';
+import { Text as TextType } from 'src/lib/types/general';
 import { Children } from 'src/lib/types/libs';
 import {
   BottomMargin,
@@ -11,11 +13,11 @@ import {
 
 interface IProps {
   hasError: boolean;
-  title?: string;
-  message?: string;
-  code?: string;
+  title?: TextType;
+  message?: TextType;
+  code?: TextType;
   action?: () => void;
-  actionText?: string;
+  actionText?: TextType;
   children: Children;
 }
 
@@ -46,19 +48,19 @@ const ErrorBoundary = ({
       <Inner>
         {title && (
           <BottomMargin hasMargin={titleHasMargin}>
-            <Text text={title} />
+            <Text text={title} backgroundColor={BACKGROUND_COLORS.WHITE} />
           </BottomMargin>
         )}
 
         {message && (
           <BottomMargin hasMargin={messageHasMargin}>
-            <Text text={message} />
+            <Text text={message} backgroundColor={BACKGROUND_COLORS.WHITE} />
           </BottomMargin>
         )}
 
         {code && (
           <BottomMargin hasMargin={codeHasMargin}>
-            <Text text={code} />
+            <Text text={code} backgroundColor={BACKGROUND_COLORS.WHITE} />
           </BottomMargin>
         )}
 
