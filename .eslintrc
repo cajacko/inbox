@@ -102,7 +102,13 @@
       }
     },
     {
-      "files": ["packages/src/**/*", "packages/functions/src/lib/**/*"]
+      "files": [
+        "packages/src/**/*",
+        "packages/functions/src/lib/components/**/*"
+      ],
+      "rules": {
+        "import/no-extraneous-dependencies": "off"
+      }
     }
   ],
   "settings": {

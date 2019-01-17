@@ -12,7 +12,8 @@
   "main": "build/dist/index.js",
   "dependencies": {
     "firebase-admin": "~6.0.0",
-    "firebase-functions": "^2.1.0"
+    "firebase-functions": "^2.1.0",
+    "lodash": "^4.17.11"
   },
   "devDependencies": {
     "concurrently": "^4.1.0",
