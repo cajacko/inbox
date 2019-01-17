@@ -1,10 +1,10 @@
 import * as React from 'react';
 import Button from 'src/lib/components/Button';
 import Text from 'src/lib/components/Text';
-import { BACKGROUND_COLORS } from 'src/lib/config/styles/textIconColors';
 import { Text as TextType } from 'src/lib/types/general';
 import { Children } from 'src/lib/types/libs';
 import {
+  BACKGROUND_COLOR,
   BottomMargin,
   Button as ButtonContainer,
   Container,
@@ -48,19 +48,29 @@ const ErrorBoundary = ({
       <Inner>
         {title && (
           <BottomMargin hasMargin={titleHasMargin}>
-            <Text text={title} backgroundColor={BACKGROUND_COLORS.WHITE} />
+            <Text
+              text={title}
+              type="h5"
+              center
+              backgroundColor={BACKGROUND_COLOR}
+            />
           </BottomMargin>
         )}
 
         {message && (
           <BottomMargin hasMargin={messageHasMargin}>
-            <Text text={message} backgroundColor={BACKGROUND_COLORS.WHITE} />
+            <Text text={message} center backgroundColor={BACKGROUND_COLOR} />
           </BottomMargin>
         )}
 
         {code && (
           <BottomMargin hasMargin={codeHasMargin}>
-            <Text text={code} backgroundColor={BACKGROUND_COLORS.WHITE} />
+            <Text
+              text={code}
+              type="overline"
+              center
+              backgroundColor={BACKGROUND_COLOR}
+            />
           </BottomMargin>
         )}
 
