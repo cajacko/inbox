@@ -1,5 +1,6 @@
 import * as React from 'react';
 import ErrorBoundary from 'src/lib/components/ErrorBoundary';
+import View from 'src/lib/components/Layout/View';
 import Text from 'src/lib/components/Text';
 import { BACKGROUND_COLORS } from 'src/lib/config/styles/textIconColors';
 
@@ -9,11 +10,13 @@ import { BACKGROUND_COLORS } from 'src/lib/config/styles/textIconColors';
  */
 const App = () => (
   <ErrorBoundary>
-    <Text
-      backgroundColor={BACKGROUND_COLORS.WHITE}
-      error
-      text={{ _textFromConst: 'All good' }}
-    />
+    <View>
+      <Text
+        backgroundColor={BACKGROUND_COLORS.WHITE}
+        error
+        text={{ _textFromConst: 'All good' }}
+      />
+    </View>
   </ErrorBoundary>
 );
 
