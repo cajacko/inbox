@@ -1,40 +1,154 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="theme-color" content="#000000">
-    <!--
-      manifest.json provides metadata used when your web app is added to the
-      homescreen on Android. See https://developers.google.com/web/fundamentals/engage-and-retain/web-app-manifest/
-    -->
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
-    <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
-    <!--
-      Notice the use of %PUBLIC_URL% in the tags above.
-      It will be replaced with the URL of the `public` folder during the build.
-      Only files inside the `public` folder can be referenced from the HTML.
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta name="theme-color" content="#000000" />
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico" />
+    <title>%TITLE%</title>
+    <style>
+      html,
+      body,
+      .react {
+        display: flex;
+        flex: 1;
+        padding: 0;
+        margin: 0;
+        height: 100vh;
+        width: 100vw;
+        font-family: helvetica, sans-serif;
+        position: relative;
+      }
 
-      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
-      work correctly both with client-side routing and a non-root public URL.
-      Learn how to configure a non-root public URL by running `npm run build`.
-    -->
-    <title>React App</title>
+      .loadingDiv {
+        opacity: 0;
+        transition: 1s opacity;
+        flex: 1;
+        align-items: center;
+        justify-content: center;
+        display: flex;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 9999999;
+      }
+      .hide {
+        display: none;
+      }
+      .background {
+        background: #f3f3f3;
+      }
+      .loadingDiv.loading {
+        opacity: 1;
+      }
+      .noJavascript {
+        display: none;
+      }
+      .noJsText {
+        font-family: 'helvetica', sans-serif;
+        font-weight: 400;
+        font-size: 30px;
+        max-width: 700px;
+        text-align: center;
+        line-height: 1.5;
+        padding: 20px;
+      }
+      .spinner {
+        margin: 100px auto 0;
+        width: 100%;
+        text-align: center;
+      }
+      .spinner > div {
+        width: 40px;
+        height: 40px;
+        background-color: black;
+        border-radius: 100%;
+        display: inline-block;
+        -webkit-animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+        animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+      }
+      .spinner .bounce1 {
+        -webkit-animation-delay: -0.32s;
+        animation-delay: -0.32s;
+      }
+      .spinner .bounce2 {
+        -webkit-animation-delay: -0.16s;
+        animation-delay: -0.16s;
+      }
+      @-webkit-keyframes sk-bouncedelay {
+        0%,
+        80%,
+        100% {
+          -webkit-transform: scale(0);
+        }
+        40% {
+          -webkit-transform: scale(1);
+        }
+      }
+      @keyframes sk-bouncedelay {
+        0%,
+        80%,
+        100% {
+          -webkit-transform: scale(0);
+          transform: scale(0);
+        }
+        40% {
+          -webkit-transform: scale(1);
+          transform: scale(1);
+        }
+      }
+    </style>
   </head>
   <body>
-    <noscript>
-      You need to enable JavaScript to run this app.
-    </noscript>
-    <div id="root"></div>
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
+    <div id="react" class="react"></div>
+    <div id="loading" class="loadingDiv loading background">
+      <script>
+        document.getElementById('loading').classList.remove('background');
+      </script>
+      <div id="spinner" class="spinner noJavascript">
+        <div class="bounce1"></div>
+        <div class="bounce2"></div>
+        <div class="bounce3"></div>
+      </div>
 
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
-
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
+      <div id="noJavascript">
+        <script>
+          document.getElementById('noJavascript').classList.add('hide');
+        </script>
+        <div class="noJsText">
+          <h1>%TITLE%</h1>
+          <p>%NO_JS%</p>
+        </div>
+      </div>
+      <script>
+        Element.prototype.remove = function() {
+          this.parentElement.removeChild(this);
+        };
+        NodeList.prototype.remove = HTMLCollection.prototype.remove = function() {
+          for (let i = this.length - 1; i >= 0; i--) {
+            if (this[i] && this[i].parentElement) {
+              this[i].parentElement.removeChild(this[i]);
+            }
+          }
+        };
+        document.getElementById('noJavascript').remove();
+        window.noLoading = true;
+        setTimeout(() => {
+          if (!window.initialRender) {
+            window.startTime = Math.floor(Date.now());
+            window.noLoading = false;
+            document.getElementById('loading').classList.add('background');
+            const noJavascriptClass = document.querySelector('.noJavascript');
+            noJavascriptClass.classList.remove('noJavascript');
+          }
+        }, 500);
+      </script>
+    </div>
   </body>
 </html>

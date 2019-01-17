@@ -3,6 +3,10 @@
     "Set": "Set",
     "Cancel": "Cancel"
   },
+  "Web": {
+    "Title": "Inbox",
+    "NoJS": "This website requires JavaScript to be enabled to run. Are you living in the dark ages?"
+  },
   "Navigation": {
     "GoBack": "Go back",
     "GoToHome": "Go to home"
