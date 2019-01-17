@@ -1,7 +1,7 @@
 import * as React from 'react';
 import AppLoading from 'src/lib/components/AppLoading';
 import ErrorBoundary from 'src/lib/components/ErrorBoundary';
-import View from 'src/lib/components/Layout/View';
+import Temp from 'src/lib/components/ErrorBoundary/ErrorBoundary.render';
 import Text from 'src/lib/components/Text';
 import { BACKGROUND_COLORS } from 'src/lib/config/styles/textIconColors';
 
@@ -12,13 +12,13 @@ import { BACKGROUND_COLORS } from 'src/lib/config/styles/textIconColors';
 const App = () => (
   <ErrorBoundary>
     <AppLoading>
-      <View>
+      <Temp hasError title="Temp.Title" message="Temp.Message">
         <Text
           backgroundColor={BACKGROUND_COLORS.WHITE}
           error
           text={{ _textFromConst: 'All good' }}
         />
-      </View>
+      </Temp>
     </AppLoading>
   </ErrorBoundary>
 );
