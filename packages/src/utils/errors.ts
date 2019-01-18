@@ -6,11 +6,10 @@ const errors = new Errors(defaultErrors, '100-001');
 
 errors.setErrorBoundaryError((error: AppError) => {
   try {
-    const code = AppError.parseErrorCode(error);
+    // Let the error boundary handle the default error
+    if (!errors.hasValidErrorCode(error)) return null;
 
-    if (!code) return null;
-
-    return errors.getError(code);
+    return errors.getError(error);
   } catch (e) {
     return null;
   }

@@ -1,18 +1,10 @@
 import { expect } from 'chai';
 import * as puppeteer from 'puppeteer';
+import browserHooks from '../utils/browserHooks';
 
 const showBrowser = false;
 const shouldClose = !showBrowser;
 const headless = !showBrowser;
-
-declare global {
-  // tslint:disable-next-line
-  interface Window {
-    hooks?: {
-      [key: string]: (params: any) => any;
-    };
-  }
-}
 
 class Browser {
   private browser: null | puppeteer.Browser = null;
@@ -80,19 +72,7 @@ class Browser {
       waitUntil: 'domcontentloaded',
     });
 
-    await this.page.evaluate((hooks) => {
-      window.hooks = {};
-
-      if (!hooks) return;
-
-      Object.keys(hooks).forEach((hook) => {
-        if (!window.hooks) window.hooks = {};
-
-        window.hooks[hook] = () => {
-          throw new Error('Boo');
-        };
-      });
-    }, this.hooks);
+    await this.page.evaluate(browserHooks, this.hooks);
 
     await pageLoadPromise;
   }

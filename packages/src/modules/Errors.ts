@@ -42,13 +42,14 @@ class Errors {
     info?: any,
     props?: { [key: string]: any }
   ) {
+    // Don't return the default error here, as we want the error boundary to
+    // have one set
+
     if (this.errorBoundaryFunc) {
-      return (
-        this.errorBoundaryFunc(error, info, props) || this.getDefaultError()
-      );
+      return this.errorBoundaryFunc(error, info, props);
     }
 
-    return this.getDefaultError();
+    return null;
   }
 
   /**
@@ -116,9 +117,28 @@ class Errors {
   }
 
   /**
-   * Get an error object from the error code
+   * Is the given string a valid error code
    */
-  public getError(e: string | AppError): IExtendedError {
+  public hasValidErrorCode(e: string | AppError) {
+    let code;
+
+    if (e instanceof AppError) {
+      code = AppError.parseErrorCode(e);
+    } else {
+      code = e;
+    }
+
+    if (!code) return false;
+
+    return !!this.errors[code];
+  }
+
+  /**
+   * Get an error object from the error code. Here's some common codes:
+   * - 100-001 - General Error
+   * - 100-003 - Dev Error
+   */
+  public getError(e: ErrorCode | AppError): IExtendedError {
     let code;
 
     if (e instanceof AppError) {

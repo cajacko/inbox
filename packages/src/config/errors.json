@@ -28,5 +28,15 @@
     "label": "JS Network Error",
     "message": "Errors.Fatal.Message",
     "title": "Errors.Fatal.Title"
+  },
+  "100-007": {
+    "label": "Main Router Error",
+    "message": "Errors.DevError.Message",
+    "title": "Errors.DevError.Title"
+  },
+  "100-008": {
+    "label": "Route Error",
+    "message": "Errors.DevError.Message",
+    "title": "Errors.DevError.Title"
   }
 }

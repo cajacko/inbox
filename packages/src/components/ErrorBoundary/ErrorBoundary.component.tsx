@@ -19,6 +19,7 @@ interface IState {
 
 interface IProps {
   children?: Children;
+  defaultError: IExtendedError;
   error?: IExtendedError;
   action?: (state: IState) => () => void;
   actionText?: (state: IState) => Text;
@@ -43,7 +44,7 @@ class ErrorBoundaryComponent extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
 
-    this.defaultErrorObj = this.getErrorObj(props.error);
+    this.defaultErrorObj = this.getErrorObj(props.defaultError);
 
     this.state = {
       code: undefined,

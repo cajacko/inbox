@@ -58,7 +58,10 @@ class AppLoadingComponent extends React.Component<IProps, IState> {
     // Don't need to show anything when loading, as the splash screen
     // should be showing. The only time it does show
     return (
-      <ErrorBoundary error={this.state.error}>
+      <ErrorBoundary
+        error={this.state.error}
+        defaultError={errors.getError('100-003')}
+      >
         {this.state.loading ? null : this.props.children}
       </ErrorBoundary>
     );

@@ -60,6 +60,7 @@ class FourOhFour extends React.Component<RouteComponentProps, IState> {
   public render() {
     return (
       <ErrorBoundary
+        defaultError={errors.getError('100-002')}
         error={errors.getError('100-002')}
         action={this.state.action}
         actionText={this.state.actionText}
