@@ -1,14 +1,22 @@
 import { expect } from 'chai';
 import * as puppeteer from 'puppeteer';
 
-class Browser {
-  private browser: null | puppeteer.Browser;
-  private page: null | puppeteer.Page;
+const shouldClose = true;
+const headless = true;
 
-  constructor() {
-    this.browser = null;
-    this.page = null;
+declare global {
+  // tslint:disable-next-line
+  interface Window {
+    hooks?: {
+      [key: string]: (params: any) => any;
+    };
   }
+}
+
+class Browser {
+  private browser: null | puppeteer.Browser = null;
+  private page: null | puppeteer.Page = null;
+  private hooks = {};
 
   get platform() {
     return 'web';
@@ -21,7 +29,7 @@ class Browser {
   }
 
   public async close() {
-    if (this.browser) {
+    if (this.browser && shouldClose) {
       await this.browser.close();
     }
   }
@@ -31,7 +39,34 @@ class Browser {
 
     if (!this.page) throw new Error('No page object to navigate within');
 
-    await this.page.goto(`http://localhost:3000${route}`);
+    const pageLoadPromise = new Promise((resolve) => {
+      if (!this.page) throw new Error('No page object to check for load');
+
+      this.page.once('load', () => {
+        // Give the js a bit of time to do something after load
+        setTimeout(resolve, 100);
+      });
+    });
+
+    await this.page.goto(`http://localhost:3000${route}?test-env=true`, {
+      waitUntil: 'domcontentloaded',
+    });
+
+    await this.page.evaluate((hooks) => {
+      window.hooks = {};
+
+      if (!hooks) return;
+
+      Object.keys(hooks).forEach((hook) => {
+        if (!window.hooks) window.hooks = {};
+
+        window.hooks[hook] = () => {
+          throw new Error('Boo');
+        };
+      });
+    }, this.hooks);
+
+    await pageLoadPromise;
   }
 
   public async screenshot(path: string) {
@@ -96,12 +131,20 @@ class Browser {
 
   private async ensurePage() {
     if (!this.browser) {
-      this.browser = await puppeteer.launch();
+      this.browser = await puppeteer.launch({ headless });
     }
 
     if (!this.page) {
       this.page = await this.browser.newPage();
     }
+  }
+
+  public addHook(id: string, type: string) {
+    this.hooks[id] = type;
+  }
+
+  public clearHooks() {
+    this.hooks = {};
   }
 }
 

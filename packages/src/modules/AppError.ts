@@ -1,4 +1,4 @@
-import { ErrorCode } from 'src/lib/config/errors';
+import { ErrorCode } from 'src/lib/types/general';
 
 /**
  * Custom error class to use everywhere in this project. Adds an error code to

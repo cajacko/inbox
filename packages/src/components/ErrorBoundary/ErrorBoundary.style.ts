@@ -12,8 +12,7 @@ export const Container = styled(View)`
   flex: 1;
   align-items: center;
   justify-content: center;
-  padding-horizontal: ${unit(STANDARD_SPACING)};
-  padding-vertical: ${unit(STANDARD_SPACING)};
+  padding: ${unit(STANDARD_SPACING)};
   flex-direction: column;
 `;
 

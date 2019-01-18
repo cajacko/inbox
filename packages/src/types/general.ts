@@ -1,4 +1,7 @@
 import * as React from 'react';
+import errors from 'src/lib/config/errors.json';
+
+export type ErrorCode = keyof typeof errors;
 
 export type Text = string | { _textFromConst: string };
 

@@ -12,7 +12,11 @@ class App {
     await driver.navigate(route);
   }
 
-  public async screenshot(world: HookScenarioResult) {
+  public async screenshotMatches(world: HookScenarioResult) {
+    return this.screenshot(world);
+  }
+
+  private async screenshot(world: HookScenarioResult) {
     const path = getScreenshotPath(world, driver.platform);
 
     await ensureFile(path);

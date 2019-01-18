@@ -1,6 +1,6 @@
-import { ErrorCode } from 'src/lib/config/errors';
 import AppError from 'src/lib/modules/AppError';
 import {
+  ErrorCode,
   IErrors,
   IExtendedError,
   IExtendedErrors,

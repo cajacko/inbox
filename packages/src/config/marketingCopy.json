@@ -5,7 +5,8 @@
   },
   "General": {
     "Set": "Set",
-    "Cancel": "Cancel"
+    "Cancel": "Cancel",
+    "ContactEmail": "contact@charliejackson.com"
   },
   "Web": {
     "Title": "Inbox",
@@ -30,6 +31,10 @@
     "DevError": {
       "Title": "Damn! We've messed up.",
       "Message": "Looks like we broke something. Don't worry, we've notified our rescue team that something went wrong"
+    },
+    "Fatal": {
+      "Title": "Damn! The whole app has crashed.",
+      "Message": "We've tried to notify our rescue team that something went wrong, but that may have also failed. Please get in touch to let us know this happened:"
     }
   }
 }

@@ -1,4 +1,4 @@
-import defaultErrors from 'src/lib/config/errors';
+import defaultErrors from 'src/lib/config/errors.json';
 import AppError from 'src/lib/modules/AppError';
 import Errors from 'src/lib/modules/Errors';
 

@@ -24,6 +24,10 @@
         position: relative;
       }
 
+      .react {
+        z-index: 2;
+      }
+
       .loadingDiv {
         opacity: 0;
         transition: 0.5s opacity;
@@ -103,6 +107,110 @@
           transform: scale(1);
         }
       }
+
+      .error {
+        opacity: 0;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 1;
+      }
+
+      .error {
+        -ms-flex-align: center;
+        -ms-flex-direction: column;
+        -ms-flex-pack: center;
+        -ms-flex: 1;
+        -webkit-align-items: center;
+        -webkit-box-align: center;
+        -webkit-box-pack: center;
+        -webkit-flex-direction: column;
+        -webkit-flex: 1;
+        -webkit-justify-content: center;
+        align-items: center;
+        background-color: #eceff1;
+        display: -ms-flexbox;
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        justify-content: center;
+        padding: 10px;
+      }
+
+      .error__container {
+        -ms-flex-align: center;
+        -ms-flex-direction: column;
+        -webkit-align-items: center;
+        -webkit-box-align: center;
+        -webkit-flex-direction: column;
+        align-items: center;
+        display: -ms-flexbox;
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .error__titlecontainer,
+      .error__messagecontainer {
+        -ms-flex-direction: column;
+        -webkit-flex-direction: column;
+        display: -ms-flexbox;
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 20px;
+      }
+
+      .error__codecontainer {
+        -ms-flex-direction: column;
+        -webkit-flex-direction: column;
+        display: -ms-flexbox;
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 0px;
+      }
+
+      .error__title {
+        font-size: 24px;
+        font-weight: 400;
+        -webkit-letter-spacing: 0px;
+        -moz-letter-spacing: 0px;
+        -ms-letter-spacing: 0px;
+        letter-spacing: 0px;
+        color: #102027;
+        text-align: center;
+      }
+
+      .error__message {
+        font-size: 16px;
+        font-weight: 400;
+        -webkit-letter-spacing: 0.1px;
+        -moz-letter-spacing: 0.1px;
+        -ms-letter-spacing: 0.1px;
+        letter-spacing: 0.1px;
+        color: #102027;
+        text-align: center;
+        line-height: 1.5;
+      }
+
+      .error__code {
+        font-size: 10px;
+        font-weight: 400;
+        -webkit-letter-spacing: 1.5px;
+        -moz-letter-spacing: 1.5px;
+        -ms-letter-spacing: 1.5px;
+        letter-spacing: 1.5px;
+        color: #102027;
+        text-align: center;
+      }
     </style>
   </head>
   <body>
@@ -149,6 +257,22 @@
           }
         }, 500);
       </script>
+    </div>
+    <div id="error" class="ErrorBoundary error">
+      <div class="error__container">
+        <div class="error__titlecontainer">
+          <span class="error__title">%ERROR_TITLE%</span>
+        </div>
+        <div class="error__messagecontainer">
+          <span class="error__message"
+            >%ERROR_MESSAGE%
+            <a href="mailto:%ERROR_EMAIL%">%ERROR_EMAIL%</a></span
+          >
+        </div>
+        <div class="error__codecontainer">
+          <span class="error__code ErrorBoundary__Code">%ERROR_CODE%</span>
+        </div>
+      </div>
     </div>
   </body>
 </html>

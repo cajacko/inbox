@@ -1,5 +1,6 @@
 'use strict';
 
+const get = require('lodash/get');
 const autoprefixer = require('autoprefixer');
 const path = require('path');
 const webpack = require('webpack');
@@ -13,6 +14,36 @@ const getClientEnvironment = require('./env');
 const paths = require('./paths');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const copy = require('../src/lib/config/marketingCopy.json');
+const errors = require('../src/lib/config/errors.json');
+
+/**
+ * Get the vars to inject into the html
+ */
+const getHtmlVars = () => {
+  const code = '100-004';
+  const error = errors[code];
+
+  if (!error) throw new Error('Could not get the html error');
+
+  const vars = {
+    ERROR_TITLE: get(copy, error.title),
+    ERROR_MESSAGE: get(copy, error.message),
+    ERROR_CODE: code,
+    ERROR_EMAIL: copy.General.ContactEmail,
+    NO_JS: copy.Web.NoJS,
+    TITLE: copy.Web.Title,
+  };
+
+  Object.keys(vars).forEach((key) => {
+    const value = vars[key];
+
+    if (value === undefined) {
+      throw new Error(`Undefined value found in webpack config for: ${key}`);
+    }
+  });
+
+  return vars;
+};
 
 // Webpack uses `publicPath` to determine where the app is being served from.
 // In development, we always serve from the root. This makes config easier.
@@ -45,9 +76,9 @@ module.exports = {
     // Note: instead of the default WebpackDevServer client, we use a custom one
     // to bring better experience for Create React App users. You can replace
     // the line below with these two lines if you prefer the stock client:
-    // require.resolve('webpack-dev-server/client') + '?/',
-    // require.resolve('webpack/hot/dev-server'),
-    require.resolve('react-dev-utils/webpackHotDevClient'),
+    `${require.resolve('webpack-dev-server/client')}?/`,
+    require.resolve('webpack/hot/dev-server'),
+    // require.resolve('react-dev-utils/webpackHotDevClient'),
     // Finally, this is your app's code:
     paths.appIndexJs,
     // We include the app code last so that if there is a runtime error during
@@ -227,8 +258,7 @@ module.exports = {
     // <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
     // In development, this will be an empty string.
     new InterpolateHtmlPlugin({
-      NO_JS: copy.Web.NoJS,
-      TITLE: copy.Web.Title,
+      ...getHtmlVars(),
       ...env.raw,
     }),
     // Generates an `index.html` file with the <script> injected.
