@@ -18,5 +18,10 @@
     "label": "Fatal Error",
     "message": "Errors.Fatal.Message",
     "title": "Errors.Fatal.Title"
+  },
+  "100-005": {
+    "label": "No JavaScript",
+    "message": "Errors.NoJS.Message",
+    "title": "Errors.NoJS.Title"
   }
 }

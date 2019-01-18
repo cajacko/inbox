@@ -54,15 +54,6 @@
       .noJavascript {
         display: none;
       }
-      .noJsText {
-        font-family: 'helvetica', sans-serif;
-        font-weight: 400;
-        font-size: 30px;
-        max-width: 700px;
-        text-align: center;
-        line-height: 1.5;
-        padding: 20px;
-      }
       .spinner {
         margin: 100px auto 0;
         width: 100%;
@@ -108,8 +99,11 @@
         }
       }
 
-      .error {
+      #error {
         opacity: 0;
+      }
+
+      .error {
         position: absolute;
         top: 0;
         left: 0;
@@ -225,13 +219,22 @@
         <div class="bounce3"></div>
       </div>
 
-      <div id="noJavascript">
+      <div id="noJavascript" class="ErrorBoundary error noJsText">
         <script>
           document.getElementById('noJavascript').classList.add('hide');
         </script>
-        <div class="noJsText">
-          <h1>%TITLE%</h1>
-          <p>%NO_JS%</p>
+        <div class="error__container">
+          <div class="error__titlecontainer">
+            <span class="error__title">%NO_JS_TITLE%</span>
+          </div>
+          <div class="error__messagecontainer">
+            <span class="error__message">%NO_JS_MESSAGE%</span>
+          </div>
+          <div class="error__codecontainer">
+            <span class="error__code ErrorBoundary__Code"
+              >%CODE_TEXT%: %NO_JS_CODE%</span
+            >
+          </div>
         </div>
       </div>
       <script>
@@ -270,7 +273,9 @@
           >
         </div>
         <div class="error__codecontainer">
-          <span class="error__code ErrorBoundary__Code">%ERROR_CODE%</span>
+          <span class="error__code ErrorBoundary__Code"
+            >%CODE_TEXT%: %ERROR_CODE%</span
+          >
         </div>
       </div>
     </div>

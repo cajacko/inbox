@@ -16,7 +16,7 @@ declare global {
 class Browser {
   private browser: null | puppeteer.Browser = null;
   private page: null | puppeteer.Page = null;
-  private hooks = {};
+  private hooks: { [key: string]: string } = {};
 
   get platform() {
     return 'web';
@@ -26,6 +26,10 @@ class Browser {
     await this.ensurePage();
 
     if (!this.page) throw new Error('No page object to do things with');
+
+    const disableJS = this.hooks.javascript && this.hooks.javascript === 'off';
+
+    await this.page.setJavaScriptEnabled(!disableJS);
   }
 
   public async close() {
@@ -131,7 +135,9 @@ class Browser {
 
   private async ensurePage() {
     if (!this.browser) {
-      this.browser = await puppeteer.launch({ headless });
+      this.browser = await puppeteer.launch({
+        headless,
+      });
     }
 
     if (!this.page) {

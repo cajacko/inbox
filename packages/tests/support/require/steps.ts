@@ -21,5 +21,5 @@ Then('the screenshot matches', async function () {
   await app.screenshotMatches(testCase);
 });
 
-Given('we have told the app to crash at the root', () =>
-  driver.addHook('root', 'crash'));
+Given('we add a hook with id {string} and type {string}', (id, type) =>
+  driver.addHook(id, type));

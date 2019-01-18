@@ -11,28 +11,48 @@ Feature: App Errors
     And the screenshot matches
 
   Scenario: The app has crashed at the root
-    Given we have told the app to crash at the root
+    Given we add a hook with id "root" and type "crash"
     And the driver is ready
     When the app is navigated to "/"
     Then the error component is visible
+    And the error code is "100-004"
     And the screenshot matches
 
+  @web
   Scenario: (Web) The user does not have JavaScript enabled
+    Given we add a hook with id "javascript" and type "off"
+    And the driver is ready
+    When the app is navigated to "/"
+    Then the error component is visible
+    And the error code is "100-005"
+    And the screenshot matches
+
+  @web
   Scenario: (Web) The JavaScript bundles failed to load
-  Scenario: (Web) The JavaScript bundles timeout when loading
+    Given we add a hook with id "javascript" and type "networkError"
+    And the driver is ready
+    When the app is navigated to "/"
+    Then the error component is visible
+    And the error code is "100-006"
+    And the screenshot matches
+
+  @web
+  Scenario: (Web) The JavaScript bundles take very long to load
+  # Is no timeout, just loads indefinitely because the users internet may be
+  # shit. Keep this scenario though so we know what to expect
+
+
+  # TODO: Haven't added anything to wait for yet, so fill these afterwards
   Scenario: App Loading crashes
   Scenario: App Loading times out
-  Scenario: The main router crashes
-  Scenario: The entry route crashes
 
-  Scenario: The user goes to a route that does not exist
-    Given the driver is ready
-    When the app is navigated to "/404"
+  Scenario: The main router crashes
+    Given we add a hook with id "mainRouter" and type "crash"
+    And the driver is ready
+    When the app is navigated to "/"
     Then the error component is visible
-    And the error code is "100-002"
+    And the error code is "100-007"
     And the screenshot matches
 
-  Scenario: Navigate to home after a 404
-  Scenario: Navigate back from a 404
-  Scenario: No previous route to navigate back to on a 404
-  Scenario: Previous route is same route on a 404
+  # TODO: Handle this when we have some routes
+  Scenario: The entry route crashes

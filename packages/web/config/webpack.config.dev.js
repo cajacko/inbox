@@ -25,12 +25,21 @@ const getHtmlVars = () => {
 
   if (!error) throw new Error('Could not get the html error');
 
+  const noJSCode = '100-005';
+
+  const noJSError = errors[noJSCode];
+
+  if (!noJSError) throw new Error('Could not get the html error');
+
   const vars = {
+    CODE_TEXT: copy.ErrorBoundary.ErrorCode,
     ERROR_TITLE: get(copy, error.title),
     ERROR_MESSAGE: get(copy, error.message),
     ERROR_CODE: code,
     ERROR_EMAIL: copy.General.ContactEmail,
-    NO_JS: copy.Web.NoJS,
+    NO_JS_TITLE: get(copy, noJSError.title),
+    NO_JS_MESSAGE: get(copy, noJSError.message),
+    NO_JS_CODE: noJSCode,
     TITLE: copy.Web.Title,
   };
 

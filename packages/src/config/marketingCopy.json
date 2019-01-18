@@ -9,14 +9,13 @@
     "ContactEmail": "contact@charliejackson.com"
   },
   "Web": {
-    "Title": "Inbox",
-    "NoJS": "This website requires JavaScript to be enabled to run. Are you living in the dark ages?"
+    "Title": "Inbox"
   },
   "Navigation": {
     "GoBack": "Go back",
     "GoToHome": "Go to home"
   },
-  "GenericErrorBoundary": {
+  "ErrorBoundary": {
     "ErrorCode": "Error Code"
   },
   "Errors": {
@@ -35,6 +34,10 @@
     "Fatal": {
       "Title": "Damn! The whole app has crashed.",
       "Message": "We've tried to notify our rescue team that something went wrong, but that may have also failed. Please get in touch to let us know this happened:"
+    },
+    "NoJS": {
+      "Title": "You do not have JavaScript enabled",
+      "Message": "This website requires JavaScript to be enabled to run. Are you living in the dark ages?"
     }
   }
 }

@@ -70,7 +70,7 @@ const ErrorBoundary = ({
           <BottomMargin hasMargin={codeHasMargin}>
             <Text
               text={{
-                _textFromConst: `${marketingCopy.get('GenericErrorBoundary.ErrorCode')}: ${code}`,
+                _textFromConst: `${marketingCopy.get('ErrorBoundary.ErrorCode')}: ${code}`,
               }}
               type="overline"
               center
