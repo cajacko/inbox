@@ -23,5 +23,10 @@
     "label": "No JavaScript",
     "message": "Errors.NoJS.Message",
     "title": "Errors.NoJS.Title"
+  },
+  "100-006": {
+    "label": "JS Network Error",
+    "message": "Errors.Fatal.Message",
+    "title": "Errors.Fatal.Title"
   }
 }

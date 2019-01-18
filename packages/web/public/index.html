@@ -250,7 +250,7 @@
         };
         document.getElementById('noJavascript').remove();
         window.noLoading = true;
-        setTimeout(() => {
+        setTimeout(function() {
           if (!window.initialRender) {
             window.startTime = Math.floor(Date.now());
             window.noLoading = false;
@@ -264,20 +264,61 @@
     <div id="error" class="ErrorBoundary error">
       <div class="error__container">
         <div class="error__titlecontainer">
-          <span class="error__title">%ERROR_TITLE%</span>
+          <span id="error__title" class="error__title">%ERROR_TITLE%</span>
         </div>
         <div class="error__messagecontainer">
           <span class="error__message"
-            >%ERROR_MESSAGE%
+            ><span id="error__message">%ERROR_MESSAGE%</span>
             <a href="mailto:%ERROR_EMAIL%">%ERROR_EMAIL%</a></span
           >
         </div>
         <div class="error__codecontainer">
           <span class="error__code ErrorBoundary__Code"
-            >%CODE_TEXT%: %ERROR_CODE%</span
+            >%CODE_TEXT%: <span id="error__code">%ERROR_CODE%</span></span
           >
         </div>
       </div>
+
+      <script>
+        function setText(id, text) {
+          if (!text) return;
+
+          var el = document.getElementById(id);
+
+          if (el) {
+            el.innerHTML = text;
+          }
+        }
+
+        window.showError = function(error) {
+          var reactEl = document.getElementById('react');
+
+          if (reactEl) reactEl.remove();
+
+          setText('error__title', error && error.title);
+          setText('error__message', error && error.message);
+          setText('error__code', error && error.code);
+
+          var errorEl = document.getElementById('error');
+
+          if (errorEl) errorEl.style.opacity = '1';
+
+          var loadingEl = document.getElementById('loading');
+          if (loadingEl) loadingEl.remove();
+        };
+
+        let script = document.createElement('script');
+        script.src = '/static/js/bundle.js';
+        document.body.append(script);
+
+        script.onerror = function() {
+          window.showError({
+            code: '%JS_NETWORK_ERROR_CODE%',
+            message: '%JS_NETWORK_ERROR_MESSAGE%',
+            title: '%JS_NETWORK_ERROR_TITLE%'
+          });
+        };
+      </script>
     </div>
   </body>
 </html>

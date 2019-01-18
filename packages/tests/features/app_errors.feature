@@ -37,14 +37,10 @@ Feature: App Errors
     And the screenshot matches
 
   @web
-  Scenario: (Web) The JavaScript bundles take very long to load
+  Scenario: (Web) The JavaScript bundles takes very long to load
   # Is no timeout, just loads indefinitely because the users internet may be
   # shit. Keep this scenario though so we know what to expect
-
-
-  # TODO: Haven't added anything to wait for yet, so fill these afterwards
-  Scenario: App Loading crashes
-  Scenario: App Loading times out
+  # TODO: Could show an error after a while, and still load afterwards
 
   Scenario: The main router crashes
     Given we add a hook with id "mainRouter" and type "crash"

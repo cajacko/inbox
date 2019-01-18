@@ -1,8 +1,9 @@
 import { expect } from 'chai';
 import * as puppeteer from 'puppeteer';
 
-const shouldClose = true;
-const headless = true;
+const showBrowser = false;
+const shouldClose = !showBrowser;
+const headless = !showBrowser;
 
 declare global {
   // tslint:disable-next-line
@@ -27,9 +28,32 @@ class Browser {
 
     if (!this.page) throw new Error('No page object to do things with');
 
+    await this.setJavaScriptEnabled();
+    await this.setRequestInterception();
+  }
+
+  private async setJavaScriptEnabled() {
     const disableJS = this.hooks.javascript && this.hooks.javascript === 'off';
 
+    if (!this.page) throw new Error('No page object to set JS with');
+
     await this.page.setJavaScriptEnabled(!disableJS);
+  }
+
+  private async setRequestInterception() {
+    if (!this.hooks.javascript || this.hooks.javascript !== 'networkError') {
+      return;
+    }
+
+    if (!this.page) throw new Error('No page object to intercept with');
+
+    await this.page.setRequestInterception(true);
+
+    this.page.on('request', (interceptedRequest) => {
+      if (interceptedRequest.url().endsWith('bundle.js')) {
+        interceptedRequest.abort();
+      } else interceptedRequest.continue();
+    });
   }
 
   public async close() {

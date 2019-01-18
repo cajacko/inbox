@@ -17,30 +17,43 @@ const copy = require('../src/lib/config/marketingCopy.json');
 const errors = require('../src/lib/config/errors.json');
 
 /**
+ * Escape those pesty characters
+ */
+function escapeHtml(unsafe) {
+  return unsafe
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
+/**
+ * Get an error and format it for the html template
+ */
+const getErrorForHtml = (code, tag) => {
+  const error = errors[code];
+
+  if (!error) throw new Error(`Could not get the html error at: ${code}`);
+
+  return {
+    [`${tag}_TITLE`]: escapeHtml(get(copy, error.title)),
+    [`${tag}_MESSAGE`]: escapeHtml(get(copy, error.message)),
+    [`${tag}_CODE`]: escapeHtml(code),
+  };
+};
+
+/**
  * Get the vars to inject into the html
  */
 const getHtmlVars = () => {
-  const code = '100-004';
-  const error = errors[code];
-
-  if (!error) throw new Error('Could not get the html error');
-
-  const noJSCode = '100-005';
-
-  const noJSError = errors[noJSCode];
-
-  if (!noJSError) throw new Error('Could not get the html error');
-
   const vars = {
-    CODE_TEXT: copy.ErrorBoundary.ErrorCode,
-    ERROR_TITLE: get(copy, error.title),
-    ERROR_MESSAGE: get(copy, error.message),
-    ERROR_CODE: code,
-    ERROR_EMAIL: copy.General.ContactEmail,
-    NO_JS_TITLE: get(copy, noJSError.title),
-    NO_JS_MESSAGE: get(copy, noJSError.message),
-    NO_JS_CODE: noJSCode,
-    TITLE: copy.Web.Title,
+    CODE_TEXT: escapeHtml(copy.ErrorBoundary.ErrorCode),
+    ...getErrorForHtml('100-004', 'ERROR'),
+    ...getErrorForHtml('100-005', 'NO_JS'),
+    ...getErrorForHtml('100-006', 'JS_NETWORK_ERROR'),
+    ERROR_EMAIL: escapeHtml(copy.General.ContactEmail),
+    TITLE: escapeHtml(copy.Web.Title),
   };
 
   Object.keys(vars).forEach((key) => {
@@ -272,7 +285,7 @@ module.exports = {
     }),
     // Generates an `index.html` file with the <script> injected.
     new HtmlWebpackPlugin({
-      inject: true,
+      inject: false,
       template: paths.appHtml,
     }),
     // Add module names to factory functions so they appear in browser profiler.

@@ -3,20 +3,18 @@ import * as ReactDOM from 'react-dom';
 import App from 'src/lib/components/App';
 import isTestEnv from 'src/utils/conditionals/isTestEnv';
 
-const reactEl = document.getElementById('react');
+declare global {
+  // tslint:disable-next-line
+  interface Window {
+    showError: (e?: { title: string; message: string; code: string }) => void;
+  }
+}
 
 /**
  * If react fails to load, show the error message
  */
-const onError = () => {
-  if (reactEl) reactEl.remove();
-
-  const errorEl = document.getElementById('error');
-
-  if (errorEl) errorEl.style.opacity = '1';
-
-  const loadingEl = document.getElementById('loading');
-  if (loadingEl) loadingEl.remove();
+const onError = (e?: { title: string; message: string; code: string }) => {
+  if (window.showError) window.showError(e);
 };
 
 try {
@@ -24,7 +22,7 @@ try {
    * Render the app
    */
   const render = () => {
-    ReactDOM.render(<App />, reactEl as HTMLElement);
+    ReactDOM.render(<App />, document.getElementById('react') as HTMLElement);
   };
 
   /**
