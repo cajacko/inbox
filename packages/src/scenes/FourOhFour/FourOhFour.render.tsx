@@ -6,8 +6,11 @@ import errors from 'src/lib/utils/errors';
 import { RouteComponentProps } from 'src/packages/react-router';
 
 interface IState {
-  action: () => () => void;
-  actionText: () => Text;
+  buttons: Array<{
+    key: string;
+    action: () => () => void;
+    text: () => Text;
+  }>;
 }
 
 /**
@@ -34,24 +37,30 @@ class FourOhFour extends React.Component<RouteComponentProps, IState> {
    * Get the state from the props
    */
   private getState(props: RouteComponentProps, init: boolean) {
+    const buttons = [
+      {
+        action: () => () => props.history.push('/'),
+        key: 'goToHome',
+        text: () => 'Navigation.GoToHome',
+      },
+    ];
+
     /**
-     * Check for which action to use
+     * Does this history have more than 1 route in it
      */
-    const check = ({ history: { length } }: RouteComponentProps) => length > 1;
+    const check = ({ history: { length } }: RouteComponentProps) => length > 2;
 
     if (init === false && check(this.props) === check(props)) return this.state;
 
     if (check(props)) {
-      return {
+      buttons.push({
         action: () => () => props.history.goBack(),
-        actionText: () => 'Navigation.GoBack',
-      };
+        key: 'goBack',
+        text: () => 'Navigation.GoBack',
+      });
     }
 
-    return {
-      action: () => () => props.history.push('/'),
-      actionText: () => 'Navigation.GoToHome',
-    };
+    return { buttons };
   }
 
   /**
@@ -62,8 +71,7 @@ class FourOhFour extends React.Component<RouteComponentProps, IState> {
       <ErrorBoundary
         defaultError={errors.getError('100-002')}
         error={errors.getError('100-002')}
-        action={this.state.action}
-        actionText={this.state.actionText}
+        buttons={this.state.buttons}
       />
     );
   }

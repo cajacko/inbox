@@ -2,16 +2,30 @@ import { expect } from 'chai';
 import { ICondition } from './ensureCondition';
 import waitFor from './waitFor';
 
-const conditional = async (
-  { positive, wait }: ICondition,
-  testFunc: () => Promise<boolean>,
-  errors: {
+interface IErrors {
   negative: string;
   positive: string;
   waitNegative: string;
   waitPositive: string;
-  }
+}
+
+type ErrorsFunc = () => IErrors;
+
+export type Errors = IErrors | ErrorsFunc;
+
+const conditional = async (
+  { positive, wait }: ICondition,
+  testFunc: () => Promise<boolean>,
+  errors: Errors
 ) => {
+  const getError = (type: keyof IErrors) => {
+    if (typeof errors === 'function') {
+      return errors()[type];
+    }
+
+    return errors[type];
+  };
+
   if (wait) {
     await waitFor(
       async () => {
@@ -19,7 +33,7 @@ const conditional = async (
 
         return positive ? result : !result;
       },
-      positive ? errors.waitPositive : errors.waitNegative
+      positive ? getError('waitPositive') : getError('waitNegative')
     );
 
     return;
@@ -28,9 +42,9 @@ const conditional = async (
   const isVisible = await testFunc();
 
   if (positive) {
-    expect(isVisible).to.equal(true, errors.positive);
+    expect(isVisible).to.equal(true, getError('positive'));
   } else {
-    expect(isVisible).to.equal(false, errors.negative);
+    expect(isVisible).to.equal(false, getError('negative'));
   }
 };
 

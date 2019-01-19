@@ -8,6 +8,7 @@ import {
   BACKGROUND_COLOR,
   BottomMargin,
   Button as ButtonContainer,
+  Buttons,
   Container,
   Inner,
 } from './ErrorBoundary.style';
@@ -19,8 +20,11 @@ interface IProps {
   title?: string;
   message?: string;
   code?: string;
-  action?: Func;
-  actionText?: TextType;
+  buttons?: Array<{
+    key: string;
+    action: Func;
+    text: TextType;
+  }>;
   children: Children;
 }
 
@@ -33,15 +37,14 @@ const ErrorBoundary = ({
   title,
   message,
   code,
-  action,
-  actionText,
+  buttons,
   children,
 }: IProps) => {
   if (!hasError && children) {
     return <>{children}</>;
   }
 
-  const showButton = !!(actionText && action);
+  const showButton = !!(buttons && buttons.length);
   const titleHasMargin = !!(message || code || showButton);
   const messageHasMargin = !!(code || showButton);
   const codeHasMargin = showButton;
@@ -80,10 +83,22 @@ const ErrorBoundary = ({
           </BottomMargin>
         )}
 
-        {showButton && actionText && (
-          <ButtonContainer>
-            <Button action={action} text={actionText} />
-          </ButtonContainer>
+        {buttons && buttons.length && (
+          <Buttons>
+            {buttons.map(({ key, action, text }) => (
+              <ButtonContainer
+                key={key}
+                testID="ErrorBoundary__ButtonContainer"
+              >
+                <Button
+                  action={action}
+                  text={text}
+                  testID="ErrorBoundary__Button"
+                  textTestID="ErrorBoundary__ButtonText"
+                />
+              </ButtonContainer>
+            ))}
+          </Buttons>
         )}
       </Inner>
     </Container>

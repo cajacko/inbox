@@ -10,17 +10,18 @@ Feature: Four Oh Four
     Then the error component "is" visible
     And the error code "is" "100-002"
     Then there are "1" error buttons
-    And the "1st" error button has the text "HOME"
+    And the "1st" error button has the text "GO TO HOME"
     And the screenshot matches
 
+  # TODO: Handle this when we have some routes
   Scenario: The user starts at a valid route then goes to a 404
-    Given the driver is ready
-    When the app is navigated to "/route-that-exists"
-    And the app is navigated to "/404"
-    Then there are "2" error buttons
-    And the "1st" error button has the text "HOME"
-    And the "2nd" error button has the text "BACK"
-    And the screenshot matches
+  # Given the driver is ready
+  # When the app is navigated to "/route-that-exists"
+  # And the app is navigated to "/404"
+  # Then there are "2" error buttons
+  # And the "1st" error button has the text "GO TO HOME"
+  # And the "2nd" error button has the text "GO BACK"
+  # And the screenshot matches
 
   # 404 visuals covered by previous scenario
   Scenario: Navigate to home after a 404
@@ -51,7 +52,7 @@ Feature: Four Oh Four
     When the app is navigated to "/404"
     And the app is navigated to "/404"
     Then there are "1" error buttons
-    And the "1st" error button has the text "HOME"
+    And the "1st" error button has the text "GO TO HOME"
 
   # TODO: Handle this when we have some routes
   Scenario: Navigating back when the last route is the same as the current route does not take you to the current route
@@ -60,6 +61,6 @@ Feature: Four Oh Four
 # And the app is navigated to "/404"
 # And the app is navigated to "/404"
 # Then there are "2" error buttons
-# And the "2nd" error button has the text "BACK"
+# And the "2nd" error button has the text "GO BACK"
 # When the "2nd" error button is pressed
 # Then the route is "/route-that-exists"

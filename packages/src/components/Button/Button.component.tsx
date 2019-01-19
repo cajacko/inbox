@@ -5,6 +5,8 @@ import Button from './Button.render';
 interface IProps {
   text: Text;
   action?: () => void;
+  testID?: string;
+  textTestID?: string;
 }
 
 /**

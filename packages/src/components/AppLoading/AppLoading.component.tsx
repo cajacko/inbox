@@ -37,18 +37,12 @@ class AppLoadingComponent extends React.Component<IProps, IState> {
 
     if (loading && !error) {
       const { duration, delay } = testHook('splashScreen', {
-        duration: 3000,
         delay: () => Promise.resolve(),
+        duration: 3000,
       });
 
-      console.log({ duration, delay });
-
-      console.log(1);
-
       const timeout = setTimeout(() => {
-        console.log(2);
         if (this.state.loading) {
-          console.log(3);
           this.setState({ loading: false, error: errors.getError('100-009') });
           SplashScreen.hide();
         }
@@ -57,13 +51,11 @@ class AppLoadingComponent extends React.Component<IProps, IState> {
       appLoading
         .getPromise()
         .catch((e: AppError) => {
-          console.log(4);
           clearTimeout(timeout);
           this.setState({ loading: false, error: errors.getError(e) });
         })
         .then(delay)
         .then(() => {
-          console.log(5);
           clearTimeout(timeout);
           this.setState({ loading: false, error: undefined });
           SplashScreen.hide();

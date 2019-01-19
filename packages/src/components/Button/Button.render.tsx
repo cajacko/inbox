@@ -7,14 +7,22 @@ import { Text as TextType } from 'src/lib/types/general';
 interface IProps {
   text: TextType;
   action: () => void;
+  testID?: string;
+  textTestID?: string;
 }
 
 /**
  * Render a standard button
  */
-const Button = ({ action, text }: IProps) => (
-  <UIButton action={action}>
-    <Text text={text} backgroundColor={BACKGROUND_COLORS.PRIMARY} />
+const Button = ({
+  action, text, testID, textTestID,
+}: IProps) => (
+  <UIButton action={action} testID={testID}>
+    <Text
+      text={text}
+      backgroundColor={BACKGROUND_COLORS.PRIMARY}
+      testID={textTestID}
+    />
   </UIButton>
 );
 

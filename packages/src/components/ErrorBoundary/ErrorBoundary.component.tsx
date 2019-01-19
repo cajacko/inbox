@@ -21,8 +21,11 @@ interface IProps {
   children?: Children;
   defaultError: IExtendedError;
   error?: IExtendedError;
-  action?: (state: IState) => () => void;
-  actionText?: (state: IState) => Text;
+  buttons?: Array<{
+    key: string,
+    action: (state: IState) => () => void;
+    text: (state: IState) => Text;
+  }>;
 }
 
 interface ILoggerProps {
@@ -66,8 +69,6 @@ class ErrorBoundaryComponent extends React.Component<IProps, IState> {
    */
   public componentWillReceiveProps(props: IProps) {
     this.defaultErrorObj = this.getErrorObj(props.defaultError);
-
-    console.log('Update', props);
 
     if (props.error) {
       const errorObj = this.getErrorObj(props.error);
@@ -197,18 +198,19 @@ class ErrorBoundaryComponent extends React.Component<IProps, IState> {
    * Render the component
    */
   public render() {
-    let action;
-    let actionText;
+    let buttons;
 
     try {
-      action = this.props.action ? this.props.action(this.state) : undefined;
-
-      actionText = this.props.actionText
-        ? this.props.actionText(this.state)
+      buttons = this.props.buttons
+        ? this.props.buttons.map(({ key, action, text }) => ({
+          action: action(this.state),
+          key,
+          text: text(this.state),
+        }))
         : undefined;
     } catch (e) {
       const message =
-        'Could not get the errorAction or errorActionText for the ErrorBoundary';
+        'Could not get the error buttons for the ErrorBoundary';
 
       const loggerProps: {
         error: AppError;
@@ -233,7 +235,7 @@ class ErrorBoundaryComponent extends React.Component<IProps, IState> {
     }
 
     return (
-      <ErrorBoundary {...this.state} action={action} actionText={actionText}>
+      <ErrorBoundary {...this.state} buttons={buttons}>
         {this.props.children}
       </ErrorBoundary>
     );

@@ -7,8 +7,10 @@ Before(function (testCase) {
   this.testCase = testCase;
 });
 
-After(() => {
+After(async () => {
   driver.clearHooks();
+
+  await driver.reset();
 });
 
 AfterAll(() => driver.close());

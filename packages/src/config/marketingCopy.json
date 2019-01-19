@@ -12,8 +12,8 @@
     "Title": "Inbox"
   },
   "Navigation": {
-    "GoBack": "Go back",
-    "GoToHome": "Go to home"
+    "GoBack": "GO BACK",
+    "GoToHome": "GO TO HOME"
   },
   "ErrorBoundary": {
     "ErrorCode": "Error Code"

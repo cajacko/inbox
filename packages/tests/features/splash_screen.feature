@@ -8,7 +8,6 @@ Feature: Splash Screen
     And the driver is ready
     When the app is navigated to "/"
     Then the splash screen "is" visible
-    And the screenshot matches
 
   Scenario: The splash screen hides when content is ready
     Given the driver is ready
@@ -24,7 +23,6 @@ Feature: Splash Screen
     When the app is navigated to "/"
     Then the splash screen "is not" visible
     And the error component "is" visible
-    And the screenshot matches
 
   Scenario: If the app takes too long to load and error is shown
     Given we add a hook with id "splashScreen" and type "stall"
@@ -33,7 +31,6 @@ Feature: Splash Screen
     Then the splash screen "is" visible
     And the error component "will be" visible
     And the error code "will be" "100-009"
-    And the screenshot matches
 
   Scenario: When app loading completes after the timeout error, the content is shown
     Given we add a hook with id "splashScreen" and type "stall"

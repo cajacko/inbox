@@ -21,6 +21,8 @@ export const Inner = styled(View)`
   flex-direction: column;
 `;
 
+export const Buttons = styled(View)``;
+
 export const Button = styled(View)``;
 
 export const BottomMargin = styled(View)<{ hasMargin: boolean }>`

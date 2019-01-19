@@ -18,6 +18,13 @@ class Browser {
     return 'web';
   }
 
+  public async reset() {
+    if (!this.page) return;
+
+    await this.page.close();
+    this.page = null;
+  }
+
   public async open() {
     await this.ensurePage();
 
@@ -149,12 +156,39 @@ class Browser {
     return properties.jsonValue();
   }
 
+  public async text(condition: ICondition, selector: string, text: string) {
+    let actualText: string;
+
+    await conditional(
+      condition,
+      async () => {
+        actualText = await this.getText(selector);
+
+        return actualText === text;
+      },
+      () => ({
+        negative: `Text at "${selector}" is "${text}", expected it not to be "${actualText}"`,
+        positive: `Text at "${selector}" is not "${text}", received "${actualText}"`,
+        waitNegative: `Timeout waiting for text at "${selector}" to not be "${text}", last value was "${actualText}"`,
+        waitPositive: `Timeout waiting for text at "${selector}" to be "${text}", last value was "${actualText}"`,
+      })
+    );
+  }
+
   private async getElement(selector: string) {
     await this.ensurePage();
 
     if (!this.page) throw new Error('No page object to get elements');
 
     return this.page.$(selector);
+  }
+
+  private async getElements(selector: string) {
+    await this.ensurePage();
+
+    if (!this.page) throw new Error('No page object to get elements');
+
+    return this.page.$$(selector);
   }
 
   private async ensurePage() {
@@ -175,6 +209,22 @@ class Browser {
 
   public clearHooks() {
     this.hooks = {};
+  }
+
+  public async getCount(selector: string) {
+    const element = await this.getElements(selector);
+
+    if (!element) throw new Error(`Could not find elements at "${selector}"`);
+
+    return element.length;
+  }
+
+  public async press(selector: string) {
+    await this.ensurePage();
+
+    if (!this.page) throw new Error('No page object to click within');
+
+    await this.page.click(selector);
   }
 }
 

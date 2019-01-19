@@ -16,6 +16,9 @@ class SplashScreen {
    */
   public static hide() {
     const loadingEl = document.getElementById('loading');
+    const errorEl = document.getElementById('error');
+
+    if (errorEl) errorEl.remove();
 
     if (!loadingEl) return;
 
