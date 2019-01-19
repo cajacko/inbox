@@ -38,6 +38,10 @@
     "NoJS": {
       "Title": "You do not have JavaScript enabled",
       "Message": "This website requires JavaScript to be enabled to run. Are you living in the dark ages?"
+    },
+    "AppLoadingTimeout": {
+      "Title": "The app is taking a while to load",
+      "Message": "We're taking a bit longer to load than usually, hang on and we'll get there."
     }
   }
 }

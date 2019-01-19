@@ -6,6 +6,7 @@ import { IExtendedError } from 'src/lib/types/general';
 import { Children } from 'src/lib/types/libs';
 import appLoading from 'src/lib/utils/appLoading';
 import errors from 'src/lib/utils/errors';
+import testHook from 'src/utils/testHook';
 
 interface IProps {
   children: Children;
@@ -35,13 +36,36 @@ class AppLoadingComponent extends React.Component<IProps, IState> {
     };
 
     if (loading && !error) {
+      const { duration, delay } = testHook('splashScreen', {
+        duration: 3000,
+        delay: () => Promise.resolve(),
+      });
+
+      console.log({ duration, delay });
+
+      console.log(1);
+
+      const timeout = setTimeout(() => {
+        console.log(2);
+        if (this.state.loading) {
+          console.log(3);
+          this.setState({ loading: false, error: errors.getError('100-009') });
+          SplashScreen.hide();
+        }
+      }, duration);
+
       appLoading
         .getPromise()
         .catch((e: AppError) => {
+          console.log(4);
+          clearTimeout(timeout);
           this.setState({ loading: false, error: errors.getError(e) });
         })
+        .then(delay)
         .then(() => {
-          this.setState({ loading: false });
+          console.log(5);
+          clearTimeout(timeout);
+          this.setState({ loading: false, error: undefined });
           SplashScreen.hide();
         });
     } else {

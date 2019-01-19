@@ -4,12 +4,18 @@ declare global {
     hooks?: {
       [key: string]: (params: any) => any;
     };
+
+    hookTypes?: {
+      [key: string]: string;
+    };
   }
 }
 
 const browserHooks = (hooks: { [key: string]: string }) => {
-  // @ts-ignore
-  const crash = message => () => {
+  const delay = (milliSeconds: number) =>
+    new Promise(resolve => setTimeout(resolve, milliSeconds));
+
+  const crash = (message: string) => () => {
     throw new Error(message);
   };
 
@@ -21,9 +27,16 @@ const browserHooks = (hooks: { [key: string]: string }) => {
     mainRouter: {
       crash: crash('Main router crash'),
     },
+    splashScreen: {
+      stall: () => ({
+        duration: 500,
+        delay: () => delay(1500),
+      }),
+    },
   };
 
   window.hooks = {};
+  window.hookTypes = {};
 
   if (!hooks) return;
 
@@ -31,6 +44,9 @@ const browserHooks = (hooks: { [key: string]: string }) => {
     const type = hooks[hook];
 
     if (!window.hooks) window.hooks = {};
+    if (!window.hookTypes) window.hookTypes = {};
+
+    window.hookTypes[hook] = type;
 
     const implementation = implementations[hook] && implementations[hook][type];
 

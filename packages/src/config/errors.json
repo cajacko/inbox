@@ -38,5 +38,10 @@
     "label": "Route Error",
     "message": "Errors.DevError.Message",
     "title": "Errors.DevError.Title"
+  },
+  "100-009": {
+    "label": "App Loading Timeout",
+    "message": "Errors.AppLoadingTimeout.Message",
+    "title": "Errors.AppLoadingTimeout.Title"
   }
 }

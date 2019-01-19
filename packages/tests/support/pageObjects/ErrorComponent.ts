@@ -1,16 +1,30 @@
-import { expect } from 'chai';
+import conditional from '../utils/conditional';
 import driver from '../utils/driver';
-import selector from '../utils/selector';
+import { ICondition } from '../utils/ensureCondition';
+import getSelector from '../utils/getSelector';
 
 class ErrorComponent {
-  public async isVisible() {
-    return driver.isVisible(selector('.ErrorBoundary'));
+  public async visible(condition: ICondition) {
+    return driver.visible(condition, getSelector('ErrorBoundary'));
   }
 
-  public async codeIs(code: string) {
-    const text = await driver.getText(selector('.ErrorBoundary__Code'));
+  public async code(condition: ICondition, code: string) {
+    const selector = getSelector('ErrorBoundary__Code');
 
-    expect(text).includes(code);
+    await conditional(
+      condition,
+      async () => {
+        const text = await driver.getText(selector);
+
+        return text.includes(code);
+      },
+      {
+        negative: `Text at "${selector}" includes "${code}"`,
+        positive: `Text at "${selector}" does not include "${code}"`,
+        waitNegative: `Timeout waiting for text at "${selector}" to not include "${code}"`,
+        waitPositive: `Timeout waiting for text at "${selector}" to include "${code}"`,
+      }
+    );
   }
 }
 

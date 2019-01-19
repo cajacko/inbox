@@ -46,16 +46,34 @@ class ErrorBoundaryComponent extends React.Component<IProps, IState> {
 
     this.defaultErrorObj = this.getErrorObj(props.defaultError);
 
-    this.state = {
+    this.defaultState = {
       code: undefined,
       hasError: false,
       message: undefined,
       title: undefined,
     };
 
+    this.state = this.defaultState;
+
     if (props.error) {
       const errorObj = this.getErrorObj(props.error);
       this.state = this.handleStateChange(this.state, errorObj, false);
+    }
+  }
+
+  /**
+   * When the component gets new props see if we should update the state
+   */
+  public componentWillReceiveProps(props: IProps) {
+    this.defaultErrorObj = this.getErrorObj(props.defaultError);
+
+    console.log('Update', props);
+
+    if (props.error) {
+      const errorObj = this.getErrorObj(props.error);
+      this.handleStateChange(this.state, errorObj, true);
+    } else if (this.state.hasError) {
+      this.setState(this.defaultState);
     }
   }
 
@@ -87,6 +105,8 @@ class ErrorBoundaryComponent extends React.Component<IProps, IState> {
       return this.defaultErrorObj;
     }
   }
+
+  private defaultState: IState;
 
   /**
    * When the children in the component throw an error, set the state with the

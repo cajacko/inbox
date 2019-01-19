@@ -1,6 +1,8 @@
 import { expect } from 'chai';
 import * as puppeteer from 'puppeteer';
 import browserHooks from '../utils/browserHooks';
+import conditional from '../utils/conditional';
+import { ICondition } from '../utils/ensureCondition';
 
 const showBrowser = false;
 const shouldClose = !showBrowser;
@@ -10,6 +12,7 @@ class Browser {
   private browser: null | puppeteer.Browser = null;
   private page: null | puppeteer.Page = null;
   private hooks: { [key: string]: string } = {};
+  private interceptingRequests: boolean = false;
 
   get platform() {
     return 'web';
@@ -33,15 +36,23 @@ class Browser {
   }
 
   private async setRequestInterception() {
+    if (!this.page) throw new Error('No page object to intercept with');
+
     if (!this.hooks.javascript || this.hooks.javascript !== 'networkError') {
+      this.interceptingRequests = false;
+      await this.page.setRequestInterception(false);
       return;
     }
 
-    if (!this.page) throw new Error('No page object to intercept with');
-
+    this.interceptingRequests = true;
     await this.page.setRequestInterception(true);
 
     this.page.on('request', (interceptedRequest) => {
+      // This callback still gets called if we enabled and then disabled
+      // setRequestInterception. And will error if we try to abort/continue when
+      // it is disabled
+      if (!this.interceptingRequests) return;
+
       if (interceptedRequest.url().endsWith('bundle.js')) {
         interceptedRequest.abort();
       } else interceptedRequest.continue();
@@ -93,29 +104,38 @@ class Browser {
     return element;
   }
 
-  public async isVisible(selector: string) {
+  public async visible(condition: ICondition, selector: string) {
     await this.ensurePage();
 
-    if (!this.page) {
-      throw new Error('No page object to check the elements visibility');
-    }
+    await conditional(
+      condition,
+      () => {
+        if (!this.page) {
+          throw new Error('No page object to check the elements visibility');
+        }
 
-    const isVisible = await this.page.evaluate((selectorParam) => {
-      const element = document.querySelector(selectorParam);
+        return this.page.evaluate((selectorParam) => {
+          const element = document.querySelector(selectorParam);
 
-      if (!element) return false;
+          if (!element) return false;
 
-      const style = window.getComputedStyle(element);
+          const style = window.getComputedStyle(element);
 
-      return (
-        style &&
-        style.display !== 'none' &&
-        style.visibility !== 'hidden' &&
-        style.opacity !== '0'
-      );
-    }, selector);
-
-    expect(isVisible).to.equal(true);
+          return (
+            style &&
+            style.display !== 'none' &&
+            style.visibility !== 'hidden' &&
+            style.opacity !== '0'
+          );
+        }, selector);
+      },
+      {
+        negative: `Element at "${selector}" is visible, expected it to be not visible`,
+        positive: `Element at "${selector}" is not visible`,
+        waitNegative: `Element at "${selector}" did not become not visible`,
+        waitPositive: `Element at "${selector}" did not become visible`,
+      }
+    );
   }
 
   public async getText(selector: string) {
