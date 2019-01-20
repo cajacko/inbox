@@ -5,6 +5,7 @@ import { Children } from 'src/lib/types/libs';
 interface IProps {
   children: Children;
   style?: { [key: string]: any };
+  testID?: string;
 }
 
 /**

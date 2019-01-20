@@ -1,3 +1,4 @@
+/* eslint no-console: 0 no-global-assign: 0 */
 type OnLogType = (
   level: string,
   message: string,
@@ -101,43 +102,41 @@ class Logger {
    * Currently only works in browsers.
    */
   private wrapConsole() {
-    if (window && window.console) {
-      // Store a ref to the original console object
-      const actualConsole = window.console;
+    // Store a ref to the original console object
+    const actualConsole = console;
 
-      // Set the console object as blank object, we'll add the functionality
-      // back in
-      // @ts-ignore: We are hacking this
-      window.console = {};
+    // Set the console object as blank object, we'll add the functionality
+    // back in
+    // @ts-ignore: We are hacking this
+    console = {};
 
-      // Add back all the props/values to the console object, but for the
-      // functions, send the log to our server as well.
-      Object.keys(actualConsole).forEach((method) => {
-        // Only need to wrap the functions
-        if (typeof actualConsole[method] === 'function') {
-          // Set the wrapper, which pings our log server
-          window.console[method] = (...args: any) => {
-            // Only ping our log server for the functions we've mapped out a log
-            // level for
-            if (this.consoleLogLevels[method]) {
-              this.onLog(
-                this.consoleLogLevels[method],
-                typeof args[0] === 'string' ? args[0] : method,
-                args,
-                true
-              );
-            }
+    // Add back all the props/values to the console object, but for the
+    // functions, send the log to our server as well.
+    Object.keys(actualConsole).forEach((method) => {
+      // Only need to wrap the functions
+      if (typeof actualConsole[method] === 'function') {
+        // Set the wrapper, which pings our log server
+        console[method] = (...args: any) => {
+          // Only ping our log server for the functions we've mapped out a log
+          // level for
+          if (this.consoleLogLevels[method]) {
+            this.onLog(
+              this.consoleLogLevels[method],
+              typeof args[0] === 'string' ? args[0] : method,
+              args,
+              true
+            );
+          }
 
-            // Perform the original console function, so it appears in the
-            // console
-            actualConsole[method](...args);
-          };
-        } else {
-          // Not concerned with this, so put it back as usual
-          window.console[method] = actualConsole[method];
-        }
-      });
-    }
+          // Perform the original console function, so it appears in the
+          // console
+          actualConsole[method](...args);
+        };
+      } else {
+        // Not concerned with this, so put it back as usual
+        console[method] = actualConsole[method];
+      }
+    });
   }
 }
 

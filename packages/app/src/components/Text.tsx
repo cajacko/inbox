@@ -4,6 +4,7 @@ import { Text as RNText } from 'react-native';
 interface IProps {
   children: string;
   style?: { [key: string]: any };
+  testID?: string;
 }
 
 /**

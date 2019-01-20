@@ -5,9 +5,9 @@ import SplashScreen from 'src/lib/modules/SplashScreen';
 import { IExtendedError, Text } from 'src/lib/types/general';
 import { Children } from 'src/lib/types/libs';
 import errors from 'src/lib/utils/errors';
-import logger from 'src/lib/utils/logger';
 import marketingCopy from 'src/lib/utils/marketingCopy';
 import propsWithoutChildren from 'src/lib/utils/propsWithoutChildren';
+import logger from 'src/utils/logger';
 import ErrorBoundary from './ErrorBoundary.render';
 
 interface IState {
@@ -22,7 +22,7 @@ interface IProps {
   defaultError: IExtendedError;
   error?: IExtendedError;
   buttons?: Array<{
-    key: string,
+    key: string;
     action: (state: IState) => () => void;
     text: (state: IState) => Text;
   }>;
@@ -209,8 +209,7 @@ class ErrorBoundaryComponent extends React.Component<IProps, IState> {
         }))
         : undefined;
     } catch (e) {
-      const message =
-        'Could not get the error buttons for the ErrorBoundary';
+      const message = 'Could not get the error buttons for the ErrorBoundary';
 
       const loggerProps: {
         error: AppError;

@@ -5,7 +5,7 @@ import {
   IExtendedError,
   IExtendedErrors,
 } from 'src/lib/types/general';
-import logger from 'src/lib/utils/logger';
+import logger from 'src/utils/logger';
 
 type Func = (
   e: AppError,

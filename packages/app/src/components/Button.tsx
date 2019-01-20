@@ -6,6 +6,7 @@ interface IProps {
   action?: () => void;
   children: Children;
   style?: { [key: string]: any };
+  testID?: string;
 }
 
 /**
