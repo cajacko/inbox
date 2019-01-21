@@ -1,10 +1,15 @@
 {
   "extends": "../../tsconfig.json",
+  "files": ["src/index.ts"],
   "compilerOptions": {
     "baseUrl": ".",
     "outDir": "build/dist",
-    "rootDir": "src",
+    "rootDir": ".",
     "module": "commonjs"
   },
-  "include": ["src"]
+  "exclude": [
+    "./src/lib/components",
+    "./src/lib/utils/store.ts",
+    "./src/lib/utils/createReducer.ts"
+  ]
 }
