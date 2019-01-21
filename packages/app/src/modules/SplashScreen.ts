@@ -7,7 +7,7 @@ class SplashScreen {
    */
   public static hide() {
     // eslint-disable-next-line
-    console.log('HIDE PLASH SCREEN');
+    console.log('HIDE SPLASH SCREEN');
   }
 }
 

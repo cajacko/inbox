@@ -3,7 +3,7 @@
   "compilerOptions": {
     "baseUrl": ".",
     "outDir": "build/dist",
-    "rootDir": "src",
+    "rootDir": ".",
     "jsx": "react-native",
     "skipLibCheck": true
   },
