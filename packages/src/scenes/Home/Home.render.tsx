@@ -1,16 +1,18 @@
 import * as React from 'react';
-import ErrorBoundary from 'src/lib/components/ErrorBoundary';
-import withRouter from 'src/lib/HOCs/withRouter';
-import errors from 'src/lib/utils/errors';
+import { View } from 'src/components';
+import Text from 'src/lib/components/Text';
+import { BACKGROUND_COLORS } from 'src/lib/config/styles/textIconColors';
 
 /**
- * 404 scene for unknown routes
+ * Dummy home scene scene
  */
 const Home = () => (
-  <ErrorBoundary
-    error={errors.getError('100-001')}
-    defaultError={errors.getError('100-001')}
-  />
+  <View testID="Home">
+    <Text
+      text={{ _textFromConst: 'Example home scene' }}
+      backgroundColor={BACKGROUND_COLORS.WHITE}
+    />
+  </View>
 );
 
-export default withRouter(Home);
+export default Home;

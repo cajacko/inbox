@@ -2,6 +2,7 @@ import { Given, Then, When } from 'cucumber';
 import app from '../pageObjects/App';
 import errorComponent from '../pageObjects/ErrorComponent';
 import googleAuth from '../pageObjects/GoogleAuth';
+import home from '../pageObjects/Home';
 import login from '../pageObjects/Login';
 import splashScreen from '../pageObjects/SplashScreen';
 import driver from '../utils/driver';
@@ -32,8 +33,16 @@ Then('the screenshot matches', async function () {
 Given('we add a hook with id {string} and type {string}', (id, type) =>
   driver.addHook(id, type));
 
-Then('the {string} home route is visible', (type: string) =>
-  errorComponent.code({ wait: false, positive: true }, '100-001'));
+Then('the {string} home route is visible', (type: string) => {
+  switch (type) {
+    case 'logged in':
+      return home.visible({ wait: false, positive: true });
+    case 'logged out':
+      return login.visible({ wait: false, positive: true });
+    default:
+      throw new Error();
+  }
+});
 
 Then('the splash screen {string} visible', condition =>
   splashScreen.visible(ensureCondition(condition)));

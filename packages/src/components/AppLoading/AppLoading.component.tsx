@@ -50,14 +50,12 @@ class AppLoadingComponent extends React.Component<IProps, IState> {
 
       appLoading
         .getPromise()
-        .catch((e: AppError) => {
-          clearTimeout(timeout);
-          this.setState({ loading: false, error: errors.getError(e) });
-        })
         .then(delay)
-        .then(() => {
+        .then(() => undefined)
+        .catch((e: AppError) => errors.getError(e))
+        .then((e) => {
           clearTimeout(timeout);
-          this.setState({ loading: false, error: undefined });
+          this.setState({ loading: false, error: e });
           SplashScreen.hide();
         });
     } else {

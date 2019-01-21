@@ -22,6 +22,11 @@ const general = {
       web: '.GoogleAuth__submit',
     },
   },
+  Home: {
+    Container: {
+      web: '.Home',
+    },
+  },
   Login: {
     AppLogo: {
       web: '.Login__AppLogo',

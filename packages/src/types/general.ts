@@ -31,4 +31,9 @@ export interface IRoute {
   exact?: boolean;
   path?: string;
   component: React.ComponentType;
+  public?: boolean;
+}
+
+export interface IState {
+  isLoggedIn: boolean;
 }

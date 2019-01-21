@@ -1,5 +1,6 @@
 import FourOhFour from 'src/lib/scenes/FourOhFour';
 import Home from 'src/lib/scenes/Home';
+import Login from 'src/lib/scenes/Login';
 import { IRoute } from 'src/lib/types/general';
 
 export const entry: IRoute[] = [
@@ -9,6 +10,13 @@ export const entry: IRoute[] = [
     path: '/',
   },
   {
+    component: Login,
+    exact: true,
+    path: '/login',
+    public: true,
+  },
+  {
     component: FourOhFour,
+    public: true,
   },
 ];

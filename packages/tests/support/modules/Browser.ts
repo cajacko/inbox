@@ -22,7 +22,10 @@ class Browser {
   public async reset() {
     if (!this.page) return;
 
-    await this.page.close();
+    if (shouldClose) {
+      await this.page.close();
+    }
+
     this.page = null;
   }
 

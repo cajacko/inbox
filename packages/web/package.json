@@ -18,6 +18,7 @@
     "fs-extra": "3.0.1",
     "history": "^4.7.2",
     "html-webpack-plugin": "2.29.0",
+    "immutable": "^4.0.0-rc.12",
     "jest": "20.0.4",
     "lodash": "^4.17.11",
     "moment": "^2.23.0",
@@ -29,7 +30,12 @@
     "react": "^16.7.0",
     "react-dev-utils": "^5.0.2",
     "react-dom": "^16.7.0",
+    "react-redux": "^6.0.0",
     "react-router-dom": "^4.3.1",
+    "redux": "^4.0.1",
+    "redux-persist": "4.8.2",
+    "redux-persist-transform-immutable": "5.0.0",
+    "redux-thunk": "^2.3.0",
     "resolve": "1.6.0",
     "source-map-loader": "^0.2.1",
     "style-loader": "0.19.0",
@@ -55,20 +61,30 @@
   },
   "devDependencies": {
     "@types/history": "^4.7.2",
-    "@types/moment": "^2.13.0",
-    "@types/react-router": "^4.4.3",
-    "@types/react-router-dom": "^4.3.1",
-    "@types/styled-components": "^4.1.5",
+    "@types/immutable": "^3.8.7",
     "@types/jest": "^23.3.12",
     "@types/lodash": "^4.14.119",
+    "@types/moment": "^2.13.0",
     "@types/node": "^10.12.18",
     "@types/react": "^16.7.18",
     "@types/react-dom": "^16.0.11",
+    "@types/react-redux": "^7.0.0",
+    "@types/react-router": "^4.4.3",
+    "@types/react-router-dom": "^4.3.1",
+    "@types/redux": "^3.6.0",
+    "@types/redux-persist": "^4.3.1",
+    "@types/redux-thunk": "^2.1.0",
+    "@types/styled-components": "^4.1.5",
     "typescript": "^3.2.2"
   },
   "jest": {
-    "collectCoverageFrom": ["src/**/*.{js,jsx,ts,tsx}", "!**/*.d.ts"],
-    "setupFiles": ["<rootDir>/config/polyfills.js"],
+    "collectCoverageFrom": [
+      "src/**/*.{js,jsx,ts,tsx}",
+      "!**/*.d.ts"
+    ],
+    "setupFiles": [
+      "<rootDir>/config/polyfills.js"
+    ],
     "testMatch": [
       "<rootDir>/src/**/__tests__/**/*.(j|t)s?(x)",
       "<rootDir>/src/**/?(*.)(spec|test).(j|t)s?(x)"
@@ -107,6 +123,8 @@
     }
   },
   "babel": {
-    "presets": ["react-app"]
+    "presets": [
+      "react-app"
+    ]
   }
 }

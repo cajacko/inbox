@@ -21,16 +21,17 @@ const browserHooks = (hooks: { [key: string]: string }) => {
 
   // This is where all the browser hook logic lives
   const implementations = {
-    root: {
-      crash: crash('Root crash'),
-    },
     mainRouter: {
       crash: crash('Main router crash'),
     },
+    root: {
+      crash: crash('Root crash'),
+    },
     splashScreen: {
+      error: crash('Splash screen error'),
       stall: () => ({
-        duration: 500,
         delay: () => delay(1500),
+        duration: 500,
       }),
     },
   };
