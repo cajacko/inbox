@@ -3,6 +3,7 @@ import { View } from 'src/components';
 import Button from 'src/lib/components/Button';
 import Text from 'src/lib/components/Text';
 import { BACKGROUND_COLORS } from 'src/lib/config/styles/textIconColors';
+import Auth from 'src/modules/Auth';
 import { version } from '../../../../package.json';
 
 /**
@@ -17,7 +18,7 @@ const Login = () => (
     />
     <Button
       text={{ _textFromConst: 'Login button' }}
-      action={() => undefined}
+      action={Auth.login}
       testID="Login__Button"
     />
     <Text
