@@ -29,7 +29,7 @@ Feature: Four Oh Four
     When the app is navigated to "/404"
     Then the error code "is" "100-002"
     When the "1st" error button is pressed
-    Then the home route is visible
+    Then the "logged out" home route is visible
 
   # TODO: Handle this when we have some routes
   Scenario: Navigate back from a 404 with history
@@ -45,7 +45,7 @@ Feature: Four Oh Four
   # When the app is navigated to "/route-that-exists"
   # And the app is navigated to "/404"
   # And the "1st" error button is pressed
-  # Then the home route is visible
+  # Then the "logged out" home route is visible
 
   Scenario: Previous route is same route on a 404 does not show back button
     Given the driver is ready

@@ -17,6 +17,32 @@ const general = {
     },
     web: '.ErrorBoundary',
   },
+  GoogleAuth: {
+    Submit: {
+      web: '.GoogleAuth__submit',
+    },
+  },
+  Login: {
+    AppLogo: {
+      web: '.Login__AppLogo',
+    },
+    Button: {
+      web: '.Login__Button',
+    },
+    Container: {
+      web: '.Login',
+    },
+    Error: {
+      Text: {
+        web: '.Login__ErrorText',
+      },
+    },
+    Version: {
+      Text: {
+        web: '.Login__VersionText',
+      },
+    },
+  },
   SplashScreen: {
     web: '.splashScreen',
   },

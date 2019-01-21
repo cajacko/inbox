@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { ICondition } from './ensureCondition';
+import ensureCondition, { ICondition } from './ensureCondition';
 import waitFor from './waitFor';
 
 interface IErrors {
@@ -14,10 +14,19 @@ type ErrorsFunc = () => IErrors;
 export type Errors = IErrors | ErrorsFunc;
 
 const conditional = async (
-  { positive, wait }: ICondition,
+  condition: ICondition | string,
   testFunc: () => Promise<boolean>,
   errors: Errors
 ) => {
+  let wait: boolean;
+  let positive: boolean;
+
+  if (typeof condition === 'string') {
+    ({ wait, positive } = ensureCondition(condition));
+  } else {
+    ({ wait, positive } = condition);
+  }
+
   const getError = (type: keyof IErrors) => {
     if (typeof errors === 'function') {
       return errors()[type];

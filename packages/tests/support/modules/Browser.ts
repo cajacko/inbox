@@ -1,3 +1,4 @@
+/* eslint max-lines: 0 */
 import { expect } from 'chai';
 import * as puppeteer from 'puppeteer';
 import browserHooks from '../utils/browserHooks';

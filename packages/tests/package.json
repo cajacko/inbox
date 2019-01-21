@@ -6,7 +6,7 @@
   "private": true,
   "scripts": {
     "watch": "tsc -w",
-    "test": "./node_modules/.bin/cucumber-js --require build/require/**/*.js"
+    "test": "./node_modules/.bin/cucumber-js --require build/tests/support/require/**/*.js"
   },
   "dependencies": {
     "@types/chai": "^4.1.7",

@@ -3,7 +3,7 @@
   "compilerOptions": {
     "baseUrl": ".",
     "outDir": "build",
-    "rootDir": "support",
+    "rootDir": "../",
     "module": "commonjs",
     "lib": ["es2017", "es6", "dom"]
   },
