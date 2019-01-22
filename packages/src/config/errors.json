@@ -43,5 +43,10 @@
     "label": "App Loading Timeout",
     "message": "Errors.AppLoadingTimeout.Message",
     "title": "Errors.AppLoadingTimeout.Title"
+  },
+  "100-010": {
+    "label": "Login Returned No User",
+    "message": "Errors.LoginNoUser.Message",
+    "title": "Errors.LoginNoUser.Title"
   }
 }

@@ -1,5 +1,5 @@
-import isLoggedIn from './isLoggedIn/reducer';
+import user from './user/reducer';
 
 export default {
-  isLoggedIn,
+  user,
 };

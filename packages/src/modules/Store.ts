@@ -43,7 +43,10 @@ class Store {
   constructor(
     reducers: ReducersMapObject = {},
     existingState?: IExistingState,
-    { shouldLogState, purgeOnLoad } = defaultOptions
+    {
+      shouldLogState,
+      purgeOnLoad,
+    }: { shouldLogState?: boolean; purgeOnLoad?: boolean } = defaultOptions
   ) {
     this.shouldLogState = !!shouldLogState;
     this.purgeOnLoad = !!purgeOnLoad;

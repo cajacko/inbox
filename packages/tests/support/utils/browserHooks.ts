@@ -11,7 +11,10 @@ declare global {
   }
 }
 
-const browserHooks = (hooks: { [key: string]: string }) => {
+const browserHooks = (
+  hooks: { [key: string]: string },
+  constants: { [key: string]: any }
+) => {
   const delay = (milliSeconds: number) =>
     new Promise(resolve => setTimeout(resolve, milliSeconds));
 
@@ -21,6 +24,22 @@ const browserHooks = (hooks: { [key: string]: string }) => {
 
   // This is where all the browser hook logic lives
   const implementations = {
+    login: {
+      googleFailed: () => ({
+        method: 'signInWithEmailAndPassword',
+        params: [
+          constants.loginDetails.error.email,
+          constants.loginDetails.error.password,
+        ],
+      }),
+      success: () => ({
+        method: 'signInWithEmailAndPassword',
+        params: [
+          constants.loginDetails.success.email,
+          constants.loginDetails.success.password,
+        ],
+      }),
+    },
     mainRouter: {
       crash: crash('Main router crash'),
     },

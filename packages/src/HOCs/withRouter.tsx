@@ -44,7 +44,7 @@ const passRouterProps = (location: H.Location, history: H.History) => {
 /**
  * Wrap a component with react router
  */
-const withRouter = (Component: React.ComponentType) =>
+const withRouter = (Component: React.ComponentType<any>) =>
   RRWithRouter(({ location, history, ...props }) => (
     <Component {...passRouterProps(location, history)} {...props} />
   ));

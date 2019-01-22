@@ -1,12 +1,11 @@
 import { Given, Then, When } from 'cucumber';
 import app from '../pageObjects/App';
 import errorComponent from '../pageObjects/ErrorComponent';
-import googleAuth from '../pageObjects/GoogleAuth';
 import home from '../pageObjects/Home';
 import login from '../pageObjects/Login';
 import splashScreen from '../pageObjects/SplashScreen';
 import driver from '../utils/driver';
-import ensureCondition from '../utils/ensureCondition';
+import ensureCondition, { ICondition } from '../utils/ensureCondition';
 import getIndex from '../utils/getIndex';
 
 Given('the driver is ready', async () => app.open());
@@ -33,16 +32,19 @@ Then('the screenshot matches', async function () {
 Given('we add a hook with id {string} and type {string}', (id, type) =>
   driver.addHook(id, type));
 
-Then('the {string} home route is visible', (type: string) => {
-  switch (type) {
-    case 'logged in':
-      return home.visible({ wait: false, positive: true });
-    case 'logged out':
-      return login.visible({ wait: false, positive: true });
-    default:
-      throw new Error();
+Then(
+  'the {string} home route {string} visible',
+  (type: string, condition: ICondition) => {
+    switch (type) {
+      case 'logged in':
+        return home.visible(condition);
+      case 'logged out':
+        return login.visible(condition);
+      default:
+        throw new Error();
+    }
   }
-});
+);
 
 Then('the splash screen {string} visible', condition =>
   splashScreen.visible(ensureCondition(condition)));
@@ -61,10 +63,6 @@ When('the {string} error button is pressed', index =>
   errorComponent.pressButton(getIndex(index)));
 
 When('the login button is pressed', () => login.pressLoginButton());
-
-When('the login details are entered', () => googleAuth.typeCredentials());
-
-When('the Google login submit button is pressed', () => googleAuth.submit());
 
 Then('the login scene {string} visible', conditional =>
   login.visible(conditional));

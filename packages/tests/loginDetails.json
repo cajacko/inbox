@@ -1,0 +1,10 @@
+{
+  "error": {
+    "email": "example@email.com",
+    "password": "password"
+  },
+  "success": {
+    "email": "example@email.com",
+    "password": "password"
+  }
+}

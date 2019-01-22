@@ -3,7 +3,7 @@ import reducers from 'src/lib/store/reducers';
 import appLoading from 'src/lib/utils/appLoading';
 import Storage from 'src/modules/Storage';
 
-const store = new Store(reducers);
+const store = new Store(reducers, undefined, { shouldLogState: true });
 
 const waitForID = 'redux-store';
 appLoading.register(waitForID);

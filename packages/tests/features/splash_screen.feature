@@ -13,7 +13,7 @@ Feature: Splash Screen
     Given the driver is ready
     When the app is navigated to "/"
     Then the splash screen "is not" visible
-    And the "logged out" home route is visible
+    And the "logged out" home route "is" visible
 
   # Dont check the error code, as that should be covered by the module which
   # failed to load. Here just check an error is show
@@ -40,4 +40,4 @@ Feature: Splash Screen
     And the error component "is" visible
     And the error code "will be" "100-009"
     And the splash screen "will not be" visible
-    And the "logged out" home route is visible
+    And the "logged out" home route "is" visible

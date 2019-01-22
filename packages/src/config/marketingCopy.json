@@ -15,6 +15,9 @@
     "GoBack": "GO BACK",
     "GoToHome": "GO TO HOME"
   },
+  "Login": {
+    "GoogleError": "Failed to login with Google, maybe your email or password was incorrect"
+  },
   "ErrorBoundary": {
     "ErrorCode": "Error Code"
   },
@@ -42,6 +45,10 @@
     "AppLoadingTimeout": {
       "Title": "The app is taking a while to load",
       "Message": "We're taking a bit longer to load than usually, hang on and we'll get there."
+    },
+    "LoginNoUser": {
+      "Title": "Could not log you in",
+      "Message": "Don't worry, we've notified our rescue team that something went wrong. Why not try again."
     }
   }
 }

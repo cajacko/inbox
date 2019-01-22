@@ -1,1 +1,1 @@
-export { default } from './Login.render';
+export { default } from './Login.component';

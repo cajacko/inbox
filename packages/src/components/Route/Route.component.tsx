@@ -42,7 +42,7 @@ class RouteComponent extends React.Component<IProps, IState> {
    * Figure out if we should redirect and show the route
    */
   private getShowAndRedirect(props: IProps) {
-    if (props.public) return true;
+    if (props.public || props.isLoggedIn) return true;
 
     if (!props.isLoggedIn) {
       props.history.push('/login');

@@ -1,5 +1,6 @@
 import * as React from 'react';
 import errors from 'src/lib/config/errors.json';
+import { IState as IUserState } from 'src/lib/store/user/reducer';
 
 export type ErrorCode = keyof typeof errors;
 
@@ -35,5 +36,11 @@ export interface IRoute {
 }
 
 export interface IState {
-  isLoggedIn: boolean;
+  user: IUserState;
+}
+
+export interface IUser {
+  id: string;
+  displayName: string | null;
+  photoURL: string | null;
 }

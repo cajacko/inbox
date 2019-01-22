@@ -5,6 +5,6 @@ import Route from './Route.component';
 /**
  * Grab the state from the store and pass in isLoggedIn as a prop
  */
-const mapStateToProps = ({ isLoggedIn }: IState) => ({ isLoggedIn });
+const mapStateToProps = ({ user: { isLoggedIn } }: IState) => ({ isLoggedIn });
 
 export default connect(mapStateToProps)(Route);

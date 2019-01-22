@@ -1,6 +1,6 @@
 /* eslint max-lines: 0 */
-import { expect } from 'chai';
 import * as puppeteer from 'puppeteer';
+import hookConstants from '../config/hookConstants';
 import browserHooks from '../utils/browserHooks';
 import conditional from '../utils/conditional';
 import { ICondition } from '../utils/ensureCondition';
@@ -94,7 +94,7 @@ class Browser {
       waitUntil: 'domcontentloaded',
     });
 
-    await this.page.evaluate(browserHooks, this.hooks);
+    await this.page.evaluate(browserHooks, this.hooks, hookConstants);
 
     await pageLoadPromise;
   }
@@ -110,7 +110,9 @@ class Browser {
   public async exists(selector: string) {
     const element = await this.getElement(selector);
 
-    expect(element).not.to.equal(null);
+    if (!element) {
+      throw new Error(`Element does not exist at selector "${selector}"`);
+    }
 
     return element;
   }
@@ -150,10 +152,7 @@ class Browser {
   }
 
   public async getText(selector: string) {
-    // const element = await this.getElement(selector);
     const element = await this.exists(selector);
-
-    if (!element) throw new Error('Element does not exist');
 
     const properties = await element.getProperty('textContent');
 
@@ -166,15 +165,19 @@ class Browser {
     await conditional(
       condition,
       async () => {
-        actualText = await this.getText(selector);
+        try {
+          actualText = await this.getText(selector);
 
-        return actualText === text;
+          return actualText === text;
+        } catch (e) {
+          return false;
+        }
       },
       () => ({
-        negative: `Text at "${selector}" is "${text}", expected it not to be "${actualText}"`,
-        positive: `Text at "${selector}" is not "${text}", received "${actualText}"`,
-        waitNegative: `Timeout waiting for text at "${selector}" to not be "${text}", last value was "${actualText}"`,
-        waitPositive: `Timeout waiting for text at "${selector}" to be "${text}", last value was "${actualText}"`,
+        negative: `Text at "${selector}" is\n"${text}"\nExpected it not to be\n"${actualText}"`,
+        positive: `Text at "${selector}" is not\n"${text}"Received\n"${actualText}"`,
+        waitNegative: `Timeout waiting for text at "${selector}" to not be\n"${text}"\nLast value was\n"${actualText}"`,
+        waitPositive: `Timeout waiting for text at "${selector}" to be\n"${text}"\nLast value was\n"${actualText}"`,
       })
     );
   }

@@ -6,7 +6,7 @@ Feature: App Errors
   Scenario: The app opens to the home scene
     Given the driver is ready
     When the app is navigated to "/"
-    Then the "logged out" home route is visible
+    Then the "logged out" home route "is" visible
     And the screenshot matches
 
   Scenario: The app has crashed at the root
