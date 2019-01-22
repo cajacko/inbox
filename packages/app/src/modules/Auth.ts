@@ -1,3 +1,9 @@
+import firebase from 'react-native-firebase';
+import { GoogleSignin } from 'react-native-google-signin';
+import AppError from 'src/lib/modules/AppError';
+
+GoogleSignin.configure();
+
 /**
  * Handle login and logout
  */
@@ -15,27 +21,48 @@ class Auth {
    * Get the user object
    */
   public static getUser() {
-    return Promise.reject(new Error('No login yet'));
+    return Promise.resolve(firebase.auth().currentUser).then((user) => {
+      if (!user) {
+        throw new AppError(
+          'Firebase auth resolved but did not return a user object',
+          '100-010'
+        );
+      }
+
+      return {
+        displayName: user.displayName,
+        id: user.uid,
+        photoURL: user.photoURL,
+      };
+    });
   }
 
   /**
    * Log the user in
    */
   public static login() {
-    // eslint-disable-next-line
-    console.log('login');
+    return GoogleSignin.signIn().then((data) => {
+      if (!data.accessToken) {
+        throw new AppError(
+          'No accessToken returned from google signin',
+          '100-003'
+        );
+      }
 
-    return Promise.reject(new Error('No login yet'));
+      const credential = firebase.auth.GoogleAuthProvider.credential(
+        data.idToken,
+        data.accessToken
+      );
+
+      return firebase.auth().signInWithCredential(credential);
+    });
   }
 
   /**
    * Logout the user
    */
   public static logout() {
-    // eslint-disable-next-line
-    console.log('logout');
-
-    return Promise.reject(new Error('No logout yet'));
+    return firebase.auth().signOut();
   }
 }
 

@@ -31,6 +31,7 @@ class Auth {
     path?: string
   ) {
     return Auth.getUser()
+      .catch(() => null)
       .then((user: IUser | null) => {
         if (user) return user;
 
