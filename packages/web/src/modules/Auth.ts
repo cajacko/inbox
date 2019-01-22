@@ -1,4 +1,5 @@
-import firebase from 'firebase';
+import * as firebase from 'firebase/app';
+import 'firebase/auth';
 import AppError from 'src/lib/modules/AppError';
 import { IUser } from 'src/lib/types/general';
 import testHook from 'src/utils/testHook';
