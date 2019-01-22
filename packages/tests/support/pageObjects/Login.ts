@@ -10,6 +10,8 @@ class Login {
   private containerSelector: ISelector = selectors.general.Login.Container;
   private errorTextSelector: ISelector = selectors.general.Login.Error.Text;
   private versionTextSelector: ISelector = selectors.general.Login.Version.Text;
+  private cancelButtonSelector: ISelector = selectors.general.Login.Cancel;
+  private loadingSelector: ISelector = selectors.general.Login.Loading;
 
   public titleVisible(condition: ICondition) {
     return driver.visible(condition, getSelector(this.titleSelector));
@@ -39,6 +41,18 @@ class Login {
 
   public visible(condition: ICondition) {
     return driver.visible(condition, getSelector(this.containerSelector));
+  }
+
+  public pressCancelButton() {
+    return driver.press(getSelector(this.cancelButtonSelector));
+  }
+
+  public cancelVisible(condition: ICondition) {
+    return driver.visible(condition, getSelector(this.cancelButtonSelector));
+  }
+
+  public loadingVisible(condition: ICondition) {
+    return driver.visible(condition, getSelector(this.loadingSelector));
   }
 }
 

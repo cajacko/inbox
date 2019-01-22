@@ -34,6 +34,9 @@ const general = {
     Button: {
       web: '.Login__Button',
     },
+    Cancel: {
+      web: '.Login__Cancel',
+    },
     Container: {
       web: '.Login',
     },
@@ -41,6 +44,9 @@ const general = {
       Text: {
         web: '.Login__ErrorText',
       },
+    },
+    Loading: {
+      web: '.Login__Loading',
     },
     Version: {
       Text: {

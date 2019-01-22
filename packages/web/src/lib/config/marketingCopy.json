@@ -16,7 +16,9 @@
     "GoToHome": "GO TO HOME"
   },
   "Login": {
+    "Loading": "Loggin In",
     "Title": "Inbox",
+    "Cancel": "Cancel Login",
     "Button": "Login",
     "Description": "Welcome to Inbox, to use our app you must login with your Google Account",
     "GoogleError": "Failed to login with Google, maybe your email or password was incorrect"

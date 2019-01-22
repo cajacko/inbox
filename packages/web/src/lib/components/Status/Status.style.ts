@@ -3,12 +3,8 @@ import { View } from 'src/components';
 import unit from 'src/utils/unit';
 import styled from 'styled-components';
 
-interface IProps {
-  height: number;
-}
-
-export const Container = styled(View)<IProps>`
-  height: ${({ height }) => unit(height)};
+export const Container = styled(View)`
+  height: ${unit(80)};
   position: relative;
 `;
 

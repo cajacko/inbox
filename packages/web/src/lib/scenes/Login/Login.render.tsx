@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Button from 'src/lib/components/Button';
-import ErrorText from 'src/lib/components/ErrorText';
 import CentredContainer from 'src/lib/components/Layout/CentredContainer';
+import Status from 'src/lib/components/Status';
 import Text from 'src/lib/components/Text';
 import { Text as TextType } from 'src/lib/types/general';
 import getButtonType from 'src/lib/utils/getButtonType';
@@ -10,13 +10,15 @@ import { Spacing, Version } from './Login.style';
 
 interface IProps {
   login: () => void;
+  cancel: () => void;
   errorText?: TextType;
+  loggingIn: boolean;
 }
 
 /**
  * Login scene
  */
-const Login = ({ errorText, login }: IProps) => (
+const Login = ({ errorText, login, loggingIn, cancel }: IProps) => (
   <CentredContainer testID="Login">
     {({ backgroundColor }) => (
       <React.Fragment>
@@ -39,20 +41,33 @@ const Login = ({ errorText, login }: IProps) => (
         </Spacing>
 
         <Spacing center>
-          <Button
-            text="Login.Button"
-            action={login}
-            testID="Login__Button"
-            type={getButtonType('CONTAINED.PRIMARY')}
-          />
+          {loggingIn ? (
+            <Button
+              text="Login.Cancel"
+              action={cancel}
+              testID="Login__Cancel"
+              type={getButtonType('CONTAINED.SECONDARY')}
+            />
+          ) : (
+            <Button
+              text="Login.Button"
+              action={login}
+              testID="Login__Button"
+              type={getButtonType('CONTAINED.PRIMARY')}
+            />
+          )}
         </Spacing>
 
-        <ErrorText
-          text={errorText}
-          backgroundColor={backgroundColor}
-          testID="Login__ErrorText"
-          height={50}
-        />
+        <Spacing>
+          <Status
+            spinnerTestID="Login__Loading"
+            errorTextTestID="Login__ErrorText"
+            isLoading={loggingIn}
+            errorText={errorText}
+            loadingText="Login.Loading"
+            backgroundColor={backgroundColor}
+          />
+        </Spacing>
 
         <Version>
           <Text

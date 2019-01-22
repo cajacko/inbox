@@ -7,6 +7,7 @@ import Login from './Login.render';
 
 interface IState {
   errorText?: TextType;
+  loggingIn: boolean;
 }
 
 /**
@@ -19,25 +20,57 @@ class LoginComponent extends React.Component<RouteComponentProps, IState> {
   constructor(props: RouteComponentProps) {
     super(props);
 
-    this.state = {};
+    this.state = {
+      loggingIn: false,
+    };
+
+    this.loginSessionId = 0;
 
     this.login = this.login.bind(this);
+    this.cancel = this.cancel.bind(this);
   }
+
+  private loginSessionId: number;
 
   /**
    * Login the user
    */
   private login() {
+    this.loginSessionId += 1;
+    const { loginSessionId } = this;
+
+    this.setState({ loggingIn: true });
+
     Auth.login(this.props.history.push).catch(() => {
-      this.setState({ errorText: 'Login.GoogleError' });
+      if (loginSessionId !== this.loginSessionId) return;
+
+      this.setState({ errorText: 'Login.GoogleError', loggingIn: false });
     });
+  }
+
+  /**
+   * Cancel the last login attempt
+   */
+  private cancel() {
+    this.loginSessionId += 1;
+
+    this.setState({ errorText: undefined, loggingIn: false });
+
+    Auth.cancel();
   }
 
   /**
    * Render the component
    */
   public render() {
-    return <Login login={this.login} errorText={this.state.errorText} />;
+    return (
+      <Login
+        cancel={this.cancel}
+        login={this.login}
+        errorText={this.state.errorText}
+        loggingIn={this.state.loggingIn}
+      />
+    );
   }
 }
 

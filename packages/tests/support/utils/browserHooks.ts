@@ -25,7 +25,16 @@ const browserHooks = (
   // This is where all the browser hook logic lives
   const implementations = {
     login: {
+      delay: () => ({
+        delay: () => delay(500),
+        method: 'signInWithEmailAndPassword',
+        params: [
+          constants.loginDetails.success.email,
+          constants.loginDetails.success.password,
+        ],
+      }),
       googleFailed: () => ({
+        delay: () => Promise.resolve(),
         method: 'signInWithEmailAndPassword',
         params: [
           constants.loginDetails.error.email,
@@ -33,6 +42,7 @@ const browserHooks = (
         ],
       }),
       success: () => ({
+        delay: () => Promise.resolve(),
         method: 'signInWithEmailAndPassword',
         params: [
           constants.loginDetails.success.email,

@@ -15,11 +15,13 @@ Feature: Login
 
   @web
   Scenario: User logs in successfully
-    Given we add a hook with id "login" and type "success"
+    Given we add a hook with id "login" and type "delay"
     And the driver is ready
     When the app is navigated to "/"
     And the login button is pressed
-    Then the "logged in" home route "will be" visible
+    Then the login cancel button "is" visible
+    And the login loading icon "is" visible
+    And the "logged in" home route "will be" visible
     And the screenshot matches
 
   @web
@@ -31,12 +33,16 @@ Feature: Login
     Then the login error text "will be" "Failed to login with Google, maybe your email or password was incorrect"
     And the screenshot matches
 
-  @web
-  Scenario: Desktop check
-    Given we add a hook with id "login" and type "googleFailed"
+  Scenario: Can cancel and login again when login in progress
+    Given we add a hook with id "login" and type "delay"
     And the driver is ready
     When the app is navigated to "/"
     And the login button is pressed
-    Then the login error text "will be" "Failed to login with Google, maybe your email or password was incorrect"
+    And the login cancel button is pressed
+    Then the login scene "is" visible
+    And the login button "is" visible
+    And the login cancel button "is not" visible
+    And the login loading icon "is not" visible
     And the screenshot matches
-
+    When the login button is pressed
+    Then the "logged in" home route "will be" visible

@@ -78,3 +78,11 @@ Then('the login title {string} visible', conditional =>
 
 Then('the app version matches the expected version', () =>
   login.versionMatches());
+
+When('the login cancel button is pressed', () => login.pressCancelButton());
+
+Then('the login cancel button {string} visible', conditional =>
+  login.cancelVisible(conditional));
+
+Then('the login loading icon {string} visible', conditional =>
+  login.loadingVisible(conditional));
