@@ -73,8 +73,8 @@ Then('the login error text {string} {string}', (conditional, text) =>
 Then('the login button {string} visible', conditional =>
   login.buttonVisible(conditional));
 
-Then('the app logo {string} visible', conditional =>
-  login.appLogoVisible(conditional));
+Then('the login title {string} visible', conditional =>
+  login.titleVisible(conditional));
 
 Then('the app version matches the expected version', () =>
   login.versionMatches());

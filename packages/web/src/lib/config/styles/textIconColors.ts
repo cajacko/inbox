@@ -20,7 +20,8 @@ export const COLORS = {
   WHITE,
 };
 
-export type Color = keyof typeof COLORS;
+export type ColorKey = keyof typeof COLORS;
+export type ColorVal = typeof COLORS[ColorKey];
 
 export const BACKGROUND_COLORS = {
   ERROR,
@@ -31,16 +32,17 @@ export const BACKGROUND_COLORS = {
   WHITE,
 };
 
-export type BackgroundColor = keyof typeof BACKGROUND_COLORS;
+export type BackgroundColorKey = keyof typeof BACKGROUND_COLORS;
+export type BackgroundColorVal = typeof BACKGROUND_COLORS[BackgroundColorKey];
 
-interface IColorsForBackground {
-  [key: string]: {
+type ColorsForBackground = {
+  [K in BackgroundColorVal]: {
     default: string;
     error?: string;
     greyedOut?: string;
     highlight?: string;
-  };
-}
+  }
+};
 
 const LIGHT_BACKGROUND = {
   default: COLORS.BLACK,
@@ -49,7 +51,7 @@ const LIGHT_BACKGROUND = {
   highlight: COLORS.PRIMARY_DARK,
 };
 
-export const COLORS_FOR_BACKGROUND: IColorsForBackground = {
+export const COLORS_FOR_BACKGROUND: ColorsForBackground = {
   [BACKGROUND_COLORS.WHITE]: LIGHT_BACKGROUND,
   [BACKGROUND_COLORS.PRIMARY]: {
     default: COLORS.BLACK,

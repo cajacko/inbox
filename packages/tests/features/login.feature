@@ -8,7 +8,7 @@ Feature: Login
     And the driver is ready
     When the app is navigated to "/"
     Then the login scene "is" visible
-    Then the app logo "is" visible
+    Then the login title "is" visible
     And the login button "is" visible
     And the app version matches the expected version
     And the screenshot matches

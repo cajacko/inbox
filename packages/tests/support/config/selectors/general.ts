@@ -28,8 +28,8 @@ const general = {
     },
   },
   Login: {
-    AppLogo: {
-      web: '.Login__AppLogo',
+    Title: {
+      web: '.Login__Title',
     },
     Button: {
       web: '.Login__Button',

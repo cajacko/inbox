@@ -1,13 +1,16 @@
 import * as React from 'react';
 import { Type } from 'src/lib/config/styles/text';
-import { BackgroundColor, Color } from 'src/lib/config/styles/textIconColors';
+import {
+  BackgroundColorVal,
+  ColorVal,
+} from 'src/lib/config/styles/textIconColors';
 import withText from 'src/lib/HOCs/withText';
 import { Text as StyledText, transformText } from './Text.style';
 
 export interface IProps {
   type?: Type;
-  backgroundColor?: BackgroundColor;
-  _dangerouslySetColor?: Color;
+  backgroundColor?: BackgroundColorVal;
+  _dangerouslySetColor?: ColorVal;
   highlight?: boolean;
   greyedOut?: boolean;
   error?: boolean;

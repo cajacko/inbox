@@ -8,6 +8,7 @@ import errors from 'src/lib/utils/errors';
 import store from 'src/lib/utils/store';
 import { Router as EntryRouter } from 'src/packages/react-router';
 import testHook from 'src/utils/testHook';
+import { Container } from './App.style';
 
 /**
  * The main entry file. Sets up the global structure of the app, including any
@@ -17,17 +18,19 @@ const App = () => {
   testHook('root', undefined);
 
   return (
-    <ErrorBoundary defaultError={errors.getError('100-004')}>
-      <Provider store={store.get()}>
-        <AppLoading>
-          <ErrorBoundary defaultError={errors.getError('100-007')}>
-            <EntryRouter>
-              <Router routes={entry} testHookKey="mainRouter" />
-            </EntryRouter>
-          </ErrorBoundary>
-        </AppLoading>
-      </Provider>
-    </ErrorBoundary>
+    <Container>
+      <ErrorBoundary defaultError={errors.getError('100-004')}>
+        <Provider store={store.get()}>
+          <AppLoading>
+            <ErrorBoundary defaultError={errors.getError('100-007')}>
+              <EntryRouter>
+                <Router routes={entry} testHookKey="mainRouter" />
+              </EntryRouter>
+            </ErrorBoundary>
+          </AppLoading>
+        </Provider>
+      </ErrorBoundary>
+    </Container>
   );
 };
 

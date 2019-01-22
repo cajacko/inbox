@@ -1,16 +1,16 @@
 import {
   BACKGROUND_COLORS,
-  BackgroundColor,
-  Color,
+  BackgroundColorVal,
   COLORS,
   COLORS_FOR_BACKGROUND,
+  ColorVal,
 } from 'src/lib/config/styles/textIconColors';
 import AppError from 'src/lib/modules/AppError';
 import ensureObjHasVal from 'src/lib/utils/ensureObjHasVal';
 
 interface IProps {
-  backgroundColor?: BackgroundColor;
-  _dangerouslySetColor?: Color;
+  backgroundColor?: BackgroundColorVal;
+  _dangerouslySetColor?: ColorVal;
   highlight?: boolean;
   greyedOut?: boolean;
   error?: boolean;

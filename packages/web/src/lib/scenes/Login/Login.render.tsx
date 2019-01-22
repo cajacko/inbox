@@ -1,10 +1,11 @@
 import * as React from 'react';
-import { View } from 'src/components';
 import Button from 'src/lib/components/Button';
+import ErrorText from 'src/lib/components/ErrorText';
+import CentredContainer from 'src/lib/components/Layout/CentredContainer';
 import Text from 'src/lib/components/Text';
-import { BACKGROUND_COLORS } from 'src/lib/config/styles/textIconColors';
 import { Text as TextType } from 'src/lib/types/general';
 import { version } from '../../../../package.json';
+import { Spacing, Version } from './Login.style';
 
 interface IProps {
   login: () => void;
@@ -15,31 +16,52 @@ interface IProps {
  * Login scene
  */
 const Login = ({ errorText, login }: IProps) => (
-  <View testID="Login">
-    <Text
-      text={{ _textFromConst: 'App logo' }}
-      backgroundColor={BACKGROUND_COLORS.WHITE}
-      testID="Login__AppLogo"
-    />
-    <Button
-      text={{ _textFromConst: 'Login button' }}
-      action={login}
-      testID="Login__Button"
-    />
-    {errorText && (
-      <Text
-        text={errorText}
-        backgroundColor={BACKGROUND_COLORS.WHITE}
-        testID="Login__ErrorText"
-      />
-    )}
+  <CentredContainer testID="Login">
+    {({ backgroundColor }) => (
+      <React.Fragment>
+        <Spacing>
+          <Text
+            type="h2"
+            text="Login.Title"
+            backgroundColor={backgroundColor}
+            testID="Login__Title"
+            center
+          />
+        </Spacing>
 
-    <Text
-      text={{ _textFromConst: version }}
-      backgroundColor={BACKGROUND_COLORS.WHITE}
-      testID="Login__VersionText"
-    />
-  </View>
+        <Spacing>
+          <Text
+            text="Login.Description"
+            backgroundColor={backgroundColor}
+            center
+          />
+        </Spacing>
+
+        <Spacing>
+          <Button text="Login.Button" action={login} testID="Login__Button" />
+        </Spacing>
+
+        {errorText && (
+          <ErrorText
+            text={errorText}
+            backgroundColor={backgroundColor}
+            testID="Login__ErrorText"
+            height={50}
+          />
+        )}
+
+        <Version>
+          <Text
+            text={{ _textFromConst: `v${version}` }}
+            backgroundColor={backgroundColor}
+            testID="Login__VersionText"
+            type="overline"
+            center
+          />
+        </Version>
+      </React.Fragment>
+    )}
+  </CentredContainer>
 );
 
 export default Login;
