@@ -5,7 +5,7 @@ import { Text as TextType } from 'src/lib/types/general';
 import { Container, Position } from './ErrorText.style';
 
 interface IProps {
-  text: TextType;
+  text?: TextType;
   testID?: string;
   backgroundColor?: BackgroundColorVal;
   height?: number;
@@ -15,7 +15,9 @@ interface IProps {
  * Display some error text in a consistent way
  */
 const ErrorText = ({ text, height, ...props }: IProps) => {
-  const textComponent = <Text text={text} error type="body2" {...props} />;
+  const textComponent = text ? (
+    <Text text={text} error type="body2" {...props} />
+  ) : null;
 
   if (!height) return textComponent;
 

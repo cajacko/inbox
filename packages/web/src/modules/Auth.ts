@@ -19,7 +19,9 @@ class Auth {
    * Is the user logged in
    */
   public static isLoggedIn(): Promise<boolean> {
-    return Promise.resolve(!!Auth.getUser());
+    return Auth.getUser()
+      .then(user => !!user)
+      .catch(() => false);
   }
 
   /**

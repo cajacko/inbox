@@ -47,14 +47,12 @@ const Login = ({ errorText, login }: IProps) => (
           />
         </Spacing>
 
-        {errorText && (
-          <ErrorText
-            text={errorText}
-            backgroundColor={backgroundColor}
-            testID="Login__ErrorText"
-            height={50}
-          />
-        )}
+        <ErrorText
+          text={errorText}
+          backgroundColor={backgroundColor}
+          testID="Login__ErrorText"
+          height={50}
+        />
 
         <Version>
           <Text
