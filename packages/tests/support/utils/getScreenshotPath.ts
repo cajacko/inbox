@@ -10,7 +10,7 @@ const getScreenshotPath = (
 
   return join(
     __dirname,
-    '../../screenshots',
+    '../../../../screenshots',
     platform,
     filePath,
     `${scenario}.png`
