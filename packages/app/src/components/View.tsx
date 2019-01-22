@@ -11,8 +11,10 @@ interface IProps {
 /**
  * Render text on the web
  */
-const View = ({ children, style }: IProps) => (
-  <RNView style={style}>{children}</RNView>
+const View = ({ children, style, ...props }: IProps) => (
+  <RNView style={style} {...props}>
+    {children}
+  </RNView>
 );
 
 export default View;

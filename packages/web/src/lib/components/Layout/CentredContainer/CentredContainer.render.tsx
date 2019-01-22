@@ -1,4 +1,6 @@
 import * as React from 'react';
+import Measure from 'src/lib/components/Layout/Measure';
+import { IMeasurements } from 'src/lib/components/Layout/Measure/Measure.component';
 import { Children } from 'src/lib/types/libs';
 import { BACKGROUND_COLOR, Box, Container } from './CentredContainer.style';
 
@@ -11,17 +13,37 @@ interface IProps {
   children: RenderProp;
 }
 
+const threshold = 800;
+
+/**
+ * Should the container be bound
+ */
+const shouldBound = (width: number) => width > threshold;
+
+/**
+ * Decide when to trigger a rerender when the dimensions change
+ */
+const onChange = (next: IMeasurements, last: IMeasurements) => {
+  if (shouldBound(next.width) !== shouldBound(last.width)) return true;
+
+  return false;
+};
+
 /**
  * A horizontally and vertically centred container with a border
  */
 const CentredContainer = ({ children, testID }: IProps) => (
-  <Container testID={testID}>
-    <Box>
-      {typeof children === 'function'
-        ? children({ backgroundColor: BACKGROUND_COLOR })
-        : children}
-    </Box>
-  </Container>
+  <Measure onChange={onChange}>
+    {({ width, measureProps }) => (
+      <Container {...measureProps} testID={testID} bound={shouldBound(width)}>
+        <Box bound={shouldBound(width)}>
+          {typeof children === 'function'
+            ? children({ backgroundColor: BACKGROUND_COLOR })
+            : children}
+        </Box>
+      </Container>
+    )}
+  </Measure>
 );
 
 export default CentredContainer;

@@ -20,9 +20,6 @@ class ButtonComponent extends React.Component<IProps> {
    * Run the button action
    */
   private action() {
-    // eslint-disable-next-line
-    console.log('action');
-
     if (this.props.action) {
       this.props.action();
     }

@@ -37,6 +37,7 @@
     "redux-persist": "4.8.2",
     "redux-persist-transform-immutable": "5.0.0",
     "redux-thunk": "^2.3.0",
+    "resize-observer": "^1.0.0",
     "resolve": "1.6.0",
     "source-map-loader": "^0.2.1",
     "style-loader": "0.19.0",

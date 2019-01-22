@@ -13,11 +13,15 @@ const Container = styled.div`
   display: flex;
 `;
 
+type Ref = React.RefObject<HTMLDivElement>;
+
 /**
  * Render text on the web
  */
-const View = ({ children, className, testID }: IProps) => (
-  <Container className={mergeClasses(className, testID)}>{children}</Container>
-);
+const View = React.forwardRef((props: IProps, ref: Ref) => (
+  <Container className={mergeClasses(props.className, props.testID)} ref={ref}>
+    {props.children}
+  </Container>
+));
 
 export default View;

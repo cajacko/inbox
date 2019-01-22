@@ -27,11 +27,14 @@ export interface IProps {
   type: IType;
 }
 
+type Component = (props: { [key: string]: any }) => JSX.Element;
+
 /**
  * Standard button component, can take text or icons
  */
 const Button = (props: IProps) => {
-  const ButtonComponent = props.noButton ? View : UIButton;
+  // @ts-ignore
+  const ButtonComponent: Component = props.noButton ? View : UIButton;
 
   const nativeStylesProp = nativeStyles({
     styles: props.styles,
