@@ -4,6 +4,7 @@ import ErrorText from 'src/lib/components/ErrorText';
 import CentredContainer from 'src/lib/components/Layout/CentredContainer';
 import Text from 'src/lib/components/Text';
 import { Text as TextType } from 'src/lib/types/general';
+import getButtonType from 'src/lib/utils/getButtonType';
 import { version } from '../../../../package.json';
 import { Spacing, Version } from './Login.style';
 
@@ -37,8 +38,13 @@ const Login = ({ errorText, login }: IProps) => (
           />
         </Spacing>
 
-        <Spacing>
-          <Button text="Login.Button" action={login} testID="Login__Button" />
+        <Spacing center>
+          <Button
+            text="Login.Button"
+            action={login}
+            testID="Login__Button"
+            type={getButtonType('CONTAINED.PRIMARY')}
+          />
         </Spacing>
 
         {errorText && (

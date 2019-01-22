@@ -3,6 +3,7 @@ import ErrorBoundary from 'src/lib/components/ErrorBoundary';
 import withRouter from 'src/lib/HOCs/withRouter';
 import { Text } from 'src/lib/types/general';
 import errors from 'src/lib/utils/errors';
+import getButtonType from 'src/lib/utils/getButtonType';
 import { RouteComponentProps } from 'src/packages/react-router';
 
 interface IState {
@@ -42,6 +43,7 @@ class FourOhFour extends React.Component<RouteComponentProps, IState> {
         action: () => () => props.history.push('/'),
         key: 'goToHome',
         text: () => 'Navigation.GoToHome',
+        type: getButtonType('CONTAINED.PRIMARY'),
       },
     ];
 
@@ -57,6 +59,7 @@ class FourOhFour extends React.Component<RouteComponentProps, IState> {
         action: () => () => props.history.goBack(),
         key: 'goBack',
         text: () => 'Navigation.GoBack',
+        type: getButtonType('CONTAINED.SECONDARY'),
       });
     }
 

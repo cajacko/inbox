@@ -1,13 +1,5 @@
 import * as React from 'react';
-import { Text } from 'src/lib/types/general';
-import Button from './Button.render';
-
-interface IProps {
-  text: Text;
-  action?: () => void;
-  testID?: string;
-  textTestID?: string;
-}
+import Button, { IProps } from './Button.render';
 
 /**
  * Business logic for the button component

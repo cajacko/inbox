@@ -17,7 +17,7 @@
   },
   "Login": {
     "Title": "Inbox",
-    "Button": "Login with Google",
+    "Button": "Login",
     "Description": "Welcome to Inbox, to use our app you must login with your Google Account",
     "GoogleError": "Failed to login with Google, maybe your email or password was incorrect"
   },

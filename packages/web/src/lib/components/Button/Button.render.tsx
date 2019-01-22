@@ -1,29 +1,94 @@
 import * as React from 'react';
-import { Button as UIButton } from 'src/components';
+import { Button as UIButton, View } from 'src/components';
 import Text from 'src/lib/components/Text';
-import { BACKGROUND_COLORS } from 'src/lib/config/styles/textIconColors';
+import { IType } from 'src/lib/config/styles/buttons';
 import { Text as TextType } from 'src/lib/types/general';
+import { Children } from 'src/lib/types/libs';
+import {
+  // iconStyles,
+  Inner,
+  nativeStyles,
+  Outer,
+  textStyles,
+} from './Button.style';
 
-interface IProps {
-  text: TextType;
-  action: () => void;
+export interface IProps {
+  action?: () => void;
+  baseWidth?: number;
+  children?: Children;
+  fullHeight?: boolean;
+  noButton?: boolean;
+  noContent?: boolean;
+  numberOfLines?: number;
+  styles?: React.CSSProperties;
   testID?: string;
+  text: TextType;
   textTestID?: string;
+  type: IType;
 }
 
 /**
- * Render a standard button
+ * Standard button component, can take text or icons
  */
-const Button = ({
-  action, text, testID, textTestID,
-}: IProps) => (
-  <UIButton action={action} testID={testID}>
-    <Text
-      text={text}
-      backgroundColor={BACKGROUND_COLORS.PRIMARY}
-      testID={textTestID}
-    />
-  </UIButton>
-);
+const Button = (props: IProps) => {
+  const ButtonComponent = props.noButton ? View : UIButton;
+
+  const nativeStylesProp = nativeStyles({
+    styles: props.styles,
+  });
+
+  const buttonProps = {
+    action: props.noButton ? undefined : props.action,
+    style: nativeStylesProp,
+    testID: props.testID,
+  };
+
+  const IconOnly = null;
+  const RightIcon = null;
+  const LeftIcon = null;
+
+  // if (props.icon) {
+  //   const IconComponent = (
+  //     <Icon icon={props.icon} {...iconStyles(props.type)} />
+  //   );
+
+  //   if (props.iconLeft) {
+  //     LeftIcon = IconComponent;
+  //   } else if (props.iconRight || props.text) {
+  //     RightIcon = IconComponent;
+  //   } else {
+  //     IconOnly = IconComponent;
+  //   }
+  // }
+
+  return props.children || props.noContent ? (
+    <ButtonComponent {...buttonProps}>{props.children || null}</ButtonComponent>
+  ) : (
+    <Outer
+      type={props.type}
+      fullHeight={props.fullHeight}
+      baseWidth={props.baseWidth}
+    >
+      <ButtonComponent {...buttonProps}>
+        <Inner type={props.type}>
+          {props.text ? (
+            <React.Fragment>
+              {LeftIcon}
+              <Text
+                testID={props.textTestID}
+                text={props.text}
+                {...textStyles(props.type)}
+                numberOfLines={props.numberOfLines}
+              />
+              {RightIcon}
+            </React.Fragment>
+          ) : (
+            IconOnly
+          )}
+        </Inner>
+      </ButtonComponent>
+    </Outer>
+  );
+};
 
 export default Button;

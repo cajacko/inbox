@@ -1,8 +1,10 @@
 import * as React from 'react';
 import Button from 'src/lib/components/Button';
 import Text from 'src/lib/components/Text';
+import { IType } from 'src/lib/config/styles/buttons';
 import { Text as TextType } from 'src/lib/types/general';
 import { Children } from 'src/lib/types/libs';
+import getButtonType from 'src/lib/utils/getButtonType';
 import marketingCopy from 'src/lib/utils/marketingCopy';
 import {
   BACKGROUND_COLOR,
@@ -24,6 +26,7 @@ interface IProps {
     key: string;
     action: Func;
     text: TextType;
+    type?: IType;
   }>;
   children: Children;
 }
@@ -85,7 +88,7 @@ const ErrorBoundary = ({
 
         {buttons && buttons.length && (
           <Buttons>
-            {buttons.map(({ key, action, text }) => (
+            {buttons.map(({ key, action, text, type }) => (
               <ButtonContainer
                 key={key}
                 testID="ErrorBoundary__ButtonContainer"
@@ -95,6 +98,7 @@ const ErrorBoundary = ({
                   text={text}
                   testID="ErrorBoundary__Button"
                   textTestID="ErrorBoundary__ButtonText"
+                  type={type || getButtonType('CONTAINED.PRIMARY')}
                 />
               </ButtonContainer>
             ))}

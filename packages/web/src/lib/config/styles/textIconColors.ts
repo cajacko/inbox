@@ -37,10 +37,10 @@ export type BackgroundColorVal = typeof BACKGROUND_COLORS[BackgroundColorKey];
 
 type ColorsForBackground = {
   [K in BackgroundColorVal]: {
-    default: string;
-    error?: string;
-    greyedOut?: string;
-    highlight?: string;
+    default: ColorVal;
+    error?: ColorVal;
+    greyedOut?: ColorVal;
+    highlight?: ColorVal;
   }
 };
 

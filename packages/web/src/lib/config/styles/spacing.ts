@@ -1,2 +1,3 @@
-export const STANDARD_SPACING = 10;
+export const STANDARD_SPACING: 10 = 10;
+
 export const HORIZONTAL_EDGE_PADDING = STANDARD_SPACING * 2;

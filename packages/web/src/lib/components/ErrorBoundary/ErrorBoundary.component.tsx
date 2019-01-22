@@ -1,5 +1,6 @@
 /* eslint max-lines: 0 */
 import * as React from 'react';
+import { IType } from 'src/lib/config/styles/buttons';
 import AppError from 'src/lib/modules/AppError';
 import SplashScreen from 'src/lib/modules/SplashScreen';
 import { IExtendedError, Text } from 'src/lib/types/general';
@@ -25,6 +26,7 @@ interface IProps {
     key: string;
     action: (state: IState) => () => void;
     text: (state: IState) => Text;
+    type?: IType;
   }>;
 }
 
@@ -202,10 +204,10 @@ class ErrorBoundaryComponent extends React.Component<IProps, IState> {
 
     try {
       buttons = this.props.buttons
-        ? this.props.buttons.map(({ key, action, text }) => ({
+        ? this.props.buttons.map(({ action, text, ...button }) => ({
           action: action(this.state),
-          key,
           text: text(this.state),
+          ...button,
         }))
         : undefined;
     } catch (e) {
