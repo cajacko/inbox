@@ -6,7 +6,11 @@
   "private": true,
   "scripts": {
     "watch": "tsc -w",
-    "test": "./node_modules/.bin/cucumber-js --require build/tests/support/require/**/*.js"
+    "test": "yarn test:mobile && yarn test:tablet && yarn test:desktop",
+    "cucumber": "./node_modules/.bin/cucumber-js --require build/tests/support/require/**/*.js",
+    "test:mobile": "yarn cucumber --tags \"@size-mobile or ((not @size-tablet) and (not @size-tablet) and not @size-desktop)\"",
+    "test:tablet": "yarn cucumber --tags \"@size-tablet or ((not @size-tablet) and (not @size-tablet) and not @size-desktop)\"",
+    "test:desktop": "yarn cucumber --tags \"@size-desktop or ((not @size-tablet) and (not @size-tablet) and not @size-desktop)\""
   },
   "dependencies": {
     "@types/chai": "^4.1.7",

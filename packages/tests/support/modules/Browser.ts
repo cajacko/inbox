@@ -1,9 +1,11 @@
 /* eslint max-lines: 0 */
 import * as puppeteer from 'puppeteer';
+import browserSizes from '../config/browserSizes';
 import hookConstants from '../config/hookConstants';
 import browserHooks from '../utils/browserHooks';
 import conditional from '../utils/conditional';
 import { ICondition } from '../utils/ensureCondition';
+import getSize from '../utils/getSize';
 
 const showBrowser = false;
 const shouldClose = !showBrowser;
@@ -34,6 +36,7 @@ class Browser {
 
     if (!this.page) throw new Error('No page object to do things with');
 
+    await this.page.setViewport(browserSizes[getSize()]);
     await this.setJavaScriptEnabled();
     await this.setRequestInterception();
   }

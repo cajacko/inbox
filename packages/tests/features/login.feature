@@ -31,3 +31,12 @@ Feature: Login
     Then the login error text "will be" "Failed to login with Google, maybe your email or password was incorrect"
     And the screenshot matches
 
+  @web
+  Scenario: Desktop check
+    Given we add a hook with id "login" and type "googleFailed"
+    And the driver is ready
+    When the app is navigated to "/"
+    And the login button is pressed
+    Then the login error text "will be" "Failed to login with Google, maybe your email or password was incorrect"
+    And the screenshot matches
+
