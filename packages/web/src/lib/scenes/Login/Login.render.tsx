@@ -18,7 +18,12 @@ interface IProps {
 /**
  * Login scene
  */
-const Login = ({ errorText, login, loggingIn, cancel }: IProps) => (
+const Login = ({
+  errorText,
+  login,
+  loggingIn,
+  cancel,
+}: IProps) => (
   <CentredContainer testID="Login">
     {({ backgroundColor }) => (
       <React.Fragment>

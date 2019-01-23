@@ -3,7 +3,7 @@ import Spinner from 'src/lib/components/Spinner';
 import Text from 'src/lib/components/Text';
 import { BackgroundColorVal } from 'src/lib/config/styles/textIconColors';
 import { Text as TextType } from 'src/lib/types/general';
-import { Container, Position } from './Status.style';
+import { Container, Position, SpinnerContainer } from './Status.style';
 
 interface IProps {
   errorText?: TextType;
@@ -28,7 +28,11 @@ const Status = ({
 }: IProps) => (
   <Container>
     <Position>
-      {isLoading && <Spinner text={loadingText} testID={spinnerTestID} />}
+      {isLoading && (
+        <SpinnerContainer>
+          <Spinner text={loadingText} testID={spinnerTestID} />
+        </SpinnerContainer>
+      )}
       {!isLoading && !!errorText && (
         <Text
           testID={errorTextTestID}

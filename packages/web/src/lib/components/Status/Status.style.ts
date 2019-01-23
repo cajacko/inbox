@@ -15,3 +15,8 @@ export const Position = styled(View)`
   top: 0;
   bottom: 0;
 `;
+
+export const SpinnerContainer = styled(View)`
+  flex: 1;
+  justify-content: center;
+`;

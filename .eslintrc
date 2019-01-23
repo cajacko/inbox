@@ -1,6 +1,7 @@
 {
   "extends": ["airbnb"],
   "rules": {
+    "react/default-props-match-prop-types": "off",
     "import/no-unresolved": "off",
     "no-unused-vars": "off",
     "id-length": [
