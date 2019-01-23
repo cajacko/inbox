@@ -23,5 +23,3 @@ const getProps = (props: IProps) => props;
 export const Svg = (props: ISvg) => <svg {...getSvgProps(props)} />;
 
 export const Path = (props: IProps) => <path {...getProps(props)} />;
-
-export const G = (props: IProps) => <g {...getProps(props)} />;

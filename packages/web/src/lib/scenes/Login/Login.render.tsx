@@ -67,7 +67,7 @@ const Login = ({
           <Status
             spinnerTestID="Login__Loading"
             errorTextTestID="Login__ErrorText"
-            isLoading={loggingIn}
+            isLoading
             errorText={errorText}
             loadingText="Login.Loading"
             backgroundColor={backgroundColor}
