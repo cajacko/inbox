@@ -33,7 +33,8 @@ class App {
 
     const shouldUpdate =
       process.argv.includes('-u') ||
-      process.argv.includes('--update-screenshots');
+      process.argv.includes('--update-screenshots') ||
+      process.env.NODE_ENV === 'update';
 
     const screenshotExists = await pathExists(existingPath);
 
@@ -48,7 +49,7 @@ class App {
     const isDiff = await this.diffImages(existingPath, newPath, diffPath);
 
     if (isDiff) {
-      throw new Error(`Screenshots differ check the following images:\n${existingPath}\n${newPath}\n${diffPath}\n\nIf these changes are acceptable, update the snapshots with the "-u" or "--update-snapshots" flags`);
+      throw new Error(`Screenshots differ check the following images:\n${existingPath}\n${newPath}\n${diffPath}\n\nIf these changes are acceptable, update the snapshots with "NODE_ENV=update yarn test:..." or the "-u" or "--update-snapshots" flags`);
     }
 
     this.clearImages(newPath, diffPath);
