@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Provider } from 'react-redux';
+import SafeAreaView from 'src/components/SafeAreaView';
 import AppLoading from 'src/lib/components/AppLoading';
 import ErrorBoundary from 'src/lib/components/ErrorBoundary';
 import Router from 'src/lib/components/Router';
@@ -21,13 +22,15 @@ const App = () => {
     <Container>
       <ErrorBoundary defaultError={errors.getError('100-004')}>
         <Provider store={store.get()}>
-          <AppLoading>
-            <ErrorBoundary defaultError={errors.getError('100-007')}>
-              <EntryRouter>
-                <Router routes={entry} testHookKey="mainRouter" />
-              </EntryRouter>
-            </ErrorBoundary>
-          </AppLoading>
+          <SafeAreaView>
+            <AppLoading>
+              <ErrorBoundary defaultError={errors.getError('100-007')}>
+                <EntryRouter>
+                  <Router routes={entry} testHookKey="mainRouter" />
+                </EntryRouter>
+              </ErrorBoundary>
+            </AppLoading>
+          </SafeAreaView>
         </Provider>
       </ErrorBoundary>
     </Container>
