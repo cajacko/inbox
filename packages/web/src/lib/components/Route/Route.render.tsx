@@ -1,8 +1,8 @@
 import * as React from 'react';
+import { Route as RRRoute } from 'react-router';
 import ErrorBoundary from 'src/lib/components/ErrorBoundary';
 import { IRoute } from 'src/lib/types/general';
 import errors from 'src/lib/utils/errors';
-import { Route as RRRoute } from 'src/packages/react-router';
 
 interface IProps {
   component: IRoute['component'];

@@ -1,6 +1,6 @@
 import * as React from 'react';
+import { Switch } from 'react-router';
 import { IRoute } from 'src/lib/types/general';
-import { Switch } from 'src/packages/react-router';
 import testHook from 'src/utils/testHook';
 import Route from '../Route';
 

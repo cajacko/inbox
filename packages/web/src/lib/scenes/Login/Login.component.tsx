@@ -1,8 +1,6 @@
 import * as React from 'react';
-import withRouter from 'src/lib/HOCs/withRouter';
 import Auth from 'src/lib/modules/Auth';
 import { Text as TextType } from 'src/lib/types/general';
-import { RouteComponentProps } from 'src/packages/react-router';
 import Login from './Login.render';
 
 interface IState {
@@ -13,11 +11,11 @@ interface IState {
 /**
  * Business logic for the login component, handles login and error messages
  */
-class LoginComponent extends React.Component<RouteComponentProps, IState> {
+class LoginComponent extends React.Component<{}, IState> {
   /**
    * Initialise the class, set the initial state and bind the methods
    */
-  constructor(props: RouteComponentProps) {
+  constructor(props: {}) {
     super(props);
 
     this.state = {
@@ -41,7 +39,7 @@ class LoginComponent extends React.Component<RouteComponentProps, IState> {
 
     this.setState({ loggingIn: true });
 
-    Auth.login(this.props.history.push).catch(() => {
+    Auth.login().catch(() => {
       if (loginSessionId !== this.loginSessionId) return;
 
       this.setState({ errorText: 'Login.GoogleError', loggingIn: false });
@@ -74,4 +72,4 @@ class LoginComponent extends React.Component<RouteComponentProps, IState> {
   }
 }
 
-export default withRouter(LoginComponent);
+export default LoginComponent;

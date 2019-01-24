@@ -1,13 +1,14 @@
 import * as React from 'react';
 import { Provider } from 'react-redux';
+import { Router as EntryRouter } from 'react-router';
 import SafeAreaView from 'src/components/SafeAreaView';
 import AppLoading from 'src/lib/components/AppLoading';
 import ErrorBoundary from 'src/lib/components/ErrorBoundary';
 import Router from 'src/lib/components/Router';
 import { entry } from 'src/lib/config/routes';
 import errors from 'src/lib/utils/errors';
+import history from 'src/lib/utils/history';
 import store from 'src/lib/utils/store';
-import { Router as EntryRouter } from 'src/packages/react-router';
 import testHook from 'src/utils/testHook';
 import { Container } from './App.style';
 
@@ -25,7 +26,7 @@ const App = () => {
           <SafeAreaView>
             <AppLoading>
               <ErrorBoundary defaultError={errors.getError('100-007')}>
-                <EntryRouter>
+                <EntryRouter history={history}>
                   <Router routes={entry} testHookKey="mainRouter" />
                 </EntryRouter>
               </ErrorBoundary>

@@ -1,7 +1,6 @@
 import * as React from 'react';
-import withRouter from 'src/lib/HOCs/withRouter';
+import { RouteComponentProps, withRouter } from 'react-router';
 import { IRoute } from 'src/lib/types/general';
-import { RouteComponentProps } from 'src/packages/react-router';
 import Route from './Route.render';
 
 interface IProps extends IRoute, RouteComponentProps {

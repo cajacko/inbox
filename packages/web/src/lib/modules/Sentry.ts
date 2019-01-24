@@ -1,5 +1,6 @@
 import AppError from 'src/lib/modules/AppError';
 import { LogLevel, OnLogType } from 'src/lib/modules/Logger';
+import history from 'src/lib/utils/history';
 import store from 'src/lib/utils/store';
 import sentry from 'src/modules/Sentry';
 import isDev from 'src/utils/conditionals/isDev';
@@ -37,6 +38,7 @@ class Sentry {
   private respondToPromise: (e?: AppError) => void;
   private ready: Promise<void>;
   private breadcrumbs: ISentryMessage['breadcrumbs'];
+  private enabled: boolean;
 
   /**
    * Set the dsn
@@ -55,20 +57,26 @@ class Sentry {
     });
 
     this.breadcrumbs = [];
+
+    this.enabled = isDev() || isTestEnv();
   }
 
   /**
    * Initialise sentry
    */
   public init(): Promise<any> {
-    sentry
-      .init(this.dsn)
-      .then(() => {
-        this.respondToPromise();
-      })
-      .catch((e: AppError) => {
-        this.respondToPromise(e);
-      });
+    if (this.enabled) {
+      sentry
+        .init(this.dsn)
+        .then(() => {
+          this.respondToPromise();
+        })
+        .catch((e: AppError) => {
+          this.respondToPromise(e);
+        });
+    } else {
+      this.respondToPromise();
+    }
 
     return this.ready;
   }
@@ -116,21 +124,14 @@ class Sentry {
     }
 
     const env = getEnv();
-    const route = '/';
+    const route = history.location.pathname;
 
     const finalTags: ISentryMessage['tags'] = { route, version, ...tags };
 
     if (errorCode) finalTags.errorCode = errorCode;
     if (userId) finalTags.userId = userId;
 
-    console.debug({
-      env,
-      errorCode,
-      route,
-      userId,
-    });
-
-    if (isDev() || isTestEnv()) return;
+    if (!this.enabled) return;
 
     sentry.captureEvent({
       breadcrumbs: this.breadcrumbs,

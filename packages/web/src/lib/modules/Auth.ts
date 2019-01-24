@@ -1,9 +1,9 @@
 import AppError from 'src/lib/modules/AppError';
 import { logout, setIsLoggedIn } from 'src/lib/store/user/actions';
 import { IUser } from 'src/lib/types/general';
+import history from 'src/lib/utils/history';
 import store from 'src/lib/utils/store';
 import AuthImplementation from 'src/modules/Auth';
-import { RouteComponentProps } from 'src/packages/react-router';
 import testHook from 'src/utils/testHook';
 
 let loginId = 0;
@@ -29,10 +29,7 @@ class Auth {
   /**
    * Log the user in
    */
-  public static login(
-    push: RouteComponentProps['history']['push'],
-    redirectPath?: string
-  ): Promise<IUser | null> {
+  public static login(redirectPath?: string): Promise<IUser | null> {
     loginId += 1;
     const loginSessionId = loginId;
 
@@ -64,7 +61,7 @@ class Auth {
 
         store.dispatch(setIsLoggedIn(!!user, user));
 
-        push(redirectPath || '/');
+        history.push(redirectPath || '/');
 
         return Promise.resolve(user);
       });

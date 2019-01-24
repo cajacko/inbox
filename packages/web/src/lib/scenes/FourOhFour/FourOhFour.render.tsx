@@ -1,10 +1,9 @@
 import * as React from 'react';
+import { RouteComponentProps, withRouter } from 'react-router';
 import ErrorBoundary from 'src/lib/components/ErrorBoundary';
-import withRouter from 'src/lib/HOCs/withRouter';
 import { Text } from 'src/lib/types/general';
 import errors from 'src/lib/utils/errors';
 import getButtonType from 'src/lib/utils/getButtonType';
-import { RouteComponentProps } from 'src/packages/react-router';
 
 interface IState {
   buttons: Array<{
