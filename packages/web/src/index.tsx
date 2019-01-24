@@ -1,6 +1,7 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import App from 'src/lib/components/App';
+import 'src/modules/Sentry';
 import isTestEnv from 'src/utils/conditionals/isTestEnv';
 
 declare global {

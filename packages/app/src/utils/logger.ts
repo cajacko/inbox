@@ -1,18 +1,21 @@
 /* eslint no-console: 0 */
-import Logger from 'src/lib/modules/Logger';
-
-type levels = 'debug' | 'info' | 'log' | 'warn' | 'error';
+import Logger, { LogLevel } from 'src/lib/modules/Logger';
+import { ISentryMessage } from 'src/lib/modules/Sentry';
+import sentry from 'src/lib/utils/sentry';
+import isDev from 'src/utils/conditionals/isDev';
 
 /**
  * Example logging transport, replace with something that actually goes to the
  * server
  */
 const logToServer = (
-  level: levels,
+  level: LogLevel,
   message: string,
   data: any,
+  tags: ISentryMessage['tags'],
   isFromConsoleWrap: boolean
 ) => {
+  if (!isDev()) return;
   if (isFromConsoleWrap) return;
 
   let color = 'black';
@@ -21,26 +24,18 @@ const logToServer = (
     case 'error':
       color = 'red';
       break;
-    case 'warn':
+    case 'warning':
       color = 'yellow';
       break;
     default:
       break;
   }
 
-  console.log(`%c${message}`, `color: ${color};`);
-  console.log({ level, data });
+  console.debug(`%c${message}`, `color: ${color};`);
+  console.debug({ level, data });
 };
 
-const logLevels = {
-  debug: 'debug',
-  error: 'error',
-  info: 'info',
-  log: 'info',
-  warn: 'warning',
-};
-
-const logger = new Logger(logToServer, logLevels, true);
+const logger = new Logger([logToServer, sentry.getLoggerTransport()], true);
 
 export const loggerInstance = logger;
 

@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { IState } from 'src/lib/types/general';
+import { IState } from 'src/lib/store/reducers';
 import Route from './Route.component';
 
 /**

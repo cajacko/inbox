@@ -1,6 +1,5 @@
 import * as React from 'react';
 import errors from 'src/lib/config/errors.json';
-import { IState as IUserState } from 'src/lib/store/user/reducer';
 
 export type ErrorCode = keyof typeof errors;
 
@@ -33,10 +32,6 @@ export interface IRoute {
   path?: string;
   component: React.ComponentType;
   public?: boolean;
-}
-
-export interface IState {
-  user: IUserState;
 }
 
 export interface IUser {

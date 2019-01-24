@@ -1,9 +1,11 @@
+import cloneDeep from 'lodash/cloneDeep';
 import {
   Action,
   applyMiddleware,
   combineReducers,
   compose,
   createStore,
+  DeepPartial,
   ReducersMapObject,
   Store as IStore,
 } from 'redux';
@@ -14,17 +16,16 @@ import {
 } from 'redux-persist';
 import immutableTransform from 'redux-persist-transform-immutable';
 import thunk from 'redux-thunk';
+import { IJSState, IState } from 'src/lib/store/reducers';
 import isDev from 'src/utils/conditionals/isDev';
 import logger from 'src/utils/logger';
-
-interface IExistingState {
-  [key: string]: any;
-}
 
 const defaultOptions = {
   purgeOnLoad: false,
   shouldLogState: false,
 };
+
+type ExistingState = DeepPartial<IState>;
 
 /**
  * Manage the redux store in 1 location
@@ -42,7 +43,7 @@ class Store {
    */
   constructor(
     reducers: ReducersMapObject = {},
-    existingState?: IExistingState,
+    existingState?: ExistingState,
     {
       shouldLogState,
       purgeOnLoad,
@@ -64,7 +65,7 @@ class Store {
    */
   private setupStore(
     reducers: ReducersMapObject,
-    existingState?: IExistingState
+    existingState?: ExistingState
   ) {
     const middleware = isDev()
       ? applyMiddleware(this.loggerMiddleware, thunk)
@@ -116,10 +117,10 @@ class Store {
    * Get the state as a JS object, converting any immutable structures found
    * on the reducer roots
    */
-  public getJSState() {
+  public getJSState(): IJSState {
     const state = this.getState();
 
-    const newState = {};
+    const newState = cloneDeep(state);
 
     Object.keys(state).forEach((key) => {
       const val = state[key];

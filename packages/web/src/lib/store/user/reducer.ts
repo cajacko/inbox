@@ -8,6 +8,8 @@ export interface IState {
   photoURL: string | null;
 }
 
+export type IJSState = IState;
+
 const initialState: IState = {
   displayName: null,
   id: null,
