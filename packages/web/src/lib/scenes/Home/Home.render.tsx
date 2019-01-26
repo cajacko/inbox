@@ -20,6 +20,8 @@ const Home = ({ displayName }: IProps) => (
       backgroundColor={BACKGROUND_COLORS.WHITE}
     />
     <Button
+      analyticsAction="LOGOUT"
+      analyticsCategory="HOME"
       text={{ _textFromConst: 'Logout' }}
       action={Auth.logout}
       type={getButtonType('CONTAINED.PRIMARY')}

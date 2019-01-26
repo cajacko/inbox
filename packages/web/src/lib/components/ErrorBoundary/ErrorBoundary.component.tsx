@@ -27,6 +27,8 @@ interface IProps {
     action: (state: IState) => () => void;
     text: (state: IState) => Text;
     type?: IType;
+    analyticsAction: string;
+    analyticsCategory: string;
   }>;
 }
 

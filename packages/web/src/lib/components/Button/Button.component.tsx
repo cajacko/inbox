@@ -1,5 +1,13 @@
 import * as React from 'react';
-import Button, { IProps } from './Button.render';
+import analytics from 'src/lib/utils/analytics';
+import Button, { IProps as RenderProps } from './Button.render';
+
+interface IProps extends RenderProps {
+  analyticsAction: string;
+  analyticsCategory: string;
+  analyticsLabel?: string;
+  analyticsValue?: number;
+}
 
 /**
  * Business logic for the button component
@@ -21,6 +29,13 @@ class ButtonComponent extends React.Component<IProps> {
    */
   private action() {
     if (this.props.action) {
+      analytics.trackEvent(
+        this.props.analyticsAction,
+        this.props.analyticsCategory,
+        this.props.analyticsLabel,
+        this.props.analyticsValue
+      );
+
       this.props.action();
     }
   }
@@ -29,7 +44,7 @@ class ButtonComponent extends React.Component<IProps> {
    * Render the component
    */
   public render() {
-    return <Button action={this.action} {...this.props} />;
+    return <Button {...this.props} action={this.action} />;
   }
 }
 

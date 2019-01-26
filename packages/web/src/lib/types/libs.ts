@@ -1,4 +1,4 @@
-import { Action } from 'redux';
+import { Action, Middleware as RMiddleware } from 'redux';
 
 export type Children =
   | JSX.Element[]
@@ -12,4 +12,13 @@ export interface IPayload {
 
 export interface IAction extends Action {
   payload: IPayload;
+  analytics?: {
+    action?: string;
+    category?: string;
+    label?: string;
+    value?: number;
+    doNotSendEvent?: boolean;
+  };
 }
+
+export type Middleware = RMiddleware<{}, any, any>;

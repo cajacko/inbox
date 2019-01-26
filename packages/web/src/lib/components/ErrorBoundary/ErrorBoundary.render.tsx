@@ -27,6 +27,8 @@ interface IProps {
     action: Func;
     text: TextType;
     type?: IType;
+    analyticsAction: string;
+    analyticsCategory: string;
   }>;
   children: Children;
 }
@@ -88,17 +90,19 @@ const ErrorBoundary = ({
 
         {buttons && buttons.length && (
           <Buttons>
-            {buttons.map(({ key, action, text, type }) => (
+            {buttons.map(button => (
               <ButtonContainer
-                key={key}
+                key={button.key}
                 testID="ErrorBoundary__ButtonContainer"
               >
                 <Button
-                  action={action}
-                  text={text}
+                  action={button.action}
+                  text={button.text}
                   testID="ErrorBoundary__Button"
                   textTestID="ErrorBoundary__ButtonText"
-                  type={type || getButtonType('CONTAINED.PRIMARY')}
+                  type={button.type || getButtonType('CONTAINED.PRIMARY')}
+                  analyticsAction={button.analyticsAction}
+                  analyticsCategory={button.analyticsCategory}
                 />
               </ButtonContainer>
             ))}
