@@ -48,6 +48,8 @@ const Login = ({
         <Spacing center>
           {loggingIn ? (
             <Button
+              analyticsAction="CANCEL_LOGIN"
+              analyticsCategory="LOGIN"
               text="Login.Cancel"
               action={cancel}
               testID="Login__Cancel"
@@ -55,6 +57,8 @@ const Login = ({
             />
           ) : (
             <Button
+              analyticsAction="LOGIN"
+              analyticsCategory="LOGIN"
               text="Login.Button"
               action={login}
               testID="Login__Button"

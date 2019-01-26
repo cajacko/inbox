@@ -10,6 +10,8 @@ interface IState {
     key: string;
     action: () => () => void;
     text: () => Text;
+    analyticsAction: string;
+    analyticsCategory: string;
   }>;
 }
 
@@ -40,6 +42,8 @@ class FourOhFour extends React.Component<RouteComponentProps, IState> {
     const buttons = [
       {
         action: () => () => props.history.push('/'),
+        analyticsAction: 'GO HOME',
+        analyticsCategory: '404',
         key: 'goToHome',
         text: () => 'Navigation.GoToHome',
         type: getButtonType('CONTAINED.PRIMARY'),
@@ -56,6 +60,8 @@ class FourOhFour extends React.Component<RouteComponentProps, IState> {
     if (check(props)) {
       buttons.push({
         action: () => () => props.history.goBack(),
+        analyticsAction: 'GO BACK',
+        analyticsCategory: '404',
         key: 'goBack',
         text: () => 'Navigation.GoBack',
         type: getButtonType('CONTAINED.SECONDARY'),

@@ -11,6 +11,8 @@ export interface IJSState {
   user: UserJSState;
 }
 
+export type ReducerKey = keyof IState;
+
 export default {
   user,
 };

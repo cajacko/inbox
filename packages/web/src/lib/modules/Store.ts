@@ -16,7 +16,8 @@ import {
 } from 'redux-persist';
 import immutableTransform from 'redux-persist-transform-immutable';
 import thunk from 'redux-thunk';
-import { IJSState, IState } from 'src/lib/store/reducers';
+import { IJSState, IState, ReducerKey } from 'src/lib/store/reducers';
+import { IAction, Middleware } from 'src/lib/types/libs';
 import isDev from 'src/utils/conditionals/isDev';
 import logger from 'src/utils/logger';
 
@@ -47,7 +48,12 @@ class Store {
     {
       shouldLogState,
       purgeOnLoad,
-    }: { shouldLogState?: boolean; purgeOnLoad?: boolean } = defaultOptions
+      middleware,
+    }: {
+    shouldLogState?: boolean;
+    purgeOnLoad?: boolean;
+    middleware?: Middleware[];
+    } = defaultOptions
   ) {
     this.shouldLogState = !!shouldLogState;
     this.purgeOnLoad = !!purgeOnLoad;
@@ -56,7 +62,11 @@ class Store {
     // puts it's own binding on it
     this.loggerMiddleware = this.loggerMiddleware.bind(this);
 
-    this.onFinishedStoreSetup = this.setupStore(reducers, existingState);
+    this.onFinishedStoreSetup = this.setupStore(
+      reducers,
+      existingState,
+      middleware
+    );
     this.onFinishedPersist = Promise.resolve();
   }
 
@@ -65,17 +75,18 @@ class Store {
    */
   private setupStore(
     reducers: ReducersMapObject,
-    existingState?: ExistingState
+    existingState?: ExistingState,
+    middleware: Middleware[] = []
   ) {
-    const middleware = isDev()
-      ? applyMiddleware(this.loggerMiddleware, thunk)
-      : applyMiddleware(thunk);
+    const allMiddleware = isDev()
+      ? applyMiddleware(this.loggerMiddleware, thunk, ...middleware)
+      : applyMiddleware(thunk, ...middleware);
 
     this.store = createStore(
       combineReducers(reducers),
       existingState,
       compose(
-        middleware,
+        allMiddleware,
         autoRehydrate()
       )
     );
@@ -86,7 +97,7 @@ class Store {
   /**
    * Persist the store, and set the promise for when it finishes
    */
-  public persistStore(Storage: IStorage, blacklist: string[] = []) {
+  public persistStore(Storage: IStorage, blacklist: ReducerKey[] = []) {
     if (!this.store) throw new Error('Store is not setup');
 
     this.onFinishedPersist = new Promise((resolve) => {
@@ -139,7 +150,7 @@ class Store {
    * Log in dev mode
    */
   private loggerMiddleware() {
-    return (next: (action: Action) => void) => (action: Action) => {
+    return (next: (action: IAction) => any) => (action: IAction) => {
       if (this.shouldLogState) logger.debug('REDUX BEFORE', this.getJSState());
 
       logger.debug(`REDUX ACTION: ${action.type}`, action);

@@ -1,6 +1,7 @@
 import AppError from 'src/lib/modules/AppError';
 import { logout, setIsLoggedIn } from 'src/lib/store/user/actions';
 import { IUser } from 'src/lib/types/general';
+import analytics from 'src/lib/utils/analytics';
 import history from 'src/lib/utils/history';
 import store from 'src/lib/utils/store';
 import AuthImplementation from 'src/modules/Auth';
@@ -23,7 +24,13 @@ class Auth {
    * Get the current user
    */
   public static getUser(): Promise<IUser | null> {
-    return AuthImplementation.getUser().catch(() => null);
+    return AuthImplementation.getUser()
+      .then((user) => {
+        analytics.setUserIfNotSet({ userId: user.id });
+
+        return user;
+      })
+      .catch(() => null);
   }
 
   /**
@@ -59,7 +66,9 @@ class Auth {
             });
         }
 
-        store.dispatch(setIsLoggedIn(!!user, user));
+        analytics.setUserIfNotSet({ userId: user.id });
+
+        store.dispatch(setIsLoggedIn(true, user));
 
         history.push(redirectPath || '/');
 
@@ -72,6 +81,8 @@ class Auth {
    */
   public static logout() {
     store.dispatch(logout());
+
+    analytics.unsetUser();
 
     return AuthImplementation.logout();
   }
