@@ -8,6 +8,7 @@ Feature: Splash Screen
     And the driver is ready
     When the app is navigated to "/"
     Then the splash screen "is" visible
+    And the screenshot matches
 
   Scenario: The splash screen hides when content is ready
     Given the driver is ready

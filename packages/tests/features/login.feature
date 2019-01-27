@@ -10,6 +10,20 @@ Feature: Login
     Then the login scene "is" visible
     Then the login title "is" visible
     And the login button "is" visible
+    And the login cancel button "is not" visible
+    And the app version matches the expected version
+    And the screenshot matches
+
+  Scenario: Login loading displays correctly
+    Given we add a hook with id "loggedIn" and type "delay"
+    And the driver is ready
+    When the app is navigated to "/"
+    And the login button is pressed
+    Then the login scene "is" visible
+    Then the login title "is" visible
+    And the login button "is not" visible
+    And the login cancel button "is" visible
+    And the login loading icon "is" visible
     And the app version matches the expected version
     And the screenshot matches
 

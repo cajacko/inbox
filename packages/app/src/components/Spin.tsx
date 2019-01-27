@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Animated, Easing } from 'react-native';
 import spin from 'src/lib/config/spin';
+import isTestEnv from 'src/utils/conditionals/isTestEnv';
 
 interface IProps {
   children: JSX.Element;
@@ -60,6 +61,7 @@ class Spin extends React.Component<IProps, IState> {
    * Loop the animation
    */
   private runAnimation({ pauseAnimation }: IProps) {
+    if (isTestEnv()) return;
     if (pauseAnimation) return;
 
     this.state.rotation.setValue(0);

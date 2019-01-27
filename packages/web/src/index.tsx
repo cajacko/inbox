@@ -31,6 +31,16 @@ try {
    * hooks are set, otherwise render straight away
    */
   if (isTestEnv()) {
+    const spinner = document.getElementById('spinner');
+
+    if (spinner) {
+      const className = spinner.getAttribute('class');
+
+      if (className) {
+        spinner.setAttribute('class', className.replace('is-animating', ''));
+      }
+    }
+
     /**
      * Keep checking if the hooks have been set yet, they should for every test
      */

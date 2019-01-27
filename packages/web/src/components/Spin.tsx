@@ -1,5 +1,6 @@
 import * as React from 'react';
 import spin from 'src/lib/config/spin';
+import isTestEnv from 'src/utils/conditionals/isTestEnv';
 import styled, { keyframes } from 'styled-components';
 
 interface IProps {
@@ -7,13 +8,20 @@ interface IProps {
   size: number;
 }
 
-const rotate = keyframes`
-${spin.reduce(
+/**
+ * Get the spin style
+ */
+const style = () => {
+  if (isTestEnv()) return '';
+
+  return spin.reduce(
     (acc, { percentage, rotation }) =>
       `${acc}\n${percentage * 100}% { transform: rotate(${rotation}deg); }`,
     ''
-  )}
-`;
+  );
+};
+
+const rotate = keyframes`${style()}`;
 
 const Container = styled.div`
   display: flex;
