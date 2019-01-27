@@ -24,6 +24,7 @@
 		140ED2AC1D01E1AD002B40FF /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		1898B83F21F8B07200041039 /* libRNSentry.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1898B83A21F8B06900041039 /* libRNSentry.a */; };
+		1898B84621FE1BBA00041039 /* libSplashScreen.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1898B84521FE1BB100041039 /* libSplashScreen.a */; };
 		18A3121C21F89C8A00F1E401 /* libRNSVG.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 18A3121921F89C6F00F1E401 /* libRNSVG.a */; };
 		18D1A6A521F7B0EC00382F81 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 18D1A67F21F7B0EC00382F81 /* GoogleService-Info.plist */; };
 		18D1A73C21F7B8A400382F81 /* libRNGoogleSignin.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 18D1A73B21F7B88900382F81 /* libRNGoogleSignin.a */; };
@@ -124,6 +125,13 @@
 			proxyType = 2;
 			remoteGlobalIDString = 274692C321B4414400BF91A8;
 			remoteInfo = "RNSentry-tvOS";
+		};
+		1898B84421FE1BB100041039 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1898B84021FE1BB100041039 /* SplashScreen.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 3D7682761D8E76B80014119E;
+			remoteInfo = SplashScreen;
 		};
 		18A3121821F89C6F00F1E401 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -386,6 +394,7 @@
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = cajackoinbox/main.m; sourceTree = "<group>"; };
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
 		1898B80C21F8B06900041039 /* RNSentry.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNSentry.xcodeproj; path = "../node_modules/react-native-sentry/ios/RNSentry.xcodeproj"; sourceTree = "<group>"; };
+		1898B84021FE1BB100041039 /* SplashScreen.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SplashScreen.xcodeproj; path = "../node_modules/react-native-splash-screen/ios/SplashScreen.xcodeproj"; sourceTree = "<group>"; };
 		18A311EC21F89C6F00F1E401 /* RNSVG.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNSVG.xcodeproj; path = "../node_modules/react-native-svg/ios/RNSVG.xcodeproj"; sourceTree = "<group>"; };
 		18A3E63C7C004369865503EA /* RNFirebase.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNFirebase.xcodeproj; path = "../node_modules/react-native-firebase/ios/RNFirebase.xcodeproj"; sourceTree = "<group>"; };
 		18D1A67F21F7B0EC00382F81 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -417,6 +426,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1898B84621FE1BBA00041039 /* libSplashScreen.a in Frameworks */,
 				1898B83F21F8B07200041039 /* libRNSentry.a in Frameworks */,
 				18A3121C21F89C8A00F1E401 /* libRNSVG.a in Frameworks */,
 				18D1A73C21F7B8A400382F81 /* libRNGoogleSignin.a in Frameworks */,
@@ -589,6 +599,14 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		1898B84121FE1BB100041039 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				1898B84521FE1BB100041039 /* libSplashScreen.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		18A311ED21F89C6F00F1E401 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -653,6 +671,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				1898B84021FE1BB100041039 /* SplashScreen.xcodeproj */,
 				1898B80C21F8B06900041039 /* RNSentry.xcodeproj */,
 				18A311EC21F89C6F00F1E401 /* RNSVG.xcodeproj */,
 				18D1A71021F7B88900382F81 /* RNGoogleSignin.xcodeproj */,
@@ -906,6 +925,10 @@
 					ProductGroup = 18A311ED21F89C6F00F1E401 /* Products */;
 					ProjectRef = 18A311EC21F89C6F00F1E401 /* RNSVG.xcodeproj */;
 				},
+				{
+					ProductGroup = 1898B84121FE1BB100041039 /* Products */;
+					ProjectRef = 1898B84021FE1BB100041039 /* SplashScreen.xcodeproj */;
+				},
 			);
 			projectRoot = "";
 			targets = (
@@ -986,6 +1009,13 @@
 			fileType = archive.ar;
 			path = "libRNSentry-tvOS.a";
 			remoteRef = 1898B83B21F8B06900041039 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		1898B84521FE1BB100041039 /* libSplashScreen.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libSplashScreen.a;
+			remoteRef = 1898B84421FE1BB100041039 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		18A3121921F89C6F00F1E401 /* libRNSVG.a */ = {
@@ -1464,6 +1494,7 @@
 				DEAD_CODE_STRIPPING = NO;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
+					"$(SRCROOT)/../node_modules/react-native-splash-screen/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase/**",
 				);
 				INFOPLIST_FILE = cajackoinbox/Info.plist;
@@ -1487,6 +1518,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
+					"$(SRCROOT)/../node_modules/react-native-splash-screen/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase/**",
 				);
 				INFOPLIST_FILE = cajackoinbox/Info.plist;
