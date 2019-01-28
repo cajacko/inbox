@@ -1,4 +1,4 @@
-package com.cajackoinbox;
+package com.charliejackson.inbox;
 
 import android.app.Application;
 
@@ -8,6 +8,8 @@ import io.sentry.RNSentryPackage;
 import com.horcrux.svg.SvgPackage;
 import co.apptailor.googlesignin.RNGoogleSigninPackage;
 import io.invertase.firebase.RNFirebasePackage;
+import io.invertase.firebase.auth.RNFirebaseAuthPackage;
+import io.invertase.firebase.analytics.RNFirebaseAnalyticsPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
@@ -32,7 +34,9 @@ public class MainApplication extends Application implements ReactApplication {
             new RNSentryPackage(),
             new SvgPackage(),
             new RNGoogleSigninPackage(),
-            new RNFirebasePackage()
+            new RNFirebasePackage(),
+            new RNFirebaseAuthPackage(),
+            new RNFirebaseAnalyticsPackage()
       );
     }
 

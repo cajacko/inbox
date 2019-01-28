@@ -41,6 +41,8 @@ errorShots
 /packages/app/**/*.ipa
 /packages/app/**/*.xcuserstate
 /packages/app/**/project.xcworkspace
+/packages/app/ios/sentry.properties
+/packages/app/ios/GoogleService-Info.plist
 
 # Android/IntelliJ
 #
@@ -49,6 +51,9 @@ errorShots
 /packages/app/**/.gradle
 /packages/app/**/local.properties
 /packages/app/**/*.iml
+/packages/app/android/app/google-services.json
+/packages/app/android/gradle.properties
+/packages/app/android/sentry.properties
 
 # BUCK
 /packages/app/**/buck-out/

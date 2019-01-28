@@ -45,12 +45,12 @@ android_library(
 
 android_build_config(
     name = "build_config",
-    package = "com.cajackoinbox",
+    package = "com.charliejackson.inbox",
 )
 
 android_resource(
     name = "res",
-    package = "com.cajackoinbox",
+    package = "com.charliejackson.inbox",
     res = "src/main/res",
 )
 
