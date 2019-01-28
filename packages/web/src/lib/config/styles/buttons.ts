@@ -8,8 +8,10 @@ import {
   COLORS_FOR_BACKGROUND,
   ColorVal,
 } from 'src/lib/config/styles/textIconColors';
+import shadow from 'src/lib/utils/shadow';
 
 interface IStyles {
+  iconSize?: number;
   textColor?: ColorVal;
   backgroundColor?: BackgroundColorVal;
   iconColor?: ColorVal;
@@ -17,12 +19,14 @@ interface IStyles {
   height?: number;
   borderRadius?: number;
   paddingHorizontal?: number;
+  shadow?: string;
   themes?: {
     [key: string]: IStyles;
   };
 }
 
 export interface IType {
+  iconSize?: number;
   textColor: ColorVal;
   backgroundColor?: BackgroundColorVal;
   DEFAULT?: IType;
@@ -31,6 +35,7 @@ export interface IType {
   height: number;
   borderRadius?: number;
   paddingHorizontal?: number;
+  shadow?: string;
 }
 
 export const BUTTON_BORDER_RADIUS = 5;
@@ -44,6 +49,7 @@ const styles: { [key: string]: IStyles } = {
     borderRadius: BUTTON_BORDER_RADIUS,
     height: buttonHeight,
     paddingHorizontal: buttonPaddingHorizontal,
+    shadow: shadow(),
     themes: {
       PRIMARY: {
         backgroundColor: BACKGROUND_COLORS.PRIMARY,
@@ -66,6 +72,7 @@ const styles: { [key: string]: IStyles } = {
   },
   ICON: {
     height: buttonHeight,
+    iconSize: buttonHeight,
     themes: {
       DEFAULT: {
         iconColor: COLORS_FOR_BACKGROUND[BACKGROUND_COLORS.WHITE].default,

@@ -5,7 +5,7 @@ import { IType } from 'src/lib/config/styles/buttons';
 import { Text as TextType } from 'src/lib/types/general';
 import { Children } from 'src/lib/types/libs';
 import {
-  // iconStyles,
+  iconStyles,
   Inner,
   nativeStyles,
   Outer,
@@ -22,9 +22,12 @@ export interface IProps {
   numberOfLines?: number;
   styles?: React.CSSProperties;
   testID?: string;
-  text: TextType;
+  text?: TextType;
   textTestID?: string;
   type: IType;
+  icon?: Component;
+  iconLeft?: boolean;
+  iconRight?: boolean;
 }
 
 type Component = (props: { [key: string]: any }) => JSX.Element;
@@ -46,23 +49,23 @@ const Button = (props: IProps) => {
     testID: props.testID,
   };
 
-  const IconOnly = null;
-  const RightIcon = null;
-  const LeftIcon = null;
+  let IconOnly = null;
+  let RightIcon = null;
+  let LeftIcon = null;
 
-  // if (props.icon) {
-  //   const IconComponent = (
-  //     <Icon icon={props.icon} {...iconStyles(props.type)} />
-  //   );
+  if (props.icon) {
+    const Icon = props.icon;
 
-  //   if (props.iconLeft) {
-  //     LeftIcon = IconComponent;
-  //   } else if (props.iconRight || props.text) {
-  //     RightIcon = IconComponent;
-  //   } else {
-  //     IconOnly = IconComponent;
-  //   }
-  // }
+    const IconComponent = <Icon {...iconStyles(props.type)} />;
+
+    if (props.iconLeft) {
+      LeftIcon = IconComponent;
+    } else if (props.iconRight || props.text) {
+      RightIcon = IconComponent;
+    } else {
+      IconOnly = IconComponent;
+    }
+  }
 
   return props.children || props.noContent ? (
     <ButtonComponent {...buttonProps}>{props.children || null}</ButtonComponent>

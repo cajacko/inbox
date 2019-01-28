@@ -8,6 +8,9 @@
     "Cancel": "Cancel",
     "ContactEmail": "contact@charliejackson.com"
   },
+  "Header": {
+    "Title": "Inbox"
+  },
   "Web": {
     "Title": "Inbox"
   },

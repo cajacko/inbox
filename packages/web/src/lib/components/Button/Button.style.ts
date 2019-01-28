@@ -45,11 +45,12 @@ export const textStyles = (type: IType) => {
  * Get the styles for the icon component
  */
 export const iconStyles = (type: IType) => {
-  const { iconColor, backgroundColor } = getTypeThemeStyles(type);
+  const { iconColor, backgroundColor, iconSize } = getTypeThemeStyles(type);
 
   const styles = {
     _dangerouslySetColor: iconColor,
     backgroundColor,
+    size: iconSize,
   };
 
   return styles;
@@ -80,6 +81,7 @@ const innerStyle = ({ type }: IInnerProps) => {
     borderRadius,
     backgroundColor,
     paddingHorizontal,
+    shadow,
   } = getTypeThemeStyles(type);
 
   return `
@@ -87,6 +89,7 @@ const innerStyle = ({ type }: IInnerProps) => {
     ${paddingHorizontal ? `padding-right: ${unit(paddingHorizontal)}` : ''}
     ${borderRadius ? `border-radius: ${unit(borderRadius)}` : ''};
     ${backgroundColor ? `background-color: ${backgroundColor}` : ''};
+    ${shadow || ''};
   `;
 };
 

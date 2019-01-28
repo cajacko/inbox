@@ -8,6 +8,7 @@ interface ISvg extends React.SVGProps<SVGSVGElement> {
 
 interface IProps {
   d: string;
+  fill?: string;
 }
 
 const getSvgProps = ({

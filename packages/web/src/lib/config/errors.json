@@ -48,5 +48,10 @@
     "label": "Login Returned No User",
     "message": "Errors.LoginNoUser.Message",
     "title": "Errors.LoginNoUser.Title"
+  },
+  "100-011": {
+    "label": "No color for icon",
+    "message": "Errors.DevError.Message",
+    "title": "Errors.DevError.Title"
   }
 }

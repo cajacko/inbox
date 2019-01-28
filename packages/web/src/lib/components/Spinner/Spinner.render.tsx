@@ -18,7 +18,11 @@ interface IProps {
 const Spinner = ({ testID, text, size }: IProps) => (
   <Container>
     <Spin size={size}>
-      <Icon size={size} testID={testID || 'Spinner'} />
+      <Icon
+        size={size}
+        testID={testID || 'Spinner'}
+        backgroundColor={BACKGROUND_COLORS.WHITE}
+      />
     </Spin>
     {text && (
       <TextContainer>
