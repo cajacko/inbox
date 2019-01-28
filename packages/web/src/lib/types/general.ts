@@ -1,5 +1,6 @@
 import * as React from 'react';
 import errors from 'src/lib/config/errors.json';
+import { LogLevel } from 'src/modules/Sentry';
 
 export type ErrorCode = keyof typeof errors;
 
@@ -39,3 +40,47 @@ export interface IUser {
   displayName: string | null;
   photoURL: string | null;
 }
+
+export interface IBreadcrumb {
+  type: string;
+  message: string;
+  data?: any;
+  timestamp: number;
+}
+
+export interface ISentryMessage {
+  level: LogLevel;
+  message: string;
+  timestamp: number;
+  route: string;
+  data?: any;
+  userId?: string;
+  breadcrumbs: IBreadcrumb[];
+  version: string;
+  env: string;
+  tags: {
+    [key: string]: string;
+  };
+}
+
+export type OnLogType = (
+  level: LogLevel,
+  message: string,
+  data?: any,
+  tags?: ISentryMessage['tags'],
+  isFromConsoleWrap?: boolean
+) => void;
+
+type LoggerFunc = (arg0: string, ...params: any) => void;
+
+export interface ILoggerInstance {
+  critical: LoggerFunc;
+  debug: LoggerFunc;
+  error: LoggerFunc;
+  fatal: LoggerFunc;
+  info: LoggerFunc;
+  log: LoggerFunc;
+  warning: LoggerFunc;
+}
+
+export { LogLevel };

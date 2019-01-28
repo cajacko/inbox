@@ -1,5 +1,10 @@
 import AppError from 'src/lib/modules/AppError';
-import { LogLevel, OnLogType } from 'src/lib/modules/Logger';
+import {
+  IBreadcrumb,
+  ISentryMessage,
+  LogLevel,
+  OnLogType,
+} from 'src/lib/types/general';
 import history from 'src/lib/utils/history';
 import store from 'src/lib/utils/store';
 import sentry from 'src/modules/Sentry';
@@ -7,28 +12,6 @@ import isDev from 'src/utils/conditionals/isDev';
 import isTestEnv from 'src/utils/conditionals/isTestEnv';
 import getEnv from 'src/utils/getEnv';
 import { version } from '../../../package.json';
-
-interface IBreadcrumb {
-  type: string;
-  message: string;
-  data?: any;
-  timestamp: number;
-}
-
-export interface ISentryMessage {
-  level: LogLevel;
-  message: string;
-  timestamp: number;
-  route: string;
-  data?: any;
-  userId?: string;
-  breadcrumbs: IBreadcrumb[];
-  version: string;
-  env: string;
-  tags: {
-    [key: string]: string;
-  };
-}
 
 /**
  * Expose the sentry api

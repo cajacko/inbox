@@ -1,5 +1,5 @@
 import { captureEvent, init, Severity } from '@sentry/browser';
-import { ISentryMessage } from 'src/lib/modules/Sentry';
+import { ISentryMessage } from 'src/lib/types/general';
 
 export { Severity as LogLevel };
 

@@ -1,5 +1,5 @@
+import Sentry from 'src/lib/modules/Sentry';
 import history from 'src/lib/utils/history';
-import sentry from 'src/lib/utils/sentry';
 import PlatformAnalytics from 'src/modules/Analytics';
 
 interface IUserProps {
@@ -12,6 +12,7 @@ interface IUserProps {
  */
 class Analytics {
   private isUserSet: boolean = false;
+  private sentry?: Sentry;
 
   /**
    * Initialise the analytics
@@ -20,6 +21,13 @@ class Analytics {
     PlatformAnalytics.init();
 
     this.trackScene(history.location.pathname);
+  }
+
+  /**
+   * Set the sentry instance to use
+   */
+  public setSentry(sentry: Sentry) {
+    this.sentry = sentry;
   }
 
   /**
@@ -59,18 +67,20 @@ class Analytics {
     value?: number,
     nonInteraction?: boolean
   ) {
-    sentry.addBreadcrumb({
-      data: {
-        action,
-        category,
-        label,
-        nonInteraction,
-        value,
-      },
-      message: action,
-      timestamp: new Date().getTime(),
-      type: 'ANALYTICS_EVENT',
-    });
+    if (this.sentry) {
+      this.sentry.addBreadcrumb({
+        data: {
+          action,
+          category,
+          label,
+          nonInteraction,
+          value,
+        },
+        message: action,
+        timestamp: new Date().getTime(),
+        type: 'ANALYTICS_EVENT',
+      });
+    }
 
     return PlatformAnalytics.trackEvent(
       action,
@@ -85,14 +95,16 @@ class Analytics {
    * Track a scene change
    */
   public trackScene(scene: string) {
-    sentry.addBreadcrumb({
-      data: {
-        scene,
-      },
-      message: scene,
-      timestamp: new Date().getTime(),
-      type: 'ANALYTICS_SCENE',
-    });
+    if (this.sentry) {
+      this.sentry.addBreadcrumb({
+        data: {
+          scene,
+        },
+        message: scene,
+        timestamp: new Date().getTime(),
+        type: 'ANALYTICS_SCENE',
+      });
+    }
 
     return PlatformAnalytics.trackScene(scene);
   }

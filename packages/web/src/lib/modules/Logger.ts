@@ -1,7 +1,11 @@
-import { ISentryMessage } from 'src/lib/modules/Sentry';
-import { LogLevel } from 'src/modules/Sentry';
+/* eslint no-console: 0 no-global-assign: 0 */
 
-export { LogLevel };
+import {
+  ILoggerInstance,
+  ISentryMessage,
+  LogLevel,
+  OnLogType,
+} from 'src/lib/types/general';
 
 const mapLogLevelToConsole = {
   [LogLevel.Critical]: 'error',
@@ -12,27 +16,6 @@ const mapLogLevelToConsole = {
   [LogLevel.Log]: 'info',
   [LogLevel.Warning]: 'warn',
 };
-
-/* eslint no-console: 0 no-global-assign: 0 */
-export type OnLogType = (
-  level: LogLevel,
-  message: string,
-  data?: any,
-  tags?: ISentryMessage['tags'],
-  isFromConsoleWrap?: boolean
-) => void;
-
-type LoggerFunc = (arg0: string, ...params: any) => void;
-
-export interface ILoggerInstance {
-  critical: LoggerFunc;
-  debug: LoggerFunc;
-  error: LoggerFunc;
-  fatal: LoggerFunc;
-  info: LoggerFunc;
-  log: LoggerFunc;
-  warning: LoggerFunc;
-}
 
 /**
  * When we are not in development, catch every console statement and send it
