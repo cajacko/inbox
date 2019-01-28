@@ -1,4 +1,5 @@
 import history from 'src/lib/utils/history';
+import sentry from 'src/lib/utils/sentry';
 import PlatformAnalytics from 'src/modules/Analytics';
 
 interface IUserProps {
@@ -58,6 +59,19 @@ class Analytics {
     value?: number,
     nonInteraction?: boolean
   ) {
+    sentry.addBreadcrumb({
+      data: {
+        action,
+        category,
+        label,
+        nonInteraction,
+        value,
+      },
+      message: action,
+      timestamp: new Date().getTime(),
+      type: 'ANALYTICS_EVENT',
+    });
+
     return PlatformAnalytics.trackEvent(
       action,
       category,
@@ -71,6 +85,15 @@ class Analytics {
    * Track a scene change
    */
   public trackScene(scene: string) {
+    sentry.addBreadcrumb({
+      data: {
+        scene,
+      },
+      message: scene,
+      timestamp: new Date().getTime(),
+      type: 'ANALYTICS_SCENE',
+    });
+
     return PlatformAnalytics.trackScene(scene);
   }
 }
