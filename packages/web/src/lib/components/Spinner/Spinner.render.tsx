@@ -1,5 +1,5 @@
 import * as React from 'react';
-import Spin from 'src/components/Spin';
+import Spin from 'src/components/Animations/Spin';
 import Icon from 'src/lib/assets/icons/Spinner';
 import Text from 'src/lib/components/Text';
 import { BACKGROUND_COLORS } from 'src/lib/config/styles/textIconColors';

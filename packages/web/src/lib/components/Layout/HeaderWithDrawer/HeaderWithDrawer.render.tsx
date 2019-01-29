@@ -11,12 +11,17 @@ import {
   ContentWrap,
   DesktopMenu,
   Overlay,
+  OverlayButton,
+  overlayButtonStyle,
   OverlayMenu,
 } from './HeaderWithDrawer.style';
 
 interface IProps {
   children: JSX.Element;
-  showMenu: boolean;
+  renderMenu: boolean;
+  menuIsOpen: boolean;
+  menuLeft: Animated.Value;
+  overlayOpacity: Animated.Value;
   close: () => void;
   open: () => void;
 }
@@ -36,7 +41,13 @@ const onChange = (next: { width: number }, last: { width: number }) =>
  * Display the header, drawer and content
  */
 const HeaderWithDrawer = ({
-  children, close, open, showMenu,
+  children,
+  close,
+  open,
+  renderMenu,
+  menuIsOpen,
+  menuLeft,
+  overlayOpacity,
 }: IProps) => (
   <Measure onChange={onChange}>
     {({ width, measureProps }) => (
@@ -44,36 +55,29 @@ const HeaderWithDrawer = ({
         <Header
           title="Header.Title"
           leftButton={{
-            action: showMenu ? close : open,
+            action: menuIsOpen ? close : open,
             icon: Bars,
           }}
         />
-        {showMenu &&
+        {renderMenu &&
           (isDesktop(width) ? (
-            <DesktopMenu>
+            <DesktopMenu style={{ left: menuLeft }}>
               <Menu close={close} />
             </DesktopMenu>
           ) : (
             <Overlay>
-              <OverlayMenu>
+              <OverlayMenu style={{ left: menuLeft }}>
                 <Menu close={close} />
               </OverlayMenu>
-              <Button
-                noContent
-                action={close}
-                analyticsAction="HIDE_MENU_FROM_BACKGROUND_PRESS"
-                analyticsCategory="MENU"
-                styles={{
-                  backgroundColor: 'black',
-                  bottom: 0,
-                  left: 0,
-                  opacity: 0.5,
-                  position: 'absolute',
-                  right: 0,
-                  top: 0,
-                  zIndex: 1,
-                }}
-              />
+              <OverlayButton style={{ opacity: overlayOpacity }}>
+                <Button
+                  noContent
+                  action={close}
+                  analyticsAction="HIDE_MENU_FROM_BACKGROUND_PRESS"
+                  analyticsCategory="MENU"
+                  styles={overlayButtonStyle}
+                />
+              </OverlayButton>
             </Overlay>
           ))}
         <Content>
