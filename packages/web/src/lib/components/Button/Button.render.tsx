@@ -12,6 +12,8 @@ import {
   textStyles,
 } from './Button.style';
 
+type Component = (props: { [key: string]: any }) => JSX.Element;
+
 export interface IProps {
   action?: () => void;
   baseWidth?: number;
@@ -24,13 +26,11 @@ export interface IProps {
   testID?: string;
   text?: TextType;
   textTestID?: string;
-  type: IType;
+  type?: IType;
   icon?: Component;
   iconLeft?: boolean;
   iconRight?: boolean;
 }
-
-type Component = (props: { [key: string]: any }) => JSX.Element;
 
 /**
  * Standard button component, can take text or icons

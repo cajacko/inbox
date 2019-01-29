@@ -4,11 +4,11 @@ import unit from 'src/utils/unit';
 import styled from 'styled-components';
 
 interface IInnerProps {
-  type: IType;
+  type?: IType;
 }
 
 interface IOuterProps {
-  type: IType;
+  type?: IType;
   fullHeight?: boolean;
   baseWidth?: number;
 }
@@ -16,7 +16,7 @@ interface IOuterProps {
 /**
  * Get the theme styles from the type object
  */
-const getTypeThemeStyles = (type: IType) => {
+const getTypeThemeStyles = (type?: IType) => {
   if (!type) {
     throw new Error('You must pass in a button type from config/styles/buttons');
   }
@@ -29,7 +29,7 @@ const getTypeThemeStyles = (type: IType) => {
 /**
  * Get the styles for the text component
  */
-export const textStyles = (type: IType) => {
+export const textStyles = (type?: IType) => {
   const { textColor, backgroundColor } = getTypeThemeStyles(type);
 
   const styles = {
@@ -44,7 +44,7 @@ export const textStyles = (type: IType) => {
 /**
  * Get the styles for the icon component
  */
-export const iconStyles = (type: IType) => {
+export const iconStyles = (type?: IType) => {
   const { iconColor, backgroundColor, iconSize } = getTypeThemeStyles(type);
 
   const styles = {
