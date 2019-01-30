@@ -36,12 +36,13 @@ export const MenuIcon = styled(View)`
   ${applyMargin({ right: menuPadding })}
 `;
 
-export const Header = styled(View)`
-  background-color: ${HEADER_COLOR};
+export const Header = styled(View)<{ backgroundColor?: string }>`
+  ${({ backgroundColor }) =>
+    (backgroundColor ? `background-color: ${backgroundColor};` : '')}
   flex-direction: column;
   ${applyPadding(menuPadding)}
 `;
 
-export const HeaderSpacing = styled(View)`
-  ${applyMargin({ top: menuPadding })}
+export const HeaderSpacing = styled(View)<{ noSpacing?: boolean }>`
+  ${({ noSpacing }) => applyMargin({ top: noSpacing ? 0 : menuPadding })}
 `;

@@ -1,7 +1,7 @@
 const browserSizes = {
   desktop: {
     height: 940,
-    width: 1200,
+    width: 1400,
   },
   mobile: {
     hasTouch: true,

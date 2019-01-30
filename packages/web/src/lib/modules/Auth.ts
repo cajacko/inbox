@@ -83,7 +83,7 @@ class Auth {
   /**
    * Logout the user
    */
-  public static logout(withAlert: boolean = true) {
+  public static logout(withAlert: boolean = false) {
     /**
      * The actual logout func
      */

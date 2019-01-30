@@ -54,6 +54,21 @@ const general = {
       },
     },
   },
+  Menu: {
+    BackgroundButton: {
+      web: '.Menu__BackgroundButton',
+    },
+    Button: {
+      web: '.Menu__Button',
+    },
+    CloseButton: {
+      web: '.Menu__CloseButton',
+    },
+    LogoutButton: {
+      web: '.Menu__LogoutButton',
+    },
+    web: '.Menu',
+  },
   SplashScreen: {
     web: '.splashScreen',
   },

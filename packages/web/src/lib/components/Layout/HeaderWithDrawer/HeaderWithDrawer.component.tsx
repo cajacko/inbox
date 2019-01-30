@@ -12,6 +12,7 @@ interface IProps {
 interface IState {
   menuIsOpen: boolean;
   renderMenu: boolean;
+  showTestID: boolean;
 }
 
 /**
@@ -27,6 +28,7 @@ class HeaderWithDrawerC extends React.Component<IProps, IState> {
     this.state = {
       menuIsOpen: false,
       renderMenu: false,
+      showTestID: false,
     };
 
     this.animation = new Animated.Value(0);
@@ -41,26 +43,34 @@ class HeaderWithDrawerC extends React.Component<IProps, IState> {
    * Close the menu
    */
   private close() {
-    this.setState({ menuIsOpen: false, renderMenu: true }, () => {
-      Animated.timing(this.animation, {
-        duration: ANIMATION_DURATION,
-        toValue: 0,
-      }).start(() => {
-        this.setState({ renderMenu: false });
-      });
-    });
+    this.setState(
+      { menuIsOpen: false, renderMenu: true, showTestID: true },
+      () => {
+        Animated.timing(this.animation, {
+          duration: ANIMATION_DURATION,
+          toValue: 0,
+        }).start(() => {
+          this.setState({ renderMenu: false, showTestID: false });
+        });
+      }
+    );
   }
 
   /**
    * Open the menu
    */
   private open() {
-    this.setState({ menuIsOpen: true, renderMenu: true }, () => {
-      Animated.timing(this.animation, {
-        duration: ANIMATION_DURATION,
-        toValue: 1,
-      }).start();
-    });
+    this.setState(
+      { menuIsOpen: true, renderMenu: true, showTestID: false },
+      () => {
+        Animated.timing(this.animation, {
+          duration: ANIMATION_DURATION,
+          toValue: 1,
+        }).start(() => {
+          this.setState({ showTestID: true });
+        });
+      }
+    );
   }
 
   /**
@@ -72,11 +82,18 @@ class HeaderWithDrawerC extends React.Component<IProps, IState> {
       outputRange: [unit(-MENU_WIDTH), unit(0)],
     });
 
+    const buttonLeft = this.animation.interpolate({
+      inputRange: [0, 1],
+      outputRange: [unit(0), unit(MENU_WIDTH)],
+    });
+
     return (
       <HeaderWithDrawer
+        showTestID={this.state.showTestID}
         renderMenu={this.state.renderMenu}
         menuIsOpen={this.state.menuIsOpen}
         menuLeft={menuLeft}
+        buttonLeft={buttonLeft}
         overlayOpacity={this.animation}
         close={this.close}
         open={this.open}

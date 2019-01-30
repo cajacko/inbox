@@ -19,6 +19,7 @@ interface IProps {
   leftButton?: {
     action: () => void;
     icon: Component;
+    testID?: string;
   };
 }
 
@@ -38,6 +39,7 @@ const Header = ({ leftButton, title }: IProps) => {
           action={leftButton.action}
           analyticsAction="SHOW_MENU"
           analyticsCategory="HEADER"
+          testID={leftButton.testID}
         >
           {({ isHovering }) => (
             <Center>

@@ -28,7 +28,11 @@ export interface IContainerStateProps {
   name: string | null;
 }
 
-interface IProps extends IContainerStateProps, IMenuItemProps {}
+interface IProps extends IContainerStateProps, IMenuItemProps {
+  showTestID?: boolean;
+  isDesktop: boolean;
+  backgroundColor: ColorVal;
+}
 
 type Component = (props: { [key: string]: any }) => JSX.Element;
 
@@ -41,6 +45,7 @@ interface IMenuItems {
   selected?: boolean;
   text: TextType;
   iconColor: ColorVal;
+  testID?: string;
 }
 
 /**
@@ -55,16 +60,18 @@ const getMenuItems = ({ close }: IMenuItemProps): IMenuItems[] => [
     iconColor: TEXT_COLOR,
     key: 'close',
     selected: false,
+    testID: 'Menu__CloseButton',
     text: 'Menu.HideMenu',
   },
   {
     Icon: SignOut,
-    action: Auth.logout,
+    action: () => Auth.logout(true),
     analyticsAction: 'LOGOUT',
     analyticsCategory: 'MENU',
     iconColor: TEXT_COLOR,
     key: 'logout',
     selected: false,
+    testID: 'Menu__LogoutButton',
     text: 'Menu.Logout',
   },
 ];
@@ -72,50 +79,68 @@ const getMenuItems = ({ close }: IMenuItemProps): IMenuItems[] => [
 /**
  * Display the header, drawer and content
  */
-const Menu = ({ name, ...props }: IProps) => (
-  <Container>
-    <Header>
-      <Text type="h4" text="General.Title" backgroundColor={HEADER_COLOR} />
-      {name && (
-        <React.Fragment>
-          <HeaderSpacing>
+const Menu = ({
+  name,
+  isDesktop,
+  showTestID,
+  backgroundColor,
+  ...props
+}: IProps) => {
+  const headerBackgroundColor = isDesktop ? undefined : HEADER_COLOR;
+  const textBackgroundColor = headerBackgroundColor || backgroundColor;
+
+  return (
+    <Container testID={showTestID ? 'Menu' : ''}>
+      {(!isDesktop || name) && (
+        <Header backgroundColor={headerBackgroundColor}>
+          {!isDesktop && (
             <Text
-              type="subtitle1"
-              text="Menu.Welcome"
-              backgroundColor={HEADER_COLOR}
+              type="h4"
+              text="General.Title"
+              backgroundColor={textBackgroundColor}
             />
-          </HeaderSpacing>
-          <HeaderSpacing>
-            <Text
-              type="subtitle2"
-              text={{ _textFromConst: name }}
-              backgroundColor={HEADER_COLOR}
-            />
-          </HeaderSpacing>
-        </React.Fragment>
+          )}
+          {name && (
+            <React.Fragment>
+              <HeaderSpacing noSpacing={isDesktop}>
+                <Text
+                  type="subtitle1"
+                  text="Menu.Welcome"
+                  backgroundColor={textBackgroundColor}
+                />
+              </HeaderSpacing>
+              <HeaderSpacing>
+                <Text
+                  type="subtitle2"
+                  text={{ _textFromConst: name }}
+                  backgroundColor={textBackgroundColor}
+                />
+              </HeaderSpacing>
+            </React.Fragment>
+          )}
+        </Header>
       )}
-    </Header>
-    {getMenuItems(props).map(({
+      {getMenuItems(props).filter(({ key }) => !isDesktop || key !== 'close').map(({
  key, text, Icon, iconColor, selected, ...menuItems
 }) => (
-        <MenuItem key={key}>
-          <Button {...menuItems}>
-            {({ isHovering }) => (
-              <MenuItemInner selected={isHovering || selected}>
-                <MenuIcon>
-                  <Icon size={20} _dangerouslySetColor={iconColor} />
-                </MenuIcon>
-                <Text
-                  text={text}
-                  _dangerouslySetColor={selected ? iconColor : TEXT_COLOR}
-                />
-              </MenuItemInner>
-            )}
-          </Button>
-
-        </MenuItem>
-      ))}
-  </Container>
-);
+          <MenuItem key={key}>
+            <Button {...menuItems}>
+              {({ isHovering }) => (
+                <MenuItemInner selected={isHovering || selected}>
+                  <MenuIcon>
+                    <Icon size={20} _dangerouslySetColor={iconColor} />
+                  </MenuIcon>
+                  <Text
+                    text={text}
+                    _dangerouslySetColor={selected ? iconColor : TEXT_COLOR}
+                  />
+                </MenuItemInner>
+              )}
+            </Button>
+          </MenuItem>
+        ))}
+    </Container>
+  );
+};
 
 export default Menu;

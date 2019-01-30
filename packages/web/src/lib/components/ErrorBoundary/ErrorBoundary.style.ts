@@ -2,6 +2,7 @@ import { View } from 'src/components';
 import { BACKGROUND_COLORS } from 'src/lib/config/styles/textIconColors';
 import applyMargin from 'src/lib/utils/applyMargin';
 import applyPadding from 'src/lib/utils/applyPadding';
+import unit from 'src/utils/unit';
 import styled from 'styled-components';
 
 const STANDARD_SPACING = 10;
@@ -20,6 +21,7 @@ export const Container = styled(View)`
 export const Inner = styled(View)`
   align-items: center;
   flex-direction: column;
+  max-width: ${unit(600)};
 `;
 
 export const Buttons = styled(View)``;
