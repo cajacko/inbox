@@ -1,5 +1,11 @@
 import { View } from 'src/components';
-import { GREY_DARK, GREY_LIGHTER, SECONDARY_DARK } from 'src/lib/config/styles/colors';
+import {
+  GREY_DARK,
+  GREY_LIGHTER,
+  SECONDARY_DARK,
+} from 'src/lib/config/styles/colors';
+import applyMargin from 'src/lib/utils/applyMargin';
+import applyPadding from 'src/lib/utils/applyPadding';
 import unit from 'src/utils/unit';
 import styled from 'styled-components';
 
@@ -17,21 +23,22 @@ export const Container = styled(View)`
 export const MenuItem = styled(View)``;
 
 export const MenuItemInner = styled(View)<{ selected?: boolean }>`
-  padding: ${unit(menuPadding)};
-  ${({ selected }) => (selected ? `background-color: ${GREY_LIGHTER};` : '')}
+  ${applyPadding(menuPadding)}
+  ${({ selected }) =>
+    (selected ? `background-color: ${GREY_LIGHTER};` : '')}
   flex: 1;
 `;
 
 export const MenuIcon = styled(View)`
-  margin-right: ${unit(menuPadding)};
+  ${applyMargin({ right: menuPadding })}
 `;
 
 export const Header = styled(View)`
   background-color: ${HEADER_COLOR};
   flex-direction: column;
-  padding: ${unit(menuPadding)};
+  ${applyPadding(menuPadding)}
 `;
 
 export const HeaderSpacing = styled(View)`
-  margin-top: ${unit(menuPadding)};
+  ${applyMargin({ top: menuPadding })}
 `;

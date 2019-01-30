@@ -1,5 +1,6 @@
 import { View } from 'src/components';
 import { IType } from 'src/lib/config/styles/buttons';
+import applyPadding from 'src/lib/utils/applyPadding';
 import unit from 'src/utils/unit';
 import styled from 'styled-components';
 
@@ -85,8 +86,7 @@ const innerStyle = ({ type }: IInnerProps) => {
   } = getTypeThemeStyles(type);
 
   return `
-    ${paddingHorizontal ? `padding-left: ${unit(paddingHorizontal)}` : ''}
-    ${paddingHorizontal ? `padding-right: ${unit(paddingHorizontal)}` : ''}
+    ${applyPadding({ horizontal: paddingHorizontal })}
     ${borderRadius ? `border-radius: ${unit(borderRadius)}` : ''};
     ${backgroundColor ? `background-color: ${backgroundColor}` : ''};
     ${shadow || ''};

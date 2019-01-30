@@ -1,6 +1,7 @@
 import { View } from 'src/components';
 import { BACKGROUND_COLORS } from 'src/lib/config/styles/textIconColors';
-import unit from 'src/utils/unit';
+import applyMargin from 'src/lib/utils/applyMargin';
+import applyPadding from 'src/lib/utils/applyPadding';
 import styled from 'styled-components';
 
 const STANDARD_SPACING = 10;
@@ -12,10 +13,7 @@ export const Container = styled(View)`
   flex: 1;
   align-items: center;
   justify-content: center;
-  padding-top: ${unit(STANDARD_SPACING)};
-  padding-bottom: ${unit(STANDARD_SPACING)};
-  padding-left: ${unit(STANDARD_SPACING)};
-  padding-right: ${unit(STANDARD_SPACING)};
+  ${applyPadding(STANDARD_SPACING)}
   flex-direction: column;
 `;
 
@@ -30,6 +28,6 @@ export const Button = styled(View)``;
 
 export const BottomMargin = styled(View)<{ hasMargin: boolean }>`
   flex-direction: column;
-  margin-bottom: ${({ hasMargin }) =>
-    unit(hasMargin ? STANDARD_SPACING * 2 : 0)};
+  ${({ hasMargin }) =>
+    applyMargin({ bottom: hasMargin ? STANDARD_SPACING * 2 : 0 })}
 `;
