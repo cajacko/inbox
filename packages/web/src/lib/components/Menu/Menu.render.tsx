@@ -53,7 +53,7 @@ const getMenuItems = ({ close }: IMenuItemProps): IMenuItems[] => [
     iconColor: TEXT_COLOR,
     key: 'close',
     selected: false,
-    text: "Menu.HideMenu",
+    text: 'Menu.HideMenu',
   },
   {
     Icon: SignOut,
@@ -63,7 +63,7 @@ const getMenuItems = ({ close }: IMenuItemProps): IMenuItems[] => [
     iconColor: TEXT_COLOR,
     key: 'logout',
     selected: false,
-    text: "Menu.Logout",
+    text: 'Menu.Logout',
   },
 ];
 
@@ -73,11 +73,7 @@ const getMenuItems = ({ close }: IMenuItemProps): IMenuItems[] => [
 const Menu = ({ name, ...props }: IProps) => (
   <Container>
     <Header>
-      <Text
-        type="h4"
-        text="General.Title"
-        backgroundColor={HEADER_COLOR}
-      />
+      <Text type="h4" text="General.Title" backgroundColor={HEADER_COLOR} />
       {name && (
         <React.Fragment>
           <HeaderSpacing>
@@ -106,7 +102,10 @@ const Menu = ({ name, ...props }: IProps) => (
               <MenuIcon>
                 <Icon size={20} _dangerouslySetColor={iconColor} />
               </MenuIcon>
-              <Text text={text} _dangerouslySetColor={selected ? iconColor : TEXT_COLOR} />
+              <Text
+                text={text}
+                _dangerouslySetColor={selected ? iconColor : TEXT_COLOR}
+              />
             </MenuItemInner>
           </Button>
         </MenuItem>

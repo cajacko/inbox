@@ -20,13 +20,15 @@ export const Container = styled(View)`
   width: ${unit(MENU_WIDTH)};
 `;
 
-export const MenuItem = styled(View)``;
+export const MenuItem = styled(View)`
+  flex-direction: row;
+`;
 
 export const MenuItemInner = styled(View)<{ selected?: boolean }>`
   ${applyPadding(menuPadding)}
   ${({ selected }) =>
     (selected ? `background-color: ${GREY_LIGHTER};` : '')}
-  flex: 1;
+  flex-direction: row;
 `;
 
 export const MenuIcon = styled(View)`

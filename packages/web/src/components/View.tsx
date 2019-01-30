@@ -11,6 +11,7 @@ interface IProps {
 
 const Container = styled.div`
   display: flex;
+  flex-direction: column;
 `;
 
 type Ref = React.RefObject<HTMLDivElement>;
