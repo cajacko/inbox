@@ -9,7 +9,9 @@ class Analytics {
   /**
    * Initialise the analytics
    */
-  public static init() {}
+  public static init() {
+    // No need to do anything here on native
+  }
 
   /**
    * Unset the user, normally because they logged out

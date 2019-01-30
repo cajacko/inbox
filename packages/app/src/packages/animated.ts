@@ -1,5 +1,7 @@
 import { Animated } from 'react-native';
 
-export const View = Animated.View;
+const { View } = Animated;
+
+export { View };
 
 export default Animated;

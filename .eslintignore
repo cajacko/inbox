@@ -3,3 +3,6 @@ packages/web/scripts
 packages/web/config
 build
 dist
+packages/tslint/**/*.js
+packages/app/ios
+packages/app/android

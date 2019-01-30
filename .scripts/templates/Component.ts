@@ -1,4 +1,5 @@
 /* eslint max-len: 0 no-underscore-dangle: 0 */
+/* eslint react/jsx-tag-spacing: 0 */
 import * as React from 'react';
 // tslint:disable-next-line
 import { Svg<%= imports %> } from 'src/components/Svg';

@@ -12,7 +12,9 @@ const menuMargin = 20;
 export const ANIMATION_DURATION = 300;
 
 export const MAX_CONTENT_WIDTH = 600;
-export const BREAKPOINT = MAX_CONTENT_WIDTH + (MENU_WIDTH + menuMargin) * 2;
+const menuWidthWithSpacing = MENU_WIDTH + menuMargin;
+const balancedMenuWidth = menuWidthWithSpacing * 2;
+export const BREAKPOINT = MAX_CONTENT_WIDTH + balancedMenuWidth;
 
 export const Container = styled(View)`
   flex: 1;

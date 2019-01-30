@@ -28,9 +28,6 @@ const general = {
     },
   },
   Login: {
-    Title: {
-      web: '.Login__Title',
-    },
     Button: {
       web: '.Login__Button',
     },
@@ -47,6 +44,9 @@ const general = {
     },
     Loading: {
       web: '.Login__Loading',
+    },
+    Title: {
+      web: '.Login__Title',
     },
     Version: {
       Text: {

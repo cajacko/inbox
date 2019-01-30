@@ -1,3 +1,4 @@
+/* eslint max-lines: 0 */
 import get from 'lodash/get';
 import set from 'lodash/set';
 import { STANDARD_SPACING } from 'src/lib/config/styles/spacing';

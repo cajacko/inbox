@@ -8,7 +8,8 @@ import styled from 'styled-components';
 export const BACKGROUND_COLOR = BACKGROUND_COLORS.PRIMARY_DARK;
 export const ICON_SIZE = 24;
 const HEADER_SPACING = Math.floor((ICON_SIZE / 3) * 2);
-export const HEADER_HEIGHT = HEADER_SPACING * 2 + ICON_SIZE;
+const totalHeaderSpacing = HEADER_SPACING * 2;
+export const HEADER_HEIGHT = totalHeaderSpacing + ICON_SIZE;
 
 export const Container = styled(View)`
   background-color: ${BACKGROUND_COLOR};

@@ -1,17 +1,17 @@
 const browserSizes = {
+  desktop: {
+    height: 940,
+    width: 1200,
+  },
   mobile: {
-    width: 375,
+    hasTouch: true,
     height: 812,
     isMobile: true,
-    hasTouch: true,
+    width: 375,
   },
   tablet: {
-    width: 768,
     height: 1024,
-  },
-  desktop: {
-    width: 1200,
-    height: 940,
+    width: 768,
   },
 };
 

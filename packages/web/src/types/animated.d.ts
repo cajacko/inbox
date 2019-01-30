@@ -1,11 +1,11 @@
-interface Constructable<T> {
+interface IConstructable<T> {
   new (val: number): T;
 
   interpolate: (opts: { inputRange: number[]; outputRange: string[] }) => T;
 }
 
 declare namespace Animated {
-  export type Value = Constructable<any>;
+  export type Value = IConstructable<any>;
 
   export type div = React.ReactType<any>;
   export type timing = (

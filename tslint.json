@@ -12,17 +12,11 @@
     "exclude": [
       "*.json",
       "**/*.json",
-      "packages/app/node_modules/**/*.ts",
-      "packages/functions/node_modules/**/*.ts",
-      "packages/web/node_modules/**/*.ts",
-      "packages/app/node_modules/**/*.tsx",
-      "packages/functions/node_modules/**/*.tsx",
-      "packages/web/node_modules/**/*.tsx",
+      "**/*.d.ts",
+      "**/node_modules/**/*",
       "dist/**/*",
       "build/**/*",
       "config/**/*.js",
-      "node_modules/**/*.ts",
-      "node_modules/**/*.tsx",
       "coverage/lcov-report/*.js"
     ]
   }
