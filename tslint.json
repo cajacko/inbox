@@ -4,8 +4,10 @@
     "no-console": false,
     "member-ordering": false,
     "curly": false,
-    "jsx-boolean-value": false
+    "jsx-boolean-value": false,
+    "redux-container-types": true
   },
+  "rulesDirectory": "packages/tslint",
   "linterOptions": {
     "exclude": [
       "*.json",

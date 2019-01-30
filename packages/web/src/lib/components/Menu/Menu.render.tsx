@@ -24,9 +24,11 @@ interface IMenuItemProps {
   close: () => void;
 }
 
-interface IProps extends IMenuItemProps {
+export interface IContainerStateProps {
   name: string | null;
 }
+
+interface IProps extends IContainerStateProps, IMenuItemProps {}
 
 type Component = (props: { [key: string]: any }) => JSX.Element;
 
