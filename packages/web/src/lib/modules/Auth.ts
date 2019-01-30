@@ -1,5 +1,9 @@
+import Alert from 'src/lib/modules/Alert';
 import AppError from 'src/lib/modules/AppError';
-import { logout, setIsLoggedIn } from 'src/lib/store/user/actions';
+import {
+  logout as logoutAction,
+  setIsLoggedIn,
+} from 'src/lib/store/user/actions';
 import { IUser } from 'src/lib/types/general';
 import analytics from 'src/lib/utils/analytics';
 import history from 'src/lib/utils/history';
@@ -79,12 +83,25 @@ class Auth {
   /**
    * Logout the user
    */
-  public static logout() {
-    store.dispatch(logout());
+  public static logout(withAlert: boolean = false) {
+    /**
+     * The actual logout func
+     */
+    const logout = () => {
+      store.dispatch(logoutAction());
 
-    analytics.unsetUser();
+      analytics.unsetUser();
 
-    return AuthImplementation.logout();
+      return AuthImplementation.logout();
+    };
+
+    if (!withAlert) return logout();
+
+    return Alert.confirm('Logout.Confirm').then((confirmed) => {
+      if (confirmed) return logout().then(() => true);
+
+      return Promise.resolve(false);
+    });
   }
 
   /**

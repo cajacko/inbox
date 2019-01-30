@@ -4,13 +4,14 @@ import mergeClasses from 'src/utils/mergeClasses';
 import styled from 'styled-components';
 
 interface IProps {
-  children: Children;
+  children?: Children;
   className?: string;
   testID?: string;
 }
 
 const Container = styled.div`
   display: flex;
+  flex-direction: column;
 `;
 
 type Ref = React.RefObject<HTMLDivElement>;
@@ -20,7 +21,7 @@ type Ref = React.RefObject<HTMLDivElement>;
  */
 const View = React.forwardRef((props: IProps, ref: Ref) => (
   <Container className={mergeClasses(props.className, props.testID)} ref={ref}>
-    {props.children}
+    {props.children || null}
   </Container>
 ));
 

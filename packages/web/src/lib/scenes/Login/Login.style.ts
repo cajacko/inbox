@@ -1,14 +1,14 @@
 import { View } from 'src/components';
-import unit from 'src/utils/unit';
+import applyMargin from 'src/lib/utils/applyMargin';
 import styled from 'styled-components';
 
 export const Spacing = styled(View)<{ center?: boolean }>`
   flex-direction: column;
-  margin-bottom: ${unit(25)};
+  ${applyMargin({ bottom: 25 })}
   ${({ center }) => (center ? 'align-items: center' : '')}
 `;
 
 export const Version = styled(View)`
   flex-direction: column;
-  margin-top: ${unit(40)};
+  ${applyMargin({ top: 40 })}
 `;

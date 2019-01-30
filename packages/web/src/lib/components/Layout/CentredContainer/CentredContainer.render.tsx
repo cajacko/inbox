@@ -37,9 +37,7 @@ const CentredContainer = ({ children, testID }: IProps) => (
     {({ width, measureProps }) => (
       <Container {...measureProps} testID={testID} bound={shouldBound(width)}>
         <Box bound={shouldBound(width)}>
-          {typeof children === 'function'
-            ? children({ backgroundColor: BACKGROUND_COLOR })
-            : children}
+          {children({ backgroundColor: BACKGROUND_COLOR })}
         </Box>
       </Container>
     )}

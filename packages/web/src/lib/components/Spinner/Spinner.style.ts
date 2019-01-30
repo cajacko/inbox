@@ -1,5 +1,5 @@
 import { View } from 'src/components';
-import unit from 'src/utils/unit';
+import applyMargin from 'src/lib/utils/applyMargin';
 import styled from 'styled-components';
 
 export const Container = styled(View)`
@@ -9,5 +9,5 @@ export const Container = styled(View)`
 `;
 
 export const TextContainer = styled(View)`
-  margin-top: ${unit(20)};
+  ${applyMargin({ top: 20 })}
 `;

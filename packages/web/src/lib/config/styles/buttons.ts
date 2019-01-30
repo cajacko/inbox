@@ -1,3 +1,4 @@
+/* eslint max-lines: 0 */
 import get from 'lodash/get';
 import set from 'lodash/set';
 import { STANDARD_SPACING } from 'src/lib/config/styles/spacing';
@@ -8,8 +9,10 @@ import {
   COLORS_FOR_BACKGROUND,
   ColorVal,
 } from 'src/lib/config/styles/textIconColors';
+import shadow from 'src/lib/utils/shadow';
 
 interface IStyles {
+  iconSize?: number;
   textColor?: ColorVal;
   backgroundColor?: BackgroundColorVal;
   iconColor?: ColorVal;
@@ -17,12 +20,15 @@ interface IStyles {
   height?: number;
   borderRadius?: number;
   paddingHorizontal?: number;
+  shadow?: string;
+  hover?: IStyles;
   themes?: {
     [key: string]: IStyles;
   };
 }
 
 export interface IType {
+  iconSize?: number;
   textColor: ColorVal;
   backgroundColor?: BackgroundColorVal;
   DEFAULT?: IType;
@@ -31,6 +37,8 @@ export interface IType {
   height: number;
   borderRadius?: number;
   paddingHorizontal?: number;
+  shadow?: string;
+  hover?: IType;
 }
 
 export const BUTTON_BORDER_RADIUS = 5;
@@ -44,12 +52,19 @@ const styles: { [key: string]: IStyles } = {
     borderRadius: BUTTON_BORDER_RADIUS,
     height: buttonHeight,
     paddingHorizontal: buttonPaddingHorizontal,
+    shadow: shadow(),
     themes: {
       PRIMARY: {
         backgroundColor: BACKGROUND_COLORS.PRIMARY,
+        hover: {
+          backgroundColor: BACKGROUND_COLORS.PRIMARY_DARK,
+        },
       },
       SECONDARY: {
         backgroundColor: BACKGROUND_COLORS.SECONDARY,
+        hover: {
+          backgroundColor: BACKGROUND_COLORS.SECONDARY_DARK,
+        },
       },
     },
     width: buttonWidth,
@@ -66,8 +81,12 @@ const styles: { [key: string]: IStyles } = {
   },
   ICON: {
     height: buttonHeight,
+    iconSize: buttonHeight,
     themes: {
       DEFAULT: {
+        hover: {
+          iconColor: COLORS_FOR_BACKGROUND[BACKGROUND_COLORS.PRIMARY].default,
+        },
         iconColor: COLORS_FOR_BACKGROUND[BACKGROUND_COLORS.WHITE].default,
       },
       GREYED_OUT: {

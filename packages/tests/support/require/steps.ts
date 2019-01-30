@@ -1,8 +1,10 @@
 import { Given, Then, When } from 'cucumber';
+import alert from '../pageObjects/Alert';
 import app from '../pageObjects/App';
 import errorComponent from '../pageObjects/ErrorComponent';
 import home from '../pageObjects/Home';
 import login from '../pageObjects/Login';
+import menu from '../pageObjects/Menu';
 import splashScreen from '../pageObjects/SplashScreen';
 import driver from '../utils/driver';
 import ensureCondition, { ICondition } from '../utils/ensureCondition';
@@ -86,3 +88,21 @@ Then('the login cancel button {string} visible', conditional =>
 
 Then('the login loading icon {string} visible', conditional =>
   login.loadingVisible(conditional));
+
+When('the menu button is pressed', () => menu.pressButton());
+
+Then('the menu {string} visible', conditional => menu.visible(conditional));
+
+When('the menu close button is pressed', () => menu.pressCloseButton());
+
+When('the logout button is pressed', () => menu.pressLogoutButton());
+
+When('the menu background button is pressed', () =>
+  menu.pressBackgroundButton());
+
+Then('an alert {string} visible', conditional => alert.visible(conditional));
+
+Then('the alert says {string}', text => alert.textIs(text));
+
+When('the alert {string} button is pressed', button =>
+  alert.pressButton(getIndex(button)));

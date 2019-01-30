@@ -28,9 +28,6 @@ const general = {
     },
   },
   Login: {
-    Title: {
-      web: '.Login__Title',
-    },
     Button: {
       web: '.Login__Button',
     },
@@ -48,11 +45,29 @@ const general = {
     Loading: {
       web: '.Login__Loading',
     },
+    Title: {
+      web: '.Login__Title',
+    },
     Version: {
       Text: {
         web: '.Login__VersionText',
       },
     },
+  },
+  Menu: {
+    BackgroundButton: {
+      web: '.Menu__BackgroundButton',
+    },
+    Button: {
+      web: '.Menu__Button',
+    },
+    CloseButton: {
+      web: '.Menu__CloseButton',
+    },
+    LogoutButton: {
+      web: '.Menu__LogoutButton',
+    },
+    web: '.Menu',
   },
   SplashScreen: {
     web: '.splashScreen',

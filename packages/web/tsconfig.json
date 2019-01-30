@@ -2,7 +2,8 @@
   "extends": "../../tsconfig.json",
   "files": [
     "src/index.tsx",
-    "src/lib/types/redux-persist-transform-immutable.d.ts"
+    "src/lib/types/redux-persist-transform-immutable.d.ts",
+    "src/types/animated.d.ts"
   ],
   "compilerOptions": {
     "baseUrl": ".",
