@@ -1,17 +1,8 @@
 {
-  "Temp": {
-    "Title": "Inbox",
-    "Message": "Welcome peasants!"
-  },
   "General": {
     "Set": "Set",
     "Cancel": "Cancel",
-    "ContactEmail": "contact@charliejackson.com"
-  },
-  "Header": {
-    "Title": "Inbox"
-  },
-  "Web": {
+    "ContactEmail": "contact@charliejackson.com",
     "Title": "Inbox"
   },
   "Navigation": {
@@ -20,11 +11,15 @@
   },
   "Login": {
     "Loading": "Logging In",
-    "Title": "Inbox",
     "Cancel": "Cancel",
     "Button": "Login",
     "Description": "Welcome to Inbox, to use our app you must login with your Google Account",
     "GoogleError": "Failed to login with Google, maybe your email or password was incorrect"
+  },
+  "Menu": {
+    "Welcome": "Welcome",
+    "HideMenu": "Hide Menu",
+    "Logout": "Logout"
   },
   "ErrorBoundary": {
     "ErrorCode": "Error Code"

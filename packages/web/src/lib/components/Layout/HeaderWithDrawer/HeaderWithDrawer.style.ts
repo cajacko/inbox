@@ -35,6 +35,7 @@ export const OverlayMenu = styled(AnimatedView)`
   z-index: 4;
   background-color: ${WHITE};
   ${shadow()}
+  display: flex;
 `;
 
 export const OverlayButton = styled(AnimatedView)`
@@ -70,4 +71,5 @@ export const DesktopMenu = styled(AnimatedView)`
   top: ${unit(HEADER_HEIGHT)};
   bottom: 0;
   left: 0;
+  display: flex;
 `;

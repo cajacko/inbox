@@ -1,1 +1,1 @@
-export { default } from './Menu.render';
+export { default } from './Menu.container';

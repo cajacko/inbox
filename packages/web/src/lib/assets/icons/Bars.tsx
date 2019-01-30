@@ -2,18 +2,21 @@
 import * as React from 'react';
 // tslint:disable-next-line
 import { Svg, Path } from 'src/components/Svg';
-import * as colors from 'src/lib/config/styles/colors';
-import { BackgroundColorVal, COLORS_FOR_BACKGROUND } from 'src/lib/config/styles/textIconColors';
-import AppError from 'src/lib/modules/AppError';
+import {
+  BackgroundColorVal,
+  ColorVal,
+} from 'src/lib/config/styles/textIconColors';
 import getSvgProps from 'src/lib/utils/getSvgProps';
-
-export type ColorKey = keyof typeof colors;
-export type ColorVal = typeof colors[ColorKey];
+import textIconColor from 'src/lib/utils/textIconColor';
 
 interface IProps {
   size: number;
   testID?: string;
-  backgroundColor: BackgroundColorVal | { _dangerouslySetColor: ColorVal };
+  backgroundColor?: BackgroundColorVal;
+  _dangerouslySetColor?: ColorVal;
+  highlight?: boolean;
+  greyedOut?: boolean;
+  error?: boolean;
 }
 
 /**
@@ -22,19 +25,9 @@ interface IProps {
 const Bars = ({
   size,
   testID,
-  backgroundColor,
+  ...props
 }: IProps) => {
-  let color;
-
-  if (typeof backgroundColor === 'string') {
-    color = COLORS_FOR_BACKGROUND[backgroundColor].default;
-  } else {
-    color = backgroundColor._dangerouslySetColor;
-  }
-
-  if (!color) {
-    throw new AppError('Could not get a color for the icon', '100-011');
-  }
+  const color = textIconColor(props);
 
   return (
     <Svg testID={testID} {...getSvgProps(size, '0 0 448 512')}>

@@ -53,7 +53,7 @@ const HeaderWithDrawer = ({
     {({ width, measureProps }) => (
       <Container {...measureProps}>
         <Header
-          title="Header.Title"
+          title="General.Title"
           leftButton={{
             action: menuIsOpen ? close : open,
             icon: Bars,

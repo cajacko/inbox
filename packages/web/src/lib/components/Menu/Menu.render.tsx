@@ -1,41 +1,116 @@
 import * as React from 'react';
-import { View } from 'src/components';
+import SignOut from 'src/lib/assets/icons/SignOut';
+import Times from 'src/lib/assets/icons/Times';
 import Button from 'src/lib/components/Button';
 import Text from 'src/lib/components/Text';
-import { BACKGROUND_COLORS } from 'src/lib/config/styles/textIconColors';
+import * as colors from 'src/lib/config/styles/colors';
 import Auth from 'src/lib/modules/Auth';
-import getButtonType from 'src/lib/utils/getButtonType';
-import { Container } from './Menu.style';
+import { Text as TextType } from 'src/lib/types/general';
+import {
+  Container,
+  Header,
+  HEADER_COLOR,
+  HeaderSpacing,
+  MenuIcon,
+  MenuItem,
+  MenuItemInner,
+  TEXT_COLOR,
+} from './Menu.style';
 
-interface IProps {
+export type ColorKey = keyof typeof colors;
+export type ColorVal = typeof colors[ColorKey];
+
+interface IMenuItemProps {
   close: () => void;
 }
+
+interface IProps extends IMenuItemProps {
+  name: string | null;
+}
+
+type Component = (props: { [key: string]: any }) => JSX.Element;
+
+interface IMenuItems {
+  Icon: Component;
+  action: () => void;
+  analyticsAction: string;
+  analyticsCategory: string;
+  key: string;
+  selected?: boolean;
+  text: TextType;
+  iconColor: ColorVal;
+}
+
+/**
+ * Get the menu items to show
+ */
+const getMenuItems = ({ close }: IMenuItemProps): IMenuItems[] => [
+  {
+    Icon: Times,
+    action: close,
+    analyticsAction: 'CLOSE',
+    analyticsCategory: 'MENU',
+    iconColor: TEXT_COLOR,
+    key: 'close',
+    selected: false,
+    text: "Menu.HideMenu",
+  },
+  {
+    Icon: SignOut,
+    action: Auth.logout,
+    analyticsAction: 'LOGOUT',
+    analyticsCategory: 'MENU',
+    iconColor: TEXT_COLOR,
+    key: 'logout',
+    selected: false,
+    text: "Menu.Logout",
+  },
+];
 
 /**
  * Display the header, drawer and content
  */
-const Menu = ({ close }: IProps) => (
+const Menu = ({ name, ...props }: IProps) => (
   <Container>
-    <Button
-      analyticsAction="CLOSE"
-      analyticsCategory="MENU"
-      text={{ _textFromConst: 'Close' }}
-      action={close}
-      type={getButtonType('CONTAINED.PRIMARY')}
-    />
-    <View>
+    <Header>
       <Text
-        text={{ _textFromConst: 'Logged in as: Charlie Jackson' }}
-        backgroundColor={BACKGROUND_COLORS.WHITE}
+        type="h4"
+        text="General.Title"
+        backgroundColor={HEADER_COLOR}
       />
-    </View>
-    <Button
-      analyticsAction="LOGOUT"
-      analyticsCategory="MENU"
-      text={{ _textFromConst: 'Logout' }}
-      action={Auth.logout}
-      type={getButtonType('CONTAINED.PRIMARY')}
-    />
+      {name && (
+        <React.Fragment>
+          <HeaderSpacing>
+            <Text
+              type="subtitle1"
+              text="Menu.Welcome"
+              backgroundColor={HEADER_COLOR}
+            />
+          </HeaderSpacing>
+          <HeaderSpacing>
+            <Text
+              type="subtitle2"
+              text={{ _textFromConst: name }}
+              backgroundColor={HEADER_COLOR}
+            />
+          </HeaderSpacing>
+        </React.Fragment>
+      )}
+    </Header>
+    {getMenuItems(props).map(({
+ key, text, Icon, iconColor, selected, ...menuItems
+}) => (
+        <MenuItem key={key}>
+          <Button {...menuItems}>
+            <MenuItemInner selected={selected}>
+              <MenuIcon>
+                <Icon size={20} _dangerouslySetColor={iconColor} />
+              </MenuIcon>
+              <Text text={text} _dangerouslySetColor={selected ? iconColor : TEXT_COLOR} />
+            </MenuItemInner>
+          </Button>
+        </MenuItem>
+      ))}
   </Container>
 );
 
