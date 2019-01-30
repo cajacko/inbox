@@ -1,36 +1,43 @@
 import { View } from 'src/components';
 import { IType } from 'src/lib/config/styles/buttons';
+import applyPadding from 'src/lib/utils/applyPadding';
 import unit from 'src/utils/unit';
 import styled from 'styled-components';
 
-interface IInnerProps {
-  type: IType;
+interface IGenericProps {
+  type?: IType;
+  isHovering: boolean;
 }
 
 interface IOuterProps {
-  type: IType;
+  type?: IType;
   fullHeight?: boolean;
   baseWidth?: number;
+  isHovering: boolean;
 }
 
 /**
  * Get the theme styles from the type object
  */
-const getTypeThemeStyles = (type: IType) => {
+const getTypeThemeStyles = ({ type, isHovering }: IGenericProps) => {
   if (!type) {
     throw new Error('You must pass in a button type from config/styles/buttons');
   }
 
-  if (type.DEFAULT) return type.DEFAULT;
+  const finalType = type.DEFAULT || type;
 
-  return type;
+  if (!isHovering) return finalType;
+
+  const hoverProps = finalType.hover || {};
+
+  return { ...finalType, ...hoverProps };
 };
 
 /**
  * Get the styles for the text component
  */
-export const textStyles = (type: IType) => {
-  const { textColor, backgroundColor } = getTypeThemeStyles(type);
+export const textStyles = (props: IGenericProps) => {
+  const { textColor, backgroundColor } = getTypeThemeStyles(props);
 
   const styles = {
     _dangerouslySetColor: textColor,
@@ -44,12 +51,13 @@ export const textStyles = (type: IType) => {
 /**
  * Get the styles for the icon component
  */
-export const iconStyles = (type: IType) => {
-  const { iconColor, backgroundColor } = getTypeThemeStyles(type);
+export const iconStyles = (props: IGenericProps) => {
+  const { iconColor, backgroundColor, iconSize } = getTypeThemeStyles(props);
 
   const styles = {
     _dangerouslySetColor: iconColor,
     backgroundColor,
+    size: iconSize,
   };
 
   return styles;
@@ -58,8 +66,8 @@ export const iconStyles = (type: IType) => {
 /**
  * Get the outer container styles
  */
-const outerStyle = ({ type, fullHeight, baseWidth }: IOuterProps) => {
-  const { width, height } = getTypeThemeStyles(type);
+const outerStyle = ({ fullHeight, baseWidth, ...props }: IOuterProps) => {
+  const { width, height } = getTypeThemeStyles(props);
 
   const heightStyle = fullHeight ? '100%' : unit(height);
 
@@ -75,18 +83,19 @@ const outerStyle = ({ type, fullHeight, baseWidth }: IOuterProps) => {
 /**
  * Get the inner container styles
  */
-const innerStyle = ({ type }: IInnerProps) => {
+const innerStyle = (props: IGenericProps) => {
   const {
     borderRadius,
     backgroundColor,
     paddingHorizontal,
-  } = getTypeThemeStyles(type);
+    shadow,
+  } = getTypeThemeStyles(props);
 
   return `
-    ${paddingHorizontal ? `padding-left: ${unit(paddingHorizontal)}` : ''}
-    ${paddingHorizontal ? `padding-right: ${unit(paddingHorizontal)}` : ''}
+    ${applyPadding({ horizontal: paddingHorizontal })}
     ${borderRadius ? `border-radius: ${unit(borderRadius)}` : ''};
     ${backgroundColor ? `background-color: ${backgroundColor}` : ''};
+    ${shadow || ''};
   `;
 };
 
@@ -105,7 +114,7 @@ export const Outer = styled(View)<IOuterProps>`
   ${outerStyle};
 `;
 
-export const Inner = styled(View)<IInnerProps>`
+export const Inner = styled(View)<IGenericProps>`
   flex: 1;
   align-items: center;
   justify-content: center;

@@ -5,29 +5,44 @@ import { IType } from 'src/lib/config/styles/buttons';
 import { Text as TextType } from 'src/lib/types/general';
 import { Children } from 'src/lib/types/libs';
 import {
-  // iconStyles,
+  iconStyles,
   Inner,
   nativeStyles,
   Outer,
   textStyles,
 } from './Button.style';
 
-export interface IProps {
+type Component = (props: { [key: string]: any }) => JSX.Element;
+type Event = () => void;
+
+export interface IPassedDownProps {
   action?: () => void;
   baseWidth?: number;
-  children?: Children;
+  children?: (props: { isHovering: boolean }) => Children;
   fullHeight?: boolean;
   noButton?: boolean;
   noContent?: boolean;
   numberOfLines?: number;
   styles?: React.CSSProperties;
   testID?: string;
-  text: TextType;
+  text?: TextType;
   textTestID?: string;
-  type: IType;
+  type?: IType;
+  icon?: Component;
+  iconLeft?: boolean;
+  iconRight?: boolean;
 }
 
-type Component = (props: { [key: string]: any }) => JSX.Element;
+interface IProps extends IPassedDownProps {
+  isHovering: boolean;
+  buttonEvents: {
+    onMouseEnter: Event;
+    onMouseLeave: Event;
+    onMouseMove: Event;
+    onMouseOut: Event;
+    onMouseOver: Event;
+  };
+}
 
 /**
  * Standard button component, can take text or icons
@@ -44,43 +59,48 @@ const Button = (props: IProps) => {
     action: props.noButton ? undefined : props.action,
     style: nativeStylesProp,
     testID: props.testID,
+    ...props.buttonEvents,
   };
 
-  const IconOnly = null;
-  const RightIcon = null;
-  const LeftIcon = null;
+  let IconOnly = null;
+  let RightIcon = null;
+  let LeftIcon = null;
 
-  // if (props.icon) {
-  //   const IconComponent = (
-  //     <Icon icon={props.icon} {...iconStyles(props.type)} />
-  //   );
+  if (props.icon) {
+    const Icon = props.icon;
 
-  //   if (props.iconLeft) {
-  //     LeftIcon = IconComponent;
-  //   } else if (props.iconRight || props.text) {
-  //     RightIcon = IconComponent;
-  //   } else {
-  //     IconOnly = IconComponent;
-  //   }
-  // }
+    const IconComponent = <Icon {...iconStyles(props)} />;
 
-  return props.children || props.noContent ? (
-    <ButtonComponent {...buttonProps}>{props.children || null}</ButtonComponent>
+    if (props.iconLeft) {
+      LeftIcon = IconComponent;
+    } else if (props.iconRight || props.text) {
+      RightIcon = IconComponent;
+    } else {
+      IconOnly = IconComponent;
+    }
+  }
+
+  const children =
+    props.children && props.children({ isHovering: props.isHovering });
+
+  return children || props.noContent ? (
+    <ButtonComponent {...buttonProps}>{children || null}</ButtonComponent>
   ) : (
     <Outer
       type={props.type}
       fullHeight={props.fullHeight}
       baseWidth={props.baseWidth}
+      isHovering={props.isHovering}
     >
       <ButtonComponent {...buttonProps}>
-        <Inner type={props.type}>
+        <Inner type={props.type} isHovering={props.isHovering}>
           {props.text ? (
             <React.Fragment>
               {LeftIcon}
               <Text
                 testID={props.textTestID}
                 text={props.text}
-                {...textStyles(props.type)}
+                {...textStyles(props)}
                 numberOfLines={props.numberOfLines}
               />
               {RightIcon}

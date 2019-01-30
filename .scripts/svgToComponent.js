@@ -43,6 +43,8 @@ const getIconData = (path, componentName) => {
       }
     });
 
+    content = content.replace(/fill=(".+?")/, 'fill={color}');
+
     content = content.trim();
 
     return {

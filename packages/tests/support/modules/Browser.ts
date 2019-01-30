@@ -16,6 +16,13 @@ class Browser {
   private page: null | puppeteer.Page = null;
   private hooks: { [key: string]: string } = {};
   private interceptingRequests: boolean = false;
+  private dialogHandler?: (dialog: puppeteer.Dialog) => void;
+  private dialog?: puppeteer.Dialog;
+
+  constructor() {
+    this.dialogOpen = this.dialogOpen.bind(this);
+    this.dialogAction = this.dialogAction.bind(this);
+  }
 
   get platform() {
     return 'web';
@@ -210,6 +217,8 @@ class Browser {
 
     if (!this.page) {
       this.page = await this.browser.newPage();
+
+      this.page.on('dialog', this.dialogOpen);
     }
   }
 
@@ -232,9 +241,84 @@ class Browser {
   public async press(selector: string) {
     await this.ensurePage();
 
-    if (!this.page) throw new Error('No page object to click within');
+    return new Promise((resolve, reject) => {
+      this.dialogHandler = () => {
+        resolve();
+      };
 
-    await this.page.click(selector);
+      if (!this.page) throw new Error('No page object to click within');
+
+      this.page
+        .click(selector)
+        .then(() => {
+          resolve();
+        })
+        .catch(reject);
+    });
+  }
+
+  private dialogOpen(dialog: puppeteer.Dialog) {
+    this.dialog = dialog;
+
+    if (this.dialogHandler) this.dialogHandler(dialog);
+  }
+
+  private dialogAction(actionType: 'accept' | 'dismiss') {
+    const { dialog } = this;
+    this.dialog = undefined;
+
+    if (!dialog) throw new Error('No dialog available');
+
+    switch (actionType) {
+      case 'accept':
+        return dialog.accept();
+      case 'dismiss':
+        return dialog.dismiss();
+      default:
+        throw new Error('Cannot run action on dialog');
+    }
+  }
+
+  public async alertVisible(condition: ICondition) {
+    await conditional(condition, () => Promise.resolve(!!this.dialog), {
+      negative: 'Alert is visible, expected it to be not visible',
+      positive: 'Alert is not visible',
+      waitNegative: 'Alert did not become not visible',
+      waitPositive: 'Alert did not become visible',
+    });
+  }
+
+  public async alertTextIs(text: string) {
+    if (!this.dialog) throw new Error('No dialog to get the message from');
+
+    const message = this.dialog.message();
+
+    if (message !== text) {
+      throw new Error(`Alert text is not "${text}", instead received "${message}"`);
+    }
+
+    return Promise.resolve();
+  }
+
+  public async pressAlertButton(button: number) {
+    switch (button) {
+      case 0:
+        return this.dialogAction('dismiss');
+      case 1:
+        return this.dialogAction('accept');
+      default:
+        throw new Error('No alert button to press');
+    }
+  }
+
+  public async dismissAlert() {
+    try {
+      const promise = this.dialogAction('dismiss');
+
+      return promise;
+    } catch (e) {
+      return Promise.resolve();
+    }
   }
 }
 

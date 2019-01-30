@@ -53,7 +53,7 @@ const getHtmlVars = () => {
     ...getErrorForHtml('100-005', 'NO_JS'),
     ...getErrorForHtml('100-006', 'JS_NETWORK_ERROR'),
     ERROR_EMAIL: escapeHtml(copy.General.ContactEmail),
-    TITLE: escapeHtml(copy.Web.Title),
+    TITLE: escapeHtml(copy.General.Title),
   };
 
   Object.keys(vars).forEach((key) => {

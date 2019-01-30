@@ -30,7 +30,7 @@ const Login = ({
         <Spacing>
           <Text
             type="h2"
-            text="Login.Title"
+            text="General.Title"
             backgroundColor={backgroundColor}
             testID="Login__Title"
             center

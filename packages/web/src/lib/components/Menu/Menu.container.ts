@@ -1,12 +1,12 @@
 import { connect } from 'react-redux';
 import { IState } from 'src/lib/store/reducers';
-import Home from './Home.render';
+import Menu, { IContainerStateProps } from './Menu.render';
 
 /**
  * Grab the state from the store and pass in isLoggedIn as a prop
  */
 const mapStateToProps = ({ user: { displayName } }: IState) => ({
-  displayName,
+  name: displayName,
 });
 
-export default connect(mapStateToProps)(Home);
+export default connect<IContainerStateProps>(mapStateToProps)(Menu);

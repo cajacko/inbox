@@ -3,9 +3,11 @@ import { RouteComponentProps, withRouter } from 'react-router';
 import { IRoute } from 'src/lib/types/general';
 import Route from './Route.render';
 
-interface IProps extends IRoute, RouteComponentProps {
+export interface IContainerStateProps {
   isLoggedIn: boolean;
 }
+
+interface IProps extends IRoute, RouteComponentProps, IContainerStateProps {}
 
 interface IState {
   show: boolean;

@@ -25,6 +25,8 @@ const getStyles = (customStyles: React.CSSProperties) => ({
 
 type event = React.KeyboardEvent<HTMLDivElement>;
 
+type Ref = React.RefObject<HTMLDivElement>;
+
 /**
  * On the enter key call the action
  */
@@ -39,19 +41,24 @@ const onKeyPress = (action?: () => void) => (e: event) => {
 /**
  * Render a button for the web
  */
-const Button = ({
-  action, children, className, testID, style,
-}: IProps) => (
-  <div
-    tabIndex={0}
-    role="button"
-    onClick={action}
-    onKeyPress={onKeyPress(action)}
-    className={mergeClasses(className, testID)}
-    style={getStyles(style)}
-  >
-    {children}
-  </div>
-);
+const Button = React.forwardRef((
+  {
+    action, children, className, testID, style, ...props
+  }: IProps,
+  ref: Ref
+) => (
+    <div
+      tabIndex={0}
+      role="button"
+      onClick={action}
+      onKeyPress={onKeyPress(action)}
+      className={mergeClasses(className, testID)}
+      style={getStyles(style)}
+      ref={ref}
+      {...props}
+    >
+      {children}
+    </div>
+));
 
 export default Button;
