@@ -12,7 +12,7 @@ import {
   DesktopMenu,
   Overlay,
   OverlayButton,
-  overlayButtonStyle,
+  OverlayButtonColor,
   OverlayMenu,
 } from './HeaderWithDrawer.style';
 
@@ -75,8 +75,11 @@ const HeaderWithDrawer = ({
                   action={close}
                   analyticsAction="HIDE_MENU_FROM_BACKGROUND_PRESS"
                   analyticsCategory="MENU"
-                  styles={overlayButtonStyle}
-                />
+                >
+                  {({ isHovering }) => (
+                    <OverlayButtonColor isHovering={isHovering} />
+                  )}
+                </Button>
               </OverlayButton>
             </Overlay>
           ))}

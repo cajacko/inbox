@@ -20,6 +20,7 @@ interface IStyles {
   borderRadius?: number;
   paddingHorizontal?: number;
   shadow?: string;
+  hover?: IStyles;
   themes?: {
     [key: string]: IStyles;
   };
@@ -36,6 +37,7 @@ export interface IType {
   borderRadius?: number;
   paddingHorizontal?: number;
   shadow?: string;
+  hover?: IType;
 }
 
 export const BUTTON_BORDER_RADIUS = 5;
@@ -53,9 +55,15 @@ const styles: { [key: string]: IStyles } = {
     themes: {
       PRIMARY: {
         backgroundColor: BACKGROUND_COLORS.PRIMARY,
+        hover: {
+          backgroundColor: BACKGROUND_COLORS.PRIMARY_DARK,
+        },
       },
       SECONDARY: {
         backgroundColor: BACKGROUND_COLORS.SECONDARY,
+        hover: {
+          backgroundColor: BACKGROUND_COLORS.SECONDARY_DARK,
+        },
       },
     },
     width: buttonWidth,
@@ -75,6 +83,9 @@ const styles: { [key: string]: IStyles } = {
     iconSize: buttonHeight,
     themes: {
       DEFAULT: {
+        hover: {
+          iconColor: COLORS_FOR_BACKGROUND[BACKGROUND_COLORS.PRIMARY].default,
+        },
         iconColor: COLORS_FOR_BACKGROUND[BACKGROUND_COLORS.WHITE].default,
       },
       GREYED_OUT: {

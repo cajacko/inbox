@@ -98,16 +98,19 @@ const Menu = ({ name, ...props }: IProps) => (
 }) => (
         <MenuItem key={key}>
           <Button {...menuItems}>
-            <MenuItemInner selected={selected}>
-              <MenuIcon>
-                <Icon size={20} _dangerouslySetColor={iconColor} />
-              </MenuIcon>
-              <Text
-                text={text}
-                _dangerouslySetColor={selected ? iconColor : TEXT_COLOR}
-              />
-            </MenuItemInner>
+            {({ isHovering }) => (
+              <MenuItemInner selected={isHovering || selected}>
+                <MenuIcon>
+                  <Icon size={20} _dangerouslySetColor={iconColor} />
+                </MenuIcon>
+                <Text
+                  text={text}
+                  _dangerouslySetColor={selected ? iconColor : TEXT_COLOR}
+                />
+              </MenuItemInner>
+            )}
           </Button>
+
         </MenuItem>
       ))}
   </Container>

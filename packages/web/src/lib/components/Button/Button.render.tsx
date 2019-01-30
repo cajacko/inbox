@@ -13,11 +13,12 @@ import {
 } from './Button.style';
 
 type Component = (props: { [key: string]: any }) => JSX.Element;
+type Event = () => void;
 
-export interface IProps {
+export interface IPassedDownProps {
   action?: () => void;
   baseWidth?: number;
-  children?: Children;
+  children?: (props: { isHovering: boolean }) => Children;
   fullHeight?: boolean;
   noButton?: boolean;
   noContent?: boolean;
@@ -30,6 +31,17 @@ export interface IProps {
   icon?: Component;
   iconLeft?: boolean;
   iconRight?: boolean;
+}
+
+interface IProps extends IPassedDownProps {
+  isHovering: boolean;
+  buttonEvents: {
+    onMouseEnter: Event;
+    onMouseLeave: Event;
+    onMouseMove: Event;
+    onMouseOut: Event;
+    onMouseOver: Event;
+  };
 }
 
 /**
@@ -47,6 +59,7 @@ const Button = (props: IProps) => {
     action: props.noButton ? undefined : props.action,
     style: nativeStylesProp,
     testID: props.testID,
+    ...props.buttonEvents,
   };
 
   let IconOnly = null;
@@ -56,7 +69,7 @@ const Button = (props: IProps) => {
   if (props.icon) {
     const Icon = props.icon;
 
-    const IconComponent = <Icon {...iconStyles(props.type)} />;
+    const IconComponent = <Icon {...iconStyles(props)} />;
 
     if (props.iconLeft) {
       LeftIcon = IconComponent;
@@ -67,23 +80,27 @@ const Button = (props: IProps) => {
     }
   }
 
-  return props.children || props.noContent ? (
-    <ButtonComponent {...buttonProps}>{props.children || null}</ButtonComponent>
+  const children =
+    props.children && props.children({ isHovering: props.isHovering });
+
+  return children || props.noContent ? (
+    <ButtonComponent {...buttonProps}>{children || null}</ButtonComponent>
   ) : (
     <Outer
       type={props.type}
       fullHeight={props.fullHeight}
       baseWidth={props.baseWidth}
+      isHovering={props.isHovering}
     >
       <ButtonComponent {...buttonProps}>
-        <Inner type={props.type}>
+        <Inner type={props.type} isHovering={props.isHovering}>
           {props.text ? (
             <React.Fragment>
               {LeftIcon}
               <Text
                 testID={props.textTestID}
                 text={props.text}
-                {...textStyles(props.type)}
+                {...textStyles(props)}
                 numberOfLines={props.numberOfLines}
               />
               {RightIcon}

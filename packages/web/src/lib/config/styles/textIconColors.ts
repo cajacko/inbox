@@ -3,10 +3,12 @@ import {
   ERROR,
   GREY,
   GREY_DARK,
+  GREY_LIGHT,
   GREY_LIGHTER,
   PRIMARY,
   PRIMARY_DARK,
   SECONDARY,
+  SECONDARY_DARK,
   WHITE,
 } from './colors';
 
@@ -15,6 +17,7 @@ export const COLORS = {
   ERROR,
   GREY,
   GREY_DARK,
+  GREY_LIGHT,
   PRIMARY,
   PRIMARY_DARK,
   WHITE,
@@ -29,6 +32,7 @@ export const BACKGROUND_COLORS = {
   PRIMARY,
   PRIMARY_DARK,
   SECONDARY,
+  SECONDARY_DARK,
   WHITE,
 };
 
@@ -38,9 +42,9 @@ export type BackgroundColorVal = typeof BACKGROUND_COLORS[BackgroundColorKey];
 type ColorsForBackground = {
   [K in BackgroundColorVal]: {
     default: ColorVal;
-    error?: ColorVal;
-    greyedOut?: ColorVal;
-    highlight?: ColorVal;
+    error: ColorVal;
+    greyedOut: ColorVal;
+    highlight: ColorVal;
   }
 };
 
@@ -55,17 +59,27 @@ export const COLORS_FOR_BACKGROUND: ColorsForBackground = {
   [BACKGROUND_COLORS.WHITE]: LIGHT_BACKGROUND,
   [BACKGROUND_COLORS.PRIMARY]: {
     default: COLORS.BLACK,
+    error: COLORS.ERROR,
     greyedOut: COLORS.GREY,
+    highlight: COLORS.GREY_DARK,
   },
   [BACKGROUND_COLORS.PRIMARY_DARK]: {
     default: COLORS.WHITE,
+    error: COLORS.ERROR,
     greyedOut: COLORS.GREY,
+    highlight: COLORS.GREY_LIGHT,
   },
   [BACKGROUND_COLORS.GREY_LIGHTER]: LIGHT_BACKGROUND,
   [BACKGROUND_COLORS.SECONDARY]: {
     default: COLORS.BLACK,
+    error: COLORS.BLACK,
+    greyedOut: COLORS.GREY,
+    highlight: COLORS.GREY_DARK,
   },
   [BACKGROUND_COLORS.ERROR]: {
     default: COLORS.WHITE,
+    error: COLORS.WHITE,
+    greyedOut: COLORS.GREY,
+    highlight: COLORS.GREY_LIGHT,
   },
 };

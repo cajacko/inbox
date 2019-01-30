@@ -39,9 +39,15 @@ const Header = ({ leftButton, title }: IProps) => {
           analyticsAction="SHOW_MENU"
           analyticsCategory="HEADER"
         >
-          <Center>
-            <Icon size={ICON_SIZE} backgroundColor={BACKGROUND_COLOR} />
-          </Center>
+          {({ isHovering }) => (
+            <Center>
+              <Icon
+                size={ICON_SIZE}
+                backgroundColor={BACKGROUND_COLOR}
+                highlight={isHovering}
+              />
+            </Center>
+          )}
         </Button>
       </LeftButton>
     );

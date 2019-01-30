@@ -29,6 +29,7 @@ export const MenuItemInner = styled(View)<{ selected?: boolean }>`
   ${({ selected }) =>
     (selected ? `background-color: ${GREY_LIGHTER};` : '')}
   flex-direction: row;
+  width: 100%;
 `;
 
 export const MenuIcon = styled(View)`
