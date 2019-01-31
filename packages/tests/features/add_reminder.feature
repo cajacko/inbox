@@ -35,7 +35,12 @@ Feature: Add Reminder
     When the modal background button is pressed
     Then the add reminder scene "is not" visible
 
+  @platform-web @platform-android
   Scenario: Go back from reminder scene by device button
+    When the add reminder button is pressed
+    Then the add reminder scene "is" visible
+    When the device back button is pressed
+    Then the add reminder scene "is not" visible
 
   Scenario: Edit reminder scene displays correctly with text
   Scenario: Edit reminder scene displays correctly with long text

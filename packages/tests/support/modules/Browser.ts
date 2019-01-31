@@ -328,6 +328,14 @@ class Browser {
 
     return this.page.mouse.click(x, y);
   }
+
+  public async pressBackButton() {
+    await this.ensurePage();
+
+    if (!this.page) throw new Error('No page object to get elements');
+
+    return this.page.goBack();
+  }
 }
 
 export default Browser;

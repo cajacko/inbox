@@ -16,3 +16,5 @@ Then('the screenshot matches', async function () {
 
 Given('we add a hook with id {string} and type {string}', (id, type) =>
   driver.addHook(id, type));
+
+When('the device back button is pressed', () => driver.pressBackButton());
