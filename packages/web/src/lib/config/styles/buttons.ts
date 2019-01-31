@@ -72,9 +72,17 @@ const styles: { [key: string]: IStyles } = {
   CONTAINED_CIRCLE_ICON: {
     borderRadius: circleSize / 2,
     height: circleSize,
+    iconSize: Math.floor(circleSize / 2),
+    shadow: shadow(),
     themes: {
       PRIMARY: {
         backgroundColor: BACKGROUND_COLORS.PRIMARY,
+      },
+      SECONDARY: {
+        backgroundColor: BACKGROUND_COLORS.SECONDARY,
+      },
+      SECONDARY_DARK: {
+        backgroundColor: BACKGROUND_COLORS.SECONDARY_DARK,
       },
     },
     width: circleSize,

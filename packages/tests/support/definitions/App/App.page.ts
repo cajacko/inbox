@@ -19,7 +19,7 @@ class App {
 
   public async errorScreenshot(world: HookScenarioResult) {
     const path = getScreenshotPath(world, driver.platform);
-    const errorPath = path.replace('/tests/screenshots/', '/tests/errorShots/');
+    const errorPath = path.replace('/screenshots/', '/errorShots/');
 
     await this.screenshot(errorPath);
     // eslint-disable-next-line

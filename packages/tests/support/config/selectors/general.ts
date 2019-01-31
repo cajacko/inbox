@@ -1,4 +1,7 @@
 const general = {
+  AddButton: {
+    web: '.AddButton',
+  },
   ErrorBoundary: {
     Button: {
       Text: {

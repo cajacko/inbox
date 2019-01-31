@@ -8,6 +8,7 @@ import unit from 'src/utils/unit';
 import styled from 'styled-components';
 
 const menuMargin = 20;
+const addButtonMargin = menuMargin;
 
 export const ANIMATION_DURATION = 300;
 
@@ -25,7 +26,7 @@ export const Container = styled(View)`
 
 export const HeaderContainer = styled(View)`
   position: relative;
-  z-index: 3;
+  z-index: 4;
 `;
 
 export const Overlay = styled(View)`
@@ -34,14 +35,14 @@ export const Overlay = styled(View)`
   left: 0;
   right: 0;
   bottom: 0;
-  z-index: 4;
+  z-index: 5;
 `;
 
 export const OverlayMenu = styled(AnimatedView)`
   position: absolute;
   top: 0;
   bottom: 0;
-  z-index: 6;
+  z-index: 7;
   background-color: ${BACKGROUND_COLOR};
   ${shadow()}
   display: flex;
@@ -52,7 +53,7 @@ export const OverlayButton = styled(AnimatedView)`
   right: 0;
   bottom: 0;
   top: 0;
-  z-index: 5;
+  z-index: 6;
   display: flex;
 `;
 
@@ -84,8 +85,15 @@ export const DesktopMenu = styled(AnimatedView)`
   bottom: 0;
   left: 0;
   display: flex;
-  z-index: 2;
+  z-index: 3;
   border-right-style: solid;
   border-right-width: ${unit(1)};
   border-right-color: ${GREY_LIGHTER};
+`;
+
+export const AddButton = styled(View)`
+  position: absolute;
+  right: ${unit(addButtonMargin)};
+  bottom: ${unit(addButtonMargin)};
+  z-index: 2;
 `;

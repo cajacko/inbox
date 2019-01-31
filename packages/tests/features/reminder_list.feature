@@ -15,6 +15,8 @@ Feature: Reminder List
 
   Scenario: Reminder list displays correctly with no reminders
   Scenario: Reminder list displays correctly with lots of reminders
+  Scenario: Reminder list displays correctly when at the end of the list
+  # Has additonal space for the add button
   Scenario: Reminder list can be scrolled
 
   Scenario: Loading reminders with no existing reminders
