@@ -45,6 +45,7 @@ export const BUTTON_BORDER_RADIUS = 5;
 const buttonWidth = 150;
 const buttonHeight = 40;
 const buttonPaddingHorizontal = STANDARD_SPACING;
+const totalButtonPaddingH = buttonPaddingHorizontal * 2;
 const circleSize = 60;
 
 const styles: { [key: string]: IStyles } = {
@@ -89,7 +90,7 @@ const styles: { [key: string]: IStyles } = {
   },
   ICON: {
     height: buttonHeight,
-    iconSize: buttonHeight,
+    iconSize: buttonHeight - totalButtonPaddingH,
     themes: {
       DEFAULT: {
         hover: {
@@ -98,6 +99,9 @@ const styles: { [key: string]: IStyles } = {
         iconColor: COLORS_FOR_BACKGROUND[BACKGROUND_COLORS.WHITE].default,
       },
       GREYED_OUT: {
+        hover: {
+          iconColor: COLORS_FOR_BACKGROUND[BACKGROUND_COLORS.WHITE].default,
+        },
         iconColor: COLORS_FOR_BACKGROUND[BACKGROUND_COLORS.WHITE].greyedOut,
       },
     },
@@ -124,6 +128,9 @@ const styles: { [key: string]: IStyles } = {
         textColor: COLORS.GREY_DARK,
       },
       PRIMARY: {
+        hover: {
+          textColor: COLORS.PRIMARY,
+        },
         textColor: COLORS.PRIMARY_DARK,
       },
     },

@@ -1,7 +1,8 @@
 import { View } from 'src/components';
 import { HEADER_HEIGHT } from 'src/lib/components/Header/Header.style';
 import { MENU_WIDTH } from 'src/lib/components/Menu/Menu.style';
-import { BLACK, GREY_LIGHTER, WHITE } from 'src/lib/config/styles/colors';
+import { GREY_LIGHTER, WHITE } from 'src/lib/config/styles/colors';
+import * as overlays from 'src/lib/config/styles/overlays';
 import shadow from 'src/lib/utils/shadow';
 import { View as AnimatedView } from 'src/packages/animated';
 import unit from 'src/utils/unit';
@@ -58,8 +59,11 @@ export const OverlayButton = styled(AnimatedView)`
 `;
 
 export const OverlayButtonColor = styled(View)<{ isHovering: boolean }>`
-  background-color: ${BLACK};
-  opacity: ${({ isHovering }) => (isHovering ? 0.6 : 0.5)};
+  background-color: ${overlays.BACKGROUND_COLOR};
+  opacity: ${({ isHovering }) =>
+    (isHovering
+      ? overlays.BACKGROUND_OPACITY_HOVER
+      : overlays.BACKGROUND_OPACITY)};
   position: absolute;
   top: 0;
   left: 0;

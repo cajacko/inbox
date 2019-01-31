@@ -19,13 +19,16 @@ Feature: Add Reminder
     Then the add reminder scene "is" visible
 
   Scenario: Edit reminder scene displays correctly with no text
-  # When the add reminder button is pressed
-  # Then the screenshot matches
+    When the add reminder button is pressed
+    Then the screenshot matches
 
-  Scenario: Go back from reminder scene goes back
+  Scenario: Go back from reminder scene by the cancel button
+  Scenario: Go back from reminder scene by device button
+  Scenario: Go back from reminder scene by background button
 
   Scenario: Edit reminder scene displays correctly with text
   Scenario: Edit reminder scene displays correctly with long text
+  Scenario: Auto focus on text input on mount
   Scenario: Cannot save a reminder with no text
   Scenario: Cannot add too much text
 

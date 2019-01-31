@@ -12,7 +12,7 @@ interface IGenericProps {
 interface IOuterProps {
   type?: IType;
   fullHeight?: boolean;
-  baseWidth?: number;
+  baseWidth?: boolean;
   isHovering: boolean;
 }
 

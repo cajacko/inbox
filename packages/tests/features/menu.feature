@@ -30,3 +30,6 @@ Feature: Menu
   Scenario: Hide menu on desktop with normal button
     When the menu button is pressed
     Then the menu "will not be" visible
+
+  Scenario: Hide menu by using the device back button
+# TODO: Do this

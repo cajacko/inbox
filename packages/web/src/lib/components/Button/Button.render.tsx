@@ -17,7 +17,7 @@ type Event = () => void;
 
 export interface IPassedDownProps {
   action?: () => void;
-  baseWidth?: number;
+  baseWidth?: boolean;
   children?: (props: { isHovering: boolean }) => Children;
   fullHeight?: boolean;
   noButton?: boolean;
