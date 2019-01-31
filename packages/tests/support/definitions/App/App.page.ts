@@ -2,8 +2,8 @@ import { HookScenarioResult } from 'cucumber';
 import * as fs from 'fs';
 import { ensureFile, pathExists, remove } from 'fs-extra';
 import { PNG } from 'pngjs';
-import driver from '../utils/driver';
-import getScreenshotPath from '../utils/getScreenshotPath';
+import driver from '../../utils/driver';
+import getScreenshotPath from '../../utils/getScreenshotPath';
 
 // tslint:disable-next-line
 const pixelmatch = require('pixelmatch');

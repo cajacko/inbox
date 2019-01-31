@@ -1,8 +1,8 @@
-import selectors, { ISelector } from '../config/selectors';
-import driver from '../utils/driver';
-import { ICondition } from '../utils/ensureCondition';
-import getSelector from '../utils/getSelector';
-import getVersion from '../utils/getVersion';
+import selectors, { ISelector } from '../../config/selectors';
+import driver from '../../utils/driver';
+import { ICondition } from '../../utils/ensureCondition';
+import getSelector from '../../utils/getSelector';
+import getVersion from '../../utils/getVersion';
 
 class Login {
   private titleSelector: ISelector = selectors.general.Login.Title;

@@ -1,5 +1,5 @@
 import { After, AfterAll, Before, setDefaultTimeout } from 'cucumber';
-import app from '../pageObjects/App';
+import app from '../definitions/App/App.page';
 import driver from '../utils/driver';
 
 setDefaultTimeout(10 * 1000);

@@ -1,5 +1,5 @@
-import driver from '../utils/driver';
-import { ICondition } from '../utils/ensureCondition';
+import driver from '../../utils/driver';
+import { ICondition } from '../../utils/ensureCondition';
 
 class Alert {
   public async visible(conditional: ICondition) {

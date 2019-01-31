@@ -1,8 +1,8 @@
-import selectors, { ISelector } from '../config/selectors';
-import conditional from '../utils/conditional';
-import driver from '../utils/driver';
-import { ICondition } from '../utils/ensureCondition';
-import getSelector from '../utils/getSelector';
+import selectors, { ISelector } from '../../config/selectors';
+import conditional from '../../utils/conditional';
+import driver from '../../utils/driver';
+import { ICondition } from '../../utils/ensureCondition';
+import getSelector from '../../utils/getSelector';
 
 class ErrorComponent {
   private errorSelector: ISelector = selectors.general.ErrorBoundary;

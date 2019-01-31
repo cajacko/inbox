@@ -7,7 +7,7 @@
   "scripts": {
     "watch": "tsc -w",
     "test": "yarn test:mobile && yarn test:tablet && yarn test:desktop",
-    "cucumber": "./node_modules/.bin/cucumber-js --require build/tests/support/require/**/*.js",
+    "cucumber": "./node_modules/.bin/cucumber-js --require-module ts-node/register --require 'support/definitions/**/*.steps.ts' --require 'support/utils/hooks.ts'",
     "test:mobile": "yarn cucumber --tags \"@size-mobile or ((not @size-tablet) and (not @size-tablet) and not @size-desktop)\"",
     "test:tablet": "yarn cucumber --tags \"@size-tablet or ((not @size-tablet) and (not @size-tablet) and not @size-desktop)\"",
     "test:desktop": "yarn cucumber --tags \"@size-desktop or ((not @size-tablet) and (not @size-tablet) and not @size-desktop)\""
@@ -22,6 +22,7 @@
     "pixelmatch": "^4.0.2",
     "pngjs": "^3.3.3",
     "puppeteer": "^1.11.0",
+    "ts-node": "^8.0.2",
     "typescript": "^3.2.2"
   },
   "devDependencies": {
