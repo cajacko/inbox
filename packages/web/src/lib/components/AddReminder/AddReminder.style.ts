@@ -1,5 +1,6 @@
 import { View } from 'src/components';
 import { GREY_LIGHTER, WHITE } from 'src/lib/config/styles/colors';
+import border from 'src/lib/utils/applyBorder';
 import padding from 'src/lib/utils/applyPadding';
 import shadow from 'src/lib/utils/shadow';
 import unit from 'src/utils/unit';
@@ -17,11 +18,7 @@ interface IContentProps {
 const applyBorder = ({ fullScreen }: IContentProps) => {
   if (!fullScreen) return '';
 
-  return `
-    border-bottom-style: solid;
-    border-bottom-width: ${unit(1)};
-    border-bottom-color: ${GREY_LIGHTER}
-  `;
+  return border(GREY_LIGHTER, 1);
 };
 
 export const Container = styled(View)<{ fullScreen: boolean }>`
@@ -31,6 +28,7 @@ export const Container = styled(View)<{ fullScreen: boolean }>`
 
 export const Content = styled(View)<IContentProps>`
   ${({ fullScreen }) => (fullScreen ? shadow() : '')}
+  background-color: ${BACKGROUND_COLOR};
 `;
 
 export const Panel = styled(View)<IContentProps>`
@@ -44,6 +42,7 @@ export const Panel = styled(View)<IContentProps>`
 export const InputPanel = styled(View)`
   ${padding(20)};
   background-color: ${BACKGROUND_COLOR};
+  flex-direction: row;
 `;
 
 export const Input = styled(View)`

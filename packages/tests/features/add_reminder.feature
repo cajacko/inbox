@@ -23,6 +23,11 @@ Feature: Add Reminder
     Then the screenshot matches
 
   Scenario: Go back from reminder scene by the cancel button
+    When the add reminder button is pressed
+    Then the add reminder scene "is" visible
+    When the add reminder cancel button is pressed
+    Then the add reminder scene "is not" visible
+
   Scenario: Go back from reminder scene by device button
   Scenario: Go back from reminder scene by background button
 

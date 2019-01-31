@@ -82,7 +82,9 @@ class HeaderWithDrawerC extends React.Component<IProps, IState> {
    * Show the add modal
    */
   private add() {
-    this.props.context.show(AddReminder);
+    this.props.context.show(AddReminder, {
+      close: this.props.context.hide,
+    });
   }
 
   /**

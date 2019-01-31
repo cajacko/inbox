@@ -16,12 +16,13 @@ const analyticsCategory = 'ADD_REMINDER_SCENE';
 
 interface IProps {
   fullScreen: boolean;
+  close: () => void;
 }
 
 /**
  * Show the add reminder view
  */
-const AddReminder = ({ fullScreen }: IProps) => {
+const AddReminder = ({ fullScreen, close }: IProps) => {
   const input = (
     <Input>
       <Text
@@ -37,6 +38,8 @@ const AddReminder = ({ fullScreen }: IProps) => {
       <Content fullScreen>
         <Panel fullScreen>
           <Button
+            action={close}
+            testID="AddReminder__Cancel"
             icon={Times}
             analyticsAction="CLOSE"
             analyticsCategory={analyticsCategory}

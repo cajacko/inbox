@@ -1,6 +1,7 @@
 import { View } from 'src/components';
 import { GREY_LIGHT } from 'src/lib/config/styles/colors';
 import { BACKGROUND_COLORS } from 'src/lib/config/styles/textIconColors';
+import border from 'src/lib/utils/applyBorder';
 import applyPadding from 'src/lib/utils/applyPadding';
 import unit from 'src/utils/unit';
 import styled from 'styled-components';
@@ -21,8 +22,6 @@ export const Box = styled(View)<{ bound: boolean }>`
   background-color: ${({ bound }) =>
     (bound ? BACKGROUND_COLOR : 'transparent')};
   ${applyPadding(20)}
-  border-width: ${({ bound }) => (bound ? unit(1) : 0)};
-  border-style: solid;
+  ${({ bound }) => border(GREY_LIGHT, bound ? 1 : 0)}
   border-radius: ${unit(10)};
-  border-color: ${GREY_LIGHT};
 `;

@@ -3,6 +3,7 @@ import { HEADER_HEIGHT } from 'src/lib/components/Header/Header.style';
 import { MENU_WIDTH } from 'src/lib/components/Menu/Menu.style';
 import { GREY_LIGHTER, WHITE } from 'src/lib/config/styles/colors';
 import * as overlays from 'src/lib/config/styles/overlays';
+import border from 'src/lib/utils/applyBorder';
 import shadow from 'src/lib/utils/shadow';
 import { View as AnimatedView } from 'src/packages/animated';
 import unit from 'src/utils/unit';
@@ -90,9 +91,7 @@ export const DesktopMenu = styled(AnimatedView)`
   left: 0;
   display: flex;
   z-index: 3;
-  border-right-style: solid;
-  border-right-width: ${unit(1)};
-  border-right-color: ${GREY_LIGHTER};
+  ${border(GREY_LIGHTER, 1)}
 `;
 
 export const AddButton = styled(View)`
