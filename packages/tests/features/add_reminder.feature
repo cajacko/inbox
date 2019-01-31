@@ -28,8 +28,14 @@ Feature: Add Reminder
     When the add reminder cancel button is pressed
     Then the add reminder scene "is not" visible
 
-  Scenario: Go back from reminder scene by device button
+  @size-desktop
   Scenario: Go back from reminder scene by background button
+    When the add reminder button is pressed
+    Then the add reminder scene "is" visible
+    When the modal background button is pressed
+    Then the add reminder scene "is not" visible
+
+  Scenario: Go back from reminder scene by device button
 
   Scenario: Edit reminder scene displays correctly with text
   Scenario: Edit reminder scene displays correctly with long text

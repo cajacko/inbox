@@ -1,4 +1,5 @@
 import * as React from 'react';
+import Button from 'src/lib/components/Button';
 import Measure from 'src/lib/components/Layout/Measure';
 import {
   Container,
@@ -16,6 +17,7 @@ interface IComponentProps {
 interface IProps {
   Component: (props: IComponentProps) => JSX.Element;
   props: { [key: string]: any };
+  hide: () => void;
 }
 
 interface ISize {
@@ -36,7 +38,7 @@ const onChange = (next: ISize, prev: ISize) =>
 /**
  *  Displays a modal overlay
  */
-const Modal = ({ Component, props }: IProps) => (
+const Modal = ({ Component, props, hide }: IProps) => (
   <Measure onChange={onChange}>
     {({ width, measureProps }) => (
       <Container {...measureProps}>
@@ -49,7 +51,14 @@ const Modal = ({ Component, props }: IProps) => (
             <Content>
               <Component fullScreen={false} {...props} />
             </Content>
-            <Overlay />
+            <Button
+              noContent
+              action={hide}
+              analyticsAction="HIDE"
+              analyticsCategory="MODAL"
+            >
+              {({ isHovering }) => <Overlay isHovering={isHovering} />}
+            </Button>
           </React.Fragment>
         )}
       </Container>

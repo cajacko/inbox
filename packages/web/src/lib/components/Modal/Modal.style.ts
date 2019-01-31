@@ -3,6 +3,7 @@ import { WHITE } from 'src/lib/config/styles/colors';
 import {
   BACKGROUND_COLOR,
   BACKGROUND_OPACITY,
+  BACKGROUND_OPACITY_HOVER,
 } from 'src/lib/config/styles/overlays';
 import margin from 'src/lib/utils/applyMargin';
 import shadow from 'src/lib/utils/shadow';
@@ -25,14 +26,15 @@ export const Container = styled(View)`
   align-items: center;
 `;
 
-export const Overlay = styled(View)`
+export const Overlay = styled(View)<{ isHovering: boolean }>`
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
   background-color: ${BACKGROUND_COLOR};
-  opacity: ${BACKGROUND_OPACITY};
+  opacity: ${({ isHovering }) =>
+    (isHovering ? BACKGROUND_OPACITY_HOVER : BACKGROUND_OPACITY)};
   z-index: 901;
 `;
 

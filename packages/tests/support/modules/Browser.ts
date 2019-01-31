@@ -320,6 +320,14 @@ class Browser {
       return Promise.resolve();
     }
   }
+
+  public async pressCoordinates(x: number, y: number) {
+    await this.ensurePage();
+
+    if (!this.page) throw new Error('No page object to get elements');
+
+    return this.page.mouse.click(x, y);
+  }
 }
 
 export default Browser;

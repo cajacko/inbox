@@ -72,7 +72,9 @@ class Provider extends React.Component<IProps, IState> {
 
     return (
       <Context.Provider value={value}>
-        {!!Component && <Modal Component={Component} props={props} />}
+        {!!Component && (
+          <Modal Component={Component} props={props} hide={this.hide} />
+        )}
 
         {this.props.children}
       </Context.Provider>
