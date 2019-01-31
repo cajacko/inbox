@@ -6,6 +6,7 @@ import AppLoading from 'src/lib/components/AppLoading';
 import ErrorBoundary from 'src/lib/components/ErrorBoundary';
 import Router from 'src/lib/components/Router';
 import { entry } from 'src/lib/config/routes';
+import * as Modal from 'src/lib/context/Modal';
 import errors from 'src/lib/utils/errors';
 import history from 'src/lib/utils/history';
 import store from 'src/lib/utils/store';
@@ -24,13 +25,23 @@ const App = () => {
       <ErrorBoundary defaultError={errors.getError('100-004')}>
         <Provider store={store.get()}>
           <SafeAreaView>
-            <AppLoading>
-              <ErrorBoundary defaultError={errors.getError('100-007')}>
-                <EntryRouter history={history}>
-                  <Router routes={entry} testHookKey="mainRouter" />
-                </EntryRouter>
-              </ErrorBoundary>
-            </AppLoading>
+            <ErrorBoundary defaultError={errors.getError('100-014')}>
+              <AppLoading>
+                <ErrorBoundary defaultError={errors.getError('100-007')}>
+                  <EntryRouter history={history}>
+                    <ErrorBoundary defaultError={errors.getError('100-012')}>
+                      <Modal.Provider>
+                        <ErrorBoundary
+                          defaultError={errors.getError('100-013')}
+                        >
+                          <Router routes={entry} testHookKey="mainRouter" />
+                        </ErrorBoundary>
+                      </Modal.Provider>
+                    </ErrorBoundary>
+                  </EntryRouter>
+                </ErrorBoundary>
+              </AppLoading>
+            </ErrorBoundary>
           </SafeAreaView>
         </Provider>
       </ErrorBoundary>

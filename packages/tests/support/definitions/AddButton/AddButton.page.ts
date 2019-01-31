@@ -9,6 +9,10 @@ class AddButton {
   public async visible(condition: ICondition) {
     return driver.visible(condition, getSelector(this.addButtonSelector));
   }
+
+  public async press() {
+    return driver.press(getSelector(this.addButtonSelector));
+  }
 }
 
 export default new AddButton();

@@ -1,5 +1,8 @@
 import * as React from 'react';
+import AddReminder from 'src/lib/components/AddReminder';
 import { MENU_WIDTH } from 'src/lib/components/Menu/Menu.style';
+import * as Modal from 'src/lib/context/Modal';
+import withConsumer from 'src/lib/HOCs/withConsumer';
 import Animated from 'src/packages/animated';
 import unit from 'src/utils/unit';
 import HeaderWithDrawer from './HeaderWithDrawer.render';
@@ -7,6 +10,7 @@ import { ANIMATION_DURATION } from './HeaderWithDrawer.style';
 
 interface IProps {
   children: JSX.Element;
+  context: Modal.IValue;
 }
 
 interface IState {
@@ -35,6 +39,7 @@ class HeaderWithDrawerC extends React.Component<IProps, IState> {
 
     this.close = this.close.bind(this);
     this.open = this.open.bind(this);
+    this.add = this.add.bind(this);
   }
 
   private animation: Animated.Value;
@@ -74,6 +79,13 @@ class HeaderWithDrawerC extends React.Component<IProps, IState> {
   }
 
   /**
+   * Show the add modal
+   */
+  private add() {
+    this.props.context.show(AddReminder);
+  }
+
+  /**
    * Render the component
    */
   public render() {
@@ -89,6 +101,7 @@ class HeaderWithDrawerC extends React.Component<IProps, IState> {
 
     return (
       <HeaderWithDrawer
+        add={this.add}
         showTestID={this.state.showTestID}
         renderMenu={this.state.renderMenu}
         menuIsOpen={this.state.menuIsOpen}
@@ -103,4 +116,4 @@ class HeaderWithDrawerC extends React.Component<IProps, IState> {
   }
 }
 
-export default HeaderWithDrawerC;
+export default withConsumer(Modal.Consumer)(HeaderWithDrawerC);

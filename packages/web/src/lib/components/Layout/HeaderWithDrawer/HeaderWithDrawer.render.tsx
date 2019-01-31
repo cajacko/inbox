@@ -9,6 +9,7 @@ import getButtonType from 'src/lib/utils/getButtonType';
 import * as Style from './HeaderWithDrawer.style';
 
 interface IProps {
+  add: () => void;
   children: JSX.Element;
   renderMenu: boolean;
   menuIsOpen: boolean;
@@ -90,6 +91,7 @@ const HeaderWithDrawer = (props: IProps) => {
           </Style.Content>
           <Style.AddButton>
             <Button
+              action={props.add}
               testID="AddButton"
               icon={Plus}
               analyticsAction="ADD_BUTTON"

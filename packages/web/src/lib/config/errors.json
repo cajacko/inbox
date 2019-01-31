@@ -30,7 +30,7 @@
     "title": "Errors.Fatal.Title"
   },
   "100-007": {
-    "label": "Main Router Error",
+    "label": "Router Init Error",
     "message": "Errors.DevError.Message",
     "title": "Errors.DevError.Title"
   },
@@ -51,6 +51,21 @@
   },
   "100-011": {
     "label": "No color for icon",
+    "message": "Errors.DevError.Message",
+    "title": "Errors.DevError.Title"
+  },
+  "100-012": {
+    "label": "Modal Error",
+    "message": "Errors.DevError.Message",
+    "title": "Errors.DevError.Title"
+  },
+  "100-013": {
+    "label": "Main Router Error",
+    "message": "Errors.DevError.Message",
+    "title": "Errors.DevError.Title"
+  },
+  "100-014": {
+    "label": "App Loading Error",
     "message": "Errors.DevError.Message",
     "title": "Errors.DevError.Title"
   }

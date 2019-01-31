@@ -2,6 +2,9 @@ const general = {
   AddButton: {
     web: '.AddButton',
   },
+  AddReminder: {
+    web: '.AddReminder',
+  },
   ErrorBoundary: {
     Button: {
       Text: {
