@@ -15,20 +15,21 @@ interface IProps {
  * Get the actual text for the component, given the marketing text or
  * an override object.
  */
-const withText = (...propKeys: PropKeys) => (Component: React.ComponentType<IProps>) => (props: IProps) => {
-  const newProps = cloneDeep(props);
+const withText = (...propKeys: PropKeys) => (Component: React.ComponentType<IProps>) =>
+  React.forwardRef((props: IProps, ref) => {
+    const newProps = cloneDeep(props);
 
-  propKeys.forEach((key) => {
-    const val = props[key];
+    propKeys.forEach((key) => {
+      const val = props[key];
 
-    if (val === undefined) return;
+      if (val === undefined) return;
 
-    const text = getText(val);
+      const text = getText(val);
 
-    newProps[key] = text;
+      newProps[key] = text;
+    });
+
+    return <Component ref={ref} {...newProps} />;
   });
-
-  return <Component {...newProps} />;
-};
 
 export default withText;

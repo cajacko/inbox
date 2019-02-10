@@ -336,6 +336,32 @@ class Browser {
 
     return this.page.goBack();
   }
+
+  public async focused(condition: ICondition, selector: string) {
+    await this.ensurePage();
+
+    await conditional(
+      condition,
+      () => {
+        if (!this.page) throw new Error('No page');
+
+        return this.page.evaluate((selectorParam) => {
+          const element = document.querySelector(selectorParam);
+
+          if (!element) return false;
+          if (!document.activeElement) return false;
+
+          return document.activeElement === element;
+        }, selector);
+      },
+      {
+        negative: `Element at "${selector}" is focused, expected it to be not focused`,
+        positive: `Element at "${selector}" is not focused`,
+        waitNegative: `Element at "${selector}" did not become not focused`,
+        waitPositive: `Element at "${selector}" did not become focused`,
+      }
+    );
+  }
 }
 
 export default Browser;

@@ -42,9 +42,12 @@ Feature: Add Reminder
     When the device back button is pressed
     Then the add reminder scene "is not" visible
 
+  Scenario: Auto focus on text input on mount
+    When the add reminder button is pressed
+    Then the add reminder text input "is" focussed
+
   Scenario: Edit reminder scene displays correctly with text
   Scenario: Edit reminder scene displays correctly with long text
-  Scenario: Auto focus on text input on mount
   Scenario: Cannot save a reminder with no text
   Scenario: Cannot add too much text
 

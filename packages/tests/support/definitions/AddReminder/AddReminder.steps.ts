@@ -6,3 +6,6 @@ Then('the add reminder scene {string} visible', condition =>
 
 When('the add reminder cancel button is pressed', () =>
   addReminder.pressCancelButton());
+
+Then('the add reminder text input {string} focussed', condition =>
+  addReminder.inputFocused(condition));

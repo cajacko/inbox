@@ -7,7 +7,9 @@ import addQueryToLocation from 'src/lib/utils/addQueryToLocation';
 const Context = React.createContext({});
 const { Consumer } = Context;
 
-type ComponentType = (props: { [key: string]: any }) => JSX.Element;
+type ComponentType = React.ComponentType<{
+  fullScreen: boolean;
+}>;
 
 interface IProps extends RouteComponentProps {
   children: Children;

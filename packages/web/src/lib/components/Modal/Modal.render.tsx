@@ -15,7 +15,7 @@ interface IComponentProps {
 }
 
 interface IProps {
-  Component: (props: IComponentProps) => JSX.Element;
+  Component: React.ComponentType<IComponentProps>;
   props: { [key: string]: any };
   hide: () => void;
 }

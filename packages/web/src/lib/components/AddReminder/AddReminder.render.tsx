@@ -1,7 +1,8 @@
 import * as React from 'react';
+import { TextInputRef } from 'src/components/TextInput';
 import Times from 'src/lib/assets/icons/Times';
 import Button from 'src/lib/components/Button';
-import Text from 'src/lib/components/Text';
+import TextInput from 'src/lib/components/Forms/TextInput';
 import getButtonType from 'src/lib/utils/getButtonType';
 import {
   BACKGROUND_COLOR,
@@ -14,21 +15,27 @@ import {
 
 const analyticsCategory = 'ADD_REMINDER_SCENE';
 
-interface IProps {
+export interface IPassedProps {
   fullScreen: boolean;
   close: () => void;
+}
+
+export interface IProps extends IPassedProps {
+  setInputRef: (ref: TextInputRef | null) => void;
 }
 
 /**
  * Show the add reminder view
  */
-const AddReminder = ({ fullScreen, close }: IProps) => {
+const AddReminder = ({ fullScreen, close, setInputRef }: IProps) => {
   const input = (
     <Input>
-      <Text
-        text={{ _textFromConst: 'Reminder to add...' }}
+      <TextInput
+        placeholder={{ _textFromConst: 'Reminder to add...' }}
         backgroundColor={BACKGROUND_COLOR}
-        greyedOut
+        testID="AddReminder__Input"
+        value=""
+        ref={setInputRef}
       />
     </Input>
   );
