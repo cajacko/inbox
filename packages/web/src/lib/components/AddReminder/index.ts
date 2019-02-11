@@ -1,1 +1,1 @@
-export { default } from './AddReminder.component';
+export { default } from './AddReminder.container';

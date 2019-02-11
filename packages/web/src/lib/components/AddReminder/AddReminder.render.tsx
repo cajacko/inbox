@@ -18,7 +18,6 @@ const analyticsCategory = 'ADD_REMINDER_SCENE';
 export interface IPassedProps {
   fullScreen: boolean;
   close: () => void;
-  onSave: () => void;
 }
 
 export interface IProps extends IPassedProps {
@@ -26,6 +25,7 @@ export interface IProps extends IPassedProps {
   onChange: (text: string) => void;
   value: string;
   saveDisabled: boolean;
+  onSave: () => void;
 }
 
 /**

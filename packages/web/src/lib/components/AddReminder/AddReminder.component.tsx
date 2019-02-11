@@ -4,7 +4,11 @@ import AddReminder, { IPassedProps } from './AddReminder.render';
 
 const TEXT_LIMIT = 100;
 
-type IProps = IPassedProps;
+export interface IContainerDispatchProps {
+  save: (value: string) => void;
+}
+
+interface IProps extends IPassedProps, IContainerDispatchProps {}
 
 interface IState {
   value: string;
@@ -55,6 +59,7 @@ class AddReminderComponent extends React.Component<IProps, IState> {
     if (this.isDisabled()) return;
 
     this.props.close();
+    this.props.save(this.state.value);
   }
 
   /**

@@ -102,4 +102,5 @@ Feature: Add Reminder
   Scenario: New reminder displays correctly when saved to cloud
   Scenario: New reminder displays correctly when errors saving to cloud
   Scenario: Close app when unsaved changes shows alert
+  Scenario: Add new orders new item at the top
 

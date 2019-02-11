@@ -85,6 +85,12 @@ const general = {
     web: '.Menu',
   },
   ReminderList: {
+    Reminder: {
+      Text: {
+        web: ({ index }: { index: number }) =>
+          `.Reminder:nth-child(${index + 1}) .Reminder__Text`,
+      },
+    },
     Reminders: {
       web: '.Reminder',
     },

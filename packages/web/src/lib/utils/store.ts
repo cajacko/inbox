@@ -33,6 +33,7 @@ const analyticsMiddleWare: Middleware = () => next => (reduxAction) => {
 
 const store = new Store(reducers, undefined, {
   middleware: [analyticsMiddleWare],
+  // purgeOnLoad: true,
   shouldLogState: true,
 });
 

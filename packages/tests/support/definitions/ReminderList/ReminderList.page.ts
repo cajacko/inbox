@@ -3,9 +3,11 @@ import driver from '../../utils/driver';
 import { ICondition } from '../../utils/ensureCondition';
 import getSelector from '../../utils/getSelector';
 
-class Api {
+class ReminderList {
   private reminderListSelector: ISelector =
     selectors.general.ReminderList.Reminders;
+  private reminderTextSelector: ISelector =
+    selectors.general.ReminderList.Reminder.Text;
 
   public async count(conditional: ICondition, value: number) {
     return driver.count(
@@ -16,8 +18,12 @@ class Api {
   }
 
   public async text(conditional: ICondition, index: number, value: string) {
-    throw new Error('No implemented yet');
+    return driver.text(
+      conditional,
+      getSelector(this.reminderTextSelector, { index }),
+      value
+    );
   }
 }
 
-export default new Api();
+export default new ReminderList();

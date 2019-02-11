@@ -1,4 +1,8 @@
-import { Action, Middleware as RMiddleware } from 'redux';
+import {
+  Action,
+  Dispatch as RDispatch,
+  Middleware as RMiddleware,
+} from 'redux';
 
 export type Children =
   | JSX.Element[]
@@ -20,5 +24,7 @@ export interface IAction extends Action {
     doNotSendEvent?: boolean;
   };
 }
+
+export type Dispatch = RDispatch<IAction>;
 
 export type Middleware = RMiddleware<{}, any, any>;

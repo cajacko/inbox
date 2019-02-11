@@ -82,6 +82,7 @@ export const Content = styled(View)`
 export const ContentWrap = styled(View)`
   max-width: ${unit(MAX_CONTENT_WIDTH)};
   flex: 1;
+  width: 100%;
 `;
 
 export const DesktopMenu = styled(AnimatedView)`
