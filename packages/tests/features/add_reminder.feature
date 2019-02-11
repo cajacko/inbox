@@ -53,6 +53,10 @@ Feature: Add Reminder
     Then the screenshot matches
 
   Scenario: Edit reminder scene displays correctly with long text
+    When the add reminder button is pressed
+    And the text "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua" is typed into the add reminder input
+    Then the screenshot matches
+
   Scenario: Cannot save a reminder with no text
   Scenario: Cannot add too much text
 
