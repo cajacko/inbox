@@ -47,6 +47,11 @@ Feature: Add Reminder
     Then the add reminder text input "is" focussed
 
   Scenario: Edit reminder scene displays correctly with text
+    When the add reminder button is pressed
+    And the text "Edit reminder scene" is typed into the add reminder input
+    Then the add reminder text "is" "Edit reminder scene"
+    Then the screenshot matches
+
   Scenario: Edit reminder scene displays correctly with long text
   Scenario: Cannot save a reminder with no text
   Scenario: Cannot add too much text

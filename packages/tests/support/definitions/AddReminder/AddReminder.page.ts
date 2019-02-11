@@ -20,6 +20,14 @@ class AddReminder {
   public async inputFocused(condition: ICondition) {
     return driver.focused(condition, getSelector(this.inputSelector));
   }
+
+  public async type(text: string) {
+    return driver.type(getSelector(this.inputSelector), text);
+  }
+
+  public async textIs(condition: ICondition, text: string) {
+    return driver.value(condition, getSelector(this.inputSelector), text);
+  }
 }
 
 export default new AddReminder();

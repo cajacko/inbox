@@ -169,6 +169,20 @@ class Browser {
     return properties.jsonValue();
   }
 
+  public async getValue(selector: string) {
+    await this.ensurePage();
+
+    if (!this.page) throw new Error('No page');
+
+    return this.page.evaluate((selectorParam) => {
+      const element = document.querySelector(selectorParam);
+
+      if (!element) return null;
+
+      return element.value;
+    }, selector);
+  }
+
   public async text(condition: ICondition, selector: string, text: string) {
     let actualText: string;
 
@@ -360,6 +374,37 @@ class Browser {
         waitNegative: `Element at "${selector}" did not become not focused`,
         waitPositive: `Element at "${selector}" did not become focused`,
       }
+    );
+  }
+
+  public async type(selector: string, text: string) {
+    await this.ensurePage();
+
+    if (!this.page) throw new Error('No page object to get elements');
+
+    return this.page.type(selector, text);
+  }
+
+  public async value(condition: ICondition, selector: string, text: string) {
+    let actualText: string;
+
+    await conditional(
+      condition,
+      async () => {
+        try {
+          actualText = await this.getValue(selector);
+
+          return actualText === text;
+        } catch (e) {
+          return false;
+        }
+      },
+      () => ({
+        negative: `Value at "${selector}" is\n"${text}"\nExpected it not to be\n"${actualText}"`,
+        positive: `Value at "${selector}" is not\n"${text}"Received\n"${actualText}"`,
+        waitNegative: `Timeout waiting for value at "${selector}" to not be\n"${text}"\nLast value was\n"${actualText}"`,
+        waitPositive: `Timeout waiting for value at "${selector}" to be\n"${text}"\nLast value was\n"${actualText}"`,
+      })
     );
   }
 }

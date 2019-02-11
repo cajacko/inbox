@@ -22,19 +22,28 @@ export interface IPassedProps {
 
 export interface IProps extends IPassedProps {
   setInputRef: (ref: TextInputRef | null) => void;
+  onChange: (text: string) => void;
+  value: string;
 }
 
 /**
  * Show the add reminder view
  */
-const AddReminder = ({ fullScreen, close, setInputRef }: IProps) => {
+const AddReminder = ({
+  fullScreen,
+  close,
+  setInputRef,
+  onChange,
+  value,
+}: IProps) => {
   const input = (
     <Input>
       <TextInput
         placeholder="AddReminder.Placeholder"
         backgroundColor={BACKGROUND_COLOR}
         testID="AddReminder__Input"
-        value=""
+        value={value}
+        onChange={onChange}
         ref={setInputRef}
       />
     </Input>
