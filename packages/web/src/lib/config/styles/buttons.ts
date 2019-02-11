@@ -80,9 +80,15 @@ const styles: { [key: string]: IStyles } = {
     themes: {
       PRIMARY: {
         backgroundColor: BACKGROUND_COLORS.PRIMARY,
+        hover: {
+          backgroundColor: BACKGROUND_COLORS.PRIMARY_DARK,
+        },
       },
       SECONDARY: {
         backgroundColor: BACKGROUND_COLORS.SECONDARY,
+        hover: {
+          backgroundColor: BACKGROUND_COLORS.SECONDARY_DARK,
+        },
       },
       SECONDARY_DARK: {
         backgroundColor: BACKGROUND_COLORS.SECONDARY_DARK,
