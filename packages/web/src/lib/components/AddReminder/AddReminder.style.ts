@@ -3,7 +3,6 @@ import { GREY_LIGHTER, WHITE } from 'src/lib/config/styles/colors';
 import border from 'src/lib/utils/applyBorder';
 import padding from 'src/lib/utils/applyPadding';
 import shadow from 'src/lib/utils/shadow';
-import unit from 'src/utils/unit';
 import styled from 'styled-components';
 
 export const BACKGROUND_COLOR = WHITE;
@@ -34,13 +33,14 @@ export const Content = styled(View)<IContentProps>`
 export const Panel = styled(View)<IContentProps>`
   ${padding(10)};
   justify-content: space-between;
+  align-items: center;
   flex-direction: row;
   background-color: ${BACKGROUND_COLOR};
   ${applyBorder}
 `;
 
 export const InputPanel = styled(View)`
-  ${padding(20)};
+  ${padding({ horizontal: 20, vertical: 10 })};
   background-color: ${BACKGROUND_COLOR};
   flex-direction: row;
 `;
@@ -48,5 +48,4 @@ export const InputPanel = styled(View)`
 export const Input = styled(View)`
   flex: 1;
   justify-content: center;
-  padding-left: ${unit(10)};
 `;

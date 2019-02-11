@@ -1,13 +1,18 @@
 import * as React from 'react';
-import { TextInput as UITextInput } from 'src/components';
 import { TextInputRef } from 'src/components/TextInput';
+import { InputType } from 'src/lib/config/styles/text';
+import { BackgroundColorVal } from 'src/lib/config/styles/textIconColors';
 import withText from 'src/lib/HOCs/withText';
+import { Input } from './TextInput.style';
 
 interface IProps {
   value: string;
   placeholder: string;
   testID?: string;
   onChange: (text: string) => void;
+  backgroundColor: BackgroundColorVal;
+  error?: boolean;
+  type?: InputType;
 }
 
 type Ref = (ref: TextInputRef | null) => void;
@@ -15,15 +20,25 @@ type Ref = (ref: TextInputRef | null) => void;
 /**
  * Render a simple text input
  */
-const TextInput = React.forwardRef(({
-  value, placeholder, testID, onChange,
-}: IProps, ref: Ref) => (
-    <UITextInput
+const TextInput = React.forwardRef((
+  {
+    value,
+    placeholder,
+    testID,
+    onChange,
+    backgroundColor,
+    error,
+    type,
+  }: IProps,
+  ref: Ref
+) => (
+    <Input
       ref={ref}
       value={value}
       placeholder={placeholder}
       testID={testID}
       onChange={onChange}
+      customProps={{ backgroundColor, error, type }}
     />
 ));
 
