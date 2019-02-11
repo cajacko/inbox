@@ -27,7 +27,8 @@
     "Logout": "Logout"
   },
   "AddReminder": {
-    "Placeholder": "Reminder to add..."
+    "Placeholder": "Reminder to add...",
+    "Save": "Save"
   },
   "ErrorBoundary": {
     "ErrorCode": "Error Code"

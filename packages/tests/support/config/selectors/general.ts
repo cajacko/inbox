@@ -9,6 +9,9 @@ const general = {
     Input: {
       web: '.AddReminder__Input',
     },
+    Save: {
+      web: '.AddReminder__Save',
+    },
     web: '.AddReminder',
   },
   ErrorBoundary: {

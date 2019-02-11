@@ -57,13 +57,28 @@ Feature: Add Reminder
     And the text "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua" is typed into the add reminder input
     Then the screenshot matches
 
-  Scenario: Cannot save a reminder with no text
+  Scenario: Cannot save a reminder with no initial text
+    When the add reminder button is pressed
+    Then the add reminder save button "is" disabled
+    When the add reminder save button is pressed
+    Then the add reminder scene "is" visible
+
+  Scenario: Cannot save a reminder with no text when edited
+    When the add reminder button is pressed
+    And the text "Cannot save a reminder" is typed into the add reminder input
+    Then the add reminder save button "is not" disabled
+    When the add reminder input is cleared
+    Then the add reminder save button "is" disabled
+    When the add reminder save button is pressed
+    Then the add reminder scene "is" visible
+
   Scenario: Cannot add too much text
+    When the add reminder button is pressed
+    And the text "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat." is typed into the add reminder input
+    Then the add reminder text "is" "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore "
 
   Scenario: Successfully add a reminder
   # Ensure check db records as well
-  Scenario: Cancel adding a reminder
-
   Scenario: New reminder displays correctly when not saved to cloud yet
   Scenario: New reminder displays correctly when saved to cloud
   Scenario: New reminder displays correctly when errors saving to cloud

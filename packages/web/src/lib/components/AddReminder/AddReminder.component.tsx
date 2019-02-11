@@ -2,6 +2,8 @@ import * as React from 'react';
 import { TextInputRef } from 'src/components/TextInput';
 import AddReminder, { IPassedProps } from './AddReminder.render';
 
+const TEXT_LIMIT = 100;
+
 type IProps = IPassedProps;
 
 interface IState {
@@ -26,6 +28,7 @@ class AddReminderComponent extends React.Component<IProps, IState> {
 
     this.setInputRef = this.setInputRef.bind(this);
     this.onChange = this.onChange.bind(this);
+    this.isDisabled = this.isDisabled.bind(this);
   }
 
   /**
@@ -39,6 +42,8 @@ class AddReminderComponent extends React.Component<IProps, IState> {
    * When the input changes update the value
    */
   private onChange(value: string) {
+    if (value.length > TEXT_LIMIT) return;
+
     this.setState({ value });
   }
 
@@ -47,6 +52,13 @@ class AddReminderComponent extends React.Component<IProps, IState> {
    */
   private setInputRef(ref: TextInputRef | null) {
     this.input = ref;
+  }
+
+  /**
+   * Should the button be disabled
+   */
+  private isDisabled() {
+    return this.state.value === '';
   }
 
   private input: TextInputRef | null;
@@ -60,6 +72,7 @@ class AddReminderComponent extends React.Component<IProps, IState> {
         setInputRef={this.setInputRef}
         onChange={this.onChange}
         value={this.state.value}
+        saveDisabled={this.isDisabled()}
         {...this.props}
       />
     );

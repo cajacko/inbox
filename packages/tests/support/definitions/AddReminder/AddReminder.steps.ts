@@ -15,3 +15,10 @@ When('the text {string} is typed into the add reminder input', text =>
 
 Then('the add reminder text {string} {string}', (condition, text) =>
   addReminder.textIs(condition, text));
+
+Then('the add reminder save button {string} disabled', condition =>
+  addReminder.saveDisabled(condition));
+
+When('the add reminder save button is pressed', () => addReminder.pressSave());
+
+When('the add reminder input is cleared', () => addReminder.clear());

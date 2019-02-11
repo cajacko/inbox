@@ -31,6 +31,7 @@ export interface IPassedDownProps {
   icon?: Component;
   iconLeft?: boolean;
   iconRight?: boolean;
+  disabled?: boolean;
 }
 
 interface IProps extends IPassedDownProps {
@@ -57,6 +58,8 @@ const Button = (props: IProps) => {
 
   const buttonProps = {
     action: props.noButton ? undefined : props.action,
+    className: props.disabled ? 'disabled' : '',
+    disabled: props.disabled,
     style: nativeStylesProp,
     testID: props.testID,
     ...props.buttonEvents,
@@ -91,9 +94,14 @@ const Button = (props: IProps) => {
       fullHeight={props.fullHeight}
       baseWidth={props.baseWidth}
       isHovering={props.isHovering}
+      disabled={props.disabled}
     >
       <ButtonComponent {...buttonProps}>
-        <Inner type={props.type} isHovering={props.isHovering}>
+        <Inner
+          type={props.type}
+          isHovering={props.isHovering}
+          disabled={props.disabled}
+        >
           {props.text ? (
             <React.Fragment>
               {LeftIcon}

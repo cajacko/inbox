@@ -407,6 +407,51 @@ class Browser {
       })
     );
   }
+
+  public async disabled(condition: ICondition, selector: string) {
+    await conditional(
+      condition,
+      async () => {
+        if (!this.page) throw new Error('No page');
+
+        return this.page.evaluate((selectorParam) => {
+          const element = document.querySelector(selectorParam);
+
+          if (!element) return false;
+
+          return element.className.includes('disabled');
+        }, selector);
+      },
+      () => ({
+        negative: `Element at "${selector}" is disabled, expected it not to be disabled`,
+        positive: `Element at "${selector}" is not disabled, expected it to be disabled`,
+        waitNegative: `Timeout waiting for element at "${selector}" to not be disabled`,
+        waitPositive: `Timeout waiting for element at "${selector}" to be disabled`,
+      })
+    );
+  }
+
+  public async clear(selector: string) {
+    this.ensurePage();
+
+    if (!this.page) throw new Error('No page');
+
+    const cleared = await this.page.evaluate((selectorParam) => {
+      const element = document.querySelector(selectorParam);
+
+      if (!element) return false;
+
+      element.value = '';
+
+      return true;
+    }, selector);
+
+    if (!cleared) throw new Error('Could not get element to clear');
+
+    // Needed to trigger the onchange event
+    await this.type(selector, ' ');
+    await this.page.keyboard.press('Backspace');
+  }
 }
 
 export default Browser;

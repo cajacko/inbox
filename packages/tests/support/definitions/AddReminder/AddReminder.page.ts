@@ -8,6 +8,7 @@ class AddReminder {
   private cancelButtonSelector: ISelector =
     selectors.general.AddReminder.Cancel;
   private inputSelector: ISelector = selectors.general.AddReminder.Input;
+  private saveButtonSelector: ISelector = selectors.general.AddReminder.Save;
 
   public async visible(condition: ICondition) {
     return driver.visible(condition, getSelector(this.addReminderSelector));
@@ -27,6 +28,18 @@ class AddReminder {
 
   public async textIs(condition: ICondition, text: string) {
     return driver.value(condition, getSelector(this.inputSelector), text);
+  }
+
+  public async saveDisabled(condition: ICondition) {
+    return driver.disabled(condition, getSelector(this.saveButtonSelector));
+  }
+
+  public async pressSave() {
+    return driver.press(getSelector(this.saveButtonSelector));
+  }
+
+  public async clear() {
+    return driver.clear(getSelector(this.inputSelector));
   }
 }
 

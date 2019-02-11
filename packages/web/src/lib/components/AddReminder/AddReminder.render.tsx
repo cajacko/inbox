@@ -24,6 +24,7 @@ export interface IProps extends IPassedProps {
   setInputRef: (ref: TextInputRef | null) => void;
   onChange: (text: string) => void;
   value: string;
+  saveDisabled: boolean;
 }
 
 /**
@@ -35,6 +36,7 @@ const AddReminder = ({
   setInputRef,
   onChange,
   value,
+  saveDisabled,
 }: IProps) => {
   const input = (
     <Input>
@@ -65,11 +67,13 @@ const AddReminder = ({
           {!fullScreen && input}
 
           <Button
-            text={{ _textFromConst: 'Save' }}
+            text="AddReminder.Save"
             analyticsAction="SAVE"
             analyticsCategory={analyticsCategory}
             type={getButtonType('TRANSPARENT')}
             baseWidth
+            testID="AddReminder__Save"
+            disabled={saveDisabled}
           />
         </Panel>
         {fullScreen && <InputPanel>{input}</InputPanel>}

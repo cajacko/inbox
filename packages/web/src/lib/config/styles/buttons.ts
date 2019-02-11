@@ -22,6 +22,7 @@ interface IStyles {
   paddingHorizontal?: number;
   shadow?: string;
   hover?: IStyles;
+  disabled?: IStyles;
   themes?: {
     [key: string]: IStyles;
   };
@@ -39,6 +40,7 @@ export interface IType {
   paddingHorizontal?: number;
   shadow?: string;
   hover?: IType;
+  disabled?: IType;
 }
 
 export const BUTTON_BORDER_RADIUS = 5;
@@ -128,6 +130,9 @@ const styles: { [key: string]: IStyles } = {
         textColor: COLORS.GREY_DARK,
       },
       PRIMARY: {
+        disabled: {
+          textColor: COLORS.GREY,
+        },
         hover: {
           textColor: COLORS.PRIMARY,
         },
