@@ -46,7 +46,7 @@ Feature: App Errors
     And the driver is ready
     When the app is navigated to "/"
     Then the error component "is" visible
-    And the error code "is" "100-007"
+    And the error code "is" "100-013"
     And the screenshot matches
 
   # TODO: Handle this when we have some routes

@@ -31,7 +31,7 @@ const AddReminder = ({ fullScreen, close, setInputRef }: IProps) => {
   const input = (
     <Input>
       <TextInput
-        placeholder={{ _textFromConst: 'Reminder to add...' }}
+        placeholder="AddReminder.Placeholder"
         backgroundColor={BACKGROUND_COLOR}
         testID="AddReminder__Input"
         value=""

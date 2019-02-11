@@ -26,6 +26,9 @@
     "HideMenu": "Hide Menu",
     "Logout": "Logout"
   },
+  "AddReminder": {
+    "Placeholder": "Reminder to add..."
+  },
   "ErrorBoundary": {
     "ErrorCode": "Error Code"
   },

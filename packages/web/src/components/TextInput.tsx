@@ -3,11 +3,11 @@ import mergeClasses from 'src/utils/mergeClasses';
 import styled from 'styled-components';
 
 interface IProps {
-  value: string;
-  placeholder: string;
-  onChange: (val: string) => void;
   className?: string;
+  onChange: (val: string) => void;
+  placeholder: string;
   testID?: string;
+  value: string;
 }
 
 type Ref = React.RefObject<HTMLInputElement>;
@@ -30,9 +30,9 @@ const onChangeVal = (onChange: IProps['onChange']) => (e: React.ChangeEvent<HTML
  */
 const TextInput = React.forwardRef((props: IProps, ref: Ref) => (
   <Input
-    className={mergeClasses(props.className, props.testID)}
-    ref={ref}
     {...props}
+    ref={ref}
+    className={mergeClasses(props.className, props.testID)}
     onChange={onChangeVal(props.onChange)}
   />
 ));
