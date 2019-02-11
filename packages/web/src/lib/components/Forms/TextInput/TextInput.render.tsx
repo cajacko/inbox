@@ -13,6 +13,7 @@ interface IProps {
   backgroundColor: BackgroundColorVal;
   error?: boolean;
   type?: InputType;
+  onSubmit: () => void;
 }
 
 type Ref = (ref: TextInputRef | null) => void;
@@ -29,11 +30,13 @@ const TextInput = React.forwardRef((
     backgroundColor,
     error,
     type,
+    onSubmit,
   }: IProps,
   ref: Ref
 ) => (
     <Input
       ref={ref}
+      onSubmit={onSubmit}
       value={value}
       placeholder={placeholder}
       testID={testID}

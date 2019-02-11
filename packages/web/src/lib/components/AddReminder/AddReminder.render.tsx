@@ -18,6 +18,7 @@ const analyticsCategory = 'ADD_REMINDER_SCENE';
 export interface IPassedProps {
   fullScreen: boolean;
   close: () => void;
+  onSave: () => void;
 }
 
 export interface IProps extends IPassedProps {
@@ -37,6 +38,7 @@ const AddReminder = ({
   onChange,
   value,
   saveDisabled,
+  onSave,
 }: IProps) => {
   const input = (
     <Input>
@@ -47,6 +49,7 @@ const AddReminder = ({
         value={value}
         onChange={onChange}
         ref={setInputRef}
+        onSubmit={onSave}
       />
     </Input>
   );
@@ -67,6 +70,7 @@ const AddReminder = ({
           {!fullScreen && input}
 
           <Button
+            action={onSave}
             text="AddReminder.Save"
             analyticsAction="SAVE"
             analyticsCategory={analyticsCategory}

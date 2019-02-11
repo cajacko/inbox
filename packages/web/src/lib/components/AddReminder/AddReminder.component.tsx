@@ -29,6 +29,7 @@ class AddReminderComponent extends React.Component<IProps, IState> {
     this.setInputRef = this.setInputRef.bind(this);
     this.onChange = this.onChange.bind(this);
     this.isDisabled = this.isDisabled.bind(this);
+    this.onSave = this.onSave.bind(this);
   }
 
   /**
@@ -45,6 +46,15 @@ class AddReminderComponent extends React.Component<IProps, IState> {
     if (value.length > TEXT_LIMIT) return;
 
     this.setState({ value });
+  }
+
+  /**
+   * When the save button is pressed, close the modal and save
+   */
+  private onSave() {
+    if (this.isDisabled()) return;
+
+    this.props.close();
   }
 
   /**
@@ -73,6 +83,7 @@ class AddReminderComponent extends React.Component<IProps, IState> {
         onChange={this.onChange}
         value={this.state.value}
         saveDisabled={this.isDisabled()}
+        onSave={this.onSave}
         {...this.props}
       />
     );

@@ -18,3 +18,5 @@ Given('we add a hook with id {string} and type {string}', (id, type) =>
   driver.addHook(id, type));
 
 When('the device back button is pressed', () => driver.pressBackButton());
+
+When('the keyboard submit button is pressed', () => driver.pressSubmitKey());

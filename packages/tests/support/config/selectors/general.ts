@@ -84,6 +84,11 @@ const general = {
     },
     web: '.Menu',
   },
+  ReminderList: {
+    Reminders: {
+      web: '.Reminder',
+    },
+  },
   SplashScreen: {
     web: '.splashScreen',
   },

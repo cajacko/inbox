@@ -252,6 +252,29 @@ class Browser {
     return element.length;
   }
 
+  public async count(condition: ICondition, selector: string, value: number) {
+    let actualCount: number;
+
+    await conditional(
+      condition,
+      async () => {
+        try {
+          actualCount = await this.getCount(selector);
+
+          return actualCount === value;
+        } catch (e) {
+          return false;
+        }
+      },
+      () => ({
+        negative: `Count at "${selector}" is\n"${value}"\nExpected it not to be\n"${actualCount}"`,
+        positive: `Count at "${selector}" is not\n"${value}"Received\n"${actualCount}"`,
+        waitNegative: `Timeout waiting for count at "${selector}" to not be\n"${value}"\nLast value was\n"${actualCount}"`,
+        waitPositive: `Timeout waiting for count at "${selector}" to be\n"${value}"\nLast value was\n"${actualCount}"`,
+      })
+    );
+  }
+
   public async press(selector: string) {
     await this.ensurePage();
 
@@ -451,6 +474,14 @@ class Browser {
     // Needed to trigger the onchange event
     await this.type(selector, ' ');
     await this.page.keyboard.press('Backspace');
+  }
+
+  public async pressSubmitKey() {
+    this.ensurePage();
+
+    if (!this.page) throw new Error('No page');
+
+    await this.page.keyboard.press('Enter');
   }
 }
 

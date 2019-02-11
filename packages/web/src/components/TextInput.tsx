@@ -8,11 +8,16 @@ interface IProps {
   placeholder: string;
   testID?: string;
   value: string;
+  onSubmit: () => void;
 }
 
 type Ref = React.RefObject<HTMLInputElement>;
 
 const Input = styled.input`
+  display: flex;
+`;
+
+const Form = styled.form`
   display: flex;
 `;
 
@@ -26,15 +31,25 @@ const onChangeVal = (onChange: IProps['onChange']) => (e: React.ChangeEvent<HTML
 };
 
 /**
+ * Wrap the onSubmit func, so we don't reload the page
+ */
+const onSubmit = (submit: IProps['onSubmit']) => (e: React.FormEvent<HTMLFormElement>) => {
+  e.preventDefault();
+  submit();
+};
+
+/**
  * Render text on the web
  */
 const TextInput = React.forwardRef((props: IProps, ref: Ref) => (
-  <Input
-    {...props}
-    ref={ref}
-    className={mergeClasses(props.className, props.testID)}
-    onChange={onChangeVal(props.onChange)}
-  />
+  <Form onSubmit={onSubmit(props.onSubmit)}>
+    <Input
+      {...props}
+      ref={ref}
+      className={mergeClasses(props.className, props.testID)}
+      onChange={onChangeVal(props.onChange)}
+    />
+  </Form>
 ));
 
 export default TextInput;

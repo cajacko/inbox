@@ -9,6 +9,7 @@ Feature: Add Reminder
     When the app is navigated to "/"
     And the login button is pressed
     Then the "logged in" home route "will be" visible
+    And the reminder list count "is" "0"
 
   Scenario: Add button displays correctly
     Then the add reminder button "is" visible
@@ -77,8 +78,26 @@ Feature: Add Reminder
     And the text "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat." is typed into the add reminder input
     Then the add reminder text "is" "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore "
 
+  # This is only for checking the submit button works, full checking of saved
+  # records happens in the "Successfully add a reminder" scenario
+  Scenario: Submit action saves the reminder
+    When the add reminder button is pressed
+    And the text "Submit action saves the reminder" is typed into the add reminder input
+    And the keyboard submit button is pressed
+    Then the add reminder scene "is not" visible
+    And the reminder list count "is" "1"
+
   Scenario: Successfully add a reminder
-  # Ensure check db records as well
+    Given we add a hook with id "newReminder" and type "newReminder"
+    When the add reminder button is pressed
+    And the text "Successfully add a reminder" is typed into the add reminder input
+    And the add reminder save button is pressed
+    Then the add reminder scene "is not" visible
+    And the reminder list count "is" "1"
+    And the text for the "1st" reminder "is" "Successfully add a reminder"
+    And the screenshot matches
+    And api data "is" "newReminder"
+
   Scenario: New reminder displays correctly when not saved to cloud yet
   Scenario: New reminder displays correctly when saved to cloud
   Scenario: New reminder displays correctly when errors saving to cloud
