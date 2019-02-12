@@ -1,14 +1,16 @@
 import createReducer from 'src/lib/utils/createReducer';
 import { SET_REMINDER, SET_REMINDER_STATUS } from './actions';
 
+export interface IReminder {
+  id: string;
+  text: string;
+  dateModified: number;
+  dateCreated: number;
+  status: 'saving' | 'saved' | 'error';
+}
+
 export interface IState {
-  [key: string]: {
-    id: string;
-    text: string;
-    dateModified: number;
-    dateCreated: number;
-    status: 'saving' | 'saved' | 'error';
-  };
+  [key: string]: IReminder;
 }
 
 export type IJSState = IState;
