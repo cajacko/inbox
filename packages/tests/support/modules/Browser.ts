@@ -104,9 +104,17 @@ class Browser {
       waitUntil: 'domcontentloaded',
     });
 
-    await this.page.evaluate(browserHooks, this.hooks, hookConstants);
+    await this.setHooks();
 
     await pageLoadPromise;
+  }
+
+  public async setHooks() {
+    await this.ensurePage();
+
+    if (!this.page) throw new Error('No page object to set hooks within');
+
+    await this.page.evaluate(browserHooks, this.hooks, hookConstants);
   }
 
   public async screenshot(path: string) {
@@ -236,8 +244,10 @@ class Browser {
     }
   }
 
-  public addHook(id: string, type: string) {
+  public async addHook(id: string, type: string) {
     this.hooks[id] = type;
+
+    await this.setHooks();
   }
 
   public clearHooks() {
@@ -482,6 +492,14 @@ class Browser {
     if (!this.page) throw new Error('No page');
 
     await this.page.keyboard.press('Enter');
+  }
+
+  public async closePage() {
+    this.ensurePage();
+
+    if (!this.page) throw new Error('No page to close');
+
+    return this.page.close();
   }
 }
 

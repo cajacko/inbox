@@ -10,3 +10,9 @@ Then(
   (index, conditional, value) =>
     reminderList.text(conditional, getIndex(index), value)
 );
+
+Then(
+  'the {string} reminder status {string} {string}',
+  (index, conditional, status) =>
+    reminderList.status(conditional, getIndex(index), status)
+);

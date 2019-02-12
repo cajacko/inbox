@@ -63,6 +63,12 @@ const browserHooks = (
     root: {
       crash: crash('Root crash'),
     },
+    setReminder: {
+      delay: () => delay(1500),
+      error: () => {
+        throw new Error('Could not save the data');
+      },
+    },
     splashScreen: {
       error: crash('Splash screen error'),
       stall: () => ({

@@ -5,7 +5,6 @@ Feature: Add Reminder
 
   Background:
     Given we add a hook with id "login" and type "success"
-    And we add a hook with id "newReminder" and type "newReminder"
     And the driver is ready
     When the app is navigated to "/"
     And the login button is pressed
@@ -89,7 +88,8 @@ Feature: Add Reminder
     And the reminder list count "is" "1"
 
   Scenario: Successfully add a reminder
-    When the add reminder button is pressed
+    When we add a hook with id "newReminder" and type "newReminder"
+    And the add reminder button is pressed
     And the text "Successfully add a reminder" is typed into the add reminder input
     And the add reminder save button is pressed
     Then the add reminder scene "is not" visible
@@ -99,8 +99,33 @@ Feature: Add Reminder
     And api data "will be" "newReminder"
 
   Scenario: New reminder displays correctly when not saved to cloud yet
-  Scenario: New reminder displays correctly when saved to cloud
-  Scenario: New reminder displays correctly when errors saving to cloud
-  Scenario: Close app when unsaved changes shows alert
-  Scenario: Add new orders new item at the top
+    When we add a hook with id "setReminder" and type "delay"
+    And we add a reminder with the text "No Cloud"
+    Then the "1st" reminder status "is" "Saving"
+    And the screenshot matches
 
+  Scenario: New reminder displays correctly when saved to cloud
+    When we add a reminder with the text "Saved"
+    Then the "1st" reminder status "will be" "Saved"
+    And the screenshot matches
+
+  Scenario: New reminder displays correctly when errors saving to cloud
+    When we add a hook with id "setReminder" and type "error"
+    And we add a reminder with the text "Error"
+    Then the "1st" reminder status "will be" "Error"
+    And the screenshot matches
+
+  Scenario: Add new orders new item at the top
+    When we add a reminder with the text "1st item"
+    And we add a reminder with the text "2nd item"
+    Then the text for the "1st" reminder "is" "2nd item"
+
+  @platform-web
+  Scenario: Close app when unsaved changes shows alert
+    When we add a hook with id "setReminder" and type "delay"
+    And we add a reminder with the text "Unsaved"
+    And the close browser tab button is pressed
+    Then an alert "is" visible
+    And the alert says "You have changes which aren't synced to the cloud yet. Are you sure you want to exit?"
+    When the alert "2nd" button is pressed
+    Then the "logged in" home route "is" visible

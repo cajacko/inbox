@@ -20,3 +20,5 @@ Given('we add a hook with id {string} and type {string}', (id, type) =>
 When('the device back button is pressed', () => driver.pressBackButton());
 
 When('the keyboard submit button is pressed', () => driver.pressSubmitKey());
+
+When('the close browser tab button is pressed', () => driver.closePage());

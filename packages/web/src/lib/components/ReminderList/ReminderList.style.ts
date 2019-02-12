@@ -20,6 +20,9 @@ export const Inner = styled(View)`
 `;
 
 export const Reminder = styled(View)<{ isLast: boolean }>`
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
   ${padding(16)}
   ${({ isLast }) =>
     border(GREY_LIGHTER, 2, {

@@ -1,5 +1,6 @@
 import { Then, When } from 'cucumber';
 import addReminder from './AddReminder.page';
+import addButton from '../AddButton/AddButton.page';
 
 Then('the add reminder scene {string} visible', condition =>
   addReminder.visible(condition));
@@ -22,3 +23,9 @@ Then('the add reminder save button {string} disabled', condition =>
 When('the add reminder save button is pressed', () => addReminder.pressSave());
 
 When('the add reminder input is cleared', () => addReminder.clear());
+
+When('we add a reminder with the text {string}', text =>
+  addButton
+    .press()
+    .then(() => addReminder.type(text))
+    .then(() => addReminder.pressSave()));

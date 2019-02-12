@@ -1,4 +1,5 @@
 import * as React from 'react';
+import Status from 'src/lib/components/ReminderStatus';
 import Text from 'src/lib/components/Text';
 import {
   BACKGROUND_COLOR,
@@ -10,6 +11,7 @@ import {
 interface IReminder {
   id: string;
   text: string;
+  status: 'saving' | 'saved' | 'error';
 }
 
 export interface IContainerStateProps {
@@ -31,6 +33,10 @@ const ReminderList = ({ reminders }: IContainerStateProps) => (
           <Text
             testID="Reminder__Text"
             text={{ _textFromConst: reminder.text }}
+            backgroundColor={BACKGROUND_COLOR}
+          />
+          <Status
+            status={reminder.status || 'saved'}
             backgroundColor={BACKGROUND_COLOR}
           />
         </Reminder>

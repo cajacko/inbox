@@ -24,6 +24,12 @@ class ReminderList {
       value
     );
   }
+
+  public async status(conditional: ICondition, index: number, status: string) {
+    const selector = selectors.general.ReminderList.Reminder.Status[status];
+
+    return driver.visible(conditional, getSelector(selector, { index }));
+  }
 }
 
 export default new ReminderList();
