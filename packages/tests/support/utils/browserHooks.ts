@@ -53,6 +53,13 @@ const browserHooks = (
     mainRouter: {
       crash: crash('Main router crash'),
     },
+    newReminder: {
+      newReminder: () => ({
+        dateCreated: 1549898515336,
+        dateModified: 1549898515336,
+        id: 'new',
+      }),
+    },
     root: {
       crash: crash('Root crash'),
     },

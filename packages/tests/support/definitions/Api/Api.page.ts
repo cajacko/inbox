@@ -39,7 +39,7 @@ class Api {
     return fetchApi('clearTestUser')
       .then(() => this.getUserData())
       .then((data) => {
-        if (isEqual(data, {})) {
+        if (!isEqual(data, {})) {
           throw new Error('clearTestData did not clear successfully');
         }
       });

@@ -1,7 +1,8 @@
 // @flow
 
-import { request } from 'graphql-request';
+import { GraphQLClient } from 'graphql-request';
 import AppError from 'src/lib/modules/AppError';
+import store from 'src/lib/utils/store';
 
 type InMethod = (
   ...args: any
@@ -45,18 +46,30 @@ function graphqlClient<T>(
       }
 
       return new Promise((resolve, reject) => {
+        let timeoutInstance: any;
+
         if (typeof timeout === 'number') {
-          setTimeout(() => {
+          timeoutInstance = setTimeout(() => {
             const error = new AppError(
               `API call timed out after ${String(timeout)}ms`,
               '100-016'
             );
+
             error.set('timeout', true);
             reject(error);
           }, timeout);
         }
 
-        request(endpoint, queryReq, vars)
+        const { idToken } = store.getState().user;
+
+        const graphQLClient = new GraphQLClient(endpoint, {
+          headers: {
+            Authorization: `Bearer ${idToken}`,
+          },
+        });
+
+        graphQLClient
+          .request(queryReq, vars)
           .then((data) => {
             const keys = Object.keys(data);
 
@@ -67,7 +80,10 @@ function graphqlClient<T>(
 
             resolve(data);
           })
-          .catch(reject);
+          .catch(reject)
+          .then(() => {
+            if (timeoutInstance) clearTimeout(timeoutInstance);
+          });
       });
     };
   });

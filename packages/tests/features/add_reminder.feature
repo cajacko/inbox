@@ -5,6 +5,7 @@ Feature: Add Reminder
 
   Background:
     Given we add a hook with id "login" and type "success"
+    And we add a hook with id "newReminder" and type "newReminder"
     And the driver is ready
     When the app is navigated to "/"
     And the login button is pressed
@@ -88,7 +89,6 @@ Feature: Add Reminder
     And the reminder list count "is" "1"
 
   Scenario: Successfully add a reminder
-    Given we add a hook with id "newReminder" and type "newReminder"
     When the add reminder button is pressed
     And the text "Successfully add a reminder" is typed into the add reminder input
     And the add reminder save button is pressed
@@ -96,7 +96,7 @@ Feature: Add Reminder
     And the reminder list count "is" "1"
     And the text for the "1st" reminder "is" "Successfully add a reminder"
     And the screenshot matches
-    And api data "is" "newReminder"
+    And api data "will be" "newReminder"
 
   Scenario: New reminder displays correctly when not saved to cloud yet
   Scenario: New reminder displays correctly when saved to cloud

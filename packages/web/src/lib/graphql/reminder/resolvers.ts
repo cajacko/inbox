@@ -1,3 +1,5 @@
+import * as admin from 'firebase-admin';
+
 interface IReminder {
   dateCreated: number;
   dateModified: number;
@@ -20,16 +22,17 @@ export const Query = {
 };
 
 export const Mutation = {
-  setReminder: ({
-    id, text, dateModified, dateCreated,
-  }: IReminder) => {
+  setReminder: (reminder: IReminder, db: admin.firestore.DocumentReference) => {
     try {
-      validateDate(dateCreated, 'Date created is not a valid date');
-      validateDate(dateModified, 'Date modified is not a valid date');
+      validateDate(reminder.dateCreated, 'Date created is not a valid date');
+      validateDate(reminder.dateModified, 'Date modified is not a valid date');
     } catch (e) {
       return { error: e.message };
     }
 
-    return { error: 'Success' };
+    return db
+      .collection('reminders')
+      .doc(reminder.id)
+      .set(reminder);
   },
 };
