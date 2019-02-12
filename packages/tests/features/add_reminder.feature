@@ -120,12 +120,11 @@ Feature: Add Reminder
     And we add a reminder with the text "2nd item"
     Then the text for the "1st" reminder "is" "2nd item"
 
-  @platform-web
+  @platform-web @non-headless
   Scenario: Close app when unsaved changes shows alert
     When we add a hook with id "setReminder" and type "delay"
     And we add a reminder with the text "Unsaved"
     And the close browser tab button is pressed
-    Then an alert "is" visible
-    And the alert says "You have changes which aren't synced to the cloud yet. Are you sure you want to exit?"
-    When the alert "2nd" button is pressed
+    Then an alert "will be" visible
+    When the alert "1st" button is pressed
     Then the "logged in" home route "is" visible

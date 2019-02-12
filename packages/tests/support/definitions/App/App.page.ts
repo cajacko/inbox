@@ -9,8 +9,8 @@ import getScreenshotPath from '../../utils/getScreenshotPath';
 const pixelmatch = require('pixelmatch');
 
 class App {
-  public async open() {
-    await driver.open();
+  public async open(nonHeadless: boolean) {
+    await driver.open(nonHeadless);
   }
 
   public async navigate(route: string) {

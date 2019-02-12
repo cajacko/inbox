@@ -7,6 +7,7 @@ setDefaultTimeout(10 * 1000);
 
 Before(function (testCase) {
   this.testCase = testCase;
+  this.nonHeadless = !!testCase.pickle.tags.find(({ name }) => name === '@non-headless');
 
   return api.clearTestData();
 });

@@ -18,6 +18,7 @@ class Browser {
   private interceptingRequests: boolean = false;
   private dialogHandler?: (dialog: puppeteer.Dialog) => void;
   private dialog?: puppeteer.Dialog;
+  private nonHeadless: boolean = false;
 
   constructor() {
     this.dialogOpen = this.dialogOpen.bind(this);
@@ -38,7 +39,9 @@ class Browser {
     this.page = null;
   }
 
-  public async open() {
+  public async open(nonHeadless: boolean) {
+    this.nonHeadless = nonHeadless;
+
     await this.ensurePage();
 
     if (!this.page) throw new Error('No page object to do things with');
@@ -233,7 +236,7 @@ class Browser {
   private async ensurePage() {
     if (!this.browser) {
       this.browser = await puppeteer.launch({
-        headless,
+        headless: this.nonHeadless ? false : headless,
       });
     }
 
@@ -244,7 +247,9 @@ class Browser {
     }
   }
 
-  public async addHook(id: string, type: string) {
+  public async addHook(id: string, type: string, nonHeadless: boolean) {
+    this.nonHeadless = nonHeadless;
+
     this.hooks[id] = type;
 
     await this.setHooks();
@@ -499,7 +504,7 @@ class Browser {
 
     if (!this.page) throw new Error('No page to close');
 
-    return this.page.close();
+    return this.page.close({ runBeforeUnload: true });
   }
 }
 

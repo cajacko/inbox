@@ -3,6 +3,7 @@ import Cloud from 'src/lib/assets/icons/Cloud';
 import {
   BackgroundColorVal,
   COLORS,
+  ColorVal,
 } from 'src/lib/config/styles/textIconColors';
 import { Status } from './ReminderStatus.style';
 
@@ -15,7 +16,7 @@ export interface IProps {
  * Display a list of reminders
  */
 const ReminderStatus = ({ status, backgroundColor }: IProps) => {
-  let color;
+  let color: ColorVal | undefined;
   let testID;
 
   switch (status) {
@@ -32,8 +33,6 @@ const ReminderStatus = ({ status, backgroundColor }: IProps) => {
       testID = 'Reminder__Status--Error';
       break;
     default:
-      color = null;
-      break;
   }
 
   return (
