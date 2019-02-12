@@ -17,7 +17,7 @@ export type IJSState = IState;
 
 const initialState: IState = {};
 
-export default createReducer(initialState, {
+export default createReducer<IState>(initialState, {
   [SET_REMINDER]: (
     state: IState,
     {
