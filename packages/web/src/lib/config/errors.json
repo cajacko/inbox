@@ -68,5 +68,15 @@
     "label": "App Loading Error",
     "message": "Errors.DevError.Message",
     "title": "Errors.DevError.Title"
+  },
+  "100-015": {
+    "label": "Bad GraphQL Query/Mutation",
+    "message": "Errors.DevError.Message",
+    "title": "Errors.DevError.Title"
+  },
+  "100-016": {
+    "label": "GraphQL Query timed out",
+    "message": "Errors.General.Message",
+    "title": "Errors.General.Title"
   }
 }

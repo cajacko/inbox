@@ -15,7 +15,13 @@ class AppError extends Error {
     const message = `Code: ${errorCode}; ${devMessage}`;
 
     super(message);
+
+    this.options = {
+      errorCode,
+    };
   }
+
+  private options: { [key: string]: any };
 
   /**
    * Get the error code from an AppError or string
@@ -39,6 +45,20 @@ class AppError extends Error {
     const code = match[1];
 
     return code || null;
+  }
+
+  /**
+   * Set an option on the error class, useful if passing the error around places
+   */
+  public set(key: string, value: any) {
+    this.options[key] = value;
+  }
+
+  /**
+   * Get all or a specific option
+   */
+  public get(key?: string) {
+    return key ? this.options[key] : this.options;
   }
 }
 

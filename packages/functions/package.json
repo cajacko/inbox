@@ -12,8 +12,12 @@
   },
   "main": "build/dist/src/index.js",
   "dependencies": {
+    "@types/graphql": "^14.0.5",
+    "apollo-server-express": "2.0.4",
+    "express": "4.16.3",
     "firebase-admin": "~6.0.0",
     "firebase-functions": "^2.1.0",
+    "graphql": "0.13.2",
     "lodash": "^4.17.11"
   },
   "devDependencies": {
