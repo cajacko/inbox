@@ -40,7 +40,6 @@ interface IProps extends IPassedDownProps {
     onMouseEnter: Event;
     onMouseLeave: Event;
     onMouseMove: Event;
-    onMouseOut: Event;
     onMouseOver: Event;
   };
 }

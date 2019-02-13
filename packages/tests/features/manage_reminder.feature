@@ -14,6 +14,7 @@ Feature: Manage Reminders
     Then the add reminder text "is" "Item to delete"
     And the screenshot matches
 
+# This won't work, the hover state disappears when the screenshot is taken
 # Scenario: The reminder hover menu displays correctly
 #   When the we hover over the "1st" reminder
 #   And the screenshot matches

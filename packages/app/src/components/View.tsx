@@ -7,6 +7,7 @@ interface IProps {
   children: Children;
   style?: { [key: string]: any };
   testID?: string;
+  onHover?: boolean;
 }
 
 /**
@@ -14,7 +15,7 @@ interface IProps {
  */
 const View = ({ children, style, ...props }: IProps) => (
   <RNView style={style} {...props}>
-    {children}
+    {typeof children === 'function' ? children({}) : children}
   </RNView>
 );
 

@@ -96,6 +96,10 @@ const general = {
         web: ({ index }: { index: number }) =>
           `.Reminder:nth-child(${index + 1}) .Reminder__Button`,
       },
+      DeleteButton: {
+        web: ({ index }: { index: number }) =>
+          `.Reminder:nth-child(${index + 1}) .Reminder__HoverDelete`,
+      },
       Status: {
         Error: {
           web: ({ index }: { index: number }) =>

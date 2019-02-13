@@ -10,6 +10,8 @@ class ReminderList {
     selectors.general.ReminderList.Reminder.Text;
   private reminderButtonSelector: ISelector =
     selectors.general.ReminderList.Reminder.Button;
+  private reminderDeleteButtonSelector: ISelector =
+    selectors.general.ReminderList.Reminder.DeleteButton;
 
   public async count(conditional: ICondition, value: number) {
     return driver.count(
@@ -39,6 +41,35 @@ class ReminderList {
 
   public async press(index: number) {
     return driver.press(getSelector(this.reminderButtonSelector, { index }));
+  }
+
+  private getButtonSelector(index: number, component: string) {
+    let selector;
+
+    switch (component) {
+      case 'delete':
+        selector = getSelector(this.reminderDeleteButtonSelector, { index });
+        break;
+      default:
+        throw new Error('Unknown component given');
+    }
+
+    return selector;
+  }
+
+  public async buttonVisible(
+    conditional: ICondition,
+    index: number,
+    component: string
+  ) {
+    return driver.visible(
+      conditional,
+      this.getButtonSelector(index, component)
+    );
+  }
+
+  public async pressButton(index: number, component: string) {
+    return driver.press(this.getButtonSelector(index, component));
   }
 }
 
