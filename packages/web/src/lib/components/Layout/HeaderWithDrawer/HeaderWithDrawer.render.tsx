@@ -1,29 +1,21 @@
 import * as React from 'react';
 import Bars from 'src/lib/assets/icons/Bars';
+import Plus from 'src/lib/assets/icons/Plus';
 import Button from 'src/lib/components/Button';
 import Header from 'src/lib/components/Header';
 import Measure from 'src/lib/components/Layout/Measure';
 import Menu from 'src/lib/components/Menu';
-import {
-  BACKGROUND_COLOR,
-  BREAKPOINT,
-  Container,
-  Content,
-  ContentWrap,
-  DesktopMenu,
-  HeaderContainer,
-  Overlay,
-  OverlayButton,
-  OverlayButtonColor,
-  OverlayMenu,
-} from './HeaderWithDrawer.style';
+import getButtonType from 'src/lib/utils/getButtonType';
+import Animated from 'src/packages/animated';
+import * as Style from './HeaderWithDrawer.style';
 
 interface IProps {
+  add: () => void;
   children: JSX.Element;
   renderMenu: boolean;
   menuIsOpen: boolean;
-  menuLeft: Animated.Value;
-  buttonLeft: Animated.Value;
+  menuLeft: Animated.AnimatedInterpolation;
+  buttonLeft: Animated.AnimatedInterpolation;
   overlayOpacity: Animated.Value;
   close: () => void;
   open: () => void;
@@ -33,7 +25,7 @@ interface IProps {
 /**
  * Whether to show the desktop view or not
  */
-const isDesktop = (width: number) => width > BREAKPOINT;
+const isDesktop = (width: number) => width > Style.BREAKPOINT;
 
 /**
  * Only re-render if the desktop view boundaries change
@@ -44,68 +36,73 @@ const onChange = (next: { width: number }, last: { width: number }) =>
 /**
  * Display the header, drawer and content
  */
-const HeaderWithDrawer = ({
-  children,
-  close,
-  open,
-  renderMenu,
-  menuIsOpen,
-  menuLeft,
-  buttonLeft,
-  overlayOpacity,
-  showTestID,
-}: IProps) => {
+const HeaderWithDrawer = (props: IProps) => {
   const menuProps = {
-    backgroundColor: BACKGROUND_COLOR,
-    close,
-    showTestID,
+    backgroundColor: Style.BACKGROUND_COLOR,
+    close: props.close,
+    showTestID: props.showTestID,
   };
 
   return (
     <Measure onChange={onChange}>
       {({ width, measureProps }) => (
-        <Container {...measureProps}>
-          <HeaderContainer>
+        <Style.Container {...measureProps}>
+          <Style.HeaderContainer>
             <Header
               title="General.Title"
               leftButton={{
-                action: menuIsOpen ? close : open,
+                action: props.menuIsOpen ? props.close : props.open,
                 icon: Bars,
                 testID: 'Menu__Button',
               }}
             />
-          </HeaderContainer>
-          {renderMenu &&
+          </Style.HeaderContainer>
+          {props.renderMenu &&
             (isDesktop(width) ? (
-              <DesktopMenu style={{ left: menuLeft }}>
+              <Style.DesktopMenu style={{ left: props.menuLeft }}>
                 <Menu {...menuProps} isDesktop />
-              </DesktopMenu>
+              </Style.DesktopMenu>
             ) : (
-              <Overlay>
-                <OverlayMenu style={{ left: menuLeft }}>
+              <Style.Overlay>
+                <Style.OverlayMenu style={{ left: props.menuLeft }}>
                   <Menu {...menuProps} isDesktop={false} />
-                </OverlayMenu>
-                <OverlayButton
-                  style={{ opacity: overlayOpacity, left: buttonLeft }}
+                </Style.OverlayMenu>
+                <Style.OverlayButton
+                  style={{
+                    left: props.buttonLeft,
+                    opacity: props.overlayOpacity,
+                  }}
                 >
                   <Button
                     noContent
-                    action={close}
+                    action={props.close}
                     analyticsAction="HIDE_MENU_FROM_BACKGROUND_PRESS"
                     analyticsCategory="MENU"
                     testID="Menu__BackgroundButton"
                   >
                     {({ isHovering }) => (
-                      <OverlayButtonColor isHovering={isHovering} />
+                      <Style.OverlayButtonColor isHovering={isHovering}>
+                        {null}
+                      </Style.OverlayButtonColor>
                     )}
                   </Button>
-                </OverlayButton>
-              </Overlay>
+                </Style.OverlayButton>
+              </Style.Overlay>
             ))}
-          <Content>
-            <ContentWrap>{children}</ContentWrap>
-          </Content>
-        </Container>
+          <Style.Content>
+            <Style.ContentWrap>{props.children}</Style.ContentWrap>
+          </Style.Content>
+          <Style.AddButton>
+            <Button
+              action={props.add}
+              testID="AddButton"
+              icon={Plus}
+              analyticsAction="ADD_BUTTON"
+              analyticsCategory="ADD_BUTTON"
+              type={getButtonType('CONTAINED_CIRCLE_ICON.SECONDARY')}
+            />
+          </Style.AddButton>
+        </Style.Container>
       )}
     </Measure>
   );

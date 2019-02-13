@@ -12,7 +12,7 @@ const getScreenshotPath = (
 
   return join(
     __dirname,
-    '../../../../screenshots',
+    '../../screenshots',
     platform,
     size,
     filePath,

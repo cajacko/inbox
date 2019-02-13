@@ -1,5 +1,5 @@
 import { Sentry as RNSentry, SentrySeverity } from 'react-native-sentry';
-import { ISentryMessage } from 'src/lib/modules/Sentry';
+import { ISentryMessage } from 'src/lib/types/general';
 
 export { SentrySeverity as LogLevel };
 

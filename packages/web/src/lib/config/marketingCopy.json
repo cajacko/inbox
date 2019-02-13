@@ -3,7 +3,8 @@
     "Set": "Set",
     "Cancel": "Cancel",
     "ContactEmail": "contact@charliejackson.com",
-    "Title": "Inbox"
+    "Title": "Inbox",
+    "UnsavedChanges": "You have unsaved changes, are you sure you want to exit?"
   },
   "Navigation": {
     "GoBack": "GO BACK",
@@ -25,6 +26,10 @@
     "Welcome": "Welcome",
     "HideMenu": "Hide Menu",
     "Logout": "Logout"
+  },
+  "AddReminder": {
+    "Placeholder": "Reminder to add...",
+    "Save": "Save"
   },
   "ErrorBoundary": {
     "ErrorCode": "Error Code"

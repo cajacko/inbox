@@ -1,5 +1,6 @@
 import * as React from 'react';
 import HeaderWithDrawer from 'src/lib/components/Layout/HeaderWithDrawer';
+import ReminderList from 'src/lib/components/ReminderList';
 import { Container } from './Home.style';
 
 /**
@@ -8,7 +9,7 @@ import { Container } from './Home.style';
 const Home = () => (
   <HeaderWithDrawer>
     <Container testID="Home">
-      <React.Fragment />
+      <ReminderList />
     </Container>
   </HeaderWithDrawer>
 );

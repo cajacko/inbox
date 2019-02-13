@@ -1,5 +1,6 @@
 import Button from 'src/components/Button';
 import Text from 'src/components/Text';
+import TextInput from 'src/components/TextInput';
 import View from 'src/components/View';
 
-export { Text, Button, View };
+export { Text, Button, View, TextInput };

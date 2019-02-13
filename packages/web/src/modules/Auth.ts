@@ -36,11 +36,12 @@ class Auth {
         );
       }
 
-      return {
+      return user.getIdToken().then(idToken => ({
         displayName: user.displayName,
         id: user.uid,
+        idToken,
         photoURL: user.photoURL,
-      };
+      }));
     });
   }
 

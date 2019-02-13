@@ -22,6 +22,7 @@ interface IStyles {
   paddingHorizontal?: number;
   shadow?: string;
   hover?: IStyles;
+  disabled?: IStyles;
   themes?: {
     [key: string]: IStyles;
   };
@@ -39,12 +40,14 @@ export interface IType {
   paddingHorizontal?: number;
   shadow?: string;
   hover?: IType;
+  disabled?: IType;
 }
 
 export const BUTTON_BORDER_RADIUS = 5;
 const buttonWidth = 150;
 const buttonHeight = 40;
 const buttonPaddingHorizontal = STANDARD_SPACING;
+const totalButtonPaddingH = buttonPaddingHorizontal * 2;
 const circleSize = 60;
 
 const styles: { [key: string]: IStyles } = {
@@ -72,16 +75,30 @@ const styles: { [key: string]: IStyles } = {
   CONTAINED_CIRCLE_ICON: {
     borderRadius: circleSize / 2,
     height: circleSize,
+    iconSize: Math.floor(circleSize / 2),
+    shadow: shadow(),
     themes: {
       PRIMARY: {
         backgroundColor: BACKGROUND_COLORS.PRIMARY,
+        hover: {
+          backgroundColor: BACKGROUND_COLORS.PRIMARY_DARK,
+        },
+      },
+      SECONDARY: {
+        backgroundColor: BACKGROUND_COLORS.SECONDARY,
+        hover: {
+          backgroundColor: BACKGROUND_COLORS.SECONDARY_DARK,
+        },
+      },
+      SECONDARY_DARK: {
+        backgroundColor: BACKGROUND_COLORS.SECONDARY_DARK,
       },
     },
     width: circleSize,
   },
   ICON: {
     height: buttonHeight,
-    iconSize: buttonHeight,
+    iconSize: buttonHeight - totalButtonPaddingH,
     themes: {
       DEFAULT: {
         hover: {
@@ -90,6 +107,9 @@ const styles: { [key: string]: IStyles } = {
         iconColor: COLORS_FOR_BACKGROUND[BACKGROUND_COLORS.WHITE].default,
       },
       GREYED_OUT: {
+        hover: {
+          iconColor: COLORS_FOR_BACKGROUND[BACKGROUND_COLORS.WHITE].default,
+        },
         iconColor: COLORS_FOR_BACKGROUND[BACKGROUND_COLORS.WHITE].greyedOut,
       },
     },
@@ -116,6 +136,12 @@ const styles: { [key: string]: IStyles } = {
         textColor: COLORS.GREY_DARK,
       },
       PRIMARY: {
+        disabled: {
+          textColor: COLORS.GREY,
+        },
+        hover: {
+          textColor: COLORS.PRIMARY,
+        },
         textColor: COLORS.PRIMARY_DARK,
       },
     },

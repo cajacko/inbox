@@ -1,6 +1,6 @@
 /* eslint no-console: 0 */
-import Logger, { LogLevel } from 'src/lib/modules/Logger';
-import { ISentryMessage } from 'src/lib/modules/Sentry';
+import Logger from 'src/lib/modules/Logger';
+import { ISentryMessage, LogLevel } from 'src/lib/types/general';
 import sentry from 'src/lib/utils/sentry';
 import isDev from 'src/utils/conditionals/isDev';
 

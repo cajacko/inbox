@@ -1,4 +1,19 @@
 const general = {
+  AddButton: {
+    web: '.AddButton',
+  },
+  AddReminder: {
+    Cancel: {
+      web: '.AddReminder__Cancel',
+    },
+    Input: {
+      web: '.AddReminder__Input',
+    },
+    Save: {
+      web: '.AddReminder__Save',
+    },
+    web: '.AddReminder',
+  },
   ErrorBoundary: {
     Button: {
       Text: {
@@ -68,6 +83,31 @@ const general = {
       web: '.Menu__LogoutButton',
     },
     web: '.Menu',
+  },
+  ReminderList: {
+    Reminder: {
+      Status: {
+        Error: {
+          web: ({ index }: { index: number }) =>
+            `.Reminder:nth-child(${index + 1}) .Reminder__Status--Error`,
+        },
+        Saved: {
+          web: ({ index }: { index: number }) =>
+            `.Reminder:nth-child(${index + 1}) .Reminder__Status--Saved`,
+        },
+        Saving: {
+          web: ({ index }: { index: number }) =>
+            `.Reminder:nth-child(${index + 1}) .Reminder__Status--Saving`,
+        },
+      },
+      Text: {
+        web: ({ index }: { index: number }) =>
+          `.Reminder:nth-child(${index + 1}) .Reminder__Text`,
+      },
+    },
+    Reminders: {
+      web: '.Reminder',
+    },
   },
   SplashScreen: {
     web: '.splashScreen',

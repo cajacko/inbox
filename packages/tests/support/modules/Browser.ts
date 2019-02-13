@@ -18,6 +18,8 @@ class Browser {
   private interceptingRequests: boolean = false;
   private dialogHandler?: (dialog: puppeteer.Dialog) => void;
   private dialog?: puppeteer.Dialog;
+  private nonHeadless: boolean = false;
+  private headless: boolean;
 
   constructor() {
     this.dialogOpen = this.dialogOpen.bind(this);
@@ -38,7 +40,9 @@ class Browser {
     this.page = null;
   }
 
-  public async open() {
+  public async open(nonHeadless: boolean) {
+    this.nonHeadless = nonHeadless;
+
     await this.ensurePage();
 
     if (!this.page) throw new Error('No page object to do things with');
@@ -104,9 +108,17 @@ class Browser {
       waitUntil: 'domcontentloaded',
     });
 
-    await this.page.evaluate(browserHooks, this.hooks, hookConstants);
+    await this.setHooks();
 
     await pageLoadPromise;
+  }
+
+  public async setHooks() {
+    await this.ensurePage();
+
+    if (!this.page) throw new Error('No page object to set hooks within');
+
+    await this.page.evaluate(browserHooks, this.hooks, hookConstants);
   }
 
   public async screenshot(path: string) {
@@ -169,6 +181,20 @@ class Browser {
     return properties.jsonValue();
   }
 
+  public async getValue(selector: string) {
+    await this.ensurePage();
+
+    if (!this.page) throw new Error('No page');
+
+    return this.page.evaluate((selectorParam) => {
+      const element = document.querySelector(selectorParam);
+
+      if (!element) return null;
+
+      return element.value;
+    }, selector);
+  }
+
   public async text(condition: ICondition, selector: string, text: string) {
     let actualText: string;
 
@@ -209,21 +235,31 @@ class Browser {
   }
 
   private async ensurePage() {
-    if (!this.browser) {
+    const finalHeadless = this.nonHeadless ? false : headless;
+
+    if (!this.browser || this.headless !== finalHeadless) {
+      this.headless = finalHeadless;
+
+      if (this.browser) await this.browser.close();
+
       this.browser = await puppeteer.launch({
-        headless,
+        headless: this.headless,
       });
     }
 
-    if (!this.page) {
+    if (!this.page || this.page.isClosed()) {
       this.page = await this.browser.newPage();
 
       this.page.on('dialog', this.dialogOpen);
     }
   }
 
-  public addHook(id: string, type: string) {
+  public async addHook(id: string, type: string, nonHeadless: boolean) {
+    this.nonHeadless = nonHeadless;
+
     this.hooks[id] = type;
+
+    await this.setHooks();
   }
 
   public clearHooks() {
@@ -236,6 +272,29 @@ class Browser {
     if (!element) throw new Error(`Could not find elements at "${selector}"`);
 
     return element.length;
+  }
+
+  public async count(condition: ICondition, selector: string, value: number) {
+    let actualCount: number;
+
+    await conditional(
+      condition,
+      async () => {
+        try {
+          actualCount = await this.getCount(selector);
+
+          return actualCount === value;
+        } catch (e) {
+          return false;
+        }
+      },
+      () => ({
+        negative: `Count at "${selector}" is\n"${value}"\nExpected it not to be\n"${actualCount}"`,
+        positive: `Count at "${selector}" is not\n"${value}"Received\n"${actualCount}"`,
+        waitNegative: `Timeout waiting for count at "${selector}" to not be\n"${value}"\nLast value was\n"${actualCount}"`,
+        waitPositive: `Timeout waiting for count at "${selector}" to be\n"${value}"\nLast value was\n"${actualCount}"`,
+      })
+    );
   }
 
   public async press(selector: string) {
@@ -318,6 +377,144 @@ class Browser {
       return promise;
     } catch (e) {
       return Promise.resolve();
+    }
+  }
+
+  public async pressCoordinates(x: number, y: number) {
+    await this.ensurePage();
+
+    if (!this.page) throw new Error('No page object to get elements');
+
+    return this.page.mouse.click(x, y);
+  }
+
+  public async pressBackButton() {
+    await this.ensurePage();
+
+    if (!this.page) throw new Error('No page object to get elements');
+
+    return this.page.goBack();
+  }
+
+  public async focused(condition: ICondition, selector: string) {
+    await this.ensurePage();
+
+    await conditional(
+      condition,
+      () => {
+        if (!this.page) throw new Error('No page');
+
+        return this.page.evaluate((selectorParam) => {
+          const element = document.querySelector(selectorParam);
+
+          if (!element) return false;
+          if (!document.activeElement) return false;
+
+          return document.activeElement === element;
+        }, selector);
+      },
+      {
+        negative: `Element at "${selector}" is focused, expected it to be not focused`,
+        positive: `Element at "${selector}" is not focused`,
+        waitNegative: `Element at "${selector}" did not become not focused`,
+        waitPositive: `Element at "${selector}" did not become focused`,
+      }
+    );
+  }
+
+  public async type(selector: string, text: string) {
+    await this.ensurePage();
+
+    if (!this.page) throw new Error('No page object to get elements');
+
+    return this.page.type(selector, text);
+  }
+
+  public async value(condition: ICondition, selector: string, text: string) {
+    let actualText: string;
+
+    await conditional(
+      condition,
+      async () => {
+        try {
+          actualText = await this.getValue(selector);
+
+          return actualText === text;
+        } catch (e) {
+          return false;
+        }
+      },
+      () => ({
+        negative: `Value at "${selector}" is\n"${text}"\nExpected it not to be\n"${actualText}"`,
+        positive: `Value at "${selector}" is not\n"${text}"Received\n"${actualText}"`,
+        waitNegative: `Timeout waiting for value at "${selector}" to not be\n"${text}"\nLast value was\n"${actualText}"`,
+        waitPositive: `Timeout waiting for value at "${selector}" to be\n"${text}"\nLast value was\n"${actualText}"`,
+      })
+    );
+  }
+
+  public async disabled(condition: ICondition, selector: string) {
+    await conditional(
+      condition,
+      async () => {
+        if (!this.page) throw new Error('No page');
+
+        return this.page.evaluate((selectorParam) => {
+          const element = document.querySelector(selectorParam);
+
+          if (!element) return false;
+
+          return element.className.includes('disabled');
+        }, selector);
+      },
+      () => ({
+        negative: `Element at "${selector}" is disabled, expected it not to be disabled`,
+        positive: `Element at "${selector}" is not disabled, expected it to be disabled`,
+        waitNegative: `Timeout waiting for element at "${selector}" to not be disabled`,
+        waitPositive: `Timeout waiting for element at "${selector}" to be disabled`,
+      })
+    );
+  }
+
+  public async clear(selector: string) {
+    this.ensurePage();
+
+    if (!this.page) throw new Error('No page');
+
+    const cleared = await this.page.evaluate((selectorParam) => {
+      const element = document.querySelector(selectorParam);
+
+      if (!element) return false;
+
+      element.value = '';
+
+      return true;
+    }, selector);
+
+    if (!cleared) throw new Error('Could not get element to clear');
+
+    // Needed to trigger the onchange event
+    await this.type(selector, ' ');
+    await this.page.keyboard.press('Backspace');
+  }
+
+  public async pressSubmitKey() {
+    this.ensurePage();
+
+    if (!this.page) throw new Error('No page');
+
+    await this.page.keyboard.press('Enter');
+  }
+
+  public async closePage(clear: boolean) {
+    this.ensurePage();
+
+    if (!this.page) throw new Error('No page to close');
+
+    await this.page.close({ runBeforeUnload: true });
+
+    if (clear) {
+      this.page = null;
     }
   }
 }

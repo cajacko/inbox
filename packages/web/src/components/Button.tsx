@@ -7,16 +7,17 @@ interface IProps {
   children: Children;
   className?: string;
   testID?: string;
+  disabled?: boolean;
   style: React.CSSProperties;
 }
 
 /**
  * Merge the default styles with the custom ones
  */
-const getStyles = (customStyles: React.CSSProperties) => ({
+const getStyles = (customStyles: React.CSSProperties, disabled: boolean) => ({
   backgroundColor: 'transparent',
   border: 'none',
-  cursor: 'pointer',
+  cursor: disabled ? 'not-allowed' : 'pointer',
   display: 'flex',
   margin: 0,
   padding: 0,
@@ -43,7 +44,7 @@ const onKeyPress = (action?: () => void) => (e: event) => {
  */
 const Button = React.forwardRef((
   {
-    action, children, className, testID, style, ...props
+    action, children, className, testID, style, disabled, ...props
   }: IProps,
   ref: Ref
 ) => (
@@ -53,7 +54,7 @@ const Button = React.forwardRef((
       onClick={action}
       onKeyPress={onKeyPress(action)}
       className={mergeClasses(className, testID)}
-      style={getStyles(style)}
+      style={getStyles(style, !!disabled)}
       ref={ref}
       {...props}
     >

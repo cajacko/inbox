@@ -33,12 +33,16 @@ const analyticsMiddleWare: Middleware = () => next => (reduxAction) => {
 
 const store = new Store(reducers, undefined, {
   middleware: [analyticsMiddleWare],
+  // purgeOnLoad: true,
   shouldLogState: true,
 });
 
 const waitForID = 'redux-store';
 appLoading.register(waitForID);
 
+// Ignore storage mismatch, it does work, and we can't change the lib types
+// (although we probably can somehow)
+// @ts-ignore
 store.persistStore(Storage, blacklist).then(() => {
   appLoading.resolve(waitForID);
 

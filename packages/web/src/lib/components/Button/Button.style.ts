@@ -7,30 +7,37 @@ import styled from 'styled-components';
 interface IGenericProps {
   type?: IType;
   isHovering: boolean;
+  disabled?: boolean;
 }
 
 interface IOuterProps {
   type?: IType;
   fullHeight?: boolean;
-  baseWidth?: number;
+  baseWidth?: boolean;
   isHovering: boolean;
+  disabled?: boolean;
 }
 
 /**
  * Get the theme styles from the type object
  */
-const getTypeThemeStyles = ({ type, isHovering }: IGenericProps) => {
+const getTypeThemeStyles = ({ type, isHovering, disabled }: IGenericProps) => {
   if (!type) {
     throw new Error('You must pass in a button type from config/styles/buttons');
   }
 
+  let disabledProps = {};
+  let hoverProps = {};
+
   const finalType = type.DEFAULT || type;
 
-  if (!isHovering) return finalType;
+  if (disabled) {
+    disabledProps = finalType.disabled || {};
+  } else if (isHovering) {
+    hoverProps = finalType.hover || {};
+  }
 
-  const hoverProps = finalType.hover || {};
-
-  return { ...finalType, ...hoverProps };
+  return { ...finalType, ...hoverProps, ...disabledProps };
 };
 
 /**

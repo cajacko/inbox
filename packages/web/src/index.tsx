@@ -3,6 +3,7 @@ import * as ReactDOM from 'react-dom';
 import App from 'src/lib/components/App';
 import 'src/modules/Sentry';
 import isTestEnv from 'src/utils/conditionals/isTestEnv';
+import 'src/utils/onBeforeUnload';
 
 declare global {
   // tslint:disable-next-line

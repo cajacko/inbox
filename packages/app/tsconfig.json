@@ -6,7 +6,7 @@
   ],
   "compilerOptions": {
     "baseUrl": ".",
-    "outDir": "build/dist",
+    "outDir": "../dist",
     "rootDir": ".",
     "jsx": "react-native",
     "skipLibCheck": true

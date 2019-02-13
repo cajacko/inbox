@@ -5,7 +5,8 @@
     "outDir": "build",
     "rootDir": "../",
     "module": "commonjs",
-    "lib": ["es2017", "es6", "dom"]
+    "lib": ["es2017", "es6", "dom"],
+    "sourceMap": false
   },
-  "include": ["support"]
+  "include": ["support", "loginDetails.local.json"]
 }

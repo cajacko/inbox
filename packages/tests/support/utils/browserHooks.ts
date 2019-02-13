@@ -53,8 +53,21 @@ const browserHooks = (
     mainRouter: {
       crash: crash('Main router crash'),
     },
+    newReminder: {
+      newReminder: () => ({
+        dateCreated: 1549898515336,
+        dateModified: 1549898515336,
+        id: 'new',
+      }),
+    },
     root: {
       crash: crash('Root crash'),
+    },
+    setReminder: {
+      delay: () => delay(1500),
+      error: () => {
+        throw new Error('Could not save the data');
+      },
     },
     splashScreen: {
       error: crash('Splash screen error'),

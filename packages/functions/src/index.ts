@@ -1,8 +1,7 @@
 import * as functions from 'firebase-functions';
+import graphqlServer from './lib/graphql/server';
+import * as testUser from './testUser';
 
-// // Start writing Firebase Functions
-// // https://firebase.google.com/docs/functions/typescript
-//
-export const helloWorld = functions.https.onRequest((request, response) => {
-  response.send('Hello my friends!');
-});
+export const graphql = functions.https.onRequest(graphqlServer);
+export const clearTestUser = functions.https.onRequest(testUser.clearTestUser);
+export const getTestUser = functions.https.onRequest(testUser.getTestUser);

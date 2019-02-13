@@ -15,7 +15,23 @@ class AppError extends Error {
     const message = `Code: ${errorCode}; ${devMessage}`;
 
     super(message);
+
+    this.options = {
+      errorCode,
+    };
+
+    // Adding normal methods on this class doesn't work. Must be because we're
+    // extending the error class. Or could be a naming conflict?
+    this.set = (key: string, value: any) => {
+      this.options[key] = value;
+    };
+
+    this.get = (key?: string) => (key ? this.options[key] : this.options);
   }
+
+  public set: (key: string, value: any) => void;
+  public get: (key?: string) => any;
+  private options: { [key: string]: any };
 
   /**
    * Get the error code from an AppError or string

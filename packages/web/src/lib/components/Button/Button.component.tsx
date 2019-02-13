@@ -30,12 +30,23 @@ class ButtonComponent extends React.Component<IProps, IState> {
     this.action = this.action.bind(this);
     this.onMouseIn = this.onMouseIn.bind(this);
     this.onMouseOut = this.onMouseOut.bind(this);
+    this.ensureDisabledState = this.ensureDisabledState.bind(this);
+  }
+
+  /**
+   * When we get new props, check if disabled and we should turn hovering to
+   * false
+   */
+  public componentWillReceiveProps(props: IProps) {
+    this.ensureDisabledState(props);
   }
 
   /**
    * When the mouse enters, set the hover status
    */
   private onMouseIn() {
+    if (this.ensureDisabledState(this.props)) return;
+
     if (this.state.isHovering) return;
 
     this.setState({ isHovering: true });
@@ -45,15 +56,33 @@ class ButtonComponent extends React.Component<IProps, IState> {
    * When the mouse leaves, set the hover status
    */
   private onMouseOut() {
+    if (this.ensureDisabledState(this.props)) return;
     if (!this.state.isHovering) return;
 
     this.setState({ isHovering: false });
   }
 
   /**
+   * If the button is disabled, make sure hovering is set to false
+   */
+  private ensureDisabledState(props: IProps) {
+    if (props.disabled) {
+      if (this.state.isHovering) {
+        this.setState({ isHovering: false });
+      }
+
+      return true;
+    }
+
+    return false;
+  }
+
+  /**
    * Run the button action
    */
   private action() {
+    if (this.props.disabled) return;
+
     if (this.props.action) {
       analytics.trackEvent(
         this.props.analyticsAction,
@@ -73,7 +102,7 @@ class ButtonComponent extends React.Component<IProps, IState> {
     return (
       <Button
         action={this.action}
-        isHovering={this.state.isHovering}
+        isHovering={this.props.disabled ? false : this.state.isHovering}
         buttonEvents={{
           onMouseEnter: this.onMouseIn,
           onMouseLeave: this.onMouseOut,

@@ -3,6 +3,7 @@ import { View as RNView } from 'react-native';
 import { Children } from 'src/lib/types/libs';
 
 interface IProps {
+  // Styled components require their to be a child in react-native
   children: Children;
   style?: { [key: string]: any };
   testID?: string;

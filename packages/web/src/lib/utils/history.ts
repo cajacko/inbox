@@ -15,6 +15,10 @@ const push = (preventPush: boolean) => (
 ) => {
   if (!forceUpdate) {
     if (
+      isEqual(
+        newPathname,
+        `${history.location.pathname}${history.location.search}`
+      ) &&
       isEqual(newPathname, history.location.pathname) &&
       isEqual(state, history.location.state)
     ) {

@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { Switch } from 'react-router';
+import Route from 'src/lib/components/Route';
 import { IRoute } from 'src/lib/types/general';
 import testHook from 'src/utils/testHook';
-import Route from '../Route';
 
 interface IProps {
   routes: IRoute[];

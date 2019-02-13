@@ -89,3 +89,5 @@ export const INPUT_TYPES = {
   body1: TYPES.body1,
   body2: TYPES.body2,
 };
+
+export type InputType = keyof typeof INPUT_TYPES;
