@@ -34,7 +34,11 @@ class Browser {
     if (!this.page) return;
 
     if (shouldClose && !this.page.isClosed()) {
-      await this.page.close();
+      try {
+        await this.page.close();
+      } catch (e) {
+        // Dont need to do anything here
+      }
     }
 
     this.page = null;
@@ -245,6 +249,12 @@ class Browser {
       this.browser = await puppeteer.launch({
         headless: this.headless,
       });
+
+      if (this.page && !this.page.isClosed()) {
+        await this.page.close();
+      }
+
+      this.page = null;
     }
 
     if (!this.page || this.page.isClosed()) {

@@ -30,7 +30,7 @@ Then('the login cancel button {string} visible', conditional =>
 Then('the login loading icon {string} visible', conditional =>
   login.loadingVisible(conditional));
 
-Given('we have logged in successfully', () => {
+Given('we have logged in successfully', function () {
   // @ts-ignore
   const { nonHeadless } = this;
 
