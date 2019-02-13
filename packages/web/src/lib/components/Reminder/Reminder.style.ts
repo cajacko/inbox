@@ -12,6 +12,7 @@ export const Container = styled(View)<{ isLast: boolean }>`
     border(GREY_LIGHTER, 2, {
       bottom: !isLast,
     })}
+  flex-direction: row;
 `;
 
 export const Inner = styled(View)`

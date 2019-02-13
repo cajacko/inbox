@@ -32,6 +32,7 @@ const Reminder = ({
       analyticsCategory="REMINDER"
       action={add}
       testID="Reminder__Button"
+      styles={{ flex: 1, flexDirection: 'row' }}
     >
       {() => (
         <Inner>
