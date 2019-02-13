@@ -116,6 +116,13 @@ Feature: Add Reminder
     And we add a reminder with the text "2nd item"
     Then the text for the "1st" reminder "is" "2nd item"
 
+  @platform-web
+  Scenario: Close app with saved changes does not show an alert
+    When we add a reminder with the text "Close app"
+    Then the "1st" reminder status "will be" "Saved"
+    When the close browser tab button is pressed
+    Then an alert "is not" visible
+
   @platform-web @non-headless
   Scenario: Close app when unsaved changes shows alert
     When we add a hook with id "setReminder" and type "delay"

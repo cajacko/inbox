@@ -33,5 +33,12 @@ Feature: Manage Reminders
     Then the edit reminder scene "is not" visible
     And the reminder list count "is" "0"
 
-  # When deleting a reminder does not sync, there is no visible changes?
+  # When deleting a reminder does not sync, there is no visible changes? Should
+  # this be changed? But how?
+  @platform-web
   Scenario: When closing the tab with pending deletions, the alert is not shown
+    When we add a hook with id "deleteReminder" and type "delay"
+    And the "1st" reminder is pressed
+    And the edit scene "delete button" is pressed
+    When the close browser tab button is pressed
+    Then an alert "is not" visible

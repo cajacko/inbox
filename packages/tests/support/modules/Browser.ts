@@ -33,7 +33,7 @@ class Browser {
   public async reset() {
     if (!this.page) return;
 
-    if (shouldClose) {
+    if (shouldClose && !this.page.isClosed()) {
       await this.page.close();
     }
 
@@ -322,7 +322,7 @@ class Browser {
     if (this.dialogHandler) this.dialogHandler(dialog);
   }
 
-  private dialogAction(actionType: 'accept' | 'dismiss') {
+  private async dialogAction(actionType: 'accept' | 'dismiss') {
     const { dialog } = this;
     this.dialog = undefined;
 
@@ -374,7 +374,7 @@ class Browser {
     try {
       const promise = this.dialogAction('dismiss');
 
-      return promise;
+      return promise.catch(() => Promise.resolve());
     } catch (e) {
       return Promise.resolve();
     }
