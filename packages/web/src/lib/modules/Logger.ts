@@ -13,7 +13,6 @@ const mapLogLevelToConsole = {
   [LogLevel.Error]: 'error',
   [LogLevel.Fatal]: 'error',
   [LogLevel.Info]: 'info',
-  [LogLevel.Log]: 'info',
   [LogLevel.Warning]: 'warn',
 };
 

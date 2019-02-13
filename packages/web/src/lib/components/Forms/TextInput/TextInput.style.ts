@@ -1,17 +1,29 @@
 import { TextInput } from 'src/components';
+import { TextInputRef } from 'src/components/TextInput';
 import { BUTTON_BORDER_RADIUS } from 'src/lib/config/styles/buttons';
 import { GREY } from 'src/lib/config/styles/colors';
 import { STANDARD_SPACING } from 'src/lib/config/styles/spacing';
 import { InputType } from 'src/lib/config/styles/text';
-import { COLORS_FOR_BACKGROUND } from 'src/lib/config/styles/textIconColors';
-import { BackgroundColorVal } from 'src/lib/config/styles/textIconColors';
+import {
+  BackgroundColorVal,
+  COLORS_FOR_BACKGROUND,
+} from 'src/lib/config/styles/textIconColors';
 import applyPadding from 'src/lib/utils/applyPadding';
 import getInputStyles from 'src/lib/utils/getInputStyles';
 import textIconColor from 'src/lib/utils/textIconColor';
+import platform from 'src/utils/platform';
 import unit from 'src/utils/unit';
 import styled from 'styled-components';
 
+type Ref = (ref: TextInputRef | null) => void;
+
 interface IProps {
+  ref: Ref;
+  value: string;
+  placeholder: string;
+  testID?: string;
+  onChange: (text: string) => void;
+  onSubmit: () => void;
   customProps: {
     type?: InputType;
     error?: boolean;
@@ -54,9 +66,9 @@ export const Input = styled(TextInput)<IProps>`
   color: ${({ customProps: { backgroundColor } }) =>
     textIconColor({ backgroundColor })};
   border-radius: ${unit(BUTTON_BORDER_RADIUS)};
-  box-sizing: border-box;
+  ${platform() === 'web' ? 'box-sizing: border-box;' : ''}
   height: ${props => getStyles(props).height};
-  outline: none;
+  ${platform() === 'web' ? 'outline: none;' : ''}
   width: 100%;
   ${applyPadding({ horizontal: STANDARD_SPACING, vertical: 0 })}
   border-color: ${borderColor};

@@ -57,7 +57,9 @@ const Modal = ({ Component, props, hide }: IProps) => (
               analyticsAction="HIDE"
               analyticsCategory="MODAL"
             >
-              {({ isHovering }) => <Overlay isHovering={isHovering} />}
+              {({ isHovering }) => (
+                <Overlay isHovering={isHovering}>{null}</Overlay>
+              )}
             </Button>
           </React.Fragment>
         )}

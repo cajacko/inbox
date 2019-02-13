@@ -18,13 +18,6 @@ let loginId = 0;
  */
 class Auth {
   /**
-   * Is the user logged in
-   */
-  public static isLoggedIn() {
-    return AuthImplementation.isLoggedIn();
-  }
-
-  /**
    * Get the current user
    */
   public static getUser(): Promise<IUser | null> {

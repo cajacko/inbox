@@ -6,6 +6,7 @@ import Header from 'src/lib/components/Header';
 import Measure from 'src/lib/components/Layout/Measure';
 import Menu from 'src/lib/components/Menu';
 import getButtonType from 'src/lib/utils/getButtonType';
+import Animated from 'src/packages/animated';
 import * as Style from './HeaderWithDrawer.style';
 
 interface IProps {
@@ -13,8 +14,8 @@ interface IProps {
   children: JSX.Element;
   renderMenu: boolean;
   menuIsOpen: boolean;
-  menuLeft: Animated.Value;
-  buttonLeft: Animated.Value;
+  menuLeft: Animated.AnimatedInterpolation;
+  buttonLeft: Animated.AnimatedInterpolation;
   overlayOpacity: Animated.Value;
   close: () => void;
   open: () => void;
@@ -80,7 +81,9 @@ const HeaderWithDrawer = (props: IProps) => {
                     testID="Menu__BackgroundButton"
                   >
                     {({ isHovering }) => (
-                      <Style.OverlayButtonColor isHovering={isHovering} />
+                      <Style.OverlayButtonColor isHovering={isHovering}>
+                        {null}
+                      </Style.OverlayButtonColor>
                     )}
                   </Button>
                 </Style.OverlayButton>
