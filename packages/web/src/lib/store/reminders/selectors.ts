@@ -9,7 +9,8 @@ const selectAllReminders = createSelector<
   string[]
   >(
     ({ reminders }) => reminders,
-    reminders => Object.keys(reminders)
+    reminders =>
+      Object.keys(reminders).filter(id => !reminders[id].deleted)
   );
 
 const getReminderObjectList = createSelector<

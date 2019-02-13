@@ -10,6 +10,8 @@ class AddReminder {
     selectors.general.AddReminder.Cancel;
   private inputSelector: ISelector = selectors.general.AddReminder.Input;
   private saveButtonSelector: ISelector = selectors.general.AddReminder.Save;
+  private deleteButtonSelector: ISelector =
+    selectors.general.AddReminder.Delete;
 
   public async visible(condition: ICondition) {
     return driver.visible(condition, getSelector(this.addReminderSelector));
@@ -45,6 +47,23 @@ class AddReminder {
 
   public async clear() {
     return driver.clear(getSelector(this.inputSelector));
+  }
+
+  private getComponentSelector(component: string) {
+    switch (component) {
+      case 'delete button':
+        return getSelector(this.deleteButtonSelector);
+      default:
+        throw new Error('No matching component');
+    }
+  }
+
+  public async componentVisible(condition: ICondition, component: string) {
+    return driver.visible(condition, this.getComponentSelector(component));
+  }
+
+  public async pressComponent(component: string) {
+    return driver.press(this.getComponentSelector(component));
   }
 }
 

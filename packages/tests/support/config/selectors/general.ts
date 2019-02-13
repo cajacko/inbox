@@ -6,6 +6,9 @@ const general = {
     Cancel: {
       web: '.AddReminder__Cancel',
     },
+    Delete: {
+      web: '.AddReminder__Delete',
+    },
     Input: {
       web: '.AddReminder__Input',
     },

@@ -32,3 +32,9 @@ When('we add a reminder with the text {string}', text =>
 
 Then('the edit reminder scene {string} visible', condition =>
   addReminder.editVisible(condition));
+
+Then('the edit scene {string} {string} visible', (component, condition) =>
+  addReminder.componentVisible(condition, component));
+
+When('the edit scene {string} is pressed', component =>
+  addReminder.pressComponent(component));

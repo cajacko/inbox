@@ -8,29 +8,30 @@ Feature: Manage Reminders
     When we add a reminder with the text "Item to delete"
     Then the reminder list count "is" "1"
 
-  Scenario: The reminder hover menu has a delete button
-    When the we hover over the "1st" reminder
-    Then the "1st" reminder "delete" button is visible
+  # Scenario: The reminder hover menu has a delete button
+  #   When the we hover over the "1st" reminder
+  #   Then the "1st" reminder "delete" button is visible
 
   Scenario: The add reminder scene does not have the delete button
-    When the "1st" reminder is pressed
+    When the add reminder button is pressed
     Then the add reminder scene "is" visible
     And the edit scene "delete button" "is not" visible
 
-  Scenario: The edit reminder scene displays has the delete button
+  Scenario: The edit reminder scene has the delete button
     When the "1st" reminder is pressed
     Then the edit reminder scene "is" visible
     And the edit scene "delete button" "is" visible
 
-  Scenario: Delete a reminder successfully via the hover button
-    When the we hover over the "1st" reminder
-    And the "1st" reminder hover "delete" button is pressed
-    Then the reminder list count "is" "0"
+  # Scenario: Delete a reminder successfully via the hover button
+  #   When the we hover over the "1st" reminder
+  #   And the "1st" reminder hover "delete" button is pressed
+  #   Then the reminder list count "is" "0"
 
-  @size-mobile @size-tablet
   Scenario: Delete a reminder successfully via the edit menu
     When the "1st" reminder is pressed
-    Then the edit reminder scene "is" visible
+    And the edit scene "delete button" is pressed
+    Then the edit reminder scene "is not" visible
+    And the reminder list count "is" "0"
 
   # When deleting a reminder does not sync, there is no visible changes?
   Scenario: When closing the tab with pending deletions, the alert is not shown

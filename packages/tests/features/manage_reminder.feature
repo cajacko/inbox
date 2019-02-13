@@ -14,9 +14,9 @@ Feature: Manage Reminders
     Then the add reminder text "is" "Item to delete"
     And the screenshot matches
 
-  Scenario: The reminder hover menu displays correctly
-    When the we hover over the "1st" reminder
-    And the screenshot matches
+# Scenario: The reminder hover menu displays correctly
+#   When the we hover over the "1st" reminder
+#   And the screenshot matches
 
 # TODO: Check which of these are worth checking when editing a reminder and not
 # just adding

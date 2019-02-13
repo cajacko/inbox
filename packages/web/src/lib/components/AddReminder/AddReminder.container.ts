@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { IState } from 'src/lib/store/reducers';
-import { setReminder } from 'src/lib/store/reminders/actions';
+import { deleteReminder, setReminder } from 'src/lib/store/reminders/actions';
 import { Dispatch } from 'src/lib/types/libs';
 import AddReminder, {
   IContainerDispatchProps,
@@ -18,6 +18,7 @@ const mapStateToProps = (state: IState, { id }: IPassedProps) =>
  * Wrap the save func in redux dispatch
  */
 const mapDispatchToProps = (dispatch: Dispatch) => ({
+  delete: (id: string) => dispatch(deleteReminder(id)),
   save: (reminder: string, id?: string) => dispatch(setReminder(id, reminder)),
 });
 
