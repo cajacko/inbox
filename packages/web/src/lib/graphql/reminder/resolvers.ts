@@ -30,9 +30,21 @@ export const Mutation = {
       return { error: e.message };
     }
 
-    return db
-      .collection('reminders')
-      .doc(reminder.id)
-      .set(reminder);
+    const doc = db.collection('reminders').doc(reminder.id);
+
+    // If the doc exists then update the record, as we won't have fields like
+    // dateCreated in the payload, otherwise create as new
+    return doc.get().then((data) => {
+      if (data.exists) {
+        return doc.update(reminder);
+      }
+
+      const finalReminder = reminder.dateCreated
+        ? reminder
+        : // ensuring we always have a created data, shouldn't happen though
+        { ...reminder, dateCreated: new Date().getTime() };
+
+      return doc.set(finalReminder);
+    });
   },
 };

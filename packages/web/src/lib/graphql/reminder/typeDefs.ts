@@ -20,5 +20,5 @@ export const query = `
 `;
 
 export const mutation = `
-  setReminder(id: ReminderID!, text: String!, dateCreated: Date!, dateModified: Date!): ReminderResponse
+  setReminder(id: ReminderID!, text: String!, dateCreated: Date, dateModified: Date!): ReminderResponse
 `;

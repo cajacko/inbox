@@ -64,10 +64,8 @@ const browserHooks = (
       crash: crash('Root crash'),
     },
     setReminder: {
-      delay: () => delay(1500),
-      error: () => {
-        throw new Error('Could not save the data');
-      },
+      delay: () => () => delay(15000),
+      error: () => () => Promise.reject(new Error('Bad bad')),
     },
     splashScreen: {
       error: crash('Splash screen error'),

@@ -29,10 +29,9 @@ export const setReminder = makeActionCreator(SET_REMINDER, (id, text) => {
     text,
   };
 
-  api
+  testHook('setReminder', () => Promise.resolve())()
     // @ts-ignore
-    .setReminder(reminder)
-    .then(() => testHook('setReminder', () => Promise.resolve())())
+    .then(() => api.setReminder(reminder))
     .then(() => {
       store.dispatch(setReminderStatus(reminder.id, 'saved'));
     })
@@ -48,10 +47,9 @@ export const deleteReminder = makeActionCreator(DELETE_REMINDER, (id) => {
 
   const dateModified = testHook('newReminder', now);
 
-  api
+  testHook('deleteReminder', () => Promise.resolve())()
     // @ts-ignore
-    .deleteReminder({ id, dateModified })
-    .then(() => testHook('deleteReminder', () => Promise.resolve())())
+    .then(() => api.deleteReminder({ id, dateModified }))
     .then(() => {
       store.dispatch(setReminderStatus(id, 'saved'));
     })

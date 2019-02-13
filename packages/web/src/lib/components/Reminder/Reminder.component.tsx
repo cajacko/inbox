@@ -33,7 +33,7 @@ class ReminderComponent extends React.Component<IProps, IState> {
       isHovering: false,
     };
 
-    this.add = this.add.bind(this);
+    this.edit = this.edit.bind(this);
     this.onMouseIn = this.onMouseIn.bind(this);
     this.onMouseOut = this.onMouseOut.bind(this);
   }
@@ -59,7 +59,7 @@ class ReminderComponent extends React.Component<IProps, IState> {
   /**
    * Show the add modal
    */
-  private add() {
+  private edit() {
     this.props.context.show(AddReminder, {
       close: this.props.context.hide,
       id: this.props.id,
@@ -73,7 +73,7 @@ class ReminderComponent extends React.Component<IProps, IState> {
     return (
       <Reminder
         {...this.props}
-        add={this.add}
+        edit={this.edit}
         isHovering={this.state.isHovering}
         buttonEvents={{
           onMouseEnter: this.onMouseIn,
