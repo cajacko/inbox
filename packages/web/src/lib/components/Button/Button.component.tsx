@@ -7,6 +7,7 @@ interface IProps extends IPassedDownProps {
   analyticsCategory: string;
   analyticsLabel?: string;
   analyticsValue?: number;
+  disableHover?: boolean;
 }
 
 interface IState {
@@ -66,7 +67,7 @@ class ButtonComponent extends React.Component<IProps, IState> {
    * If the button is disabled, make sure hovering is set to false
    */
   private ensureDisabledState(props: IProps) {
-    if (props.disabled) {
+    if (props.disabled || props.disableHover) {
       if (this.state.isHovering) {
         this.setState({ isHovering: false });
       }
@@ -107,7 +108,6 @@ class ButtonComponent extends React.Component<IProps, IState> {
           onMouseEnter: this.onMouseIn,
           onMouseLeave: this.onMouseOut,
           onMouseMove: this.onMouseIn,
-          onMouseOut: this.onMouseOut,
           onMouseOver: this.onMouseIn,
         }}
         {...this.props}

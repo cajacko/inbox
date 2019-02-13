@@ -33,8 +33,12 @@ class Browser {
   public async reset() {
     if (!this.page) return;
 
-    if (shouldClose) {
-      await this.page.close();
+    if (shouldClose && !this.page.isClosed()) {
+      try {
+        await this.page.close();
+      } catch (e) {
+        // Dont need to do anything here
+      }
     }
 
     this.page = null;
@@ -245,6 +249,12 @@ class Browser {
       this.browser = await puppeteer.launch({
         headless: this.headless,
       });
+
+      if (this.page && !this.page.isClosed()) {
+        await this.page.close();
+      }
+
+      this.page = null;
     }
 
     if (!this.page || this.page.isClosed()) {
@@ -322,7 +332,7 @@ class Browser {
     if (this.dialogHandler) this.dialogHandler(dialog);
   }
 
-  private dialogAction(actionType: 'accept' | 'dismiss') {
+  private async dialogAction(actionType: 'accept' | 'dismiss') {
     const { dialog } = this;
     this.dialog = undefined;
 
@@ -374,7 +384,7 @@ class Browser {
     try {
       const promise = this.dialogAction('dismiss');
 
-      return promise;
+      return promise.catch(() => Promise.resolve());
     } catch (e) {
       return Promise.resolve();
     }
@@ -477,7 +487,7 @@ class Browser {
   }
 
   public async clear(selector: string) {
-    this.ensurePage();
+    await this.ensurePage();
 
     if (!this.page) throw new Error('No page');
 
@@ -499,7 +509,7 @@ class Browser {
   }
 
   public async pressSubmitKey() {
-    this.ensurePage();
+    await this.ensurePage();
 
     if (!this.page) throw new Error('No page');
 
@@ -507,7 +517,7 @@ class Browser {
   }
 
   public async closePage(clear: boolean) {
-    this.ensurePage();
+    await this.ensurePage();
 
     if (!this.page) throw new Error('No page to close');
 
@@ -516,6 +526,14 @@ class Browser {
     if (clear) {
       this.page = null;
     }
+  }
+
+  public async hover(selector: string) {
+    await this.ensurePage();
+
+    if (!this.page) throw new Error('No page to hover on');
+
+    return this.page.hover(selector);
   }
 }
 

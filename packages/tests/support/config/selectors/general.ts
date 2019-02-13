@@ -6,6 +6,9 @@ const general = {
     Cancel: {
       web: '.AddReminder__Cancel',
     },
+    Delete: {
+      web: '.AddReminder__Delete',
+    },
     Input: {
       web: '.AddReminder__Input',
     },
@@ -13,6 +16,9 @@ const general = {
       web: '.AddReminder__Save',
     },
     web: '.AddReminder',
+  },
+  EditReminder: {
+    web: '.AddReminder--Edit',
   },
   ErrorBoundary: {
     Button: {
@@ -86,6 +92,14 @@ const general = {
   },
   ReminderList: {
     Reminder: {
+      Button: {
+        web: ({ index }: { index: number }) =>
+          `.Reminder:nth-child(${index + 1}) .Reminder__Button`,
+      },
+      DeleteButton: {
+        web: ({ index }: { index: number }) =>
+          `.Reminder:nth-child(${index + 1}) .Reminder__HoverDelete`,
+      },
       Status: {
         Error: {
           web: ({ index }: { index: number }) =>

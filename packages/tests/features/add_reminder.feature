@@ -4,11 +4,7 @@ Feature: Add Reminder
   So that I can keep track things I need to get done
 
   Background:
-    Given we add a hook with id "login" and type "success"
-    And the driver is ready
-    When the app is navigated to "/"
-    And the login button is pressed
-    Then the "logged in" home route "will be" visible
+    Given we have logged in successfully
     And the reminder list count "is" "0"
 
   Scenario: Add button displays correctly
@@ -119,6 +115,13 @@ Feature: Add Reminder
     When we add a reminder with the text "1st item"
     And we add a reminder with the text "2nd item"
     Then the text for the "1st" reminder "is" "2nd item"
+
+  @platform-web
+  Scenario: Close app with saved changes does not show an alert
+    When we add a reminder with the text "Close app"
+    Then the "1st" reminder status "will be" "Saved"
+    When the close browser tab button is pressed
+    Then an alert "is not" visible
 
   @platform-web @non-headless
   Scenario: Close app when unsaved changes shows alert

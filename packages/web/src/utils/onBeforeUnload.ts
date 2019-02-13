@@ -1,10 +1,10 @@
 /* eslint no-param-reassign: 0 */
-import { selectOrderReminders } from 'src/lib/store/reminders/selectors';
+import { selectOrderedRemindersObjects } from 'src/lib/store/reminders/selectors';
 import marketingCopy from 'src/lib/utils/marketingCopy';
 import store from 'src/lib/utils/store';
 
 window.addEventListener('beforeunload', (event) => {
-  const reminders = selectOrderReminders(store.getState());
+  const reminders = selectOrderedRemindersObjects(store.getState());
 
   const hasChanges = reminders.find(({ status }) => status === 'error' || status === 'saving');
 

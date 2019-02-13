@@ -26,3 +26,26 @@ export const setReminder = ({
     text,
   },
 });
+
+/**
+ * GraphQL mutation to delete a reminder
+ */
+export const deleteReminder = ({
+  id,
+  dateModified,
+}: {
+  id: string;
+  dateModified: number;
+  }) => ({
+  mutation: `
+    mutation DeleteReminder($id: ReminderID!, $dateModified: Date!) {
+      deleteReminder(id: $id, dateModified: $dateModified) {
+        error
+      }
+    }
+  `,
+  vars: {
+    dateModified,
+    id,
+  },
+});

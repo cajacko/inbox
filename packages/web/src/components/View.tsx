@@ -4,7 +4,6 @@ import mergeClasses from 'src/utils/mergeClasses';
 import styled from 'styled-components';
 
 interface IProps {
-  // Styled components require their to be a child in react-native
   children: Children;
   className?: string;
   testID?: string;
@@ -20,10 +19,12 @@ type Ref = React.RefObject<HTMLDivElement>;
 /**
  * Render text on the web
  */
-const View = React.forwardRef((props: IProps, ref: Ref) => (
-  <Container className={mergeClasses(props.className, props.testID)} ref={ref}>
-    {props.children}
-  </Container>
+const View = React.forwardRef(({
+  className, testID, children, ...props
+}: IProps, ref: Ref) => (
+    <Container className={mergeClasses(className, testID)} ref={ref} {...props}>
+      {typeof children === 'function' ? children({}) : children}
+    </Container>
 ));
 
 export default View;

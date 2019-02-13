@@ -49,3 +49,7 @@ export const Input = styled(View)`
   flex: 1;
   justify-content: center;
 `;
+
+export const Right = styled(View)`
+  flex-direction: row;
+`;

@@ -1,21 +1,9 @@
 import * as React from 'react';
-import Status from 'src/lib/components/ReminderStatus';
-import Text from 'src/lib/components/Text';
-import {
-  BACKGROUND_COLOR,
-  Container,
-  Inner,
-  Reminder,
-} from './ReminderList.style';
-
-interface IReminder {
-  id: string;
-  text: string;
-  status: 'saving' | 'saved' | 'error';
-}
+import Reminder from 'src/lib/components/Reminder';
+import { Container, Inner } from './ReminderList.style';
 
 export interface IContainerStateProps {
-  reminders: IReminder[];
+  reminders: string[];
 }
 
 /**
@@ -26,20 +14,10 @@ const ReminderList = ({ reminders }: IContainerStateProps) => (
     <Inner>
       {reminders.map((reminder, i) => (
         <Reminder
-          key={reminder.id}
-          testID="Reminder"
+          key={reminder}
           isLast={reminders.length - 1 === i}
-        >
-          <Text
-            testID="Reminder__Text"
-            text={{ _textFromConst: reminder.text }}
-            backgroundColor={BACKGROUND_COLOR}
-          />
-          <Status
-            status={reminder.status || 'saved'}
-            backgroundColor={BACKGROUND_COLOR}
-          />
-        </Reminder>
+          id={reminder}
+        />
       ))}
     </Inner>
   </Container>

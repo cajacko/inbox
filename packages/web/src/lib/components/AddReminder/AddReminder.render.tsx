@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { TextInputRef } from 'src/components/TextInput';
 import Times from 'src/lib/assets/icons/Times';
+import Trash from 'src/lib/assets/icons/Trash';
 import Button from 'src/lib/components/Button';
 import TextInput from 'src/lib/components/Forms/TextInput';
 import getButtonType from 'src/lib/utils/getButtonType';
@@ -11,6 +12,7 @@ import {
   Input,
   InputPanel,
   Panel,
+  Right,
 } from './AddReminder.style';
 
 const analyticsCategory = 'ADD_REMINDER_SCENE';
@@ -18,6 +20,7 @@ const analyticsCategory = 'ADD_REMINDER_SCENE';
 export interface IPassedProps {
   fullScreen: boolean;
   close: () => void;
+  id?: string;
 }
 
 export interface IProps extends IPassedProps {
@@ -26,40 +29,39 @@ export interface IProps extends IPassedProps {
   value: string;
   saveDisabled: boolean;
   onSave: () => void;
+  isNew: boolean;
+  onDelete: () => void;
 }
 
 /**
  * Show the add reminder view
  */
-const AddReminder = ({
-  fullScreen,
-  close,
-  setInputRef,
-  onChange,
-  value,
-  saveDisabled,
-  onSave,
-}: IProps) => {
+const AddReminder = (props: IProps) => {
+  const inputBelow = !props.isNew || props.fullScreen;
+
   const input = (
     <Input>
       <TextInput
         placeholder="AddReminder.Placeholder"
         backgroundColor={BACKGROUND_COLOR}
         testID="AddReminder__Input"
-        value={value}
-        onChange={onChange}
-        ref={setInputRef}
-        onSubmit={onSave}
+        value={props.value}
+        onChange={props.onChange}
+        ref={props.setInputRef}
+        onSubmit={props.onSave}
       />
     </Input>
   );
 
   return (
-    <Container testID="AddReminder" fullScreen>
+    <Container
+      testID={props.isNew ? 'AddReminder' : 'AddReminder--Edit'}
+      fullScreen
+    >
       <Content fullScreen>
         <Panel fullScreen>
           <Button
-            action={close}
+            action={props.close}
             testID="AddReminder__Cancel"
             icon={Times}
             analyticsAction="CLOSE"
@@ -67,20 +69,33 @@ const AddReminder = ({
             type={getButtonType('ICON.GREYED_OUT')}
           />
 
-          {!fullScreen && input}
+          {!inputBelow && input}
 
-          <Button
-            action={onSave}
-            text="AddReminder.Save"
-            analyticsAction="SAVE"
-            analyticsCategory={analyticsCategory}
-            type={getButtonType('TRANSPARENT')}
-            baseWidth
-            testID="AddReminder__Save"
-            disabled={saveDisabled}
-          />
+          <Right>
+            {!props.isNew && (
+              <Button
+                action={props.onDelete}
+                testID="AddReminder__Delete"
+                icon={Trash}
+                analyticsAction="DELETE"
+                analyticsCategory={analyticsCategory}
+                type={getButtonType('ICON.GREYED_OUT')}
+              />
+            )}
+
+            <Button
+              action={props.onSave}
+              text="AddReminder.Save"
+              analyticsAction="SAVE"
+              analyticsCategory={analyticsCategory}
+              type={getButtonType('TRANSPARENT')}
+              baseWidth
+              testID="AddReminder__Save"
+              disabled={props.saveDisabled}
+            />
+          </Right>
         </Panel>
-        {fullScreen && <InputPanel>{input}</InputPanel>}
+        {inputBelow && <InputPanel>{input}</InputPanel>}
       </Content>
     </Container>
   );

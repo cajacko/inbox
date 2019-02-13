@@ -6,6 +6,7 @@ import testHook from 'src/utils/testHook';
 
 export const SET_REMINDER = 'SET_REMINDER';
 export const SET_REMINDER_STATUS = 'SET_REMINDER_STATUS';
+export const DELETE_REMINDER = 'DELETE_REMINDER';
 
 export const setReminderStatus = makeActionCreator(
   SET_REMINDER_STATUS,
@@ -40,4 +41,23 @@ export const setReminder = makeActionCreator(SET_REMINDER, (id, text) => {
     });
 
   return reminder;
+});
+
+export const deleteReminder = makeActionCreator(DELETE_REMINDER, (id) => {
+  const now = new Date().getTime();
+
+  const dateModified = testHook('newReminder', now);
+
+  api
+    // @ts-ignore
+    .deleteReminder({ id, dateModified })
+    .then(() => testHook('deleteReminder', () => Promise.resolve())())
+    .then(() => {
+      store.dispatch(setReminderStatus(id, 'saved'));
+    })
+    .catch(() => {
+      store.dispatch(setReminderStatus(id, 'error'));
+    });
+
+  return { id, dateModified };
 });

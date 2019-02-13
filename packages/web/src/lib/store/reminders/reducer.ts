@@ -1,5 +1,5 @@
 import createReducer from 'src/lib/utils/createReducer';
-import { SET_REMINDER, SET_REMINDER_STATUS } from './actions';
+import { DELETE_REMINDER, SET_REMINDER, SET_REMINDER_STATUS } from './actions';
 
 export interface IReminder {
   id: string;
@@ -7,6 +7,7 @@ export interface IReminder {
   dateModified: number;
   dateCreated: number;
   status: 'saving' | 'saved' | 'error';
+  deleted: boolean;
 }
 
 export interface IState {
@@ -28,6 +29,7 @@ export default createReducer<IState>(initialState, {
       [id]: {
         dateCreated,
         dateModified,
+        deleted: false,
         id,
         status,
         text,
@@ -35,6 +37,16 @@ export default createReducer<IState>(initialState, {
     }),
   [SET_REMINDER_STATUS]: (state, { id, status }) => {
     const reminder = { ...state[id], status };
+
+    return { ...state, [id]: reminder };
+  },
+  [DELETE_REMINDER]: (state, { id, dateModified }): IState => {
+    const reminder = {
+      ...state[id],
+      dateModified,
+      deleted: true,
+      status: 'saving',
+    };
 
     return { ...state, [id]: reminder };
   },
