@@ -36,6 +36,7 @@ export const EditMenu = styled(View)`
   z-index: 1;
   align-items: center;
   justify-content: center;
+  flex-direction: row;
   ${padding({ horizontal: reminderSpacing })}
   ${border(GREY_LIGHTER, 1, {
     left: true,

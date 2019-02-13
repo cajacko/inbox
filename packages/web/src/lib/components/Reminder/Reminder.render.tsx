@@ -1,4 +1,5 @@
 import * as React from 'react';
+import EllipsisV from 'src/lib/assets/icons/EllipsisV';
 import Trash from 'src/lib/assets/icons/Trash';
 import Button from 'src/lib/components/Button';
 import Status from 'src/lib/components/ReminderStatus';
@@ -23,7 +24,7 @@ export interface IPassedProps {
 type Event = () => void;
 
 export interface IComponentProps {
-  add: () => void;
+  edit: () => void;
   isHovering: boolean;
   buttonEvents: {
     onMouseEnter: Event;
@@ -47,7 +48,7 @@ const Reminder = ({
   isLast,
   text,
   status,
-  add,
+  edit,
   buttonEvents,
   isHovering,
   onDelete,
@@ -56,7 +57,7 @@ const Reminder = ({
     <Button
       analyticsAction="SHOW_EDIT_REMINDER"
       analyticsCategory="REMINDER"
-      action={add}
+      action={edit}
       testID="Reminder__Button"
       styles={{ flex: 1, flexDirection: 'row' }}
       disableHover
@@ -79,11 +80,19 @@ const Reminder = ({
       <EditMenu testID="Reminder__Hover">
         <Button
           type={getButtonType('ICON.GREYED_OUT')}
-          analyticsAction="DELETE"
+          analyticsAction="DELETE_HOVER"
           analyticsCategory="REMINDER"
           action={onDelete}
           testID="Reminder__HoverDelete"
           icon={Trash}
+        />
+        <Button
+          type={getButtonType('ICON.GREYED_OUT')}
+          analyticsAction="SHOW_EDIT_REMINDER_HOVER"
+          analyticsCategory="REMINDER"
+          action={edit}
+          testID="Reminder__HoverEdit"
+          icon={EllipsisV}
         />
       </EditMenu>
     )}

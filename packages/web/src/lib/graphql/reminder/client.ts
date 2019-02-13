@@ -13,7 +13,7 @@ export const setReminder = ({
   text: string;
   }) => ({
   mutation: `
-    mutation SetReminder($id: ReminderID!, $text: String!, $dateCreated: Date!, $dateModified: Date!) {
+    mutation SetReminder($id: ReminderID!, $text: String!, $dateCreated: Date, $dateModified: Date!) {
       setReminder(id: $id, text: $text, dateCreated: $dateCreated, dateModified: $dateModified) {
         error
       }

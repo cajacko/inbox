@@ -100,6 +100,10 @@ const general = {
         web: ({ index }: { index: number }) =>
           `.Reminder:nth-child(${index + 1}) .Reminder__HoverDelete`,
       },
+      EditButton: {
+        web: ({ index }: { index: number }) =>
+          `.Reminder:nth-child(${index + 1}) .Reminder__HoverEdit`,
+      },
       Status: {
         Error: {
           web: ({ index }: { index: number }) =>

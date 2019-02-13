@@ -12,6 +12,8 @@ class ReminderList {
     selectors.general.ReminderList.Reminder.Button;
   private reminderDeleteButtonSelector: ISelector =
     selectors.general.ReminderList.Reminder.DeleteButton;
+  private reminderEditButtonSelector: ISelector =
+    selectors.general.ReminderList.Reminder.EditButton;
 
   public async count(conditional: ICondition, value: number) {
     return driver.count(
@@ -49,6 +51,9 @@ class ReminderList {
     switch (component) {
       case 'delete':
         selector = getSelector(this.reminderDeleteButtonSelector, { index });
+        break;
+      case 'edit':
+        selector = getSelector(this.reminderEditButtonSelector, { index });
         break;
       default:
         throw new Error('Unknown component given');
