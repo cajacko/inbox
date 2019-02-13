@@ -19,8 +19,18 @@ class AppError extends Error {
     this.options = {
       errorCode,
     };
+
+    // Adding normal methods on this class doesn't work. Must be because we're
+    // extending the error class. Or could be a naming conflict?
+    this.set = (key: string, value: any) => {
+      this.options[key] = value;
+    };
+
+    this.get = (key?: string) => (key ? this.options[key] : this.options);
   }
 
+  public set: (key: string, value: any) => void;
+  public get: (key?: string) => any;
   private options: { [key: string]: any };
 
   /**
@@ -45,20 +55,6 @@ class AppError extends Error {
     const code = match[1];
 
     return code || null;
-  }
-
-  /**
-   * Set an option on the error class, useful if passing the error around places
-   */
-  public set(key: string, value: any) {
-    this.options[key] = value;
-  }
-
-  /**
-   * Get all or a specific option
-   */
-  public get(key?: string) {
-    return key ? this.options[key] : this.options;
   }
 }
 
