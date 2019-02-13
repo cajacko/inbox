@@ -8,6 +8,8 @@ class ReminderList {
     selectors.general.ReminderList.Reminders;
   private reminderTextSelector: ISelector =
     selectors.general.ReminderList.Reminder.Text;
+  private reminderButtonSelector: ISelector =
+    selectors.general.ReminderList.Reminder.Button;
 
   public async count(conditional: ICondition, value: number) {
     return driver.count(
@@ -29,6 +31,14 @@ class ReminderList {
     const selector = selectors.general.ReminderList.Reminder.Status[status];
 
     return driver.visible(conditional, getSelector(selector, { index }));
+  }
+
+  public async hover(index: number) {
+    return driver.hover(getSelector(this.reminderButtonSelector, { index }));
+  }
+
+  public async press(index: number) {
+    return driver.press(getSelector(this.reminderButtonSelector, { index }));
   }
 }
 

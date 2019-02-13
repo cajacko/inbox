@@ -477,7 +477,7 @@ class Browser {
   }
 
   public async clear(selector: string) {
-    this.ensurePage();
+    await this.ensurePage();
 
     if (!this.page) throw new Error('No page');
 
@@ -499,7 +499,7 @@ class Browser {
   }
 
   public async pressSubmitKey() {
-    this.ensurePage();
+    await this.ensurePage();
 
     if (!this.page) throw new Error('No page');
 
@@ -507,7 +507,7 @@ class Browser {
   }
 
   public async closePage(clear: boolean) {
-    this.ensurePage();
+    await this.ensurePage();
 
     if (!this.page) throw new Error('No page to close');
 
@@ -516,6 +516,14 @@ class Browser {
     if (clear) {
       this.page = null;
     }
+  }
+
+  public async hover(selector: string) {
+    await this.ensurePage();
+
+    if (!this.page) throw new Error('No page to hover on');
+
+    return this.page.hover(selector);
   }
 }
 

@@ -4,11 +4,7 @@ Feature: Add Reminder
   So that I can keep track things I need to get done
 
   Background:
-    Given we add a hook with id "login" and type "success"
-    And the driver is ready
-    When the app is navigated to "/"
-    And the login button is pressed
-    Then the "logged in" home route "will be" visible
+    Given we have logged in successfully
     And the reminder list count "is" "0"
 
   Scenario: Add button displays correctly

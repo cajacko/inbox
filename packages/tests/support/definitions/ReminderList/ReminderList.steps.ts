@@ -1,4 +1,4 @@
-import { Then } from 'cucumber';
+import { Then, When } from 'cucumber';
 import getIndex from '../../utils/getIndex';
 import reminderList from './ReminderList.page';
 
@@ -16,3 +16,9 @@ Then(
   (index, conditional, status) =>
     reminderList.status(conditional, getIndex(index), status)
 );
+
+When('the we hover over the {string} reminder', index =>
+  reminderList.hover(getIndex(index)));
+
+When('the {string} reminder is pressed', index =>
+  reminderList.press(getIndex(index)));

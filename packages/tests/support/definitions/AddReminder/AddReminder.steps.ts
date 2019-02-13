@@ -1,6 +1,6 @@
 import { Then, When } from 'cucumber';
-import addReminder from './AddReminder.page';
 import addButton from '../AddButton/AddButton.page';
+import addReminder from './AddReminder.page';
 
 Then('the add reminder scene {string} visible', condition =>
   addReminder.visible(condition));
@@ -29,3 +29,6 @@ When('we add a reminder with the text {string}', text =>
     .press()
     .then(() => addReminder.type(text))
     .then(() => addReminder.pressSave()));
+
+Then('the edit reminder scene {string} visible', condition =>
+  addReminder.editVisible(condition));

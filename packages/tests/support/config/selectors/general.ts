@@ -14,6 +14,9 @@ const general = {
     },
     web: '.AddReminder',
   },
+  EditReminder: {
+    web: '.EditReminder',
+  },
   ErrorBoundary: {
     Button: {
       Text: {
@@ -86,6 +89,10 @@ const general = {
   },
   ReminderList: {
     Reminder: {
+      Button: {
+        web: ({ index }: { index: number }) =>
+          `.Reminder:nth-child(${index + 1}) .Reminder__Button`,
+      },
       Status: {
         Error: {
           web: ({ index }: { index: number }) =>

@@ -5,6 +5,7 @@ import getSelector from '../../utils/getSelector';
 
 class AddReminder {
   private addReminderSelector: ISelector = selectors.general.AddReminder;
+  private editReminderSelector: ISelector = selectors.general.EditReminder;
   private cancelButtonSelector: ISelector =
     selectors.general.AddReminder.Cancel;
   private inputSelector: ISelector = selectors.general.AddReminder.Input;
@@ -12,6 +13,10 @@ class AddReminder {
 
   public async visible(condition: ICondition) {
     return driver.visible(condition, getSelector(this.addReminderSelector));
+  }
+
+  public async editVisible(condition: ICondition) {
+    return driver.visible(condition, getSelector(this.editReminderSelector));
   }
 
   public async pressCancelButton() {

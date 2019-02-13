@@ -6,19 +6,51 @@ import { IReminder } from 'src/lib/store/reminders/reducer';
 const selectAllReminders = createSelector<
   IState,
   IState['reminders'],
-  IReminder[]
+  string[]
   >(
     ({ reminders }) => reminders,
-    reminders => Object.values(reminders)
+    reminders => Object.keys(reminders)
+  );
+
+const getReminderObjectList = createSelector<
+  { list: string[]; state: IState },
+  string[],
+  IState['reminders'],
+  IReminder[]
+  >(
+    ({ list }) => list,
+    ({ state: { reminders } }) => reminders,
+    (list, reminders) => list.map(id => reminders[id])
   );
 
 const orderReminders = createSelector<IReminder[], IReminder[], IReminder[]>(
   reminders => reminders,
-  reminders => reminders.sort((a, b) => b.dateModified - a.dateModified)
+  list => list.sort((a, b) => b.dateModified - a.dateModified)
 );
+
+const selectReminderListAsObjects = createSelector<
+  IReminder[],
+  IReminder[],
+  string[]
+  >(
+    reminders => reminders,
+    reminders => reminders.map(({ id }) => id)
+  );
 
 /**
  * Select the reminders from the store and order them
  */
-export const selectOrderReminders = (state: IState) =>
-  orderReminders(selectAllReminders(state));
+export const selectOrderedRemindersObjects = (state: IState) => {
+  const reminders = getReminderObjectList({
+    list: selectAllReminders(state),
+    state,
+  });
+
+  return orderReminders(reminders);
+};
+
+/**
+ * Select the reminders from the store and order them, only returning the keys
+ */
+export const selectOrderedRemindersKeys = (state: IState) =>
+  selectReminderListAsObjects(selectOrderedRemindersObjects(state));
