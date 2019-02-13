@@ -18,6 +18,7 @@ const analyticsCategory = 'ADD_REMINDER_SCENE';
 export interface IPassedProps {
   fullScreen: boolean;
   close: () => void;
+  id?: string;
 }
 
 export interface IProps extends IPassedProps {
@@ -26,6 +27,7 @@ export interface IProps extends IPassedProps {
   value: string;
   saveDisabled: boolean;
   onSave: () => void;
+  isNew: boolean;
 }
 
 /**
@@ -39,6 +41,7 @@ const AddReminder = ({
   value,
   saveDisabled,
   onSave,
+  isNew,
 }: IProps) => {
   const input = (
     <Input>
@@ -55,7 +58,7 @@ const AddReminder = ({
   );
 
   return (
-    <Container testID="AddReminder" fullScreen>
+    <Container testID={isNew ? 'AddReminder' : 'AddReminder--Edit'} fullScreen>
       <Content fullScreen>
         <Panel fullScreen>
           <Button

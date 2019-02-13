@@ -1,9 +1,7 @@
 import { connect } from 'react-redux';
 import { IState } from 'src/lib/store/reducers';
-import Reminder, {
-  IContainerStateProps,
-  IPassedProps,
-} from './Reminder.render';
+import Reminder from './Reminder.component';
+import { IContainerStateProps, IPassedProps } from './Reminder.render';
 
 /**
  * Grab the state from the store and pass in isLoggedIn as a prop

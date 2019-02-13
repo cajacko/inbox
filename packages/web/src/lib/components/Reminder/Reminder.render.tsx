@@ -1,7 +1,8 @@
 import * as React from 'react';
+import Button from 'src/lib/components/Button';
 import Status from 'src/lib/components/ReminderStatus';
 import Text from 'src/lib/components/Text';
-import { BACKGROUND_COLOR, Container } from './Reminder.style';
+import { BACKGROUND_COLOR, Container, Inner } from './Reminder.style';
 
 export interface IContainerStateProps {
   text: string;
@@ -13,21 +14,39 @@ export interface IPassedProps {
   isLast: boolean;
 }
 
-interface IProps extends IPassedProps, IContainerStateProps {}
+export interface IComponentProps {
+  add: () => void;
+}
+
+interface IProps extends IPassedProps, IContainerStateProps, IComponentProps {}
 
 /**
  * Display a list of reminders
  */
 const Reminder = ({
-  id, isLast, text, status,
+  id, isLast, text, status, add,
 }: IProps) => (
   <Container key={id} testID="Reminder" isLast={isLast}>
-    <Text
-      testID="Reminder__Text"
-      text={{ _textFromConst: text }}
-      backgroundColor={BACKGROUND_COLOR}
-    />
-    <Status status={status || 'saved'} backgroundColor={BACKGROUND_COLOR} />
+    <Button
+      analyticsAction="SHOW_EDIT_REMINDER"
+      analyticsCategory="REMINDER"
+      action={add}
+      testID="Reminder__Button"
+    >
+      {() => (
+        <Inner>
+          <Text
+            testID="Reminder__Text"
+            text={{ _textFromConst: text }}
+            backgroundColor={BACKGROUND_COLOR}
+          />
+          <Status
+            status={status || 'saved'}
+            backgroundColor={BACKGROUND_COLOR}
+          />
+        </Inner>
+      )}
+    </Button>
   </Container>
 );
 

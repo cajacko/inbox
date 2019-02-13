@@ -15,7 +15,7 @@ const general = {
     web: '.AddReminder',
   },
   EditReminder: {
-    web: '.EditReminder',
+    web: '.AddReminder--Edit',
   },
   ErrorBoundary: {
     Button: {

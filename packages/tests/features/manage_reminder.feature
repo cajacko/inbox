@@ -8,16 +8,18 @@ Feature: Manage Reminders
     When we add a reminder with the text "Item to delete"
     Then the reminder list count "is" "1"
 
+  Scenario: The edit reminder scene displays correctly
+    When the "1st" reminder is pressed
+    Then the edit reminder scene "is" visible
+    Then the add reminder text "is" "Item to delete"
+    And the screenshot matches
+
   Scenario: The reminder hover menu displays correctly
     When the we hover over the "1st" reminder
     And the screenshot matches
 
-  Scenario: The edit reminder scene displays correctly
-    When the "1st" reminder is pressed
-    Then the edit reminder scene "is" visible
-    And the screenshot matches
-
-# TODO: Check which of these are worth checking in here as well
+# TODO: Check which of these are worth checking when editing a reminder and not
+# just adding
 
 # Scenario: Edit reminder scene displays correctly with no text
 # Scenario: Go back from reminder scene by the cancel button

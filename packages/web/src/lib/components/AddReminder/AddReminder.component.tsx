@@ -4,11 +4,18 @@ import AddReminder, { IPassedProps } from './AddReminder.render';
 
 const TEXT_LIMIT = 100;
 
-export interface IContainerDispatchProps {
-  save: (value: string) => void;
+export interface IContainerStateProps {
+  text?: string;
 }
 
-interface IProps extends IPassedProps, IContainerDispatchProps {}
+export interface IContainerDispatchProps {
+  save: (value: string, id?: string) => void;
+}
+
+interface IProps
+  extends IPassedProps,
+    IContainerDispatchProps,
+    IContainerStateProps {}
 
 interface IState {
   value: string;
@@ -25,7 +32,7 @@ class AddReminderComponent extends React.Component<IProps, IState> {
     super(props);
 
     this.state = {
-      value: '',
+      value: props.text || '',
     };
 
     this.input = null;
@@ -59,7 +66,7 @@ class AddReminderComponent extends React.Component<IProps, IState> {
     if (this.isDisabled()) return;
 
     this.props.close();
-    this.props.save(this.state.value);
+    this.props.save(this.state.value, this.props.id);
   }
 
   /**
@@ -89,7 +96,9 @@ class AddReminderComponent extends React.Component<IProps, IState> {
         value={this.state.value}
         saveDisabled={this.isDisabled()}
         onSave={this.onSave}
-        {...this.props}
+        fullScreen={this.props.fullScreen}
+        close={this.props.close}
+        isNew={!this.props.id}
       />
     );
   }
