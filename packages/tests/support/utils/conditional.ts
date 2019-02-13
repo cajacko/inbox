@@ -47,6 +47,8 @@ const conditional = async (
       // eslint-disable-next-line
       console.error(
         'testFunc threw during a waiting conditional, ensure the testFunc resolves with a boolean and only errors if something does go wrong. See below for the error');
+      // eslint-disable-next-line
+      console.error(e);
       throw e;
     });
 

@@ -19,6 +19,7 @@ class Browser {
   private dialogHandler?: (dialog: puppeteer.Dialog) => void;
   private dialog?: puppeteer.Dialog;
   private nonHeadless: boolean = false;
+  private headless: boolean;
 
   constructor() {
     this.dialogOpen = this.dialogOpen.bind(this);
@@ -234,13 +235,19 @@ class Browser {
   }
 
   private async ensurePage() {
-    if (!this.browser) {
+    const finalHeadless = this.nonHeadless ? false : headless;
+
+    if (!this.browser || this.headless !== finalHeadless) {
+      this.headless = finalHeadless;
+
+      if (this.browser) await this.browser.close();
+
       this.browser = await puppeteer.launch({
-        headless: this.nonHeadless ? false : headless,
+        headless: this.headless,
       });
     }
 
-    if (!this.page) {
+    if (!this.page || this.page.isClosed()) {
       this.page = await this.browser.newPage();
 
       this.page.on('dialog', this.dialogOpen);
@@ -499,12 +506,16 @@ class Browser {
     await this.page.keyboard.press('Enter');
   }
 
-  public async closePage() {
+  public async closePage(clear: boolean) {
     this.ensurePage();
 
     if (!this.page) throw new Error('No page to close');
 
-    return this.page.close({ runBeforeUnload: true });
+    await this.page.close({ runBeforeUnload: true });
+
+    if (clear) {
+      this.page = null;
+    }
   }
 }
 

@@ -26,6 +26,8 @@ const waitFor = (
         // eslint-disable-next-line
         console.error(
           'testFunc threw during waitFor, ensure the testFunc resolves with a boolean and only errors if something does go wrong. See below for the error');
+        // eslint-disable-next-line
+        console.error(e);
         throw e;
       });
   };
