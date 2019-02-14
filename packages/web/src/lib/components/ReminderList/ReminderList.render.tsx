@@ -10,7 +10,7 @@ export interface IContainerStateProps {
  * Display a list of reminders
  */
 const ReminderList = ({ reminders }: IContainerStateProps) => (
-  <Container>
+  <Container testID="ReminderList">
     <Inner>
       {reminders.map((reminder, i) => (
         <Reminder

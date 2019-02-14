@@ -5,6 +5,7 @@ import reducers from 'src/lib/store/reducers';
 import analytics from 'src/lib/utils/analytics';
 import appLoading from 'src/lib/utils/appLoading';
 import Storage from 'src/modules/Storage';
+import testHook from 'src/utils/testHook';
 
 /**
  * Log redux actions in analytics
@@ -31,7 +32,9 @@ const analyticsMiddleWare: Middleware = () => next => (reduxAction) => {
   next(reduxAction);
 };
 
-const store = new Store(reducers, undefined, {
+const initialState = testHook('initialState', undefined);
+
+const store = new Store(reducers, initialState, {
   middleware: [analyticsMiddleWare],
   // purgeOnLoad: true,
   shouldLogState: true,

@@ -24,6 +24,11 @@ const browserHooks = (
 
   // This is where all the browser hook logic lives
   const implementations = {
+    initialState: {
+      initialState: constants.initialState
+        ? () => constants.initialState
+        : undefined,
+    },
     login: {
       delay: () => ({
         delay: () => delay(500),

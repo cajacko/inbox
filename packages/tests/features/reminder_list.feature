@@ -4,7 +4,7 @@ Feature: Reminder List
   So that I can keep track things I need to get done
 
   Scenario: Reminder list displays correctly
-    Given we add a hook with id "initialState" and type "10Reminders"
+    Given we preload the redux state with "10" reminders
     And we have logged in successfully
     Then the reminder list "is" visible
     And the reminder list count "is" "10"
@@ -17,7 +17,7 @@ Feature: Reminder List
     And the screenshot matches
 
   Scenario: Reminder list displays correctly with lots of reminders
-    Given we add a hook with id "initialState" and type "30Reminders"
+    Given we preload the redux state with "30" reminders
     And we have logged in successfully
     Then the reminder list "is" visible
     And the reminder list count "is" "30"
@@ -26,13 +26,13 @@ Feature: Reminder List
   # Scenario: Reminder list can be scrolled (Covered by next scenario)
   Scenario: Reminder list displays correctly when at the end of the list
     # Has additonal space for the add button
-    Given we add a hook with id "initialState" and type "30Reminders"
+    Given we preload the redux state with "30" reminders
     And we have logged in successfully
     When we scroll to the bottom of the reminder list
     Then the screenshot matches
 
   Scenario: New reminders get loaded in on page load
-    Given we preload the api with data from "10Reminders"
+    Given we preload the api with "10" reminders
     And we have logged in successfully
     Then the reminder list count "is" "0"
     And the reminder list loading icon "will not be" visible
@@ -49,7 +49,7 @@ Feature: Reminder List
   # Scenario: Reminders persisted in state show immediately on next load
   Scenario: Loading latest reminders with existing reminders displays correctly
     Given we add a hook with id "getReminders" and type "delay"
-    And we add a hook with id "initialState" and type "10Reminders"
+    And we preload the redux state with "10" reminders
     And we have logged in successfully
     Then the reminder list count "is" "10"
     And the reminder list loading icon "is" visible
@@ -65,7 +65,7 @@ Feature: Reminder List
 
   Scenario: Loading latest reminders with existing reminders and errors displays correctly
     Given we add a hook with id "getReminders" and type "error"
-    And we add a hook with id "initialState" and type "10Reminders"
+    And we preload the redux state with "10" reminders
     And we have logged in successfully
     Then the reminder list count "is" "10"
     And the reminder list loading icon "will not be" visible

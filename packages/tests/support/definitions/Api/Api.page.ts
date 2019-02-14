@@ -53,7 +53,9 @@ class Api {
     return readJSON(join(__dirname, '../../data', `${key}.json`));
   }
 
-  public async preload(key: string) {
+  public getTestData = this.getExpectedData;
+
+  public async preloadReminders(count: number) {
     // const data = await this.getExpectedData(key);
   }
 }

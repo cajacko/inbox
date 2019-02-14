@@ -122,7 +122,7 @@ class Browser {
 
     if (!this.page) throw new Error('No page object to set hooks within');
 
-    await this.page.evaluate(browserHooks, this.hooks, hookConstants);
+    await this.page.evaluate(browserHooks, this.hooks, hookConstants());
   }
 
   public async screenshot(path: string) {
