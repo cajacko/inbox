@@ -1,7 +1,9 @@
 import { diff } from 'deep-diff';
 import { readJSON } from 'fs-extra';
+import graphqlRequest from 'graphql-request';
 import { join } from 'path';
 import { inspect } from 'util';
+import buildReminderObj from '../../utils/buildReminderObj';
 import conditional from '../../utils/conditional';
 import { ICondition } from '../../utils/ensureCondition';
 import fetchApi from '../../utils/fetchApi';
@@ -56,7 +58,36 @@ class Api {
   public getTestData = this.getExpectedData;
 
   public async preloadReminders(count: number) {
-    // const data = await this.getExpectedData(key);
+    const reminders = buildReminderObj(count, false);
+
+    await this.graphqlRequest(
+      `
+      mutation Sync($reminders: [ReminderInput]!, $dateSyncRequested: Date!) {
+        sync(reminders: $reminders, dateSyncRequested: $dateSyncRequested) {
+          error
+          reminders {
+            dateCreated
+            dateModified
+            id
+            text
+            deleted
+          }
+        }
+      }
+    `,
+      {
+        dateSyncRequested: new Date().getTime(),
+        reminders: Object.values(reminders),
+      }
+    );
+  }
+
+  private async graphqlRequest(query: string, vars?: { [key: string]: any }) {
+    return graphqlRequest(
+      'http://localhost:5000/inbox-981dc/us-central1/testUserGraphql/graphql',
+      query,
+      vars
+    );
   }
 }
 

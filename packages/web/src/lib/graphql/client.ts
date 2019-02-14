@@ -1,10 +1,7 @@
-import * as reminder from 'src/lib/graphql/reminder/client';
 import * as sync from 'src/lib/graphql/sync/client';
 import graphqlClient from 'src/lib/utils/graphqlClient';
 
 const client = {
-  deleteReminder: reminder.deleteReminder,
-  setReminder: reminder.setReminder,
   sync: sync.sync,
 };
 

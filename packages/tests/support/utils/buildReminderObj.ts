@@ -1,4 +1,4 @@
-const buildReminderObj = (count: number) => {
+const buildReminderObj = (count: number, isRedux: boolean) => {
   const reminderObj = {};
 
   for (let i = 1; i < count + 1; i += 1) {
@@ -10,9 +10,12 @@ const buildReminderObj = (count: number) => {
       dateModified: now,
       deleted: false,
       id,
-      status: 'saving',
       text: `Reminder - ${i}`,
     };
+
+    if (isRedux) {
+      reminderObj[id].status = 'saving';
+    }
   }
 
   return reminderObj;

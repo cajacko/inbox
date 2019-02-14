@@ -5,6 +5,7 @@ import * as express from 'express';
 import { ApolloServer, gql, Config } from 'apollo-server-express';
 import auth from '../../utils/auth';
 import db from '../../utils/db';
+import { getTestUserId } from '../../testUser';
 import * as config from './serverConfig';
 
 const cookieParser = require('cookie-parser')();
@@ -77,7 +78,10 @@ const validateFirebaseIdToken = (
 /**
  * Start the apollo server
  */
-const graphqlServer = (req: functions.Request, res: functions.Response) => {
+const graphqlServer = (isTestUser: boolean) => (
+  req: functions.Request,
+  res: functions.Response
+) => {
   let typeDefs = '';
   let queries = '';
   let mutations = '';
@@ -172,6 +176,14 @@ const graphqlServer = (req: functions.Request, res: functions.Response) => {
     `,
     resolvers,
     context: async (context: { req: IRequest }) => {
+      if (isTestUser) {
+        const testUserId = await getTestUserId();
+
+        return {
+          authenticatedUserRef: await db.collection('users').doc(testUserId),
+        };
+      }
+
       const { user } = context.req;
 
       if (!user) throw new Error('No user id token on req object');
@@ -186,7 +198,10 @@ const graphqlServer = (req: functions.Request, res: functions.Response) => {
 
   app.use(cors);
   app.use(cookieParser);
-  app.use(validateFirebaseIdToken);
+
+  if (!isTestUser) {
+    app.use(validateFirebaseIdToken);
+  }
 
   server.applyMiddleware({ app });
 

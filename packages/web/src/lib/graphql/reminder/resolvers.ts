@@ -82,9 +82,4 @@ export const Query = {
     getReminders(db),
 };
 
-export const Mutation = {
-  setReminder: (reminder: IReminder, db: admin.firestore.DocumentReference) =>
-    setReminder(reminder, db).catch(e => ({
-      error: e.message || 'Undefined error whilst setting reminder',
-    })),
-};
+export const Mutation = {};
