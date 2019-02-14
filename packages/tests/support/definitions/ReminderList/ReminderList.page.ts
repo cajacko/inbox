@@ -4,7 +4,7 @@ import { ICondition } from '../../utils/ensureCondition';
 import getSelector from '../../utils/getSelector';
 
 class ReminderList {
-  private reminderListSelector: ISelector =
+  private remindersSelector: ISelector =
     selectors.general.ReminderList.Reminders;
   private reminderTextSelector: ISelector =
     selectors.general.ReminderList.Reminder.Text;
@@ -14,11 +14,16 @@ class ReminderList {
     selectors.general.ReminderList.Reminder.DeleteButton;
   private reminderEditButtonSelector: ISelector =
     selectors.general.ReminderList.Reminder.EditButton;
+  private errorSelector: ISelector = selectors.general.ReminderList.Error;
+  private loadingSelector: ISelector = selectors.general.ReminderList.Loading;
+  private reminderListSelector: ISelector = selectors.general.ReminderList;
+  private reminderListScrollSelector: ISelector =
+    selectors.general.ReminderList.Scroll;
 
   public async count(conditional: ICondition, value: number) {
     return driver.count(
       conditional,
-      getSelector(this.reminderListSelector),
+      getSelector(this.remindersSelector),
       value
     );
   }
@@ -75,6 +80,22 @@ class ReminderList {
 
   public async pressButton(index: number, component: string) {
     return driver.press(this.getButtonSelector(index, component));
+  }
+
+  public async errorVisible(conditional: ICondition) {
+    return driver.visible(conditional, getSelector(this.errorSelector));
+  }
+
+  public async loadingVisible(conditional: ICondition) {
+    return driver.visible(conditional, getSelector(this.loadingSelector));
+  }
+
+  public async visible(conditional: ICondition) {
+    return driver.visible(conditional, getSelector(this.reminderListSelector));
+  }
+
+  public async scrollToBottom() {
+    return driver.scrollToBottom(getSelector(this.reminderListScrollSelector));
   }
 }
 

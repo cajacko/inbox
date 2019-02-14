@@ -49,8 +49,12 @@ class Api {
     return fetchApi('getTestUser');
   }
 
-  private getExpectedData(key: string) {
+  private async getExpectedData(key: string) {
     return readJSON(join(__dirname, '../../data', `${key}.json`));
+  }
+
+  public async preload(key: string) {
+    // const data = await this.getExpectedData(key);
   }
 }
 

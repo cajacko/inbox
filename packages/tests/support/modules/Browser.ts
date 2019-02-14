@@ -535,6 +535,24 @@ class Browser {
 
     return this.page.hover(selector);
   }
+
+  public async scrollToBottom(selector: string) {
+    await this.ensurePage();
+
+    if (!this.page) throw new Error('No page to scroll');
+
+    const error = await this.page.evaluate((selectorParam) => {
+      const element = document.querySelector(selectorParam);
+
+      if (!element) return 'No element found to scroll';
+
+      element.scrollTop = element.scrollHeight;
+
+      return null;
+    }, selector);
+
+    if (error) throw new Error(error);
+  }
 }
 
 export default Browser;

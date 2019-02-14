@@ -91,6 +91,12 @@ const general = {
     web: '.Menu',
   },
   ReminderList: {
+    Error: {
+      web: '.ReminderList__Error',
+    },
+    Loading: {
+      web: '.ReminderList__Loading',
+    },
     Reminder: {
       Button: {
         web: ({ index }: { index: number }) =>
@@ -126,6 +132,10 @@ const general = {
     Reminders: {
       web: '.Reminder',
     },
+    Scroll: {
+      web: '.ReminderList__Scroll',
+    },
+    web: '.ReminderList',
   },
   SplashScreen: {
     web: '.splashScreen',
