@@ -45,3 +45,6 @@ Then('the reminder list {string} visible', condition =>
 
 When('we scroll to the bottom of the reminder list', () =>
   reminderList.scrollToBottom());
+
+Then('the no reminders component {string} visible', condition =>
+  reminderList.noRemindersVisible(condition));

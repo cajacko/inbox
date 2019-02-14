@@ -31,6 +31,12 @@
     "Placeholder": "Reminder to add...",
     "Save": "Save"
   },
+  "ReminderList": {
+    "NoReminders": {
+      "Heading": "Huzzah, you've completed all your reminders!",
+      "SubHeading": "Why don't you go out and ride a bike"
+    }
+  },
   "ErrorBoundary": {
     "ErrorCode": "Error Code"
   },

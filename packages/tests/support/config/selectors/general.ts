@@ -90,6 +90,9 @@ const general = {
     },
     web: '.Menu',
   },
+  NoReminders: {
+    web: '.NoReminders',
+  },
   ReminderList: {
     Error: {
       web: '.ReminderList__Error',

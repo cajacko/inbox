@@ -7,18 +7,22 @@ Feature: Reminder List
     Given we preload the redux state with "10" reminders
     And we have logged in successfully
     Then the reminder list "is" visible
+    And the reminder list loading icon "will not be" visible
     And the reminder list count "is" "10"
     And the screenshot matches
 
   Scenario: Reminder list displays correctly with no reminders
     Given we have logged in successfully
-    Then the reminder list "is" visible
+    Then the reminder list "is not" visible
+    And the no reminders component "is" visible
+    And the reminder list loading icon "will not be" visible
     And the reminder list count "is" "0"
     And the screenshot matches
 
   Scenario: Reminder list displays correctly with lots of reminders
     Given we preload the redux state with "30" reminders
     And we have logged in successfully
+    And the reminder list loading icon "will not be" visible
     Then the reminder list "is" visible
     And the reminder list count "is" "30"
     And the screenshot matches

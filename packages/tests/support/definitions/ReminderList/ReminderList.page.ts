@@ -19,6 +19,7 @@ class ReminderList {
   private reminderListSelector: ISelector = selectors.general.ReminderList;
   private reminderListScrollSelector: ISelector =
     selectors.general.ReminderList.Scroll;
+  private noRemindersSelector: ISelector = selectors.general.NoReminders;
 
   public async count(conditional: ICondition, value: number) {
     return driver.count(
@@ -96,6 +97,10 @@ class ReminderList {
 
   public async scrollToBottom() {
     return driver.scrollToBottom(getSelector(this.reminderListScrollSelector));
+  }
+
+  public async noRemindersVisible(conditional: ICondition) {
+    return driver.visible(conditional, getSelector(this.noRemindersSelector));
   }
 }
 
