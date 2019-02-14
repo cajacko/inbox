@@ -68,7 +68,7 @@ const browserHooks = (
     root: {
       crash: crash('Root crash'),
     },
-    setReminder: {
+    sync: {
       delay: () => () => delay(15000),
       error: () => () => Promise.reject(new Error('Bad bad')),
     },

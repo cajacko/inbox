@@ -45,19 +45,19 @@ Feature: Reminder List
     And the reminder list count "is" "10"
 
   Scenario: Loading latest reminders displays correctly
-    Given we add a hook with id "getReminders" and type "delay"
+    Given we add a hook with id "sync" and type "delay"
     And we have logged in successfully
     Then the reminder list count "is" "0"
     And the header loading icon "is" visible
 
   Scenario: Loading latest reminders and errors displays correctly
-    Given we add a hook with id "getReminders" and type "error"
+    Given we add a hook with id "sync" and type "error"
     And we have logged in successfully
     Then the reminder list count "is" "0"
     And the header error button "will be" visible
 
   Scenario: Reminders persisted in state show immediately on next load
-    Given we add a hook with id "getReminders" and type "delay"
+    Given we add a hook with id "sync" and type "delay"
     And we preload the redux state with "10" reminders
     And we have logged in successfully
     Then the reminder list count "is" "10"

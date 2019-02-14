@@ -95,7 +95,7 @@ Feature: Add Reminder
     And api data "will be" "newReminder"
 
   Scenario: New reminder displays correctly when not saved to cloud yet
-    When we add a hook with id "setReminder" and type "delay"
+    When we add a hook with id "sync" and type "delay"
     And we add a reminder with the text "No Cloud"
     Then the "1st" reminder status "is" "Saving"
     And the screenshot matches
@@ -106,7 +106,7 @@ Feature: Add Reminder
     And the screenshot matches
 
   Scenario: New reminder displays correctly when errors saving to cloud
-    When we add a hook with id "setReminder" and type "error"
+    When we add a hook with id "sync" and type "error"
     And we add a reminder with the text "Error"
     Then the "1st" reminder status "will be" "Error"
     And the screenshot matches
@@ -125,7 +125,7 @@ Feature: Add Reminder
 
   @platform-web @non-headless
   Scenario: Close app when unsaved changes shows alert
-    When we add a hook with id "setReminder" and type "delay"
+    When we add a hook with id "sync" and type "delay"
     And we add a reminder with the text "Unsaved"
     And the close browser tab button is pressed
     Then an alert "will be" visible

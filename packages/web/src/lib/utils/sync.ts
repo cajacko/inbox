@@ -6,6 +6,7 @@ import {
 } from 'src/lib/store/sync/actions';
 import api from 'src/lib/utils/api';
 import store from 'src/lib/utils/store';
+import testHook from 'src/utils/testHook';
 
 let cron: any;
 let currentSyncStatus: 'REQUESTED' | 'FINISHED' = 'FINISHED';
@@ -66,49 +67,48 @@ const sync = (type: SyncType) => {
 
     store.dispatch(syncRequested(changedReminders, dateSyncRequested));
 
-    return (
-      api
+    return testHook('sync', () => Promise.resolve())()
+      .then(() =>
         // @ts-ignore
-        .sync({ reminders: changedReminders, dateSyncRequested })
-        .then((newItems: any) => {
-          if (!isLoggedIn()) return;
+        api.sync({ reminders: changedReminders, dateSyncRequested }))
+      .then((newItems: any) => {
+        if (!isLoggedIn()) return;
 
-          const action = syncSuccess(
-            changedReminders,
-            dateSyncRequested,
-            newItems
-          );
+        const action = syncSuccess(
+          changedReminders,
+          dateSyncRequested,
+          newItems
+        );
 
-          store.dispatch(action);
-        })
-        .catch((e: any) => {
-          if (!isLoggedIn()) return undefined;
+        store.dispatch(action);
+      })
+      .catch((e: any) => {
+        if (!isLoggedIn()) return undefined;
 
-          store.dispatch(syncFailed(changedReminders, dateSyncRequested, e));
+        store.dispatch(syncFailed(changedReminders, dateSyncRequested, e));
 
-          return e;
-        })
-        .then((e: any) => {
-          currentSyncStatus = 'FINISHED';
+        return e;
+      })
+      .then((e: any) => {
+        currentSyncStatus = 'FINISHED';
 
-          if (!isLoggedIn()) return;
+        if (!isLoggedIn()) return;
 
-          if (syncWhenFinished) {
-            sync('queued')
-              .then((res: any) => {
-                if (resolveNextSync) resolveNextSync(res);
-              })
-              .catch((nextError: any) => {
-                if (rejectNextSync) rejectNextSync(nextError);
-              })
-              .then(() => {
-                setNextSyncPromise();
-              });
-          }
+        if (syncWhenFinished) {
+          sync('queued')
+            .then((res: any) => {
+              if (resolveNextSync) resolveNextSync(res);
+            })
+            .catch((nextError: any) => {
+              if (rejectNextSync) rejectNextSync(nextError);
+            })
+            .then(() => {
+              setNextSyncPromise();
+            });
+        }
 
-          if (e) throw e;
-        })
-    );
+        if (e) throw e;
+      });
   } catch (e) {
     currentSyncStatus = 'FINISHED';
     // TODO: Log

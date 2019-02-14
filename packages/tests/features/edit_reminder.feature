@@ -26,7 +26,7 @@ Feature: Edit reminder
     Then the text for the "1st" reminder "is" "Edit a reminder - edited"
 
   Scenario: Edited reminder displays correctly when not saved to cloud yet
-    When we add a hook with id "setReminder" and type "delay"
+    When we add a hook with id "sync" and type "delay"
     And the "1st" reminder is pressed
     And the text " - edited" is typed into the add reminder input
     And the add reminder save button is pressed
@@ -39,7 +39,7 @@ Feature: Edit reminder
     Then the "1st" reminder status "will be" "Saved"
 
   Scenario: Edited reminder displays correctly when errors saving to cloud
-    When we add a hook with id "setReminder" and type "error"
+    When we add a hook with id "sync" and type "error"
     And the "1st" reminder is pressed
     And the text " - edited" is typed into the add reminder input
     And the add reminder save button is pressed

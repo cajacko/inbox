@@ -3,7 +3,7 @@ const buildReminderObj = (count: number, isRedux: boolean) => {
 
   for (let i = 1; i < count + 1; i += 1) {
     const now = new Date().getTime();
-    const id = `id-${i}`;
+    const id = `id-${isRedux ? 'redux' : 'api'}-${i}`;
 
     reminderObj[id] = {
       dateCreated: now,
