@@ -43,6 +43,14 @@ const general = {
       web: '.GoogleAuth__submit',
     },
   },
+  Header: {
+    Error: {
+      web: '.Header__Error',
+    },
+    Loading: {
+      web: '.Header__Loading',
+    },
+  },
   Home: {
     Container: {
       web: '.Home',

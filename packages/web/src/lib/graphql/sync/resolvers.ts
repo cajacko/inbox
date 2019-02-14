@@ -1,0 +1,12 @@
+import * as admin from 'firebase-admin';
+import { IReminder, setReminder } from '../reminder/resolvers';
+
+export const Query = {};
+
+// TODO: Batch update
+export const Mutation = {
+  sync: (
+    { reminders }: { reminders: IReminder[] },
+    db: admin.firestore.DocumentReference
+  ) => Promise.all(reminders.map(reminder => setReminder(reminder, db))),
+};

@@ -34,12 +34,6 @@ When(
   (index, component) => reminderList.pressButton(getIndex(index), component)
 );
 
-Then('the reminder list loading error {string} visible', condition =>
-  reminderList.errorVisible(condition));
-
-Then('the reminder list loading icon {string} visible', condition =>
-  reminderList.loadingVisible(condition));
-
 Then('the reminder list {string} visible', condition =>
   reminderList.visible(condition));
 

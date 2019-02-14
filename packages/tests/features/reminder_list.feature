@@ -7,7 +7,7 @@ Feature: Reminder List
     Given we preload the redux state with "10" reminders
     And we have logged in successfully
     Then the reminder list "is" visible
-    And the reminder list loading icon "will not be" visible
+    And the header loading icon "will not be" visible
     And the reminder list count "is" "10"
     And the screenshot matches
 
@@ -15,14 +15,14 @@ Feature: Reminder List
     Given we have logged in successfully
     Then the reminder list "is not" visible
     And the no reminders component "is" visible
-    And the reminder list loading icon "will not be" visible
+    And the header loading icon "will not be" visible
     And the reminder list count "is" "0"
     And the screenshot matches
 
   Scenario: Reminder list displays correctly with lots of reminders
     Given we preload the redux state with "30" reminders
     And we have logged in successfully
-    And the reminder list loading icon "will not be" visible
+    And the header loading icon "will not be" visible
     Then the reminder list "is" visible
     And the reminder list count "is" "30"
     And the screenshot matches
@@ -40,42 +40,37 @@ Feature: Reminder List
     Given we preload the api with "10" reminders
     And we have logged in successfully
     Then the reminder list count "is" "0"
-    And the reminder list loading icon "will not be" visible
+    And the header loading icon "is" visible
+    And the header loading icon "will not be" visible
+    And the header error button "is not" visible
     And the reminder list count "is" "10"
 
-  Scenario: Loading latest reminders with no existing reminders displays correctly
+  Scenario: Loading latest reminders displays correctly
     Given we add a hook with id "getReminders" and type "delay"
     And we have logged in successfully
     Then the reminder list count "is" "0"
-    And the reminder list loading icon "is" visible
-    Then the screenshot matches
+    And the header loading icon "is" visible
 
-  # This scenario covers the following as well
-  # Scenario: Reminders persisted in state show immediately on next load
-  Scenario: Loading latest reminders with existing reminders displays correctly
+  Scenario: Loading latest reminders and errors displays correctly
+    Given we add a hook with id "getReminders" and type "error"
+    And we have logged in successfully
+    Then the reminder list count "is" "0"
+    And the header error button "will be" visible
+
+  Scenario: Reminders persisted in state show immediately on next load
     Given we add a hook with id "getReminders" and type "delay"
     And we preload the redux state with "10" reminders
     And we have logged in successfully
     Then the reminder list count "is" "10"
-    And the reminder list loading icon "is" visible
-    Then the screenshot matches
 
-  Scenario: Loading latest reminders with no existing reminders and errors displays correctly
-    Given we add a hook with id "getReminders" and type "error"
-    And we have logged in successfully
-    Then the reminder list count "is" "0"
-    And the reminder list loading icon "will not be" visible
-    And the reminder list loading error "is" visible
-    Then the screenshot matches
-
-  Scenario: Loading latest reminders with existing reminders and errors displays correctly
-    Given we add a hook with id "getReminders" and type "error"
+  Scenario: New reminders with persisted get loaded in on page load
+    Given we preload the api with "10" reminders
     And we preload the redux state with "10" reminders
     And we have logged in successfully
     Then the reminder list count "is" "10"
-    And the reminder list loading icon "will not be" visible
-    And the reminder list loading error "is" visible
-    Then the screenshot matches
+    And the header loading icon "is" visible
+    And the header loading icon "will not be" visible
+    And the reminder list count "is" "20"
 
   @platform-ios @platform-android
   Scenario: Pull down from top triggers a reload
