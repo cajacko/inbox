@@ -1,6 +1,6 @@
 import unit from 'src/utils/unit';
 
-interface IProps {
+export interface IProps {
   bottom?: number;
   horizontal?: number;
   left?: number;
@@ -9,11 +9,21 @@ interface IProps {
   vertical?: number;
 }
 
+export interface IObj {
+  top?: string | number;
+  left?: string | number;
+  right?: string | number;
+  bottom?: string | number;
+}
+
 /**
  * Consistently apply the padding or margin, as native doesn't support
  * "padding: 10"
  */
-const applyPaddingMargin = (type: 'margin' | 'padding') => (props: number | IProps) => {
+const applyPaddingMargin = (type: 'margin' | 'padding') => (
+  props: number | IProps,
+  returnObject?: boolean
+) => {
   let left;
   let right;
   let top;
@@ -49,6 +59,17 @@ const applyPaddingMargin = (type: 'margin' | 'padding') => (props: number | IPro
 
     return `${type}-${pos}: ${unit(val)}`;
   };
+
+  if (returnObject) {
+    const obj: IObj = {
+      [`${type}Top`]: top && unit(top),
+      [`${type}Left`]: left && unit(left),
+      [`${type}Right`]: right && unit(right),
+      [`${type}Bottom`]: bottom && unit(bottom),
+    };
+
+    return obj;
+  }
 
   return `
     ${apply('top', top)}

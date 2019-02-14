@@ -7,6 +7,7 @@ interface IProps {
   children: Children;
   className?: string;
   testID?: string;
+  style?: { [key: string]: any };
 }
 
 const Container = styled.div`

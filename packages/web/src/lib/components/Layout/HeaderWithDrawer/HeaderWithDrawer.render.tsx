@@ -5,13 +5,16 @@ import Button from 'src/lib/components/Button';
 import Header from 'src/lib/components/Header';
 import Measure from 'src/lib/components/Layout/Measure';
 import Menu from 'src/lib/components/Menu';
-import getButtonType from 'src/lib/utils/getButtonType';
 import Animated from 'src/packages/animated';
 import * as Style from './HeaderWithDrawer.style';
 
 interface IProps {
   add: () => void;
-  children: JSX.Element;
+  children: (props: {
+    addButtonSpacing: number;
+    maxContentWidth: number;
+    isFullWidth: boolean;
+  }) => JSX.Element;
   renderMenu: boolean;
   menuIsOpen: boolean;
   menuLeft: Animated.AnimatedInterpolation;
@@ -28,10 +31,16 @@ interface IProps {
 const isDesktop = (width: number) => width > Style.BREAKPOINT;
 
 /**
+ * Whether we are in full width mode or not
+ */
+const isFullWidth = (width: number) => width <= Style.MAX_CONTENT_WIDTH;
+
+/**
  * Only re-render if the desktop view boundaries change
  */
 const onChange = (next: { width: number }, last: { width: number }) =>
-  isDesktop(next.width) !== isDesktop(last.width);
+  isDesktop(next.width) !== isDesktop(last.width) ||
+  isFullWidth(next.width) !== isFullWidth(last.width);
 
 /**
  * Display the header, drawer and content
@@ -90,7 +99,11 @@ const HeaderWithDrawer = (props: IProps) => {
               </Style.Overlay>
             ))}
           <Style.Content>
-            <Style.ContentWrap>{props.children}</Style.ContentWrap>
+            {props.children({
+              addButtonSpacing: Style.addButtonSpacing,
+              isFullWidth: isFullWidth(width),
+              maxContentWidth: Style.MAX_CONTENT_WIDTH,
+            })}
           </Style.Content>
           <Style.AddButton>
             <Button
@@ -99,7 +112,7 @@ const HeaderWithDrawer = (props: IProps) => {
               icon={Plus}
               analyticsAction="ADD_BUTTON"
               analyticsCategory="ADD_BUTTON"
-              type={getButtonType('CONTAINED_CIRCLE_ICON.SECONDARY')}
+              type={Style.addButtonType}
             />
           </Style.AddButton>
         </Style.Container>

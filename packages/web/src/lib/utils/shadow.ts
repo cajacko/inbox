@@ -12,7 +12,38 @@ const shadow = (
   radius: number = 5,
   opacity: number = 0.5,
   color: ColorVal = colors.BLACK,
+  options = { hOffset: 0 },
+  returnObject: boolean = false
+) => {
+  const result = platformShadow(
+    offset,
+    radius,
+    opacity,
+    color,
+    options,
+    returnObject
+  );
+
+  if (typeof result === 'string') return result;
+
+  return '';
+};
+
+/**
+ * Return the shadow props as an object
+ */
+export const shadowObj = (
+  offset: number = 2,
+  radius: number = 5,
+  opacity: number = 0.5,
+  color: ColorVal = colors.BLACK,
   options = { hOffset: 0 }
-) => platformShadow(offset, radius, opacity, color, options);
+): { [key: string]: string | number } => {
+  const result = platformShadow(offset, radius, opacity, color, options, true);
+
+  if (typeof result === 'object') return result;
+
+  return {};
+};
 
 export default shadow;

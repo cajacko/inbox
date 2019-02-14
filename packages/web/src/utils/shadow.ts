@@ -21,12 +21,21 @@ const shadow = (
   radius: number,
   opacity: number,
   color: ColorVal,
-  options: { hOffset?: number; vOffset?: number } = {}
-) => `
-  box-shadow: ${getVal(offset, options.hOffset)}px ${getVal(
-  offset,
-  options.vOffset
-)}px ${radius}px ${Color(color).alpha(opacity)};
-`;
+  options: { hOffset?: number; vOffset?: number } = {},
+  returnObject: boolean
+) => {
+  const val = `${getVal(offset, options.hOffset)}px ${getVal(
+    offset,
+    options.vOffset
+  )}px ${radius}px ${Color(color).alpha(opacity)}`;
+
+  if (returnObject) {
+    return {
+      boxShadow: val,
+    };
+  }
+
+  return `box-shadow: ${val};`;
+};
 
 export default shadow;

@@ -21,18 +21,42 @@ const shadow = (
   radius: number,
   opacity: number,
   color: ColorVal,
-  options: { elevation?: number; hOffset?: number; vOffset?: number }
-) =>
-  (Platform.OS === 'ios'
-    ? `
-  shadow-color: ${color};
-  shadow-offset: ${getVal(offset, options.hOffset)}px ${getVal(
+  options: { elevation?: number; hOffset?: number; vOffset?: number },
+  returnObject: boolean = false
+) => {
+  if (Platform.OS === 'ios') {
+    const shadowOffset = `${getVal(offset, options.hOffset)}px ${getVal(
       offset,
       options.vOffset
-    )}px;
-  shadow-opacity: ${opacity};
-  shadow-radius: ${radius};
-`
-    : `elevation: ${options.elevation === undefined ? 5 : options.elevation};`);
+    )}px`;
+
+    if (returnObject) {
+      return {
+        shadowColor: color,
+        shadowOffset: {
+          height: getVal(offset, options.hOffset),
+          width: getVal(offset, options.vOffset),
+        },
+        shadowOpacity: opacity,
+        shadowRadius: radius,
+      };
+    }
+
+    return `
+      shadow-color: ${color};
+      shadow-offset: ${shadowOffset};
+      shadow-opacity: ${opacity};
+      shadow-radius: ${radius};
+    `;
+  }
+
+  const elevation = options.elevation === undefined ? 5 : options.elevation;
+
+  if (returnObject) {
+    return { elevation };
+  }
+
+  return `elevation: ${elevation};`;
+};
 
 export default shadow;

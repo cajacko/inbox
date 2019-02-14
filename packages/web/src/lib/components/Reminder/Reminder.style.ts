@@ -8,12 +8,18 @@ export const BACKGROUND_COLOR = WHITE;
 
 const reminderSpacing = 16;
 
-export const Container = styled(View)<{ isLast: boolean }>`
+interface IProps {
+  hasBottomBorder: boolean;
+  hasTopBorder: boolean;
+}
+
+export const Container = styled(View)<IProps>`
   position: relative;
   z-index: 2;
-  ${({ isLast }) =>
+  ${({ hasBottomBorder, hasTopBorder }) =>
     border(GREY_LIGHTER, 2, {
-      bottom: !isLast,
+      bottom: hasBottomBorder,
+      top: hasTopBorder,
     })}
   flex-direction: row;
 `;
