@@ -1,5 +1,6 @@
 import * as React from 'react';
 import Button from 'src/lib/components/Button';
+import HeaderStatus from 'src/lib/components/HeaderStatus';
 import Text from 'src/lib/components/Text';
 import { Text as TextType } from 'src/lib/types/general';
 import getButtonType from 'src/lib/utils/getButtonType';
@@ -9,6 +10,7 @@ import {
   Container,
   ICON_SIZE,
   LeftButton,
+  Status,
   Title,
 } from './Header.style';
 
@@ -66,6 +68,9 @@ const Header = ({ leftButton, title }: IProps) => {
           backgroundColor={BACKGROUND_COLOR}
         />
       </Title>
+      <Status>
+        <HeaderStatus backgroundColor={BACKGROUND_COLOR} />
+      </Status>
     </Container>
   );
 };

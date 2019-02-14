@@ -7,6 +7,8 @@ export const SECONDARY_LIGHT: '#ff94c2' = '#ff94c2';
 export const SECONDARY_DARK: '#ba2d65' = '#ba2d65';
 
 export const ERROR: typeof SECONDARY_DARK = SECONDARY_DARK;
+export const ERROR_LIGHT: typeof SECONDARY_LIGHT = SECONDARY_LIGHT;
+export const ERROR_DARK: typeof SECONDARY_DARK = SECONDARY_DARK;
 
 export const WHITE: '#ffffff' = '#ffffff';
 export const GREY_LIGHTER: '#eceff1' = '#eceff1';

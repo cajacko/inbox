@@ -35,3 +35,10 @@ export const Title = styled(View)`
   align-items: center;
   ${applyPadding({ left: HEADER_SPACING })}
 `;
+
+export const Status = styled(View)`
+  height: ${unit(HEADER_HEIGHT)};
+  width: ${unit(HEADER_HEIGHT)};
+  align-items: center;
+  justify-content: center;
+`;

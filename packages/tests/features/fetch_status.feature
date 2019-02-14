@@ -10,6 +10,9 @@ Feature: Fetch Status
   Scenario: Loading icon shows in header when making a network request
   Scenario: Loading icon does not show the error dialog when pressed
 
+  Scenario: Is status icon resolves within 500 ms it does not show
+  Scenario: Status icon always shows for a minimum of 2 seconds
+
   Scenario: Network error displays an error button in the header
   # Given we add a hook with id "getReminders" and type "error"
   # And we have logged in successfully

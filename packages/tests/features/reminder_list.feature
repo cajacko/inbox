@@ -40,7 +40,6 @@ Feature: Reminder List
     Given we preload the api with "10" reminders
     And we have logged in successfully
     Then the reminder list count "is" "0"
-    And the header loading icon "is" visible
     And the header loading icon "will not be" visible
     And the header error button "is not" visible
     And the reminder list count "is" "10"

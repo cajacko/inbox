@@ -18,7 +18,7 @@ export const types = `
   input ReminderInput {
     id: ReminderID!
     text: String!
-    dateCreated: Date!
+    dateCreated: Date
     dateModified: Date!
     deleted: Boolean!
   }
