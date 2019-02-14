@@ -1,8 +1,8 @@
 import makeActionCreator from 'src/lib/utils/makeActionCreator';
 
-const SYNC_REQUESTED = 'SYNC_REQUESTED';
-const SYNC_SUCCESS = 'SYNC_SUCCESS';
-const SYNC_FAILED = 'SYNC_FAILED';
+export const SYNC_REQUESTED = 'SYNC_REQUESTED';
+export const SYNC_SUCCESS = 'SYNC_SUCCESS';
+export const SYNC_FAILED = 'SYNC_FAILED';
 
 export const syncRequested = makeActionCreator(
   SYNC_REQUESTED,

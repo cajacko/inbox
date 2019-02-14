@@ -1,8 +1,9 @@
-interface IReminder {
+export interface IReminder {
   dateCreated: number;
   dateModified: number;
   id: string;
   text: string;
+  deleted: boolean;
 }
 
 /**
@@ -24,6 +25,7 @@ export const sync = ({
           dateModified
           id
           text
+          deleted
         }
       }
     }

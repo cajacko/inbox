@@ -30,7 +30,7 @@ export const setReminder = (
     validateDate(reminder.dateCreated, 'Date created is not a valid date');
     validateDate(reminder.dateModified, 'Date modified is not a valid date');
   } catch (e) {
-    return { error: e.message };
+    return Promise.reject(e);
   }
 
   const doc = db.collection('reminders').doc(reminder.id);
@@ -51,11 +51,40 @@ export const setReminder = (
   });
 };
 
+/**
+ * Get all the users reminders
+ */
+export const getReminders = (db: admin.firestore.DocumentReference) =>
+  db
+    .collection('reminders')
+    .orderBy('dateModified')
+    .get()
+    .then((snapshot) => {
+      if (snapshot.empty) {
+        return [];
+      }
+
+      const data: any = [];
+
+      snapshot.forEach((doc) => {
+        const docData = doc.data();
+
+        if (!docData) return;
+
+        data.push({ deleted: false, ...docData });
+      });
+
+      return data;
+    });
+
 export const Query = {
-  getReminders: () => [],
+  getReminders: (vars: any, db: admin.firestore.DocumentReference) =>
+    getReminders(db),
 };
 
 export const Mutation = {
   setReminder: (reminder: IReminder, db: admin.firestore.DocumentReference) =>
-    setReminder(reminder, db),
+    setReminder(reminder, db).catch(e => ({
+      error: e.message || 'Undefined error whilst setting reminder',
+    })),
 };
