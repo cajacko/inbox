@@ -3,15 +3,16 @@ Feature: Fetch Status
   I want to know when data has not be saved
   So that I can ensure my data syncs later
 
+  # Check displays correctly
   Scenario: No status icon is visible when the last network request was successful
   # And the header loading icon "is not" visible
   # And the header error button "is not" visible
 
-  Scenario: Loading icon shows in header when making a network request
+  Scenario: Loading icon displays correctly in header when making a network request
   Scenario: Loading icon does not show the error dialog when pressed
 
-  Scenario: Is status icon resolves within 500 ms it does not show
-  Scenario: Status icon always shows for a minimum of 2 seconds
+  Scenario: A quick network request does not show the loading icon
+  Scenario: If the loading icon does show it will show for a minimum of 2 seconds
 
   Scenario: Network error displays an error button in the header
   # Given we add a hook with id "getReminders" and type "error"
@@ -27,6 +28,7 @@ Feature: Fetch Status
   Scenario: Dismiss network error dialog by back button
   Scenario: Tapping retry on the network error dialog, dismisses the dialog and runs sync again
 
-  Scenario: When offline the fetch status shows the offline button
-  Scenario: Pressing the offline button shows the offline message
-  Scenario: When the device comes back online the header status updates
+# TODO: Part of the offline feature, so do then
+# Scenario: When offline the fetch status shows the offline button
+# Scenario: Pressing the offline button shows the offline message
+# Scenario: When the device comes back online the header status updates
