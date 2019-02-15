@@ -1,3 +1,7 @@
+import logHOC from '../utils/log';
+
+const log = logHOC('WAIT_FOR');
+
 type Func = () => string;
 
 const waitFor = (
@@ -5,34 +9,50 @@ const waitFor = (
   timeoutErrorMessage: string | Func,
   timeout = 5000
 ) => {
+  log('waitFor -> init');
+
   const startTime = new Date().getTime();
 
   const loop = (): Promise<void> => {
+    log('waitFor -> loop');
     const now = new Date().getTime();
 
     if (now - startTime > timeout) {
-      throw new Error(typeof timeoutErrorMessage === 'string'
+      log('waitFor -> loop -> timeout');
+      const error = new Error(typeof timeoutErrorMessage === 'string'
         ? timeoutErrorMessage
         : timeoutErrorMessage());
+
+      // @ts-ignore
+      error.timeout = true;
+
+      return Promise.reject(error);
     }
 
-    return testFunc()
-      .then((result) => {
-        if (result) return Promise.resolve();
+    log('waitFor -> loop -> testFunc');
 
-        return new Promise(resolve => setTimeout(resolve, 500)).then(loop);
-      })
-      .catch((e) => {
-        // eslint-disable-next-line
-        console.error(
-          'testFunc threw during waitFor, ensure the testFunc resolves with a boolean and only errors if something does go wrong. See below for the error');
-        // eslint-disable-next-line
-        console.error(e);
-        throw e;
-      });
+    return testFunc().then((result) => {
+      log('waitFor -> loop -> testFunc -> resolve');
+      log(result);
+
+      if (result) return Promise.resolve();
+
+      log('waitFor -> loop -> testFunc -> runAfterTimeout');
+
+      return new Promise(resolve => setTimeout(resolve, 500)).then(loop);
+    });
   };
 
-  return loop();
+  return loop().catch((e) => {
+    if (e.timeout) {
+      log('waitFor -> loop -> testFunc -> reject -> timeout');
+      throw e;
+    }
+
+    log('waitFor -> loop -> testFunc -> reject');
+    log(e);
+    throw e;
+  });
 };
 
 export default waitFor;

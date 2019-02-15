@@ -38,6 +38,7 @@ Feature: Reminder List
 
   Scenario: New reminders get loaded in on page load
     Given we preload the api with "10" reminders
+    And we add a hook with id "sync" and type "minorDelay"
     And we have logged in successfully
     Then the reminder list count "is" "0"
     And the header loading icon "will not be" visible

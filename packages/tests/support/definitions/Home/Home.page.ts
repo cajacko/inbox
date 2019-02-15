@@ -6,7 +6,7 @@ import getSelector from '../../utils/getSelector';
 class Home {
   private containerSelector: ISelector = selectors.general.Home.Container;
 
-  public visible(condition: ICondition) {
+  public async visible(condition: ICondition) {
     return driver.visible(condition, getSelector(this.containerSelector));
   }
 }
