@@ -1,10 +1,12 @@
 import * as React from 'react';
-import { FlatList, ListRenderItem } from 'react-native';
+import { FlatList, ListRenderItem, RefreshControl } from 'react-native';
 
 interface IProps {
   contentContainerStyle?: { [key: string]: any };
   testID?: string;
   data: any[];
+  onRefresh: () => void;
+  refreshing?: boolean;
   keyExtractor?: (item: any, index: number) => string;
   renderItem: ListRenderItem<any>;
   contentInset?: {
@@ -18,6 +20,17 @@ interface IProps {
 /**
  * Render a scrollable list
  */
-const List = (props: IProps) => <FlatList {...props} />;
+const List = ({ onRefresh, refreshing, ...props }: IProps) => (
+  <FlatList
+    refreshControl={
+      <RefreshControl
+        enabled={!!onRefresh}
+        refreshing={!!refreshing}
+        onRefresh={onRefresh}
+      />
+    }
+    {...props}
+  />
+);
 
 export default List;

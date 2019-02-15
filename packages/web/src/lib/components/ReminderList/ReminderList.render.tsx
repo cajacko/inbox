@@ -2,6 +2,7 @@ import * as React from 'react';
 import { List } from 'src/components';
 import NoReminders from 'src/lib/components/NoReminders';
 import Reminder from 'src/lib/components/Reminder';
+import sync from 'src/lib/utils/sync';
 import {
   BACKGROUND_COLOR,
   Container,
@@ -11,6 +12,7 @@ import {
 
 export interface IContainerStateProps {
   reminders: string[];
+  syncing: boolean;
 }
 
 interface IProps extends IContainerStateProps {
@@ -43,6 +45,11 @@ const renderItem = (reminders: IProps['reminders'], isFullWidth: boolean) => ({
 const keyExtractor = (item: string) => item;
 
 /**
+ * On refresh run the sync action
+ */
+const onRefresh = () => sync('manual');
+
+/**
  * Display a list of reminders
  */
 const ReminderList = ({
@@ -50,12 +57,15 @@ const ReminderList = ({
   bottomMargin,
   maxContentWidth,
   isFullWidth,
+  syncing,
 }: IProps) =>
   (reminders.length === 0 ? (
     <NoReminders backgroundColor={BACKGROUND_COLOR} />
   ) : (
     <Container testID="ReminderList">
       <List
+        refreshing={syncing}
+        onRefresh={onRefresh}
         contentInset={contentInset(bottomMargin)}
         contentContainerStyle={contentContainerStyle(
           !isFullWidth,

@@ -15,7 +15,7 @@ let nextSyncPromise = Promise.resolve();
 let resolveNextSync: (res: any) => void;
 let rejectNextSync: (e: any) => void;
 
-type SyncType = 'cron' | 'action' | 'init' | 'queued';
+export type SyncType = 'cron' | 'action' | 'init' | 'queued' | 'manual';
 
 /**
  * Set the next sync promise
@@ -65,7 +65,7 @@ const sync = (type: SyncType) => {
     const changedReminders = getChangedReminders();
     const dateSyncRequested = new Date().getTime();
 
-    store.dispatch(syncRequested(changedReminders, dateSyncRequested));
+    store.dispatch(syncRequested(changedReminders, dateSyncRequested, type));
 
     return testHook('sync', () => Promise.resolve())()
       .then(() =>
@@ -77,7 +77,8 @@ const sync = (type: SyncType) => {
         const action = syncSuccess(
           changedReminders,
           dateSyncRequested,
-          newItems
+          newItems,
+          type
         );
 
         store.dispatch(action);
@@ -85,7 +86,8 @@ const sync = (type: SyncType) => {
       .catch((e: any) => {
         if (!isLoggedIn()) return undefined;
 
-        store.dispatch(syncFailed(changedReminders, dateSyncRequested, e));
+        const action = syncFailed(changedReminders, dateSyncRequested, e, type);
+        store.dispatch(action);
 
         return e;
       })

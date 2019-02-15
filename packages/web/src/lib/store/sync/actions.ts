@@ -7,19 +7,22 @@ export const SYNC_FAILED = 'SYNC_FAILED';
 export const syncRequested = makeActionCreator(
   SYNC_REQUESTED,
   'changedReminders',
-  'dateSyncRequested'
+  'dateSyncRequested',
+  'syncType'
 );
 
 export const syncSuccess = makeActionCreator(
   SYNC_SUCCESS,
   'changedReminders',
   'dateSyncRequested',
-  'newItems'
+  'newItems',
+  'syncType'
 );
 
 export const syncFailed = makeActionCreator(
   SYNC_FAILED,
   'changedReminders',
   'dateSyncRequested',
-  'error'
+  'error',
+  'syncType'
 );

@@ -7,6 +7,8 @@ interface IProps {
   contentContainerStyle?: { [key: string]: any };
   testID?: string;
   data: any[];
+  onRefresh: () => void;
+  refreshing?: boolean;
   keyExtractor?: (item: any, index: number) => string;
   renderItem: (props: { item: any; index: number }) => Children;
   contentInset?: {

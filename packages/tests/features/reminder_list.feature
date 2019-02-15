@@ -79,7 +79,8 @@ Feature: Reminder List
   @platform-ios @platform-android
   Scenario: Pull down from top loading displays correctly
 
-# Don't think we need any fetch more functionality yet
+# Don't think we need any fetch more functionality yet, but here's some
+# scenarios just in case
 # Scenario: Initial load only pulls in 20 reminders
 # Scenario: Fetch more is triggered as we scroll to the bottom of the list
 # Scenario: Fetch more loading displays correctly
