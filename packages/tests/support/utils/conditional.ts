@@ -50,7 +50,7 @@ const conditional = async (
         return testFunc()
           .then((result) => {
             log('conditional -> waitFor -> testFunc -> resolve');
-            log(result);
+            log(String(result));
 
             return positive ? !!result : !result;
           })
@@ -65,7 +65,7 @@ const conditional = async (
     )
       .then((res) => {
         log('conditional -> waitFor -> resolve');
-        log(res);
+        log(String(res));
         return res;
       })
       .catch((e) => {

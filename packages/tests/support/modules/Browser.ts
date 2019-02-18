@@ -12,6 +12,11 @@ const showBrowser = false;
 const shouldClose = !showBrowser;
 const headless = !showBrowser;
 
+export interface ILogs {
+  console: any[];
+  logger: any[];
+}
+
 class Browser {
   private browser: null | puppeteer.Browser = null;
   private page: null | puppeteer.Page = null;
@@ -21,14 +26,26 @@ class Browser {
   private dialog?: puppeteer.Dialog;
   private nonHeadless: boolean = false;
   private headless: boolean;
+  private logs: ILogs = {
+    console: [],
+    logger: [],
+  };
 
   constructor() {
     this.dialogOpen = this.dialogOpen.bind(this);
     this.dialogAction = this.dialogAction.bind(this);
+    this.captureConsole = this.captureConsole.bind(this);
   }
 
   get platform() {
     return 'web';
+  }
+
+  public clearLogs() {
+    this.logs = {
+      console: [],
+      logger: [],
+    };
   }
 
   public async reset() {
@@ -288,6 +305,7 @@ class Browser {
       this.page = await this.browser.newPage();
 
       this.page.on('dialog', this.dialogOpen);
+      this.page.on('console', this.captureConsole);
 
       // Reset the mouse, as puppeteer seems to have it in the middle of the
       // page causing hovering effects
@@ -603,6 +621,34 @@ class Browser {
     }, selector);
 
     if (error) throw new Error(error);
+  }
+
+  private captureConsole(msg: puppeteer.ConsoleMessage) {
+    this.logs.console.push({
+      args: msg.args().map((arg) => {
+        try {
+          return arg.jsonValue();
+        } catch (e) {
+          try {
+            return JSON.stringify(arg);
+          } catch (error) {
+            return String(arg);
+          }
+        }
+      }),
+      text: msg.text(),
+      type: msg.type(),
+    });
+  }
+
+  public async getLogs() {
+    if (this.page) {
+      // @ts-ignore
+      const logs = await this.page.evaluate(() => window.logs);
+      this.logs.logger = logs;
+    }
+
+    return this.logs;
   }
 }
 

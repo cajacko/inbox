@@ -33,7 +33,7 @@ const waitFor = (
 
     return testFunc().then((result) => {
       log('waitFor -> loop -> testFunc -> resolve');
-      log(result);
+      log(String(result));
 
       if (result) return Promise.resolve();
 

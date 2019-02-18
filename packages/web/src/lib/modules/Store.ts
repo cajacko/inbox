@@ -19,6 +19,7 @@ import thunk from 'redux-thunk';
 import { IJSState, IState, ReducerKey } from 'src/lib/store/reducers';
 import { IAction, Middleware } from 'src/lib/types/libs';
 import isDev from 'src/utils/conditionals/isDev';
+import isTestEnv from 'src/utils/conditionals/isTestEnv';
 import logger from 'src/utils/logger';
 
 const defaultOptions = {
@@ -78,7 +79,7 @@ class Store {
     existingState?: ExistingState,
     middleware: Middleware[] = []
   ) {
-    const allMiddleware = isDev()
+    const allMiddleware = isDev() && !isTestEnv()
       ? applyMiddleware(this.loggerMiddleware, thunk, ...middleware)
       : applyMiddleware(thunk, ...middleware);
 

@@ -1,11 +1,14 @@
-import logConfig from '../config/log';
+import logConfig, { LOG_AS_HAPPENS } from '../config/log';
 
 const logs = {
-  AFTER: '\n\n\n-----------BEFORE-----------\n\n\n',
+  AFTER: '\n\n\n-----------AFTER-----------\n\n\n',
   BEFORE: '\n\n\n-----------BEFORE-----------\n\n\n',
 };
 
-const getLogMessage = (key: string, ...args: any[]) => {
+type Args = string[];
+let currentLogs: Args[] = [];
+
+const getLogMessage = (key: string, ...args: string[]) => {
   const message = logs[key] || key;
 
   if (typeof message === 'function') {
@@ -21,11 +24,23 @@ const getLogMessage = (key: string, ...args: any[]) => {
 
 const shouldLog = (key: string) => !!logConfig[key];
 
-const log = (key: string) => (...args: any[]) => {
+const log = (key: string) => (...args: string[]) => {
   if (shouldLog(key)) {
-    // eslint-disable-next-line
-    console.log(...getLogMessage(key, ...args));
+    const logArgs = getLogMessage(key, ...args);
+
+    currentLogs.push(logArgs);
+
+    if (LOG_AS_HAPPENS) {
+      // eslint-disable-next-line
+      console.log(...logArgs);
+    }
   }
 };
+
+export const resetLogs = () => {
+  currentLogs = [];
+};
+
+export const getLogs = () => currentLogs;
 
 export default log;

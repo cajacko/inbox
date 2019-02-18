@@ -42,7 +42,15 @@ class Api {
       .then(() => this.getUserData())
       .then((data) => {
         if (!isEqual(data, {})) {
-          throw new Error('clearTestData did not clear successfully');
+          let json: string;
+
+          try {
+            json = JSON.stringify(data, undefined, 2);
+          } catch (e) {
+            json = '';
+          }
+
+          throw new Error(`clearTestData did not clear successfully. Server data was:\n\n${json}\n`);
         }
       });
   }

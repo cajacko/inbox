@@ -1,23 +1,13 @@
 import { HookScenarioResult } from 'cucumber';
 import { join } from 'path';
-import getSize from './getSize';
+import getScenarioPath from './getScenarioPath';
 
-const getScreenshotPath = (
-  { sourceLocation: { uri }, pickle: { name } }: HookScenarioResult,
-  platform: string
-) => {
-  const filePath = uri.replace('features/', '').replace('.feature', '');
-  const scenario = name.replace(/ /gm, '_').toLowerCase();
-  const size = getSize();
+const getScreenshotPath = (scenarioResult: HookScenarioResult) => {
+  const {
+    dir, platform, size, filePath, scenario,
+  } = getScenarioPath(scenarioResult);
 
-  return join(
-    __dirname,
-    '../../screenshots',
-    platform,
-    size,
-    filePath,
-    `${scenario}.png`
-  );
+  return join(dir, 'screenshots', platform, size, filePath, `${scenario}.png`);
 };
 
 export default getScreenshotPath;
