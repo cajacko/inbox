@@ -32,6 +32,11 @@ const validateFirebaseIdToken = (
   res: functions.Response,
   next: () => void
 ) => {
+  /**
+   * Send the unauthorized request
+   */
+  const sendUnauthorized = () => res.status(403).send('Unauthorized');
+
   if (
     (!req.headers.authorization ||
       !req.headers.authorization.startsWith('Bearer ')) &&
@@ -41,7 +46,7 @@ const validateFirebaseIdToken = (
     // header. Make sure you authorize your request by providing the following
     // HTTP header: Authorization: Bearer <Firebase ID Token> or by passing a
     // "__session" cookie.
-    res.status(403).send('Unauthorized');
+    sendUnauthorized();
     return;
   }
 
@@ -58,7 +63,7 @@ const validateFirebaseIdToken = (
     idToken = req.cookies.__session;
   } else {
     // No cookie
-    res.status(403).send('Unauthorized');
+    sendUnauthorized();
     return;
   }
 
@@ -71,7 +76,7 @@ const validateFirebaseIdToken = (
     })
     .catch((error) => {
       // Error while verifying Firebase ID token
-      res.status(403).send('Unauthorized');
+      sendUnauthorized();
     });
 };
 

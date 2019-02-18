@@ -3,6 +3,10 @@ import Auth from 'src/lib/modules/Auth';
 import { Text as TextType } from 'src/lib/types/general';
 import Login from './Login.render';
 
+export interface IContainerStateProps {
+  description?: string;
+}
+
 interface IState {
   errorText?: TextType;
   loggingIn: boolean;
@@ -11,7 +15,7 @@ interface IState {
 /**
  * Business logic for the login component, handles login and error messages
  */
-class LoginComponent extends React.Component<{}, IState> {
+class LoginComponent extends React.Component<IContainerStateProps, IState> {
   /**
    * Initialise the class, set the initial state and bind the methods
    */
@@ -63,6 +67,7 @@ class LoginComponent extends React.Component<{}, IState> {
   public render() {
     return (
       <Login
+        description={this.props.description}
         cancel={this.cancel}
         login={this.login}
         errorText={this.state.errorText}

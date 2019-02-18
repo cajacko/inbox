@@ -1,14 +1,10 @@
 import makeActionCreator from 'src/lib/utils/makeActionCreator';
 
-export const SET_IS_LOGGED_IN = 'SET_IS_LOGGED_IN';
+export const LOGIN = 'LOGIN';
 export const LOGOUT = 'LOGOUT';
 
-export const SYNC_ACTIONS = [SET_IS_LOGGED_IN];
+export const SYNC_ACTIONS = [LOGIN];
 
-export const setIsLoggedIn = makeActionCreator(
-  SET_IS_LOGGED_IN,
-  'isLoggedIn',
-  'user'
-);
+export const login = makeActionCreator(LOGIN, 'user');
 
-export const logout = makeActionCreator(LOGOUT);
+export const logout = makeActionCreator(LOGOUT, 'loginText', 'reloginId');

@@ -1,18 +1,22 @@
 import cloneDeep from 'lodash/cloneDeep';
 import {
   Action,
+  AnyAction,
   applyMiddleware,
   combineReducers,
   compose,
   createStore,
   DeepPartial,
+  Reducer,
   ReducersMapObject,
   Store as IStore,
 } from 'redux';
 import {
   autoRehydrate,
+  Persistor,
   persistStore,
   Storage as IStorage,
+  Transform,
 } from 'redux-persist';
 import immutableTransform from 'redux-persist-transform-immutable';
 import thunk from 'redux-thunk';
@@ -29,6 +33,10 @@ const defaultOptions = {
 
 type ExistingState = DeepPartial<IState>;
 
+type RootReducer = (
+  reducer: Reducer<any, AnyAction>
+) => (state: any, action: AnyAction) => IState;
+
 /**
  * Manage the redux store in 1 location
  */
@@ -38,6 +46,7 @@ class Store {
   private store: IStore;
   private shouldLogState: boolean;
   private purgeOnLoad: boolean;
+  private persistor: Persistor | null = null;
 
   /**
    * Initialise the class, setting up promises to check if we've
@@ -50,10 +59,12 @@ class Store {
       shouldLogState,
       purgeOnLoad,
       middleware,
+      rootReducer,
     }: {
     shouldLogState?: boolean;
     purgeOnLoad?: boolean;
     middleware?: Middleware[];
+    rootReducer?: RootReducer;
     } = defaultOptions
   ) {
     this.shouldLogState = !!shouldLogState;
@@ -66,7 +77,8 @@ class Store {
     this.onFinishedStoreSetup = this.setupStore(
       reducers,
       existingState,
-      middleware
+      middleware,
+      rootReducer
     );
     this.onFinishedPersist = Promise.resolve();
   }
@@ -77,14 +89,18 @@ class Store {
   private setupStore(
     reducers: ReducersMapObject,
     existingState?: ExistingState,
-    middleware: Middleware[] = []
+    middleware: Middleware[] = [],
+    rootReducer?: RootReducer
   ) {
-    const allMiddleware = isDev() && !isTestEnv()
-      ? applyMiddleware(this.loggerMiddleware, thunk, ...middleware)
-      : applyMiddleware(thunk, ...middleware);
+    const allMiddleware =
+      isDev() && !isTestEnv()
+        ? applyMiddleware(this.loggerMiddleware, thunk, ...middleware)
+        : applyMiddleware(thunk, ...middleware);
+
+    const reducer = combineReducers(reducers);
 
     this.store = createStore(
-      combineReducers(reducers),
+      rootReducer ? rootReducer(reducer) : reducer,
       existingState,
       compose(
         allMiddleware,
@@ -98,24 +114,35 @@ class Store {
   /**
    * Persist the store, and set the promise for when it finishes
    */
-  public persistStore(Storage: IStorage, blacklist: ReducerKey[] = []) {
+  public persistStore(
+    Storage: IStorage,
+    blacklist: ReducerKey[] = [],
+    transforms: Array<Transform<any, any>> = []
+  ) {
     if (!this.store) throw new Error('Store is not setup');
 
     this.onFinishedPersist = new Promise((resolve) => {
-      const persistor = persistStore(
+      this.persistor = persistStore(
         this.store,
         {
           blacklist,
           storage: Storage,
-          transforms: [immutableTransform()],
+          transforms: transforms.concat(immutableTransform()),
         },
         resolve
       );
 
-      if (this.purgeOnLoad) persistor.purge();
+      if (this.purgeOnLoad) this.persistor.purge();
     });
 
     return this.onFinishedPersist;
+  }
+
+  /**
+   * Purge the persisted store
+   */
+  public purge() {
+    if (this.persistor) this.persistor.purge();
   }
 
   /**
@@ -166,7 +193,7 @@ class Store {
   /**
    * Get the state
    */
-  public getState() {
+  public getState(): IState {
     if (!this.store) throw new Error('Store is not setup');
 
     return this.store.getState();

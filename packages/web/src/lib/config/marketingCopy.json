@@ -15,7 +15,8 @@
     "Cancel": "Cancel",
     "Button": "Login",
     "Description": "Welcome to Inbox, to use our app you must login with your Google Account",
-    "GoogleError": "Failed to login with Google, maybe your email or password was incorrect"
+    "GoogleError": "Failed to login with Google, maybe your email or password was incorrect",
+    "Relogin": "Your login session has been revoked. Please login again"
   },
   "Logout": {
     "Confirm": "Are you sure you want to logout?",

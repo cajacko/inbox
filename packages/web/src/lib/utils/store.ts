@@ -4,6 +4,10 @@ import reducers from 'src/lib/store/reducers';
 import analytics from 'src/lib/utils/analytics';
 import appLoading from 'src/lib/utils/appLoading';
 import analyticsMiddleWare from 'src/lib/utils/middleware/analytics';
+import {
+  middleware as logoutMiddleware,
+  rootReducer,
+} from 'src/lib/utils/middleware/logout';
 import syncMiddleware from 'src/lib/utils/middleware/sync';
 import sync, { startSyncCron } from 'src/lib/utils/sync';
 import Storage from 'src/modules/Storage';
@@ -12,8 +16,9 @@ import testHook from 'src/utils/testHook';
 const initialState = testHook('initialState', undefined);
 
 const store = new Store(reducers, initialState, {
-  middleware: [analyticsMiddleWare, syncMiddleware],
+  middleware: [analyticsMiddleWare, syncMiddleware, logoutMiddleware],
   // purgeOnLoad: true,
+  rootReducer,
   shouldLogState: true,
 });
 

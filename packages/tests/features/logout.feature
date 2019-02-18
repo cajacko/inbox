@@ -23,3 +23,5 @@ Feature: Logout
     When the alert "1st" button is pressed
     Then the "logged in" home route "is" visible
     And the menu "is" visible
+
+  Scenario: Logout deletes the redux cache
