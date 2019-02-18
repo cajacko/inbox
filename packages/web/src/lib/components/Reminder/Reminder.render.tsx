@@ -19,6 +19,8 @@ export interface IContainerDispatchProps {
 export interface IPassedProps {
   id: string;
   isLast: boolean;
+  isFullWidth: boolean;
+  isFirst: boolean;
 }
 
 type Event = () => void;
@@ -45,6 +47,8 @@ interface IProps
  */
 const Reminder = ({
   id,
+  isFullWidth,
+  isFirst,
   isLast,
   text,
   status,
@@ -53,7 +57,13 @@ const Reminder = ({
   isHovering,
   onDelete,
 }: IProps) => (
-  <Container key={id} testID="Reminder" isLast={isLast} {...buttonEvents}>
+  <Container
+    key={id}
+    testID="Reminder"
+    hasBottomBorder={isFullWidth ? true : !isLast}
+    hasTopBorder={isFullWidth && isFirst}
+    {...buttonEvents}
+  >
     <Button
       analyticsAction="SHOW_EDIT_REMINDER"
       analyticsCategory="REMINDER"

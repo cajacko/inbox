@@ -33,3 +33,12 @@ When(
   'the {string} reminder hover {string} button is pressed',
   (index, component) => reminderList.pressButton(getIndex(index), component)
 );
+
+Then('the reminder list {string} visible', condition =>
+  reminderList.visible(condition));
+
+When('we scroll to the bottom of the reminder list', () =>
+  reminderList.scrollToBottom());
+
+Then('the no reminders component {string} visible', condition =>
+  reminderList.noRemindersVisible(condition));

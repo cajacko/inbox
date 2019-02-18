@@ -9,7 +9,11 @@ import HeaderWithDrawer from './HeaderWithDrawer.render';
 import { ANIMATION_DURATION } from './HeaderWithDrawer.style';
 
 interface IProps {
-  children: JSX.Element;
+  children: (props: {
+    addButtonSpacing: number;
+    maxContentWidth: number;
+    isFullWidth: boolean;
+  }) => JSX.Element;
   context: Modal.IValue;
 }
 

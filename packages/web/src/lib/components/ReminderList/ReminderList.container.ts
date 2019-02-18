@@ -8,6 +8,7 @@ import ReminderList, { IContainerStateProps } from './ReminderList.render';
  */
 const mapStateToProps = (state: IState) => ({
   reminders: selectOrderedRemindersKeys(state),
+  syncing: state.sync.type === 'REQUESTED' && state.sync.syncType === 'manual',
 });
 
 export default connect<IContainerStateProps>(mapStateToProps)(ReminderList);

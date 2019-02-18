@@ -1,6 +1,9 @@
 import { expect } from 'chai';
+import logHOC from '../utils/log';
 import ensureCondition, { ICondition } from './ensureCondition';
 import waitFor from './waitFor';
+
+const log = logHOC('CONDITIONAL');
 
 interface IErrors {
   negative: string;
@@ -16,8 +19,10 @@ export type Errors = IErrors | ErrorsFunc;
 const conditional = async (
   condition: ICondition | string,
   testFunc: () => Promise<boolean>,
-  errors: Errors
+  errors: Errors,
+  waitTimeout?: number
 ) => {
+  log('conditional -> init');
   let wait: boolean;
   let positive: boolean;
 
@@ -36,32 +41,60 @@ const conditional = async (
   };
 
   if (wait) {
-    await waitFor(
-      async () => {
-        const result = await testFunc();
+    log('conditional -> waitFor');
 
-        return positive ? !!result : !result;
+    return waitFor(
+      () => {
+        log('conditional -> waitFor -> testFunc');
+
+        return testFunc()
+          .then((result) => {
+            log('conditional -> waitFor -> testFunc -> resolve');
+            log(String(result));
+
+            return positive ? !!result : !result;
+          })
+          .catch((e) => {
+            log('conditional -> waitFor -> testFunc -> reject');
+            log(e);
+            throw e;
+          });
       },
-      () => (positive ? getError('waitPositive') : getError('waitNegative'))
-    ).catch((e) => {
-      // eslint-disable-next-line
-      console.error(
-        'testFunc threw during a waiting conditional, ensure the testFunc resolves with a boolean and only errors if something does go wrong. See below for the error');
-      // eslint-disable-next-line
-      console.error(e);
-      throw e;
-    });
+      () => (positive ? getError('waitPositive') : getError('waitNegative')),
+      waitTimeout
+    )
+      .then((res) => {
+        log('conditional -> waitFor -> resolve');
+        log(String(res));
+        return res;
+      })
+      .catch((e) => {
+        if (e.timeout) {
+          log('conditional -> waitFor -> catch -> timeout');
+          throw e;
+        }
 
-    return;
+        log('conditional -> waitFor -> catch');
+        log(e);
+        throw e;
+      });
   }
+
+  log('conditional -> no wait');
 
   const isVisible = await testFunc();
 
   if (positive) {
+    log('conditional -> no wait -> positive');
     expect(isVisible).to.equal(true, getError('positive'));
   } else {
+    log('conditional -> no wait -> negative');
     expect(isVisible).to.equal(false, getError('negative'));
   }
+
+  log('conditional -> no wait -> resolve');
+
+  return Promise.resolve();
 };
 
 export default conditional;

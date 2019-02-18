@@ -7,7 +7,7 @@ import { testEmail } from '../env.local.json';
 /**
  * Get the test user ref
  */
-const getTestUserId = () =>
+export const getTestUserId = () =>
   auth.getUserByEmail(testEmail).then(user => user.uid);
 
 /**

@@ -4,6 +4,7 @@ import { MENU_WIDTH } from 'src/lib/components/Menu/Menu.style';
 import { GREY_LIGHTER, WHITE } from 'src/lib/config/styles/colors';
 import * as overlays from 'src/lib/config/styles/overlays';
 import border from 'src/lib/utils/applyBorder';
+import getButtonType from 'src/lib/utils/getButtonType';
 import shadow from 'src/lib/utils/shadow';
 import { View as AnimatedView } from 'src/packages/animated';
 import unit from 'src/utils/unit';
@@ -74,15 +75,8 @@ export const OverlayButtonColor = styled(View)<{ isHovering: boolean }>`
 
 export const Content = styled(View)`
   flex: 1;
-  align-items: center;
   position: relative;
   z-index: 1;
-`;
-
-export const ContentWrap = styled(View)`
-  max-width: ${unit(MAX_CONTENT_WIDTH)};
-  flex: 1;
-  width: 100%;
 `;
 
 export const DesktopMenu = styled(AnimatedView)`
@@ -101,3 +95,9 @@ export const AddButton = styled(View)`
   bottom: ${unit(addButtonMargin)};
   z-index: 2;
 `;
+
+export const addButtonType = getButtonType('CONTAINED_CIRCLE_ICON.SECONDARY');
+
+const totalAddButtonMargin = addButtonMargin * 2;
+
+export const addButtonSpacing = addButtonType.height + totalAddButtonMargin;

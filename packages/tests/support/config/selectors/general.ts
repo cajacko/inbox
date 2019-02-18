@@ -43,6 +43,14 @@ const general = {
       web: '.GoogleAuth__submit',
     },
   },
+  Header: {
+    Error: {
+      web: '.Header__Error',
+    },
+    Loading: {
+      web: '.Header__Loading',
+    },
+  },
   Home: {
     Container: {
       web: '.Home',
@@ -90,7 +98,16 @@ const general = {
     },
     web: '.Menu',
   },
+  NoReminders: {
+    web: '.NoReminders',
+  },
   ReminderList: {
+    Error: {
+      web: '.ReminderList__Error',
+    },
+    Loading: {
+      web: '.ReminderList__Loading',
+    },
     Reminder: {
       Button: {
         web: ({ index }: { index: number }) =>
@@ -126,6 +143,10 @@ const general = {
     Reminders: {
       web: '.Reminder',
     },
+    Scroll: {
+      web: '.ReminderList__Scroll',
+    },
+    web: '.ReminderList',
   },
   SplashScreen: {
     web: '.splashScreen',

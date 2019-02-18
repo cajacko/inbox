@@ -1,6 +1,7 @@
 import {
   BLACK,
   ERROR,
+  ERROR_DARK,
   GREY,
   GREY_DARK,
   GREY_LIGHT,
@@ -15,9 +16,11 @@ import {
 export const COLORS = {
   BLACK,
   ERROR,
+  ERROR_DARK,
   GREY,
   GREY_DARK,
   GREY_LIGHT,
+  GREY_LIGHTER,
   PRIMARY,
   PRIMARY_DARK,
   WHITE,

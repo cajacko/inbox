@@ -18,16 +18,16 @@ class App {
   }
 
   public async errorScreenshot(world: HookScenarioResult) {
-    const path = getScreenshotPath(world, driver.platform);
+    const path = getScreenshotPath(world);
     const errorPath = path.replace('/screenshots/', '/errorShots/');
 
     await this.screenshot(errorPath);
-    // eslint-disable-next-line
-    console.log(`\nSaved an error shot at:\n${errorPath}`);
+
+    return errorPath;
   }
 
   public async screenshotMatches(world: HookScenarioResult) {
-    const existingPath = getScreenshotPath(world, driver.platform);
+    const existingPath = getScreenshotPath(world);
     const newPath = existingPath.replace('.png', '.new.png');
     const diffPath = existingPath.replace('.png', '.diff.png');
 

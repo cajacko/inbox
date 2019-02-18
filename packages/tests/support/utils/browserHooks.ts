@@ -24,6 +24,11 @@ const browserHooks = (
 
   // This is where all the browser hook logic lives
   const implementations = {
+    initialState: {
+      initialState: constants.initialState
+        ? () => constants.initialState
+        : undefined,
+    },
     login: {
       delay: () => ({
         delay: () => delay(500),
@@ -63,16 +68,17 @@ const browserHooks = (
     root: {
       crash: crash('Root crash'),
     },
-    setReminder: {
-      delay: () => () => delay(15000),
-      error: () => () => Promise.reject(new Error('Bad bad')),
-    },
     splashScreen: {
       error: crash('Splash screen error'),
       stall: () => ({
         delay: () => delay(1500),
         duration: 500,
       }),
+    },
+    sync: {
+      delay: () => () => delay(15000),
+      error: () => () => Promise.reject(new Error('Bad bad')),
+      minorDelay: () => () => delay(1000),
     },
   };
 

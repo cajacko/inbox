@@ -1,38 +1,18 @@
-import { Middleware } from 'redux';
 import blacklist from 'src/lib/config/storeBlacklist';
 import Store from 'src/lib/modules/Store';
 import reducers from 'src/lib/store/reducers';
 import analytics from 'src/lib/utils/analytics';
 import appLoading from 'src/lib/utils/appLoading';
+import analyticsMiddleWare from 'src/lib/utils/middleware/analytics';
+import syncMiddleware from 'src/lib/utils/middleware/sync';
+import sync, { startSyncCron } from 'src/lib/utils/sync';
 import Storage from 'src/modules/Storage';
+import testHook from 'src/utils/testHook';
 
-/**
- * Log redux actions in analytics
- */
-const analyticsMiddleWare: Middleware = () => next => (reduxAction) => {
-  let action = reduxAction.type.replace('/', '_').toUpperCase();
-  let category = 'REDUX';
-  let label = 'REDUX';
-  let value;
+const initialState = testHook('initialState', undefined);
 
-  if (reduxAction.analytics) {
-    if (reduxAction.analytics.doNotSendEvent) {
-      next(reduxAction);
-      return;
-    }
-
-    if (reduxAction.analytics.action) ({ action } = reduxAction.analytics);
-    if (reduxAction.analytics.category) ({ category } = reduxAction.analytics);
-    if (reduxAction.analytics.label) ({ label } = reduxAction.analytics);
-    if (reduxAction.analytics.value) ({ value } = reduxAction.analytics);
-  }
-
-  analytics.trackEvent(action, category, label, value, true);
-  next(reduxAction);
-};
-
-const store = new Store(reducers, undefined, {
-  middleware: [analyticsMiddleWare],
+const store = new Store(reducers, initialState, {
+  middleware: [analyticsMiddleWare, syncMiddleware],
   // purgeOnLoad: true,
   shouldLogState: true,
 });
@@ -44,6 +24,12 @@ appLoading.register(waitForID);
 // (although we probably can somehow)
 // @ts-ignore
 store.persistStore(Storage, blacklist).then(() => {
+  if (store.getState().user.isLoggedIn) {
+    sync('init');
+
+    startSyncCron();
+  }
+
   appLoading.resolve(waitForID);
 
   const {

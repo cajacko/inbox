@@ -1,12 +1,12 @@
-import api from 'src/lib/utils/api';
 import makeActionCreator from 'src/lib/utils/makeActionCreator';
-import store from 'src/lib/utils/store';
 import uuid from 'src/lib/utils/uuid';
 import testHook from 'src/utils/testHook';
 
 export const SET_REMINDER = 'SET_REMINDER';
 export const SET_REMINDER_STATUS = 'SET_REMINDER_STATUS';
 export const DELETE_REMINDER = 'DELETE_REMINDER';
+
+export const SYNC_ACTIONS = [SET_REMINDER, DELETE_REMINDER];
 
 export const setReminderStatus = makeActionCreator(
   SET_REMINDER_STATUS,
@@ -23,39 +23,17 @@ export const setReminder = makeActionCreator(SET_REMINDER, (id, text) => {
     id: id || uuid(),
   });
 
-  const reminder = {
+  return {
     ...data,
     status: 'saving',
     text,
   };
-
-  testHook('setReminder', () => Promise.resolve())()
-    // @ts-ignore
-    .then(() => api.setReminder(reminder))
-    .then(() => {
-      store.dispatch(setReminderStatus(reminder.id, 'saved'));
-    })
-    .catch(() => {
-      store.dispatch(setReminderStatus(reminder.id, 'error'));
-    });
-
-  return reminder;
 });
 
 export const deleteReminder = makeActionCreator(DELETE_REMINDER, (id) => {
   const now = new Date().getTime();
 
   const dateModified = testHook('newReminder', now);
-
-  testHook('deleteReminder', () => Promise.resolve())()
-    // @ts-ignore
-    .then(() => api.deleteReminder({ id, dateModified }))
-    .then(() => {
-      store.dispatch(setReminderStatus(id, 'saved'));
-    })
-    .catch(() => {
-      store.dispatch(setReminderStatus(id, 'error'));
-    });
 
   return { id, dateModified };
 });

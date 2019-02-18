@@ -3,6 +3,22 @@ import Logger from 'src/lib/modules/Logger';
 import { ISentryMessage, LogLevel } from 'src/lib/types/general';
 import sentry from 'src/lib/utils/sentry';
 import isDev from 'src/utils/conditionals/isDev';
+import isTestEnv from 'src/utils/conditionals/isTestEnv';
+
+declare global {
+  // tslint:disable-next-line
+  interface Window {
+    logs: Array<{
+      data: any;
+      isFromConsoleWrap: boolean;
+      level: LogLevel;
+      message: string;
+      tags: ISentryMessage['tags'];
+    }>;
+  }
+}
+
+window.logs = [];
 
 /**
  * Example logging transport, replace with something that actually goes to the
@@ -15,6 +31,16 @@ const logToServer = (
   tags: ISentryMessage['tags'],
   isFromConsoleWrap: boolean
 ) => {
+  if (isTestEnv()) {
+    window.logs.push({
+      data,
+      isFromConsoleWrap,
+      level,
+      message,
+      tags,
+    });
+  }
+
   if (!isDev()) return;
   if (isFromConsoleWrap) return;
 

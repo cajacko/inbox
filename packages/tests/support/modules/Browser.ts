@@ -6,10 +6,16 @@ import browserHooks from '../utils/browserHooks';
 import conditional from '../utils/conditional';
 import { ICondition } from '../utils/ensureCondition';
 import getSize from '../utils/getSize';
+import log from '../utils/log';
 
 const showBrowser = false;
 const shouldClose = !showBrowser;
 const headless = !showBrowser;
+
+export interface ILogs {
+  console: any[];
+  logger: any[];
+}
 
 class Browser {
   private browser: null | puppeteer.Browser = null;
@@ -20,14 +26,26 @@ class Browser {
   private dialog?: puppeteer.Dialog;
   private nonHeadless: boolean = false;
   private headless: boolean;
+  private logs: ILogs = {
+    console: [],
+    logger: [],
+  };
 
   constructor() {
     this.dialogOpen = this.dialogOpen.bind(this);
     this.dialogAction = this.dialogAction.bind(this);
+    this.captureConsole = this.captureConsole.bind(this);
   }
 
   get platform() {
     return 'web';
+  }
+
+  public clearLogs() {
+    this.logs = {
+      console: [],
+      logger: [],
+    };
   }
 
   public async reset() {
@@ -122,7 +140,7 @@ class Browser {
 
     if (!this.page) throw new Error('No page object to set hooks within');
 
-    await this.page.evaluate(browserHooks, this.hooks, hookConstants);
+    await this.page.evaluate(browserHooks, this.hooks, hookConstants());
   }
 
   public async screenshot(path: string) {
@@ -143,37 +161,63 @@ class Browser {
     return element;
   }
 
-  public async visible(condition: ICondition, selector: string) {
+  public async visible(
+    condition: ICondition,
+    selector: string,
+    waitTimeout?: number
+  ) {
     await this.ensurePage();
+
+    const visibleLog = log('VISIBLE');
+
+    visibleLog('Browser -> visible -> init');
 
     await conditional(
       condition,
       () => {
+        visibleLog('Browser -> visible -> testFunc');
+
         if (!this.page) {
+          visibleLog('Browser -> visible -> testFunc -> no page');
           throw new Error('No page object to check the elements visibility');
         }
 
-        return this.page.evaluate((selectorParam) => {
-          const element = document.querySelector(selectorParam);
+        visibleLog('Browser -> visible -> testFunc -> run');
+        return this.page
+          .evaluate((selectorParam) => {
+            const element = document.querySelector(selectorParam);
 
-          if (!element) return false;
+            if (!element) return false;
 
-          const style = window.getComputedStyle(element);
+            const style = window.getComputedStyle(element);
 
-          return (
-            style &&
-            style.display !== 'none' &&
-            style.visibility !== 'hidden' &&
-            style.opacity !== '0'
-          );
-        }, selector);
+            return (
+              style &&
+              style.display !== 'none' &&
+              style.visibility !== 'hidden' &&
+              style.opacity !== '0'
+            );
+          }, selector)
+          .then((res) => {
+            visibleLog('Browser -> visible -> testFunc -> resolved');
+            visibleLog(res);
+
+            return res;
+          })
+          .catch((e) => {
+            visibleLog('Browser -> visible -> testFunc -> catch');
+            visibleLog(e);
+
+            throw e;
+          });
       },
       {
         negative: `Element at "${selector}" is visible, expected it to be not visible`,
         positive: `Element at "${selector}" is not visible`,
         waitNegative: `Element at "${selector}" did not become not visible`,
         waitPositive: `Element at "${selector}" did not become visible`,
-      }
+      },
+      waitTimeout
     );
   }
 
@@ -261,6 +305,11 @@ class Browser {
       this.page = await this.browser.newPage();
 
       this.page.on('dialog', this.dialogOpen);
+      this.page.on('console', this.captureConsole);
+
+      // Reset the mouse, as puppeteer seems to have it in the middle of the
+      // page causing hovering effects
+      await this.resetMouse();
     }
   }
 
@@ -323,7 +372,27 @@ class Browser {
           resolve();
         })
         .catch(reject);
-    });
+    })
+      .catch(e => e)
+      .then((e) => {
+        if (!this.page) throw new Error('No page object to reset the mouse');
+
+        // Reset the mpuse after all click events, or the mouse will stay where
+        // last clicked
+        return this.resetMouse().then(() => e);
+      })
+      .then((e) => {
+        if (e) throw e;
+      });
+  }
+
+  private async resetMouse() {
+    this.ensurePage();
+
+    if (!this.page) throw new Error('No page object to reset the mouse');
+
+    await this.page.mouse.move(100, 0);
+    await this.page.mouse.up();
   }
 
   private dialogOpen(dialog: puppeteer.Dialog) {
@@ -534,6 +603,52 @@ class Browser {
     if (!this.page) throw new Error('No page to hover on');
 
     return this.page.hover(selector);
+  }
+
+  public async scrollToBottom(selector: string) {
+    await this.ensurePage();
+
+    if (!this.page) throw new Error('No page to scroll');
+
+    const error = await this.page.evaluate((selectorParam) => {
+      const element = document.querySelector(selectorParam);
+
+      if (!element) return 'No element found to scroll';
+
+      element.scrollTop = element.scrollHeight;
+
+      return null;
+    }, selector);
+
+    if (error) throw new Error(error);
+  }
+
+  private captureConsole(msg: puppeteer.ConsoleMessage) {
+    this.logs.console.push({
+      args: msg.args().map((arg) => {
+        try {
+          return arg.jsonValue();
+        } catch (e) {
+          try {
+            return JSON.stringify(arg);
+          } catch (error) {
+            return String(arg);
+          }
+        }
+      }),
+      text: msg.text(),
+      type: msg.type(),
+    });
+  }
+
+  public async getLogs() {
+    if (this.page) {
+      // @ts-ignore
+      const logs = await this.page.evaluate(() => window.logs);
+      this.logs.logger = logs;
+    }
+
+    return this.logs;
   }
 }
 
