@@ -6,5 +6,11 @@
   "success": {
     "email": "example@email.com",
     "password": "password"
+  },
+  "user2": {
+    "success": {
+      "email": "example@email.com",
+      "password": "password"
+    }
   }
 }

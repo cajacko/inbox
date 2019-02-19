@@ -101,6 +101,9 @@ const general = {
   NoReminders: {
     web: '.NoReminders',
   },
+  Relogin: {
+    web: '.Relogin',
+  },
   ReminderList: {
     Error: {
       web: '.ReminderList__Error',

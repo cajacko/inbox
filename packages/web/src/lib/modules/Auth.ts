@@ -22,8 +22,9 @@ class Auth {
    * Get the current user
    */
   public static getUser(): Promise<IUser | null> {
-    return AuthImplementation.getUser()
-      .then((user) => {
+    return testHook('getUser', Promise.resolve())
+      .then(() => AuthImplementation.getUser())
+      .then((user: IUser) => {
         analytics.setUserIfNotSet({ userId: user.id });
 
         return user;
@@ -124,11 +125,7 @@ class Auth {
    * Refresh the id token in the background
    */
   public static refreshIdToken() {
-    return Auth.getUser().then((user) => {
-      if (user) return Auth.setUser(user);
-
-      throw new Error('Could not get user object');
-    });
+    return AuthImplementation.refreshIdToken();
   }
 }
 

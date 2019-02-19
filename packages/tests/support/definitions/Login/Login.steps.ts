@@ -58,3 +58,30 @@ Given('we have logged in successfully', function () {
     .then(logWrap('PRESS LOGIN BUTTON', () => login.pressLoginButton()))
     .then(logWrap('HOME VISIBLE', () => home.visible(ensureCondition('will be'))));
 });
+
+When('we have relogged in successfully', function () {
+  // @ts-ignore
+  const { nonHeadless } = this;
+
+  const logWrap = (message: string, callback: () => Promise<any>) => () => {
+    log(`INIT -> ${message}`);
+
+    return Promise.resolve(callback())
+      .then((res) => {
+        log(`SUCCESS -> ${message}`);
+        return res;
+      })
+      .catch((e) => {
+        log(`ERROR -> ${message}`);
+        throw e;
+      });
+  };
+
+  return driver
+    .addHook('login', 'success', nonHeadless)
+    .then(logWrap('PRESS LOGIN BUTTON', () => login.pressLoginButton()))
+    .then(logWrap('HOME VISIBLE', () => home.visible(ensureCondition('will be'))));
+});
+
+Then('the relogin scene {string} visible', conditional =>
+  login.reloginVisible(conditional));

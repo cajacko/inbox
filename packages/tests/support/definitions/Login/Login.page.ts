@@ -12,6 +12,7 @@ class Login {
   private versionTextSelector: ISelector = selectors.general.Login.Version.Text;
   private cancelButtonSelector: ISelector = selectors.general.Login.Cancel;
   private loadingSelector: ISelector = selectors.general.Login.Loading;
+  private reloginSelector: ISelector = selectors.general.Relogin;
 
   public titleVisible(condition: ICondition) {
     return driver.visible(condition, getSelector(this.titleSelector));
@@ -53,6 +54,10 @@ class Login {
 
   public loadingVisible(condition: ICondition) {
     return driver.visible(condition, getSelector(this.loadingSelector));
+  }
+
+  public reloginVisible(condition: ICondition) {
+    return driver.visible(condition, getSelector(this.reloginSelector));
   }
 }
 

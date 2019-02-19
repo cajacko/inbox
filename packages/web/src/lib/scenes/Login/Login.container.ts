@@ -7,6 +7,7 @@ import Login, { IContainerStateProps } from './Login.component';
  */
 const mapStateToProps = ({ login: { loginText } }: IState) => ({
   description: loginText || undefined,
+  isRelogin: !!loginText,
 });
 
 export default connect<IContainerStateProps>(mapStateToProps)(Login);

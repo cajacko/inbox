@@ -4,6 +4,8 @@ import App from 'src/lib/components/App';
 import 'src/modules/Sentry';
 import isTestEnv from 'src/utils/conditionals/isTestEnv';
 import 'src/utils/onBeforeUnload';
+import 'src/utils/setTestHooks';
+import waitForTestEnv from 'src/utils/waitForTestEnv';
 
 declare global {
   // tslint:disable-next-line
@@ -24,7 +26,20 @@ try {
    * Render the app
    */
   const render = () => {
-    ReactDOM.render(<App />, document.getElementById('react') as HTMLElement);
+    /**
+     * The actual render
+     */
+    const actual = () => {
+      ReactDOM.render(<App />, document.getElementById('react') as HTMLElement);
+    };
+
+    if (isTestEnv()) {
+      waitForTestEnv().then(() => {
+        actual();
+      });
+    } else {
+      actual();
+    }
   };
 
   /**

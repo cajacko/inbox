@@ -7,6 +7,7 @@ import {
 import api from 'src/lib/utils/api';
 import store from 'src/lib/utils/store';
 import testHook from 'src/utils/testHook';
+import testHookExists from 'src/utils/testHookExists';
 
 let cron: any;
 let currentSyncStatus: 'REQUESTED' | 'FINISHED' = 'FINISHED';
@@ -149,6 +150,8 @@ export const startSyncCron = (interval: number = 10000) => {
     if (cron) clearInterval(cron);
 
     cron = setInterval(() => {
+      if (testHookExists('syncCron', 'none')) return;
+
       if (!isLoggedIn()) {
         if (cron) clearInterval(cron);
         return;

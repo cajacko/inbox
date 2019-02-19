@@ -41,7 +41,7 @@ class Sentry {
 
     this.breadcrumbs = [];
 
-    this.enabled = isDev() || isTestEnv();
+    this.enabled = !isDev() && !isTestEnv();
   }
 
   /**

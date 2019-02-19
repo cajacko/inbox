@@ -14,6 +14,7 @@ interface IProps {
   errorText?: TextType;
   loggingIn: boolean;
   description?: string;
+  isRelogin: boolean;
 }
 
 /**
@@ -25,8 +26,9 @@ const Login = ({
   loggingIn,
   description,
   cancel,
+  isRelogin,
 }: IProps) => (
-  <CentredContainer testID="Login">
+  <CentredContainer testID={isRelogin ? 'Relogin' : 'Login'}>
     {({ backgroundColor }) => (
       <React.Fragment>
         <Spacing>

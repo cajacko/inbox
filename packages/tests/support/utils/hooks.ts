@@ -2,6 +2,7 @@ import { After, AfterAll, Before, setDefaultTimeout } from 'cucumber';
 import { LOG_ERRORS_AS_HAPPEN, LOG_IN_ERROR } from '../config/log';
 import api from '../definitions/Api/Api.page';
 import app from '../definitions/App/App.page';
+import sync from '../definitions/Sync/Sync.page';
 import driver from './driver';
 import log, { getLogs, resetLogs } from './log';
 import saveLogs from './saveLogs';
@@ -72,6 +73,7 @@ Before(function (testCase) {
   log('BEFORE')();
   this.testCase = testCase;
   this.nonHeadless = !!testCase.pickle.tags.find(({ name }) => name === '@non-headless');
+  sync.reset();
 
   return api.clearTestData();
 });

@@ -5,6 +5,7 @@ import Login from './Login.render';
 
 export interface IContainerStateProps {
   description?: string;
+  isRelogin: boolean;
 }
 
 interface IState {
@@ -19,7 +20,7 @@ class LoginComponent extends React.Component<IContainerStateProps, IState> {
   /**
    * Initialise the class, set the initial state and bind the methods
    */
-  constructor(props: {}) {
+  constructor(props: IContainerStateProps) {
     super(props);
 
     this.state = {
@@ -67,6 +68,7 @@ class LoginComponent extends React.Component<IContainerStateProps, IState> {
   public render() {
     return (
       <Login
+        isRelogin={this.props.isRelogin}
         description={this.props.description}
         cancel={this.cancel}
         login={this.login}

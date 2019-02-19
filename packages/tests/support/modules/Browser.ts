@@ -12,6 +12,19 @@ const showBrowser = false;
 const shouldClose = !showBrowser;
 const headless = !showBrowser;
 
+type FinishedResponse = 'SUCCESS' | 'ERROR';
+type Response = 'INIT' | FinishedResponse;
+
+interface INetworkListenerAdditionalParams {
+  status: number | null;
+}
+
+type NetworkListener = (
+  url: string,
+  response: Response,
+  additionalParams: INetworkListenerAdditionalParams
+) => void;
+
 export interface ILogs {
   console: any[];
   logger: any[];
@@ -30,6 +43,8 @@ class Browser {
     console: [],
     logger: [],
   };
+  private networkListenerId: number = 0;
+  private networkListeners: { [key: string]: NetworkListener } = {};
 
   constructor() {
     this.dialogOpen = this.dialogOpen.bind(this);
@@ -49,6 +64,8 @@ class Browser {
   }
 
   public async reset() {
+    this.networkListeners = {};
+
     if (!this.page) return;
 
     if (shouldClose && !this.page.isClosed()) {
@@ -72,6 +89,7 @@ class Browser {
     await this.page.setViewport(browserSizes[getSize()]);
     await this.setJavaScriptEnabled();
     await this.setRequestInterception();
+    await this.setRequestListeners();
   }
 
   private async setJavaScriptEnabled() {
@@ -649,6 +667,93 @@ class Browser {
     }
 
     return this.logs;
+  }
+
+  public async reload() {
+    this.ensurePage();
+
+    if (!this.page) throw new Error('No page to reload');
+
+    await this.page.reload();
+    await this.setHooks();
+  }
+
+  public networkListener(func: (
+    url: string,
+    response: Response,
+    additionalParams: INetworkListenerAdditionalParams
+  ) => void) {
+    const id = `network-listener-id-${this.networkListenerId}`;
+    this.networkListenerId += 1;
+
+    this.networkListeners[id] = func;
+
+    return () => {
+      delete this.networkListeners[id];
+    };
+  }
+
+  private setRequestListeners() {
+    this.ensurePage();
+
+    if (!this.page) throw new Error('No page to listen to');
+
+    const setRequestStatus = (type: Response) => (request: puppeteer.Request) => {
+      Object.values(this.networkListeners).forEach((listener) => {
+        const response = request.response();
+        const status = response ? response.status() : null;
+
+        let responseType: Response;
+
+        if (type === 'INIT' || (status && status < 300)) {
+          responseType = type;
+        } else {
+          responseType = 'ERROR';
+        }
+
+        listener(request.url(), responseType, {
+          status,
+        });
+      });
+    };
+
+    this.page.on('request', setRequestStatus('INIT'));
+    this.page.on('requestfinished', setRequestStatus('SUCCESS'));
+    this.page.on('requestfailed', setRequestStatus('ERROR'));
+  }
+
+  public async getIdToken() {
+    this.ensurePage();
+
+    if (!this.page) throw new Error('No page to get the token from');
+
+    // @ts-ignore
+    return this.page.evaluate(() => {
+      // @ts-ignore
+      if (window.idToken) {
+        // @ts-ignore
+        return window.idToken();
+      }
+
+      return null;
+    });
+  }
+
+  public async setIdToken(token: string) {
+    this.ensurePage();
+
+    if (!this.page) throw new Error('No page to get the token from');
+
+    // @ts-ignore
+    return this.page.evaluate((idToken) => {
+      // @ts-ignore
+      if (window.dispatch) {
+        // @ts-ignore
+        return window.dispatch({ type: 'SET_ID_TOKEN', payload: { idToken } });
+      }
+
+      return null;
+    }, token);
   }
 }
 

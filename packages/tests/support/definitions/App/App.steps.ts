@@ -31,3 +31,5 @@ When('the device back button is pressed', () => driver.pressBackButton());
 When('the keyboard submit button is pressed', () => driver.pressSubmitKey());
 
 When('the close browser tab button is pressed', () => driver.closePage(false));
+
+When('we reload the app', () => driver.reload());
