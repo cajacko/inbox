@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { SwipeRow } from 'src/components';
 import Check from 'src/lib/assets/icons/Check';
 import EllipsisV from 'src/lib/assets/icons/EllipsisV';
 import Trash from 'src/lib/assets/icons/Trash';
@@ -14,6 +15,9 @@ import {
   Icon,
   ICON_SIZE,
   Inner,
+  SWIPE_BACKGROUND_COLOR,
+  SWIPE_ICON_SIZE,
+  SwipeContainer,
   Symbols,
 } from './Reminder.style';
 
@@ -71,71 +75,85 @@ const Reminder = ({
   onDelete,
   onSetDone,
 }: IProps) => (
-  <Container
-    key={id}
-    testID="Reminder"
-    hasBottomBorder={isFullWidth ? true : !isLast}
-    hasTopBorder={isFullWidth && isFirst}
-    {...buttonEvents}
+  <SwipeRow
+    leftOpenValue={150}
+    hidden={
+      <SwipeContainer>
+        <Check
+          backgroundColor={SWIPE_BACKGROUND_COLOR}
+          size={SWIPE_ICON_SIZE}
+        />
+      </SwipeContainer>
+    }
+    disableLeftSwipe
+    onRowOpen={onSetDone(!isDone)}
   >
-    <Button
-      analyticsAction="SHOW_EDIT_REMINDER"
-      analyticsCategory="REMINDER"
-      action={edit}
-      testID="Reminder__Button"
-      styles={{ flex: 1, flexDirection: 'row' }}
-      disableHover
+    <Container
+      key={id}
+      testID="Reminder"
+      hasBottomBorder={isFullWidth ? true : !isLast}
+      hasTopBorder={isFullWidth && isFirst}
+      {...buttonEvents}
     >
-      {() => (
-        <Inner>
-          <Text
-            testID="Reminder__Text"
-            text={{ _textFromConst: text }}
-            backgroundColor={BACKGROUND_COLOR}
-          />
-          <Symbols>
-            {isDone && (
-              <Icon>
-                <Check _dangerouslySetColor={CHECK_COLOR} size={ICON_SIZE} />
-              </Icon>
-            )}
-            <Status
-              status={saveStatus || 'saved'}
+      <Button
+        analyticsAction="SHOW_EDIT_REMINDER"
+        analyticsCategory="REMINDER"
+        action={edit}
+        testID="Reminder__Button"
+        styles={{ flex: 1, flexDirection: 'row' }}
+        disableHover
+      >
+        {() => (
+          <Inner>
+            <Text
+              testID="Reminder__Text"
+              text={{ _textFromConst: text }}
               backgroundColor={BACKGROUND_COLOR}
             />
-          </Symbols>
-        </Inner>
+            <Symbols>
+              {isDone && (
+                <Icon>
+                  <Check _dangerouslySetColor={CHECK_COLOR} size={ICON_SIZE} />
+                </Icon>
+              )}
+              <Status
+                status={saveStatus || 'saved'}
+                backgroundColor={BACKGROUND_COLOR}
+              />
+            </Symbols>
+          </Inner>
+        )}
+      </Button>
+      {isHovering && (
+        <EditMenu testID="Reminder__Hover">
+          <Button
+            type={getButtonType('ICON.GREYED_OUT')}
+            analyticsAction="DELETE_HOVER"
+            analyticsCategory="REMINDER"
+            action={onDelete}
+            testID="Reminder__HoverDelete"
+            icon={Trash}
+          />
+          <Button
+            type={getButtonType('ICON.GREYED_OUT')}
+            analyticsAction="DONE_HOVER"
+            analyticsCategory="REMINDER"
+            action={onSetDone(!isDone)}
+            testID="Reminder__HoverDone"
+            icon={Check}
+          />
+          <Button
+            type={getButtonType('ICON.GREYED_OUT')}
+            analyticsAction="SHOW_EDIT_REMINDER_HOVER"
+            analyticsCategory="REMINDER"
+            action={edit}
+            testID="Reminder__HoverEdit"
+            icon={EllipsisV}
+          />
+        </EditMenu>
       )}
-    </Button>
-    {isHovering && (
-      <EditMenu testID="Reminder__Hover">
-        <Button
-          type={getButtonType('ICON.GREYED_OUT')}
-          analyticsAction="DELETE_HOVER"
-          analyticsCategory="REMINDER"
-          action={onDelete}
-          testID="Reminder__HoverDelete"
-          icon={Trash}
-        />
-        <Button
-          type={getButtonType('ICON.GREYED_OUT')}
-          analyticsAction="DONE_HOVER"
-          analyticsCategory="REMINDER"
-          action={onSetDone(!isDone)}
-          testID="Reminder__HoverDone"
-          icon={Check}
-        />
-        <Button
-          type={getButtonType('ICON.GREYED_OUT')}
-          analyticsAction="SHOW_EDIT_REMINDER_HOVER"
-          analyticsCategory="REMINDER"
-          action={edit}
-          testID="Reminder__HoverEdit"
-          icon={EllipsisV}
-        />
-      </EditMenu>
-    )}
-  </Container>
+    </Container>
+  </SwipeRow>
 );
 
 export default Reminder;

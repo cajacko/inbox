@@ -5163,6 +5163,11 @@ react-native-svg@^9.0.2:
   dependencies:
     color "^2.0.1"
 
+react-native-swipe-list-view@^1.5.2:
+  version "1.5.2"
+  resolved "https://registry.yarnpkg.com/react-native-swipe-list-view/-/react-native-swipe-list-view-1.5.2.tgz#7cf21a9b5e9bf2daed19f67f1590c17431f27c7c"
+  integrity sha512-nq+Tp7Xwi9tjY2N5HKKTuPm0peQeQ0c3gIRoEzggOMoxz6Uu8MuB+ndc5zmG9mrGkyNk1v3bmFMJE0Meomm3pg==
+
 react-native@0.57.8:
   version "0.57.8"
   resolved "https://registry.yarnpkg.com/react-native/-/react-native-0.57.8.tgz#1a840fbe144cd3902cc14313a783ce28efc48cb9"
