@@ -1,3 +1,7 @@
+import login, {
+  IJSState as LoginJSState,
+  IState as LoginState,
+} from './login/reducer';
 import reminders, {
   IJSState as ReminderJSState,
   IState as ReminderState,
@@ -12,12 +16,14 @@ import user, {
 } from './user/reducer';
 
 export interface IState {
+  login: LoginState;
   reminders: ReminderState;
   user: UserState;
   sync: SyncState;
 }
 
 export interface IJSState {
+  login: LoginJSState;
   reminders: ReminderJSState;
   user: UserJSState;
   sync: SyncJSState;
@@ -26,6 +32,7 @@ export interface IJSState {
 export type ReducerKey = keyof IState;
 
 export default {
+  login,
   reminders,
   sync,
   user,

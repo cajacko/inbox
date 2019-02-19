@@ -1,11 +1,15 @@
 import * as firebase from 'firebase/app';
 import 'firebase/auth';
 import AppError from 'src/lib/modules/AppError';
+import { setIdToken } from 'src/lib/store/user/actions';
 import { IUser } from 'src/lib/types/general';
+import store from 'src/lib/utils/store';
 import testHook from 'src/utils/testHook';
 
+const key = 'AIzaSyCeijQDNI7C-3cH3JmniHfF7ImLHf8FRV8';
+
 firebase.initializeApp({
-  apiKey: 'AIzaSyCeijQDNI7C-3cH3JmniHfF7ImLHf8FRV8',
+  apiKey: key,
   authDomain: 'inbox-981dc.firebaseapp.com',
 });
 
@@ -41,6 +45,7 @@ class Auth {
         id: user.uid,
         idToken,
         photoURL: user.photoURL,
+        refreshToken: user.refreshToken,
       }));
     });
   }
@@ -62,6 +67,35 @@ class Auth {
    */
   public static logout() {
     return firebase.auth().signOut();
+  }
+
+  /**
+   * Get a new id token using the refresh token
+   */
+  public static refreshIdToken() {
+    return testHook('refreshIdToken', Promise.resolve()).then(() => {
+      const { refreshToken } = store.getState().user;
+
+      if (!refreshToken) {
+        return Promise.reject(new AppError('No refresh token to use', '100-017'));
+      }
+
+      return fetch(`https://securetoken.googleapis.com/v1/token?key=${key}`, {
+        body: `grant_type=refresh_token&refresh_token=${refreshToken}`,
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        method: 'POST',
+      })
+        .then(res => res.json())
+        .then((data) => {
+          if (!data || !data.id_token) {
+            throw new AppError('No id token given when refreshing', '100-018');
+          }
+
+          store.dispatch(setIdToken(data.id_token));
+        });
+    });
   }
 }
 

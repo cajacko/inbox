@@ -78,5 +78,15 @@
     "label": "GraphQL Query timed out",
     "message": "Errors.General.Message",
     "title": "Errors.General.Title"
+  },
+  "100-017": {
+    "label": "No refresh token",
+    "message": "Errors.General.Message",
+    "title": "Errors.General.Title"
+  },
+  "100-018": {
+    "label": "No id token given during refresh",
+    "message": "Errors.General.Message",
+    "title": "Errors.General.Title"
   }
 }

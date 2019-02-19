@@ -5,7 +5,7 @@ import * as express from 'express';
 import { ApolloServer, gql, Config } from 'apollo-server-express';
 import auth from '../../utils/auth';
 import db from '../../utils/db';
-import { getTestUserId } from '../../testUser';
+import { getRevokedIdTokens, getTestUserId } from '../../testUser';
 import * as config from './serverConfig';
 
 const cookieParser = require('cookie-parser')();
@@ -32,6 +32,11 @@ const validateFirebaseIdToken = (
   res: functions.Response,
   next: () => void
 ) => {
+  /**
+   * Send the unauthorized request
+   */
+  const sendUnauthorized = () => res.status(403).send('Unauthorized');
+
   if (
     (!req.headers.authorization ||
       !req.headers.authorization.startsWith('Bearer ')) &&
@@ -41,11 +46,11 @@ const validateFirebaseIdToken = (
     // header. Make sure you authorize your request by providing the following
     // HTTP header: Authorization: Bearer <Firebase ID Token> or by passing a
     // "__session" cookie.
-    res.status(403).send('Unauthorized');
+    sendUnauthorized();
     return;
   }
 
-  let idToken;
+  let idToken: string;
 
   if (
     req.headers.authorization &&
@@ -58,20 +63,31 @@ const validateFirebaseIdToken = (
     idToken = req.cookies.__session;
   } else {
     // No cookie
-    res.status(403).send('Unauthorized');
+    sendUnauthorized();
     return;
   }
 
-  auth
-    .verifyIdToken(idToken)
-    .then((decodedIdToken) => {
+  Promise.all([getTestUserId().catch(e => null), auth.verifyIdToken(idToken)])
+    .then(([testUserId, decodedIdToken]) => {
       // ID Token correctly decoded
       req.user = decodedIdToken;
-      next();
+
+      if (!testUserId || testUserId !== decodedIdToken.uid) {
+        next();
+        return Promise.resolve();
+      }
+
+      return getRevokedIdTokens().then((tokens) => {
+        if (tokens.includes(idToken)) {
+          sendUnauthorized();
+        } else {
+          next();
+        }
+      });
     })
     .catch((error) => {
       // Error while verifying Firebase ID token
-      res.status(403).send('Unauthorized');
+      sendUnauthorized();
     });
 };
 

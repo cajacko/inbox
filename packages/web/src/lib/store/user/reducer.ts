@@ -1,10 +1,12 @@
 import createReducer from 'src/lib/utils/createReducer';
-import { LOGOUT, SET_IS_LOGGED_IN } from './actions';
+import { LOGIN, LOGOUT, SET_ID_TOKEN } from './actions';
 
 export interface IState {
   isLoggedIn: boolean;
   id: string | null;
+  idToken: string | null;
   displayName: string | null;
+  refreshToken?: string | null;
   photoURL: string | null;
 }
 
@@ -13,12 +15,15 @@ export type IJSState = IState;
 const initialState: IState = {
   displayName: null,
   id: null,
+  idToken: null,
   isLoggedIn: false,
   photoURL: null,
+  refreshToken: null,
 };
 
 export default createReducer(initialState, {
+  [SET_ID_TOKEN]: (state, { idToken }) => ({ ...state, idToken }),
   [LOGOUT]: () => initialState,
-  [SET_IS_LOGGED_IN]: (state: IState, { isLoggedIn, user }): IState =>
-    Object.assign({}, state, { isLoggedIn, ...(user || {}) }),
+  [LOGIN]: (state: IState, { user }): IState =>
+    Object.assign({}, state, { isLoggedIn: true, ...(user || {}) }),
 });

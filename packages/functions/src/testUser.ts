@@ -5,6 +5,27 @@ import db from './utils/db';
 import { testEmail } from '../env.local.json';
 
 /**
+ * Get the revoked id tokens doc
+ */
+const getRevokedIdTokensDoc = () =>
+  db.collection('revokedIdTokens').doc('tokens');
+
+/**
+ * Set the revoked tokens
+ */
+const setRevokedIdTokens = (data: string[]) =>
+  getRevokedIdTokensDoc().set({ tokens: data });
+
+/**
+ * Get the revoked tokens
+ */
+export const getRevokedIdTokens = () =>
+  getRevokedIdTokensDoc()
+    .get()
+    .then(snapshot => snapshot.data() || { tokens: [] })
+    .then(({ tokens }) => tokens);
+
+/**
  * Get the test user ref
  */
 export const getTestUserId = () =>
@@ -61,6 +82,7 @@ export const clearTestUser = (
   return getTestUserId()
     .then(userId =>
       Promise.all([
+        setRevokedIdTokens([]),
         db
           .collection('users')
           .doc(userId)
@@ -87,3 +109,21 @@ export const clearTestUser = (
       res.json(data);
     });
 };
+
+/**
+ * Revoke a test user id
+ */
+export const revokeIdToken = (
+  req: functions.Request,
+  res: functions.Response
+) =>
+  getRevokedIdTokens()
+    .then(tokens => tokens.concat(JSON.parse(req.body).idToken))
+    .then(setRevokedIdTokens)
+    .catch(e => ({
+      hasError: true,
+      error: e.message,
+    }))
+    .then((data) => {
+      res.json(data);
+    });

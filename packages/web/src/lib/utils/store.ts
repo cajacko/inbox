@@ -4,16 +4,23 @@ import reducers from 'src/lib/store/reducers';
 import analytics from 'src/lib/utils/analytics';
 import appLoading from 'src/lib/utils/appLoading';
 import analyticsMiddleWare from 'src/lib/utils/middleware/analytics';
+import {
+  middleware as logoutMiddleware,
+  rootReducer,
+} from 'src/lib/utils/middleware/logout';
 import syncMiddleware from 'src/lib/utils/middleware/sync';
 import sync, { startSyncCron } from 'src/lib/utils/sync';
 import Storage from 'src/modules/Storage';
+import isTestEnv from 'src/utils/conditionals/isTestEnv';
 import testHook from 'src/utils/testHook';
+import waitForTestEnv from 'src/utils/waitForTestEnv';
 
 const initialState = testHook('initialState', undefined);
 
 const store = new Store(reducers, initialState, {
-  middleware: [analyticsMiddleWare, syncMiddleware],
+  middleware: [analyticsMiddleWare, syncMiddleware, logoutMiddleware],
   // purgeOnLoad: true,
+  rootReducer,
   shouldLogState: true,
 });
 
@@ -25,9 +32,22 @@ appLoading.register(waitForID);
 // @ts-ignore
 store.persistStore(Storage, blacklist).then(() => {
   if (store.getState().user.isLoggedIn) {
-    sync('init');
+    /**
+     * Start the sync
+     */
+    const start = () => {
+      sync('init');
 
-    startSyncCron();
+      startSyncCron();
+    };
+
+    if (isTestEnv()) {
+      waitForTestEnv().then(() => {
+        start();
+      });
+    } else {
+      start();
+    }
   }
 
   appLoading.resolve(waitForID);

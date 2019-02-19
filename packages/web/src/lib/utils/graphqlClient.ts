@@ -2,6 +2,7 @@
 
 import { GraphQLClient } from 'graphql-request';
 import AppError from 'src/lib/modules/AppError';
+import Auth from 'src/lib/modules/Auth';
 import store from 'src/lib/utils/store';
 
 type InMethod = (
@@ -33,7 +34,20 @@ function graphqlClient<T>(
   Object.keys(methods).forEach((methodKey) => {
     const method = methods[methodKey];
 
-    client[methodKey] = (...args: any) => {
+    client[methodKey] = (...passedParams: any[]) => {
+      const args = passedParams.slice();
+      let isTryAgain = false;
+
+      if (typeof args[0] === 'object' && args[0].tryAgain === true) {
+        isTryAgain = true;
+        args.splice(0, 1);
+      }
+
+      /**
+       * Func that will rerun this same query
+       */
+      const tryAgain = () => client[methodKey]({ tryAgain: true }, ...args);
+
       const { mutation, query, vars } = method(...args);
 
       const queryReq = query || mutation;
@@ -80,7 +94,27 @@ function graphqlClient<T>(
 
             resolve(data);
           })
-          .catch(reject)
+          .catch((e) => {
+            // Unauthorised, try and silent login and try again. Otherwise force
+            // a new login
+            if (e.response.status === 403) {
+              if (isTryAgain) {
+                // Force manual login
+                reject(new Error('Aborting request, as had to manually login'));
+
+                Auth.relogin();
+              } else {
+                // Try a background login
+                Auth.refreshIdToken()
+                  .catch((refreshError: AppError) => refreshError)
+                  .then(tryAgain)
+                  .then(resolve)
+                  .catch(reject);
+              }
+            } else {
+              reject(e);
+            }
+          })
           .then(() => {
             if (timeoutInstance) clearTimeout(timeoutInstance);
           });

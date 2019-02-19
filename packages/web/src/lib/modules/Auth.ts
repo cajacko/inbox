@@ -1,12 +1,13 @@
 import Alert from 'src/lib/modules/Alert';
 import AppError from 'src/lib/modules/AppError';
 import {
+  login as loginAction,
   logout as logoutAction,
-  setIsLoggedIn,
 } from 'src/lib/store/user/actions';
 import { IUser } from 'src/lib/types/general';
 import analytics from 'src/lib/utils/analytics';
 import history from 'src/lib/utils/history';
+import marketingCopy from 'src/lib/utils/marketingCopy';
 import store from 'src/lib/utils/store';
 import AuthImplementation from 'src/modules/Auth';
 import testHook from 'src/utils/testHook';
@@ -21,13 +22,27 @@ class Auth {
    * Get the current user
    */
   public static getUser(): Promise<IUser | null> {
-    return AuthImplementation.getUser()
-      .then((user) => {
+    return testHook('getUser', Promise.resolve())
+      .then(() => AuthImplementation.getUser())
+      .then((user: IUser) => {
         analytics.setUserIfNotSet({ userId: user.id });
 
         return user;
       })
       .catch(() => null);
+  }
+
+  /**
+   * Set the user in the store, analytics and redirect
+   */
+  public static setUser(user: IUser, shouldRedirect: boolean = true, redirectPath: string = '/') {
+    analytics.setUserIfNotSet({ userId: user.id });
+
+    store.dispatch(loginAction(user));
+
+    if (shouldRedirect) history.push(redirectPath);
+
+    return Promise.resolve(user);
   }
 
   /**
@@ -63,29 +78,23 @@ class Auth {
             });
         }
 
-        analytics.setUserIfNotSet({ userId: user.id });
-
-        store.dispatch(setIsLoggedIn(true, user));
-
-        history.push(redirectPath || '/');
-
-        return Promise.resolve(user);
+        return Auth.setUser(user, true, redirectPath);
       });
   }
 
   /**
    * Logout the user
    */
-  public static logout(withAlert: boolean = false) {
+  public static logout(withAlert: boolean = false, loginText?: string, maintainStoreUserID?: string | null) {
     /**
      * The actual logout func
      */
     const logout = () => {
-      store.dispatch(logoutAction());
+      store.dispatch(logoutAction(loginText, maintainStoreUserID));
 
       analytics.unsetUser();
 
-      return AuthImplementation.logout();
+      return AuthImplementation.logout().then(() => true);
     };
 
     if (!withAlert) return logout();
@@ -102,6 +111,21 @@ class Auth {
    */
   public static cancel() {
     loginId += 1;
+  }
+
+  /**
+   * Force the user to login again, maintaining the store if they login again
+   * successfully
+   */
+  public static relogin() {
+    return Auth.logout(false, marketingCopy.get('Login.Relogin'), store.getState().user.id);
+  }
+
+  /**
+   * Refresh the id token in the background
+   */
+  public static refreshIdToken() {
+    return AuthImplementation.refreshIdToken();
   }
 }
 

@@ -5,6 +5,7 @@ import { join } from 'path';
 import { inspect } from 'util';
 import buildReminderObj from '../../utils/buildReminderObj';
 import conditional from '../../utils/conditional';
+import driver from '../../utils/driver';
 import { ICondition } from '../../utils/ensureCondition';
 import fetchApi from '../../utils/fetchApi';
 
@@ -96,6 +97,10 @@ class Api {
       query,
       vars
     );
+  }
+
+  public async revokeToken() {
+    await driver.setIdToken('VOID');
   }
 }
 

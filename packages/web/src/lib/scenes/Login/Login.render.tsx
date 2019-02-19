@@ -13,6 +13,8 @@ interface IProps {
   cancel: () => void;
   errorText?: TextType;
   loggingIn: boolean;
+  description?: string;
+  isRelogin: boolean;
 }
 
 /**
@@ -22,9 +24,11 @@ const Login = ({
   errorText,
   login,
   loggingIn,
+  description,
   cancel,
+  isRelogin,
 }: IProps) => (
-  <CentredContainer testID="Login">
+  <CentredContainer testID={isRelogin ? 'Relogin' : 'Login'}>
     {({ backgroundColor }) => (
       <React.Fragment>
         <Spacing>
@@ -39,7 +43,11 @@ const Login = ({
 
         <Spacing>
           <Text
-            text="Login.Description"
+            text={
+              description
+                ? { _textFromConst: description }
+                : 'Login.Description'
+            }
             backgroundColor={backgroundColor}
             center
           />

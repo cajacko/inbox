@@ -22,8 +22,21 @@ const browserHooks = (
     throw new Error(message);
   };
 
+  const reject = (message: string) => () => Promise.reject(new Error(message));
+
+  const getUser = () => {
+    const type = hooks && hooks.setUser;
+
+    if (!type) return constants.loginDetails;
+
+    return constants.loginDetails[type] || constants.loginDetails;
+  };
+
   // This is where all the browser hook logic lives
   const implementations = {
+    getUser: {
+      error: reject('No user'),
+    },
     initialState: {
       initialState: constants.initialState
         ? () => constants.initialState
@@ -33,26 +46,17 @@ const browserHooks = (
       delay: () => ({
         delay: () => delay(500),
         method: 'signInWithEmailAndPassword',
-        params: [
-          constants.loginDetails.success.email,
-          constants.loginDetails.success.password,
-        ],
+        params: [getUser().success.email, getUser().success.password],
       }),
       googleFailed: () => ({
         delay: () => Promise.resolve(),
         method: 'signInWithEmailAndPassword',
-        params: [
-          constants.loginDetails.error.email,
-          constants.loginDetails.error.password,
-        ],
+        params: [getUser().error.email, getUser().error.password],
       }),
       success: () => ({
         delay: () => Promise.resolve(),
         method: 'signInWithEmailAndPassword',
-        params: [
-          constants.loginDetails.success.email,
-          constants.loginDetails.success.password,
-        ],
+        params: [getUser().success.email, getUser().success.password],
       }),
     },
     mainRouter: {
@@ -64,6 +68,9 @@ const browserHooks = (
         dateModified: 1549898515336,
         id: 'new',
       }),
+    },
+    refreshIdToken: {
+      error: reject('No refreshIdToken'),
     },
     root: {
       crash: crash('Root crash'),
