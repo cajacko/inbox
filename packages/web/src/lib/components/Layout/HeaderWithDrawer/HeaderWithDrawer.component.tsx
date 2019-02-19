@@ -1,14 +1,21 @@
 import * as React from 'react';
 import AddReminder from 'src/lib/components/AddReminder';
 import { MENU_WIDTH } from 'src/lib/components/Menu/Menu.style';
+import { BackgroundColorVal } from 'src/lib/config/styles/textIconColors';
 import * as Modal from 'src/lib/context/Modal';
 import withConsumer from 'src/lib/HOCs/withConsumer';
 import Animated from 'src/packages/animated';
 import unit from 'src/utils/unit';
-import HeaderWithDrawer from './HeaderWithDrawer.render';
+import HeaderWithDrawer, { ActiveKey } from './HeaderWithDrawer.render';
 import { ANIMATION_DURATION } from './HeaderWithDrawer.style';
 
-interface IProps {
+export interface IPassedProps {
+  activeKey: ActiveKey;
+  backgroundColor: BackgroundColorVal;
+  title: string;
+}
+
+interface IProps extends IPassedProps {
   children: (props: {
     addButtonSpacing: number;
     maxContentWidth: number;

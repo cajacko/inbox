@@ -40,3 +40,11 @@ Feature: Done
     And the edit scene "done button" is pressed
     Then the edit reminder scene "is not" visible
     And the reminder list count "is" "0"
+
+
+  Scenario: Done list displays correctly
+  # Header color is correct
+
+  Scenario: Done is highlighted in side menu
+  Scenario: Can navigate to done scene via side menu
+  Scenario: A done reminder displays with the done icon

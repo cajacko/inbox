@@ -1,7 +1,9 @@
 import { View } from 'src/components';
 import {
+  GREEN_DARK,
   GREY_DARK,
   GREY_LIGHTER,
+  PRIMARY_DARK,
   SECONDARY_DARK,
 } from 'src/lib/config/styles/colors';
 import applyMargin from 'src/lib/utils/applyMargin';
@@ -12,6 +14,9 @@ import styled from 'styled-components';
 export const MENU_WIDTH = 300;
 export const HEADER_COLOR = SECONDARY_DARK;
 export const TEXT_COLOR = GREY_DARK;
+export const DONE_COLOR = GREEN_DARK;
+export const INBOX_COLOR = PRIMARY_DARK;
+
 const menuPadding = 14;
 
 export const Container = styled(View)`

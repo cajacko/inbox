@@ -4,7 +4,8 @@
     "Cancel": "Cancel",
     "ContactEmail": "contact@charliejackson.com",
     "Title": "Inbox",
-    "UnsavedChanges": "You have unsaved changes, are you sure you want to exit?"
+    "UnsavedChanges": "You have unsaved changes, are you sure you want to exit?",
+    "Done": "Done"
   },
   "Navigation": {
     "GoBack": "GO BACK",
@@ -26,7 +27,11 @@
   "Menu": {
     "Welcome": "Welcome",
     "HideMenu": "Hide Menu",
-    "Logout": "Logout"
+    "Logout": "Logout",
+    "NavItems": {
+      "Inbox": "Inbox",
+      "Done": "Done"
+    }
   },
   "AddReminder": {
     "Placeholder": "Reminder to add...",

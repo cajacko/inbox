@@ -31,5 +31,10 @@ Feature: Menu
     When the menu button is pressed
     Then the menu "will not be" visible
 
+  # TODO: Do this
   Scenario: Hide menu by using the device back button
-# TODO: Do this
+  # TODO:
+  Scenario: Keep desktop menu open when navigate between scenes
+  # TODO:
+  Scenario: Show close button on desktop when menu open
+

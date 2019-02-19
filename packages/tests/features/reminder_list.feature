@@ -79,6 +79,8 @@ Feature: Reminder List
   @platform-ios @platform-android
   Scenario: Pull down from top loading displays correctly
 
+  Scenario: Home reminder list only displays reminders with no status
+
 # Don't think we need any fetch more functionality yet, but here's some
 # scenarios just in case
 # Scenario: Initial load only pulls in 20 reminders
