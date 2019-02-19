@@ -48,3 +48,4 @@ Feature: Done
   Scenario: Done is highlighted in side menu
   Scenario: Can navigate to done scene via side menu
   Scenario: A done reminder displays with the done icon
+  Scenario: Unmarking a reminder as done puts it back in the inbox list

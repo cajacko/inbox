@@ -5,7 +5,12 @@ import {
   SYNC_SUCCESS,
 } from 'src/lib/store/sync/actions';
 import createReducer from 'src/lib/utils/createReducer';
-import { DELETE_REMINDER, MARK_REMINDER_AS_DONE, SET_REMINDER, SET_REMINDER_SAVE_STATUS } from './actions';
+import {
+  DELETE_REMINDER,
+  SET_REMINDER,
+  SET_REMINDER_SAVE_STATUS,
+  TOGGLE_REMINDER_DONE,
+} from './actions';
 
 export interface IReminder {
   id: string;
@@ -13,7 +18,7 @@ export interface IReminder {
   dateModified: number;
   dateCreated: number;
   saveStatus: 'saving' | 'saved' | 'error';
-  status: 'DONE' | 'DELETED' | 'INBOX'
+  status: 'DONE' | 'DELETED' | 'INBOX';
 }
 
 export interface IState {
@@ -27,7 +32,11 @@ const initialState: IState = {};
 /**
  * Update the status of an array of reminders
  */
-const updateStatus = (state: IState, reminders: IReminder[], saveStatus: IReminder['saveStatus']): IState => {
+const updateStatus = (
+  state: IState,
+  reminders: IReminder[],
+  saveStatus: IReminder['saveStatus']
+): IState => {
   let newState = state;
 
   reminders.forEach((reminder) => {
@@ -81,7 +90,10 @@ export default createReducer<IState>(initialState, {
 
       const existingReminder = newState[reminder.id];
 
-      if (existingReminder && existingReminder.dateModified > reminder.dateModified) {
+      if (
+        existingReminder &&
+        existingReminder.dateModified > reminder.dateModified
+      ) {
         return;
       }
 
@@ -90,15 +102,18 @@ export default createReducer<IState>(initialState, {
 
     return newState;
   },
-  [SET_REMINDER_SAVE_STATUS]: (state, { id, saveStatus }) => updateStatus(state, [state[id]], saveStatus),
-  [SYNC_REQUESTED]: (state, { changedReminders }) => updateStatus(state, changedReminders, 'saving'),
-  [SYNC_FAILED]: (state, { changedReminders }) => updateStatus(state, changedReminders, 'error'),
-  [MARK_REMINDER_AS_DONE]: (state, { id, dateModified }) => {
+  [SET_REMINDER_SAVE_STATUS]: (state, { id, saveStatus }) =>
+    updateStatus(state, [state[id]], saveStatus),
+  [SYNC_REQUESTED]: (state, { changedReminders }) =>
+    updateStatus(state, changedReminders, 'saving'),
+  [SYNC_FAILED]: (state, { changedReminders }) =>
+    updateStatus(state, changedReminders, 'error'),
+  [TOGGLE_REMINDER_DONE]: (state, { id, dateModified, isDone }) => {
     const reminder: IReminder = {
       ...state[id],
       dateModified,
       saveStatus: 'saving',
-      status: 'DONE',
+      status: isDone ? 'DONE' : 'INBOX',
     };
 
     return { ...state, [id]: reminder };

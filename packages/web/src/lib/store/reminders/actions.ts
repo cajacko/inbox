@@ -7,12 +7,12 @@ import { IReminder } from './reducer';
 export const SET_REMINDER = 'SET_REMINDER';
 export const SET_REMINDER_SAVE_STATUS = 'SET_REMINDER_SAVE_STATUS';
 export const DELETE_REMINDER = 'DELETE_REMINDER';
-export const MARK_REMINDER_AS_DONE = 'MARK_REMINDER_AS_DONE';
+export const TOGGLE_REMINDER_DONE = 'TOGGLE_REMINDER_DONE';
 
 export const SYNC_ACTIONS = [
   SET_REMINDER,
   DELETE_REMINDER,
-  MARK_REMINDER_AS_DONE,
+  TOGGLE_REMINDER_DONE,
 ];
 
 export const setReminderSaveStatus = makeActionCreator(
@@ -59,13 +59,13 @@ export const deleteReminder = makeActionCreator(DELETE_REMINDER, (id) => {
   return { id, dateModified };
 });
 
-export const markReminderAsDone = makeActionCreator(
-  MARK_REMINDER_AS_DONE,
-  (id) => {
+export const toggleReminderDone = makeActionCreator(
+  TOGGLE_REMINDER_DONE,
+  (id, isDone) => {
     const now = new Date().getTime();
 
     const dateModified = testHook('newReminder', now);
 
-    return { id, dateModified };
+    return { id, dateModified, isDone };
   }
 );

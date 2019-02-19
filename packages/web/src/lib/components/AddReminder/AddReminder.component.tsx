@@ -5,13 +5,14 @@ import AddReminder, { IPassedProps } from './AddReminder.render';
 const TEXT_LIMIT = 100;
 
 export interface IContainerStateProps {
+  isDone: boolean;
   text?: string;
 }
 
 export interface IContainerDispatchProps {
   save: (value: string, id?: string) => void;
   delete: (id: string) => void;
-  done: (id: string) => void;
+  setDone: (id: string, val: boolean) => void;
 }
 
 interface IProps
@@ -92,7 +93,7 @@ class AddReminderComponent extends React.Component<IProps, IState> {
 
     if (!this.props.id) return;
 
-    this.props.done(this.props.id);
+    this.props.setDone(this.props.id, !this.props.isDone);
   }
 
   /**

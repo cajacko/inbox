@@ -25,7 +25,7 @@ export interface IContainerStateProps {
 
 export interface IContainerDispatchProps {
   onDelete: () => void;
-  onDone: () => void;
+  onSetDone: (val: boolean) => () => void;
 }
 
 export interface IPassedProps {
@@ -69,7 +69,7 @@ const Reminder = ({
   buttonEvents,
   isHovering,
   onDelete,
-  onDone,
+  onSetDone,
 }: IProps) => (
   <Container
     key={id}
@@ -121,7 +121,7 @@ const Reminder = ({
           type={getButtonType('ICON.GREYED_OUT')}
           analyticsAction="DONE_HOVER"
           analyticsCategory="REMINDER"
-          action={onDone}
+          action={onSetDone(!isDone)}
           testID="Reminder__HoverDone"
           icon={Check}
         />
