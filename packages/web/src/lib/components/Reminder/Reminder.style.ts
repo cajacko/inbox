@@ -1,10 +1,14 @@
 import { View } from 'src/components';
-import { GREY_LIGHTER, WHITE } from 'src/lib/config/styles/colors';
+import { ICON_SIZE as STATUS_ICON_SIZE } from 'src/lib/components/ReminderStatus/ReminderStatus.style';
+import { GREEN, GREY_LIGHTER, WHITE } from 'src/lib/config/styles/colors';
 import border from 'src/lib/utils/applyBorder';
+import margin from 'src/lib/utils/applyMargin';
 import padding from 'src/lib/utils/applyPadding';
 import styled from 'styled-components';
 
 export const BACKGROUND_COLOR = WHITE;
+export const ICON_SIZE = STATUS_ICON_SIZE;
+export const CHECK_COLOR = GREEN;
 
 const reminderSpacing = 16;
 
@@ -47,4 +51,13 @@ export const EditMenu = styled(View)`
   ${border(GREY_LIGHTER, 1, {
     left: true,
   })}}
+`;
+
+export const Icon = styled(View)`
+  ${margin({ right: reminderSpacing })}
+`;
+
+export const Symbols = styled(View)`
+  flex-direction: row;
+  align-items: center;
 `;

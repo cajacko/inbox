@@ -15,8 +15,10 @@ import {
 /**
  * Grab the state from the store and pass in isLoggedIn as a prop
  */
-const mapStateToProps = (state: IState, { id }: IPassedProps) =>
-  state.reminders[id];
+const mapStateToProps = (state: IState, { id }: IPassedProps) => ({
+  ...state.reminders[id],
+  isDone: state.reminders[id].status === 'DONE',
+});
 
 /**
  * Wrap the dispatch methods and pass to props

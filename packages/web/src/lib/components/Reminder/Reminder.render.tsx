@@ -6,11 +6,21 @@ import Button from 'src/lib/components/Button';
 import Status from 'src/lib/components/ReminderStatus';
 import Text from 'src/lib/components/Text';
 import getButtonType from 'src/lib/utils/getButtonType';
-import { BACKGROUND_COLOR, Container, EditMenu, Inner } from './Reminder.style';
+import {
+  BACKGROUND_COLOR,
+  CHECK_COLOR,
+  Container,
+  EditMenu,
+  Icon,
+  ICON_SIZE,
+  Inner,
+  Symbols,
+} from './Reminder.style';
 
 export interface IContainerStateProps {
   text: string;
   saveStatus: 'saving' | 'saved' | 'error';
+  isDone: boolean;
 }
 
 export interface IContainerDispatchProps {
@@ -49,6 +59,7 @@ interface IProps
  */
 const Reminder = ({
   id,
+  isDone,
   isFullWidth,
   isFirst,
   isLast,
@@ -82,10 +93,17 @@ const Reminder = ({
             text={{ _textFromConst: text }}
             backgroundColor={BACKGROUND_COLOR}
           />
-          <Status
-            status={saveStatus || 'saved'}
-            backgroundColor={BACKGROUND_COLOR}
-          />
+          <Symbols>
+            {isDone && (
+              <Icon>
+                <Check _dangerouslySetColor={CHECK_COLOR} size={ICON_SIZE} />
+              </Icon>
+            )}
+            <Status
+              status={saveStatus || 'saved'}
+              backgroundColor={BACKGROUND_COLOR}
+            />
+          </Symbols>
         </Inner>
       )}
     </Button>

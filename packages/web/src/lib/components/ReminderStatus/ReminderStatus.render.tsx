@@ -5,7 +5,7 @@ import {
   COLORS,
   ColorVal,
 } from 'src/lib/config/styles/textIconColors';
-import { Status } from './ReminderStatus.style';
+import { ICON_SIZE, Status } from './ReminderStatus.style';
 
 export interface IProps {
   status: 'saving' | 'saved' | 'error';
@@ -40,7 +40,7 @@ const ReminderStatus = ({ status, backgroundColor }: IProps) => {
       {color ? (
         <Cloud
           backgroundColor={backgroundColor}
-          size={16}
+          size={ICON_SIZE}
           _dangerouslySetColor={color}
         />
       ) : null}
