@@ -20,6 +20,8 @@ class ReminderList {
   private reminderListScrollSelector: ISelector =
     selectors.general.ReminderList.Scroll;
   private noRemindersSelector: ISelector = selectors.general.NoReminders;
+  private reminderDoneButtonSelector: ISelector =
+    selectors.general.ReminderList.Reminder.DoneButton;
 
   public async count(conditional: ICondition, value: number) {
     return driver.count(
@@ -55,6 +57,9 @@ class ReminderList {
     let selector;
 
     switch (component) {
+      case 'done':
+        selector = getSelector(this.reminderDoneButtonSelector, { index });
+        break;
       case 'delete':
         selector = getSelector(this.reminderDeleteButtonSelector, { index });
         break;

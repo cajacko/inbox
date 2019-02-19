@@ -35,6 +35,8 @@ Feature: Sync data
   # Then the sync request count "will be" "2"
   # And the sync request types "is" "REHYDRATE, SET_REMINDER"
 
+  Scenario: Sync triggered when mark a reminder as done
+
   Scenario: Sync triggered when edit a post
   # Given we add a hook with id "syncCron" and type "none"
   # And we preload the api with "1" reminders

@@ -1,19 +1,19 @@
-import { IReminder as IApiReminder } from 'src/lib/graphql/sync/client';
+import { IApiReminder } from 'src/lib/graphql/types';
 import {
   SYNC_FAILED,
   SYNC_REQUESTED,
   SYNC_SUCCESS,
 } from 'src/lib/store/sync/actions';
 import createReducer from 'src/lib/utils/createReducer';
-import { DELETE_REMINDER, SET_REMINDER, SET_REMINDER_STATUS } from './actions';
+import { DELETE_REMINDER, MARK_REMINDER_AS_DONE, SET_REMINDER, SET_REMINDER_SAVE_STATUS } from './actions';
 
 export interface IReminder {
   id: string;
   text: string;
   dateModified: number;
   dateCreated: number;
-  status: 'saving' | 'saved' | 'error';
-  deleted: boolean;
+  saveStatus: 'saving' | 'saved' | 'error';
+  status: 'DONE' | 'DELETED' | 'INBOX'
 }
 
 export interface IState {
@@ -27,11 +27,11 @@ const initialState: IState = {};
 /**
  * Update the status of an array of reminders
  */
-const updateStatus = (state: IState, reminders: IReminder[], status: IReminder['status']): IState => {
+const updateStatus = (state: IState, reminders: IReminder[], saveStatus: IReminder['saveStatus']): IState => {
   let newState = state;
 
   reminders.forEach((reminder) => {
-    const newReminder = { ...reminder, status };
+    const newReminder = { ...reminder, saveStatus };
     newState = { ...newState, [newReminder.id]: newReminder };
   });
 
@@ -42,25 +42,28 @@ export default createReducer<IState>(initialState, {
   [SET_REMINDER]: (
     state: IState,
     {
-      id, text, dateModified, dateCreated, status,
+      id, text, dateModified, dateCreated, saveStatus, status,
     }
-  ): IState =>
-    Object.assign({}, state, {
-      [id]: {
-        dateCreated,
-        dateModified,
-        deleted: false,
-        id,
-        status,
-        text,
-      },
-    }),
+  ): IState => {
+    const reminder: IReminder = {
+      dateCreated,
+      dateModified,
+      id,
+      saveStatus,
+      status,
+      text,
+    };
+
+    return Object.assign({}, state, {
+      [id]: reminder,
+    });
+  },
   [DELETE_REMINDER]: (state, { id, dateModified }): IState => {
-    const reminder = {
+    const reminder: IReminder = {
       ...state[id],
       dateModified,
-      deleted: true,
-      status: 'saving',
+      saveStatus: 'saving',
+      status: 'DELETED',
     };
 
     return { ...state, [id]: reminder };
@@ -82,12 +85,22 @@ export default createReducer<IState>(initialState, {
         return;
       }
 
-      newState[reminder.id] = { ...reminder, status: 'saved' };
+      newState[reminder.id] = { ...reminder, saveStatus: 'saved' };
     });
 
     return newState;
   },
-  [SET_REMINDER_STATUS]: (state, { id, status }) => updateStatus(state, [state[id]], status),
+  [SET_REMINDER_SAVE_STATUS]: (state, { id, saveStatus }) => updateStatus(state, [state[id]], saveStatus),
   [SYNC_REQUESTED]: (state, { changedReminders }) => updateStatus(state, changedReminders, 'saving'),
   [SYNC_FAILED]: (state, { changedReminders }) => updateStatus(state, changedReminders, 'error'),
+  [MARK_REMINDER_AS_DONE]: (state, { id, dateModified }) => {
+    const reminder: IReminder = {
+      ...state[id],
+      dateModified,
+      saveStatus: 'saving',
+      status: 'DONE',
+    };
+
+    return { ...state, [id]: reminder };
+  },
 });

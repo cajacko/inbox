@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { TextInputRef } from 'src/components/TextInput';
+import Check from 'src/lib/assets/icons/Check';
 import Times from 'src/lib/assets/icons/Times';
 import Trash from 'src/lib/assets/icons/Trash';
 import Button from 'src/lib/components/Button';
@@ -29,6 +30,7 @@ export interface IProps extends IPassedProps {
   value: string;
   saveDisabled: boolean;
   onSave: () => void;
+  onDone: () => void;
   isNew: boolean;
   onDelete: () => void;
 }
@@ -73,14 +75,24 @@ const AddReminder = (props: IProps) => {
 
           <Right>
             {!props.isNew && (
-              <Button
-                action={props.onDelete}
-                testID="AddReminder__Delete"
-                icon={Trash}
-                analyticsAction="DELETE"
-                analyticsCategory={analyticsCategory}
-                type={getButtonType('ICON.GREYED_OUT')}
-              />
+              <React.Fragment>
+                <Button
+                  action={props.onDelete}
+                  testID="AddReminder__Delete"
+                  icon={Trash}
+                  analyticsAction="DELETE"
+                  analyticsCategory={analyticsCategory}
+                  type={getButtonType('ICON.GREYED_OUT')}
+                />
+                <Button
+                  action={props.onDone}
+                  testID="AddReminder__Done"
+                  icon={Check}
+                  analyticsAction="DONE"
+                  analyticsCategory={analyticsCategory}
+                  type={getButtonType('ICON.GREYED_OUT')}
+                />
+              </React.Fragment>
             )}
 
             <Button

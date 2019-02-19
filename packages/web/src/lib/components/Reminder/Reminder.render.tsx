@@ -1,4 +1,5 @@
 import * as React from 'react';
+import Check from 'src/lib/assets/icons/Check';
 import EllipsisV from 'src/lib/assets/icons/EllipsisV';
 import Trash from 'src/lib/assets/icons/Trash';
 import Button from 'src/lib/components/Button';
@@ -9,11 +10,12 @@ import { BACKGROUND_COLOR, Container, EditMenu, Inner } from './Reminder.style';
 
 export interface IContainerStateProps {
   text: string;
-  status: 'saving' | 'saved' | 'error';
+  saveStatus: 'saving' | 'saved' | 'error';
 }
 
 export interface IContainerDispatchProps {
   onDelete: () => void;
+  onDone: () => void;
 }
 
 export interface IPassedProps {
@@ -51,11 +53,12 @@ const Reminder = ({
   isFirst,
   isLast,
   text,
-  status,
+  saveStatus,
   edit,
   buttonEvents,
   isHovering,
   onDelete,
+  onDone,
 }: IProps) => (
   <Container
     key={id}
@@ -80,7 +83,7 @@ const Reminder = ({
             backgroundColor={BACKGROUND_COLOR}
           />
           <Status
-            status={status || 'saved'}
+            status={saveStatus || 'saved'}
             backgroundColor={BACKGROUND_COLOR}
           />
         </Inner>
@@ -95,6 +98,14 @@ const Reminder = ({
           action={onDelete}
           testID="Reminder__HoverDelete"
           icon={Trash}
+        />
+        <Button
+          type={getButtonType('ICON.GREYED_OUT')}
+          analyticsAction="DONE_HOVER"
+          analyticsCategory="REMINDER"
+          action={onDone}
+          testID="Reminder__HoverDone"
+          icon={Check}
         />
         <Button
           type={getButtonType('ICON.GREYED_OUT')}

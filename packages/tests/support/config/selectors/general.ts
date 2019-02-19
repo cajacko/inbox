@@ -9,6 +9,9 @@ const general = {
     Delete: {
       web: '.AddReminder__Delete',
     },
+    Done: {
+      web: '.AddReminder__Done',
+    },
     Input: {
       web: '.AddReminder__Input',
     },
@@ -119,6 +122,10 @@ const general = {
       DeleteButton: {
         web: ({ index }: { index: number }) =>
           `.Reminder:nth-child(${index + 1}) .Reminder__HoverDelete`,
+      },
+      DoneButton: {
+        web: ({ index }: { index: number }) =>
+          `.Reminder:nth-child(${index + 1}) .Reminder__HoverDone`,
       },
       EditButton: {
         web: ({ index }: { index: number }) =>

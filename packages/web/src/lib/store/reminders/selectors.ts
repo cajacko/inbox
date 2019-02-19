@@ -3,14 +3,26 @@ import { createSelector } from 'reselect';
 import { IState } from 'src/lib/store/reducers';
 import { IReminder } from 'src/lib/store/reminders/reducer';
 
+export type SelectorStatus = IReminder['status'] | null;
+
 const selectAllReminders = createSelector<
   IState,
+  IState,
+  SelectorStatus,
+  SelectorStatus,
   IState['reminders'],
+  SelectorStatus,
   string[]
   >(
-    ({ reminders }) => reminders,
-    reminders =>
-      Object.keys(reminders).filter(id => !reminders[id].deleted)
+    ({ reminders }: IState): IState['reminders'] => reminders,
+    (state: IState, status: SelectorStatus): SelectorStatus => status,
+    (reminders: IState['reminders'], status: SelectorStatus) => {
+      const keys = Object.keys(reminders);
+
+      if (!status) return keys;
+
+      return keys.filter(id => reminders[id].status === status);
+    }
   );
 
 const getReminderObjectList = createSelector<
@@ -41,9 +53,12 @@ const selectReminderListAsObjects = createSelector<
 /**
  * Select the reminders from the store and order them
  */
-export const selectOrderedRemindersObjects = (state: IState) => {
+export const selectOrderedRemindersObjects = (
+  state: IState,
+  list: SelectorStatus
+) => {
   const reminders = getReminderObjectList({
-    list: selectAllReminders(state),
+    list: selectAllReminders(state, list),
     state,
   });
 
@@ -53,5 +68,7 @@ export const selectOrderedRemindersObjects = (state: IState) => {
 /**
  * Select the reminders from the store and order them, only returning the keys
  */
-export const selectOrderedRemindersKeys = (state: IState) =>
-  selectReminderListAsObjects(selectOrderedRemindersObjects(state));
+export const selectOrderedRemindersKeys = (
+  state: IState,
+  list: SelectorStatus
+) => selectReminderListAsObjects(selectOrderedRemindersObjects(state, list));

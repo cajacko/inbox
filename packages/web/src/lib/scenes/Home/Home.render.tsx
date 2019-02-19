@@ -17,6 +17,7 @@ const Home = () => (
     {({ addButtonSpacing, maxContentWidth, isFullWidth }: IRenderProps) => (
       <Container testID="Home">
         <ReminderList
+          list="INBOX"
           isFullWidth={isFullWidth}
           bottomMargin={addButtonSpacing}
           maxContentWidth={maxContentWidth}

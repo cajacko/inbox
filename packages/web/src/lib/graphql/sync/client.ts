@@ -1,10 +1,4 @@
-export interface IReminder {
-  dateCreated: number;
-  dateModified: number;
-  id: string;
-  text: string;
-  deleted: boolean;
-}
+import { IApiReminder } from 'src/lib/graphql/types';
 
 /**
  * Set a reminder
@@ -14,7 +8,7 @@ export const sync = ({
   dateSyncRequested,
 }: {
   dateSyncRequested: number;
-  reminders: IReminder[];
+  reminders: IApiReminder[];
   }) => ({
   mutation: `
     mutation Sync($reminders: [ReminderInput]!, $dateSyncRequested: Date!) {
@@ -25,7 +19,7 @@ export const sync = ({
           dateModified
           id
           text
-          deleted
+          status
         }
       }
     }

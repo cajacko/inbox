@@ -1,12 +1,5 @@
 import * as admin from 'firebase-admin';
-
-export interface IReminder {
-  dateCreated: number;
-  dateModified: number;
-  id: string;
-  text: string;
-  deleted: boolean;
-}
+import { IApiReminder } from '../types';
 
 /**
  * Validate the given date
@@ -23,7 +16,7 @@ export const validateDate = (time: number, error: string) => {
  * Set an individual reminder
  */
 export const setReminder = (
-  reminder: IReminder,
+  reminder: IApiReminder,
   db: admin.firestore.DocumentReference
 ) => {
   try {
@@ -64,14 +57,16 @@ export const getReminders = (db: admin.firestore.DocumentReference) =>
         return [];
       }
 
-      const data: any = [];
+      const data: IApiReminder[] = [];
 
       snapshot.forEach((doc) => {
-        const docData = doc.data();
+        // @ts-ignore
+        const docData: IApiReminder = doc.data();
 
         if (!docData) return;
 
-        data.push({ deleted: false, ...docData });
+        // Sets default state in case it's not set for some reason
+        data.push({ status: 'INBOX', ...docData });
       });
 
       return data;
