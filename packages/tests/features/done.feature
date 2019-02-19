@@ -27,6 +27,7 @@ Feature: Done
   # Scenario: Mark a reminder as done successfully via the swipe menu
   #   When the "1st" reminder is swiped "right"
   #   Then the reminder list count "is" "0"
+  # Scenario: Cannot swipe done on done scene
 
   # TODO: Check is in done list
   Scenario: Mark a reminder as done successfully via the hover button

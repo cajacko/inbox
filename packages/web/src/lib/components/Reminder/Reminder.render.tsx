@@ -7,19 +7,7 @@ import Button from 'src/lib/components/Button';
 import Status from 'src/lib/components/ReminderStatus';
 import Text from 'src/lib/components/Text';
 import getButtonType from 'src/lib/utils/getButtonType';
-import {
-  BACKGROUND_COLOR,
-  CHECK_COLOR,
-  Container,
-  EditMenu,
-  Icon,
-  ICON_SIZE,
-  Inner,
-  SWIPE_BACKGROUND_COLOR,
-  SWIPE_ICON_SIZE,
-  SwipeContainer,
-  Symbols,
-} from './Reminder.style';
+import * as Style from './Reminder.style';
 
 export interface IContainerStateProps {
   text: string;
@@ -61,76 +49,67 @@ interface IProps
 /**
  * Display a list of reminders
  */
-const Reminder = ({
-  id,
-  isDone,
-  isFullWidth,
-  isFirst,
-  isLast,
-  text,
-  saveStatus,
-  edit,
-  buttonEvents,
-  isHovering,
-  onDelete,
-  onSetDone,
-}: IProps) => (
+const Reminder = (props: IProps) => (
   <SwipeRow
     leftOpenValue={150}
     hidden={
-      <SwipeContainer>
+      <Style.SwipeContainer>
         <Check
-          backgroundColor={SWIPE_BACKGROUND_COLOR}
-          size={SWIPE_ICON_SIZE}
+          backgroundColor={Style.SWIPE_BACKGROUND_COLOR}
+          size={Style.SWIPE_ICON_SIZE}
         />
-      </SwipeContainer>
+      </Style.SwipeContainer>
     }
     disableLeftSwipe
-    onRowOpen={onSetDone(!isDone)}
+    disableRightSwipe={props.isDone}
+    onRowOpen={props.onSetDone(!props.isDone)}
   >
-    <Container
-      key={id}
+    <Style.Container
+      key={props.id}
       testID="Reminder"
-      hasBottomBorder={isFullWidth ? true : !isLast}
-      hasTopBorder={isFullWidth && isFirst}
-      {...buttonEvents}
+      hasBottomBorder={props.isFullWidth ? true : !props.isLast}
+      hasTopBorder={props.isFullWidth && props.isFirst}
+      {...props.buttonEvents}
     >
       <Button
         analyticsAction="SHOW_EDIT_REMINDER"
         analyticsCategory="REMINDER"
-        action={edit}
+        action={props.edit}
         testID="Reminder__Button"
         styles={{ flex: 1, flexDirection: 'row' }}
         disableHover
       >
         {() => (
-          <Inner>
+          <Style.Inner>
             <Text
               testID="Reminder__Text"
-              text={{ _textFromConst: text }}
-              backgroundColor={BACKGROUND_COLOR}
+              text={{ _textFromConst: props.text }}
+              backgroundColor={Style.BACKGROUND_COLOR}
             />
-            <Symbols>
-              {isDone && (
-                <Icon>
-                  <Check _dangerouslySetColor={CHECK_COLOR} size={ICON_SIZE} />
-                </Icon>
+            <Style.Symbols>
+              {props.isDone && (
+                <Style.Icon>
+                  <Check
+                    _dangerouslySetColor={Style.CHECK_COLOR}
+                    size={Style.ICON_SIZE}
+                  />
+                </Style.Icon>
               )}
               <Status
-                status={saveStatus || 'saved'}
-                backgroundColor={BACKGROUND_COLOR}
+                status={props.saveStatus || 'saved'}
+                backgroundColor={Style.BACKGROUND_COLOR}
               />
-            </Symbols>
-          </Inner>
+            </Style.Symbols>
+          </Style.Inner>
         )}
       </Button>
-      {isHovering && (
-        <EditMenu testID="Reminder__Hover">
+      {props.isHovering && (
+        <Style.EditMenu testID="Reminder__Hover">
           <Button
             type={getButtonType('ICON.GREYED_OUT')}
             analyticsAction="DELETE_HOVER"
             analyticsCategory="REMINDER"
-            action={onDelete}
+            action={props.onDelete}
             testID="Reminder__HoverDelete"
             icon={Trash}
           />
@@ -138,7 +117,7 @@ const Reminder = ({
             type={getButtonType('ICON.GREYED_OUT')}
             analyticsAction="DONE_HOVER"
             analyticsCategory="REMINDER"
-            action={onSetDone(!isDone)}
+            action={props.onSetDone(!props.isDone)}
             testID="Reminder__HoverDone"
             icon={Check}
           />
@@ -146,13 +125,13 @@ const Reminder = ({
             type={getButtonType('ICON.GREYED_OUT')}
             analyticsAction="SHOW_EDIT_REMINDER_HOVER"
             analyticsCategory="REMINDER"
-            action={edit}
+            action={props.edit}
             testID="Reminder__HoverEdit"
             icon={EllipsisV}
           />
-        </EditMenu>
+        </Style.EditMenu>
       )}
-    </Container>
+    </Style.Container>
   </SwipeRow>
 );
 
