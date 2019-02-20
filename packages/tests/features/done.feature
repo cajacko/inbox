@@ -50,3 +50,7 @@ Feature: Done
   Scenario: Can navigate to done scene via side menu
   Scenario: A done reminder displays with the done icon
   Scenario: Unmarking a reminder as done puts it back in the inbox list
+  Scenario: Done reminder displays correctly in edit scene
+  # Check is green
+  Scenario: Unmark a reminder as done via the edit menu
+  Scenario: Unmark a reminder as done via the hover menu

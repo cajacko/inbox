@@ -1,5 +1,6 @@
 import { View } from 'src/components';
 import { IType } from 'src/lib/config/styles/buttons';
+import { ColorVal } from 'src/lib/config/styles/textIconColors';
 import applyPadding from 'src/lib/utils/applyPadding';
 import unit from 'src/utils/unit';
 import styled from 'styled-components';
@@ -8,6 +9,7 @@ interface IGenericProps {
   type?: IType;
   isHovering: boolean;
   disabled?: boolean;
+  _dangerouslySetIconColor?: ColorVal;
 }
 
 interface IOuterProps {
@@ -62,7 +64,8 @@ export const iconStyles = (props: IGenericProps) => {
   const { iconColor, backgroundColor, iconSize } = getTypeThemeStyles(props);
 
   const styles = {
-    _dangerouslySetColor: iconColor,
+    // eslint-disable-next-line
+    _dangerouslySetColor: props._dangerouslySetIconColor || iconColor,
     backgroundColor,
     size: iconSize,
   };

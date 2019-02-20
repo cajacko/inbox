@@ -8,6 +8,7 @@ import TextInput from 'src/lib/components/Forms/TextInput';
 import getButtonType from 'src/lib/utils/getButtonType';
 import {
   BACKGROUND_COLOR,
+  CHECK_COLOR,
   Container,
   Content,
   Input,
@@ -30,9 +31,10 @@ export interface IProps extends IPassedProps {
   value: string;
   saveDisabled: boolean;
   onSave: () => void;
-  onDone: () => void;
+  onDone: (val: boolean) => () => void;
   isNew: boolean;
   onDelete: () => void;
+  isDone: boolean;
 }
 
 /**
@@ -85,8 +87,11 @@ const AddReminder = (props: IProps) => {
                   type={getButtonType('ICON.GREYED_OUT')}
                 />
                 <Button
-                  action={props.onDone}
+                  action={props.onDone(!props.isDone)}
                   testID="AddReminder__Done"
+                  _dangerouslySetIconColor={
+                    props.isDone ? CHECK_COLOR : undefined
+                  }
                   icon={Check}
                   analyticsAction="DONE"
                   analyticsCategory={analyticsCategory}

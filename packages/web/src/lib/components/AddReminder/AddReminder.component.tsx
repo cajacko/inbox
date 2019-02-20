@@ -88,12 +88,14 @@ class AddReminderComponent extends React.Component<IProps, IState> {
   /**
    * When the done button is pressed, close the modal and mark as done
    */
-  private onDone() {
-    this.props.close();
+  private onDone(isDone: boolean) {
+    return () => {
+      this.props.close();
 
-    if (!this.props.id) return;
+      if (!this.props.id) return;
 
-    this.props.setDone(this.props.id, !this.props.isDone);
+      this.props.setDone(this.props.id, isDone);
+    };
   }
 
   /**
@@ -118,6 +120,7 @@ class AddReminderComponent extends React.Component<IProps, IState> {
   public render() {
     return (
       <AddReminder
+        isDone={!!this.props.isDone}
         onDone={this.onDone}
         setInputRef={this.setInputRef}
         onChange={this.onChange}
