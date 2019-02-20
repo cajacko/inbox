@@ -12,7 +12,6 @@
   },
   "main": "build/dist/src/index.js",
   "dependencies": {
-    "@types/graphql": "^14.0.5",
     "apollo-server-express": "2.0.4",
     "cookie-parser": "^1.4.3",
     "cors": "^2.8.5",
@@ -21,9 +20,11 @@
     "firebase-functions": "^2.1.0",
     "firebase-tools": "^6.3.1",
     "graphql": "0.13.2",
-    "lodash": "^4.17.11"
+    "lodash": "^4.17.11",
+    "tslib": "^1.9.3"
   },
   "devDependencies": {
+    "@types/graphql": "^14.0.5",
     "concurrently": "^4.1.0",
     "tslint": "~5.8.0",
     "typescript": "3.2.2"
