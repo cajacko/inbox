@@ -8,5 +8,5 @@ const client = {
 export default graphqlClient(
   client,
   // 'http://localhost:5000/inbox-981dc/us-central1/graphql/graphql'
-  'https://inbox.charliejackson.com/api/graphql'
+  'https://us-central1-inbox-981dc.cloudfunctions.net/graphql/graphql'
 );
