@@ -6,6 +6,7 @@ import AppLoading from 'src/lib/components/AppLoading';
 import ErrorBoundary from 'src/lib/components/ErrorBoundary';
 import Router from 'src/lib/components/Router';
 import { entry } from 'src/lib/config/routes';
+import { WHITE } from 'src/lib/config/styles/colors';
 import * as Modal from 'src/lib/context/Modal';
 import errors from 'src/lib/utils/errors';
 import history from 'src/lib/utils/history';
@@ -24,7 +25,7 @@ const App = () => {
     <Container>
       <ErrorBoundary defaultError={errors.getError('100-004')}>
         <Provider store={store.get()}>
-          <SafeAreaView>
+          <SafeAreaView backgroundColor={WHITE} barStyle="dark-content">
             <ErrorBoundary defaultError={errors.getError('100-014')}>
               <AppLoading>
                 <ErrorBoundary defaultError={errors.getError('100-007')}>
