@@ -42,3 +42,9 @@ When('we scroll to the bottom of the reminder list', () =>
 
 Then('the no reminders component {string} visible', condition =>
   reminderList.noRemindersVisible(condition));
+
+Then(
+  'the {string} reminder {string} icon {string} visible',
+  (index, icon, condition) =>
+    reminderList.iconVisible(condition, getIndex(index), icon)
+);

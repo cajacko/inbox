@@ -3,6 +3,7 @@ Feature: Offline
   I want to manage my reminders whilst Offline
   So that I can manage my reminders in any condition
 
+  # TODO: Implement tests
   # Handled by fetch_status.feature
   # Scenario: When offline the header indicates this
   # Scenario: When transition from online to offline the header display updates

@@ -88,7 +88,7 @@ const Reminder = (props: IProps) => (
             />
             <Style.Symbols>
               {props.isDone && (
-                <Style.Icon>
+                <Style.Icon testID="Reminder__DoneIcon">
                   <Check
                     _dangerouslySetColor={Style.CHECK_COLOR}
                     size={Style.ICON_SIZE}

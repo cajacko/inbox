@@ -3,6 +3,8 @@ Feature: Sync data
   I want my data to be saved and synced across devices
   So that I have the latest chanegs on all my devices
 
+  # TODO: Fillin scenarios
+
   # TRIGGERS
 
   Scenario: Sync triggers on poll, when logged in

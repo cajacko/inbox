@@ -20,6 +20,9 @@ const general = {
     },
     web: '.AddReminder',
   },
+  Done: {
+    web: '.Done',
+  },
   EditReminder: {
     web: '.AddReminder--Edit',
   },
@@ -99,6 +102,14 @@ const general = {
     LogoutButton: {
       web: '.Menu__LogoutButton',
     },
+    MenuItems: {
+      Done: {
+        web: '.Menu__DoneButton',
+      },
+      Inbox: {
+        web: '.Menu__InboxButton',
+      },
+    },
     web: '.Menu',
   },
   NoReminders: {
@@ -126,6 +137,10 @@ const general = {
       DoneButton: {
         web: ({ index }: { index: number }) =>
           `.Reminder:nth-child(${index + 1}) .Reminder__HoverDone`,
+      },
+      DoneIcon: {
+        web: ({ index }: { index: number }) =>
+          `.Reminder:nth-child(${index + 1}) .Reminder__DoneIcon`,
       },
       EditButton: {
         web: ({ index }: { index: number }) =>

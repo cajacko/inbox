@@ -5,6 +5,7 @@ const log = {
   BEFORE: false,
   CONDITIONAL: false,
   LOGIN: false,
+  NAVIGATE: false,
   SAVE_LOGS: true,
   VISIBLE: false,
   WAIT_FOR: false,

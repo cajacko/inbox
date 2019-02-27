@@ -137,26 +137,54 @@ class Browser {
   }
 
   public async navigate(route: string) {
+    const navigateLog = log('NAVIGATE');
+
+    navigateLog('init');
+
     await this.ensurePage();
 
-    if (!this.page) throw new Error('No page object to navigate within');
+    navigateLog('has page, navigate');
+
+    const goToPromise = new Promise((resolve, reject) => {
+      if (!this.page) throw new Error('No page object to navigate within');
+
+      this.page.goto(`http://localhost:3000${route}?test-env=true`, {
+        waitUntil: 'domcontentloaded',
+      }).then(() => resolve());
+
+      navigateLog('navigating, start timeout');
+
+      setTimeout(() => {
+        navigateLog('navigating timed out, is the alert showing?');
+        reject(new Error('Timeout whilst navigating, there may be an alert preventing navigation'));
+      }, 1000);
+    });
+
+    navigateLog('navigating, wait for load');
 
     const pageLoadPromise = new Promise((resolve) => {
       if (!this.page) throw new Error('No page object to check for load');
 
       this.page.once('load', () => {
+        navigateLog('loaded, wait a little bit');
         // Give the js a bit of time to do something after load
         setTimeout(resolve, 100);
       });
     });
 
-    await this.page.goto(`http://localhost:3000${route}?test-env=true`, {
-      waitUntil: 'domcontentloaded',
-    });
+    navigateLog('wait for navigate');
+
+    await goToPromise;
+
+    navigateLog('successfully navigated, setting hooks');
 
     await this.setHooks();
 
+    navigateLog('set hooks, now wait for load');
+
     await pageLoadPromise;
+
+    navigateLog('Loaded, all done');
   }
 
   public async setHooks() {
