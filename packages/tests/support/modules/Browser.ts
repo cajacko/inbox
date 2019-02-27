@@ -857,6 +857,14 @@ class Browser {
     this.resolveWaitForNetworkIdle = null;
     this.pageId += 1;
   }
+
+  public async getRoute() {
+    await this.ensurePage();
+
+    if (!this.page) throw new Error('No page to get route for');
+
+    return this.page.url();
+  }
 }
 
 export default Browser;

@@ -38,3 +38,6 @@ When('we navigate to the {string} scene', (scene) => {
 
 Then('the {string} route {string} visible', (route, condition) =>
   routes.routeVisible(condition, route));
+
+Then('the route {string} {string}', (condition, route) =>
+  routes.route(condition, route));
