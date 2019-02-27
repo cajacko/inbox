@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { TextInputRef } from 'src/components/TextInput';
+import Check from 'src/lib/assets/icons/Check';
 import Times from 'src/lib/assets/icons/Times';
 import Trash from 'src/lib/assets/icons/Trash';
 import Button from 'src/lib/components/Button';
@@ -7,6 +8,7 @@ import TextInput from 'src/lib/components/Forms/TextInput';
 import getButtonType from 'src/lib/utils/getButtonType';
 import {
   BACKGROUND_COLOR,
+  CHECK_COLOR,
   Container,
   Content,
   Input,
@@ -29,8 +31,10 @@ export interface IProps extends IPassedProps {
   value: string;
   saveDisabled: boolean;
   onSave: () => void;
+  onDone: (val: boolean) => () => void;
   isNew: boolean;
   onDelete: () => void;
+  isDone: boolean;
 }
 
 /**
@@ -73,14 +77,27 @@ const AddReminder = (props: IProps) => {
 
           <Right>
             {!props.isNew && (
-              <Button
-                action={props.onDelete}
-                testID="AddReminder__Delete"
-                icon={Trash}
-                analyticsAction="DELETE"
-                analyticsCategory={analyticsCategory}
-                type={getButtonType('ICON.GREYED_OUT')}
-              />
+              <React.Fragment>
+                <Button
+                  action={props.onDelete}
+                  testID="AddReminder__Delete"
+                  icon={Trash}
+                  analyticsAction="DELETE"
+                  analyticsCategory={analyticsCategory}
+                  type={getButtonType('ICON.GREYED_OUT')}
+                />
+                <Button
+                  action={props.onDone(!props.isDone)}
+                  testID="AddReminder__Done"
+                  _dangerouslySetIconColor={
+                    props.isDone ? CHECK_COLOR : undefined
+                  }
+                  icon={Check}
+                  analyticsAction="DONE"
+                  analyticsCategory={analyticsCategory}
+                  type={getButtonType('ICON.GREYED_OUT')}
+                />
+              </React.Fragment>
             )}
 
             <Button

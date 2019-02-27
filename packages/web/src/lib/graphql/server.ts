@@ -6,13 +6,14 @@ import { ApolloServer, gql, Config } from 'apollo-server-express';
 import auth from '../../utils/auth';
 import db from '../../utils/db';
 import { getRevokedIdTokens, getTestUserId } from '../../testUser';
+import { IDb } from '../../types/general';
 import * as config from './serverConfig';
 
 const cookieParser = require('cookie-parser')();
 const cors = require('cors')({ origin: true });
 
 interface IContext {
-  authenticatedUserRef: admin.firestore.DocumentReference;
+  authenticatedUserDb: IDb;
 }
 
 interface IRequest extends functions.Request {
@@ -104,6 +105,9 @@ const graphqlServer = (isTestUser: boolean) => (
   let queryResolvers = {};
   let mutationResolvers = {};
 
+  // Got errors when accessing from localhost so added this in
+  res.set('Access-Control-Allow-Origin', '*');
+
   if (config.typeDefs) {
     Object.values(config.typeDefs).forEach(({ types, query, mutation }) => {
       if (types) {
@@ -138,7 +142,7 @@ const graphqlServer = (isTestUser: boolean) => (
           const resolver = Query[query];
 
           queryResolvers[query] = (parent: any, args: any, context: IContext) =>
-            resolver(args, context.authenticatedUserRef);
+            resolver(args, context.authenticatedUserDb);
         });
       }
 
@@ -152,7 +156,7 @@ const graphqlServer = (isTestUser: boolean) => (
             parent: any,
             args: any,
             context: IContext
-          ) => resolver(args, context.authenticatedUserRef);
+          ) => resolver(args, context.authenticatedUserDb);
         });
       }
     });
@@ -196,7 +200,7 @@ const graphqlServer = (isTestUser: boolean) => (
         const testUserId = await getTestUserId();
 
         return {
-          authenticatedUserRef: await db.collection('users').doc(testUserId),
+          authenticatedUserDb: db(testUserId),
         };
       }
 
@@ -205,7 +209,7 @@ const graphqlServer = (isTestUser: boolean) => (
       if (!user) throw new Error('No user id token on req object');
 
       return {
-        authenticatedUserRef: await db.collection('users').doc(user.uid),
+        authenticatedUserDb: db(user.uid),
       };
     },
   });

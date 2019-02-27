@@ -4,15 +4,14 @@
   "private": true,
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
-  "files": [
-    "lib"
-  ],
+  "files": ["lib"],
   "scripts": {
     "start": "concurrently \"yarn start:metro\" \"yarn start:ios\"",
     "start:ios": "react-native run-ios --simulator \"iPhone 8\"",
     "start:android": "react-native run-android",
     "start:metro": "node node_modules/react-native/local-cli/cli.js start",
-    "test": "jest"
+    "test": "jest",
+    "build:android": "cd android && ./gradlew assembleRelease"
   },
   "dependencies": {
     "graphql-request": "^1.8.2",
@@ -28,6 +27,7 @@
     "react-native-shadow": "^1.2.2",
     "react-native-splash-screen": "^3.1.1",
     "react-native-svg": "^9.0.2",
+    "react-native-swipe-list-view": "^1.5.2",
     "react-redux": "^6.0.0",
     "react-router": "^4.3.1",
     "redux": "^4.0.1",

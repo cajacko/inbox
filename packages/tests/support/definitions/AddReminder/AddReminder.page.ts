@@ -12,6 +12,7 @@ class AddReminder {
   private saveButtonSelector: ISelector = selectors.general.AddReminder.Save;
   private deleteButtonSelector: ISelector =
     selectors.general.AddReminder.Delete;
+  private doneButtonSelector: ISelector = selectors.general.AddReminder.Done;
 
   public async visible(condition: ICondition) {
     return driver.visible(condition, getSelector(this.addReminderSelector));
@@ -51,6 +52,8 @@ class AddReminder {
 
   private getComponentSelector(component: string) {
     switch (component) {
+      case 'done button':
+        return getSelector(this.doneButtonSelector);
       case 'delete button':
         return getSelector(this.deleteButtonSelector);
       default:

@@ -1,6 +1,6 @@
 /**
  * Get if the app is in dev mode or not
  */
-const isDev = () => true;
+const isDev = () => false;
 
 export default isDev;

@@ -1,8 +1,8 @@
 import logConfig, { LOG_AS_HAPPENS } from '../config/log';
 
 const logs = {
-  AFTER: '\n\n\n-----------AFTER-----------\n\n\n',
-  BEFORE: '\n\n\n-----------BEFORE-----------\n\n\n',
+  // AFTER: '\n\n\n-----------AFTER-----------\n\n\n',
+  // BEFORE: '\n\n\n-----------BEFORE-----------\n\n\n',
 };
 
 type Args = string[];

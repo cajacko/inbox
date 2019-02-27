@@ -15,6 +15,9 @@ const browserHooks = (
   hooks: { [key: string]: string },
   constants: { [key: string]: any }
 ) => {
+  window.hooks = {};
+  window.hookTypes = {};
+
   const delay = (milliSeconds: number) =>
     new Promise(resolve => setTimeout(resolve, milliSeconds));
 
@@ -88,9 +91,6 @@ const browserHooks = (
       minorDelay: () => () => delay(1000),
     },
   };
-
-  window.hooks = {};
-  window.hookTypes = {};
 
   if (!hooks) return;
 

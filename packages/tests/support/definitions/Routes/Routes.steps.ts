@@ -1,7 +1,10 @@
-import { Then } from 'cucumber';
-import { ICondition } from '../../utils/ensureCondition';
+import { Then, When } from 'cucumber';
+import driver from '../../utils/driver';
+import ensureCondition, { ICondition } from '../../utils/ensureCondition';
 import home from '../Home/Home.page';
 import login from '../Login/Login.page';
+import splashScreen from '../SplashScreen/SplashScreen.page';
+import routes from './Routes.page';
 
 Then(
   'the {string} home route {string} visible',
@@ -16,3 +19,22 @@ Then(
     }
   }
 );
+
+When('we navigate to the {string} scene', (scene) => {
+  const navigate = () => {
+    switch (scene) {
+      case 'done':
+        return driver.navigate('/done');
+      case 'home':
+        return driver.navigate('/');
+      default:
+        throw new Error(`Did not recognise scene to navigate to ${scene}`);
+    }
+  };
+
+  return navigate().then(() =>
+    splashScreen.visible(ensureCondition('will not be')));
+});
+
+Then('the {string} route {string} visible', (route, condition) =>
+  routes.routeVisible(condition, route));

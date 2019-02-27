@@ -4,6 +4,7 @@ import ensureCondition from '../../utils/ensureCondition';
 import logHOC from '../../utils/log';
 import app from '../App/App.page';
 import home from '../Home/Home.page';
+import splashScreen from '../SplashScreen/SplashScreen.page';
 import login from './Login.page';
 
 const log = logHOC('LOGIN');
@@ -51,12 +52,25 @@ Given('we have logged in successfully', function () {
       });
   };
 
-  return driver
-    .addHook('login', 'success', nonHeadless)
-    .then(logWrap('OPEN', () => app.open(nonHeadless)))
-    .then(logWrap('NAVIGATE TO /', () => app.navigate('/')))
-    .then(logWrap('PRESS LOGIN BUTTON', () => login.pressLoginButton()))
-    .then(logWrap('HOME VISIBLE', () => home.visible(ensureCondition('will be'))));
+  return (
+    driver
+      .addHook('login', 'success', nonHeadless)
+      .then(logWrap('OPEN', () => app.open(nonHeadless)))
+      .then(logWrap('NAVIGATE TO /', () => app.navigate('/')))
+      // Kept on getting a home did not become visible error, when checking the
+      // screenshot it just showed the login view without any loading or error
+      // message. Which makes it seem like the button hasn't actually been
+      // pressed. However the press button action passes. But it could be that the
+      // element exists on the page but is behind the splash screen. So now we
+      // ensure the splash screen is not there and the login view is properly
+      // visible.
+      .then(logWrap('SPLASH SCREEN WILL NOT BE VISIBLE', () =>
+        splashScreen.visible(ensureCondition('will not be'))))
+      .then(logWrap('LOGIN WILL BE VISIBLE', () =>
+        login.visible(ensureCondition('will be'))))
+      .then(logWrap('PRESS LOGIN BUTTON', () => login.pressLoginButton()))
+      .then(logWrap('HOME VISIBLE', () => home.visible(ensureCondition('will be'))))
+  );
 });
 
 When('we have relogged in successfully', function () {

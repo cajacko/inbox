@@ -10,6 +10,11 @@ export const entry: IRoute[] = [
     path: '/',
   },
   {
+    component: Home,
+    exact: true,
+    path: '/done',
+  },
+  {
     component: Login,
     exact: true,
     path: '/login',

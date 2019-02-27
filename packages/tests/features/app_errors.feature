@@ -39,7 +39,7 @@ Feature: App Errors
   Scenario: (Web) The JavaScript bundles takes very long to load
   # Is no timeout, just loads indefinitely because the users internet may be
   # shit. Keep this scenario though so we know what to expect
-  # TODO: Could show an error after a while, and still load afterwards
+  # Could show an error after a while, and still load afterwards
 
   Scenario: The main router crashes
     Given we add a hook with id "mainRouter" and type "crash"
@@ -48,6 +48,3 @@ Feature: App Errors
     Then the error component "is" visible
     And the error code "is" "100-013"
     And the screenshot matches
-
-  # TODO: Handle this when we have some routes
-  Scenario: The entry route crashes

@@ -2,6 +2,8 @@ import {
   BLACK,
   ERROR,
   ERROR_DARK,
+  GREEN,
+  GREEN_DARK,
   GREY,
   GREY_DARK,
   GREY_LIGHT,
@@ -17,6 +19,8 @@ export const COLORS = {
   BLACK,
   ERROR,
   ERROR_DARK,
+  GREEN,
+  GREEN_DARK,
   GREY,
   GREY_DARK,
   GREY_LIGHT,
@@ -31,6 +35,7 @@ export type ColorVal = typeof COLORS[ColorKey];
 
 export const BACKGROUND_COLORS = {
   ERROR,
+  GREEN_DARK,
   GREY_LIGHTER,
   PRIMARY,
   PRIMARY_DARK,
@@ -80,6 +85,12 @@ export const COLORS_FOR_BACKGROUND: ColorsForBackground = {
     highlight: COLORS.GREY_DARK,
   },
   [BACKGROUND_COLORS.ERROR]: {
+    default: COLORS.WHITE,
+    error: COLORS.WHITE,
+    greyedOut: COLORS.GREY,
+    highlight: COLORS.GREY_LIGHT,
+  },
+  [BACKGROUND_COLORS.GREEN_DARK]: {
     default: COLORS.WHITE,
     error: COLORS.WHITE,
     greyedOut: COLORS.GREY,

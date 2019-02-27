@@ -11,3 +11,5 @@ When('the logout button is pressed', () => menu.pressLogoutButton());
 
 When('the menu background button is pressed', () =>
   menu.pressBackgroundButton());
+
+Then('the menu {string} button is pressed', item => menu.pressMenuItem(item));

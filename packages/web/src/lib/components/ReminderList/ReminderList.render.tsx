@@ -2,6 +2,7 @@ import * as React from 'react';
 import { List } from 'src/components';
 import NoReminders from 'src/lib/components/NoReminders';
 import Reminder from 'src/lib/components/Reminder';
+import { SelectorStatus } from 'src/lib/store/reminders/selectors';
 import sync from 'src/lib/utils/sync';
 import {
   BACKGROUND_COLOR,
@@ -15,11 +16,14 @@ export interface IContainerStateProps {
   syncing: boolean;
 }
 
-interface IProps extends IContainerStateProps {
+export interface IPassedProps {
   bottomMargin?: number;
   maxContentWidth?: number;
   isFullWidth: boolean;
+  list: SelectorStatus;
 }
+
+interface IProps extends IContainerStateProps, IPassedProps {}
 
 /**
  * Render an individual item

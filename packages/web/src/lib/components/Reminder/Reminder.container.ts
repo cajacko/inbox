@@ -1,6 +1,9 @@
 import { connect } from 'react-redux';
 import { IState } from 'src/lib/store/reducers';
-import { deleteReminder } from 'src/lib/store/reminders/actions';
+import {
+  deleteReminder,
+  toggleReminderDone,
+} from 'src/lib/store/reminders/actions';
 import { Dispatch } from 'src/lib/types/libs';
 import Reminder from './Reminder.component';
 import {
@@ -12,14 +15,17 @@ import {
 /**
  * Grab the state from the store and pass in isLoggedIn as a prop
  */
-const mapStateToProps = (state: IState, { id }: IPassedProps) =>
-  state.reminders[id];
+const mapStateToProps = (state: IState, { id }: IPassedProps) => ({
+  ...state.reminders[id],
+  isDone: state.reminders[id].status === 'DONE',
+});
 
 /**
  * Wrap the dispatch methods and pass to props
  */
 const mapDispatchToProps = (dispatch: Dispatch, { id }: IPassedProps) => ({
   onDelete: () => dispatch(deleteReminder(id)),
+  onSetDone: (val: boolean) => () => dispatch(toggleReminderDone(id, val)),
 });
 
 export default connect<IContainerStateProps, IContainerDispatchProps>(

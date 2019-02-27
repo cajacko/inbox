@@ -88,5 +88,10 @@
     "label": "No id token given during refresh",
     "message": "Errors.General.Message",
     "title": "Errors.General.Title"
+  },
+  "100-019": {
+    "label": "Trying to get refresh id in mobile app",
+    "message": "Errors.DevError.Message",
+    "title": "Errors.DevError.Title"
   }
 }

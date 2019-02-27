@@ -8,13 +8,13 @@ const buildReminderObj = (count: number, isRedux: boolean) => {
     reminderObj[id] = {
       dateCreated: now,
       dateModified: now,
-      deleted: false,
       id,
+      status: 'INBOX',
       text: `Reminder - ${i}`,
     };
 
     if (isRedux) {
-      reminderObj[id].status = 'saving';
+      reminderObj[id].saveStatus = 'saving';
     }
   }
 

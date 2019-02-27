@@ -6,9 +6,17 @@ export const SECONDARY: '#f06292' = '#f06292';
 export const SECONDARY_LIGHT: '#ff94c2' = '#ff94c2';
 export const SECONDARY_DARK: '#ba2d65' = '#ba2d65';
 
+export const GREEN: '#66BB6A' = '#66BB6A';
+export const GREEN_LIGHT: '#81C784' = '#81C784';
+export const GREEN_DARK: '#43A047' = '#43A047';
+
 export const ERROR: typeof SECONDARY_DARK = SECONDARY_DARK;
 export const ERROR_LIGHT: typeof SECONDARY_LIGHT = SECONDARY_LIGHT;
 export const ERROR_DARK: typeof SECONDARY_DARK = SECONDARY_DARK;
+
+export const SUCCESS: typeof GREEN = GREEN;
+export const SUCCESS_LIGHT: typeof GREEN_LIGHT = GREEN_LIGHT;
+export const SUCCESS_DARK: typeof GREEN_DARK = GREEN_DARK;
 
 export const WHITE: '#ffffff' = '#ffffff';
 export const GREY_LIGHTER: '#eceff1' = '#eceff1';

@@ -97,7 +97,7 @@ function graphqlClient<T>(
           .catch((e) => {
             // Unauthorised, try and silent login and try again. Otherwise force
             // a new login
-            if (e.response.status === 403) {
+            if (e && e.response && e.response.status === 403) {
               if (isTryAgain) {
                 // Force manual login
                 reject(new Error('Aborting request, as had to manually login'));

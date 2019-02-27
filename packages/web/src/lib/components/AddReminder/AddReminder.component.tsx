@@ -5,12 +5,14 @@ import AddReminder, { IPassedProps } from './AddReminder.render';
 const TEXT_LIMIT = 100;
 
 export interface IContainerStateProps {
+  isDone: boolean;
   text?: string;
 }
 
 export interface IContainerDispatchProps {
   save: (value: string, id?: string) => void;
   delete: (id: string) => void;
+  setDone: (id: string, val: boolean) => void;
 }
 
 interface IProps
@@ -43,6 +45,7 @@ class AddReminderComponent extends React.Component<IProps, IState> {
     this.isDisabled = this.isDisabled.bind(this);
     this.onSave = this.onSave.bind(this);
     this.onDelete = this.onDelete.bind(this);
+    this.onDone = this.onDone.bind(this);
   }
 
   /**
@@ -83,6 +86,19 @@ class AddReminderComponent extends React.Component<IProps, IState> {
   }
 
   /**
+   * When the done button is pressed, close the modal and mark as done
+   */
+  private onDone(isDone: boolean) {
+    return () => {
+      this.props.close();
+
+      if (!this.props.id) return;
+
+      this.props.setDone(this.props.id, isDone);
+    };
+  }
+
+  /**
    * Set the input ref
    */
   private setInputRef(ref: TextInputRef | null) {
@@ -104,6 +120,8 @@ class AddReminderComponent extends React.Component<IProps, IState> {
   public render() {
     return (
       <AddReminder
+        isDone={!!this.props.isDone}
+        onDone={this.onDone}
         setInputRef={this.setInputRef}
         onChange={this.onChange}
         value={this.state.value}

@@ -5,11 +5,17 @@ import Button from 'src/lib/components/Button';
 import Header from 'src/lib/components/Header';
 import Measure from 'src/lib/components/Layout/Measure';
 import Menu from 'src/lib/components/Menu';
+import { ActiveKeys } from 'src/lib/components/Menu/Menu.render';
+import { BackgroundColorVal } from 'src/lib/config/styles/textIconColors';
 import Animated from 'src/packages/animated';
 import * as Style from './HeaderWithDrawer.style';
 
+export type ActiveKey = ActiveKeys | null;
+
 interface IProps {
+  activeKey: ActiveKey;
   add: () => void;
+  backgroundColor: BackgroundColorVal;
   children: (props: {
     addButtonSpacing: number;
     maxContentWidth: number;
@@ -23,6 +29,7 @@ interface IProps {
   close: () => void;
   open: () => void;
   showTestID: boolean;
+  title: string;
 }
 
 /**
@@ -47,6 +54,7 @@ const onChange = (next: { width: number }, last: { width: number }) =>
  */
 const HeaderWithDrawer = (props: IProps) => {
   const menuProps = {
+    activeKey: props.activeKey,
     backgroundColor: Style.BACKGROUND_COLOR,
     close: props.close,
     showTestID: props.showTestID,
@@ -58,7 +66,8 @@ const HeaderWithDrawer = (props: IProps) => {
         <Style.Container {...measureProps}>
           <Style.HeaderContainer>
             <Header
-              title="General.Title"
+              backgroundColor={props.backgroundColor}
+              title={props.title}
               leftButton={{
                 action: props.menuIsOpen ? props.close : props.open,
                 icon: Bars,

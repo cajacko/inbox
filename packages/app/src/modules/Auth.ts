@@ -65,6 +65,13 @@ class Auth {
   public static logout() {
     return firebase.auth().signOut();
   }
+
+  /**
+   * Refresh the id token, can't be done with native firebase sdk
+   */
+  public static refreshIdToken() {
+    return Promise.reject(new AppError('Native app cannot retrieve a refresh id token', '100-019'));
+  }
 }
 
 export default Auth;

@@ -1,11 +1,12 @@
 import { View } from 'src/components';
-import { GREY_LIGHTER, WHITE } from 'src/lib/config/styles/colors';
+import { GREEN, GREY_LIGHTER, WHITE } from 'src/lib/config/styles/colors';
 import border from 'src/lib/utils/applyBorder';
 import padding from 'src/lib/utils/applyPadding';
 import shadow from 'src/lib/utils/shadow';
 import styled from 'styled-components';
 
 export const BACKGROUND_COLOR = WHITE;
+export const CHECK_COLOR = GREEN;
 
 interface IContentProps {
   fullScreen: boolean;

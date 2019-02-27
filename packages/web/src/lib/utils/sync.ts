@@ -1,3 +1,4 @@
+import { IApiReminder } from 'src/lib/graphql/types';
 import { IReminder } from 'src/lib/store/reminders/reducer';
 import {
   syncFailed,
@@ -31,18 +32,18 @@ const setNextSyncPromise = () => {
 /**
  * Get all the reminders which have changed locally
  */
-const getChangedReminders = () => {
+const getChangedReminders = (): IApiReminder[] => {
   const { reminders } = store.getState();
 
   const reminderArr: IReminder[] = Object.values(reminders);
 
   return reminderArr
-    .filter(({ status }) => status !== 'saved')
+    .filter(({ saveStatus }) => saveStatus !== 'saved')
     .map(reminder => ({
       dateCreated: reminder.dateCreated,
       dateModified: reminder.dateModified,
-      deleted: reminder.deleted,
       id: reminder.id,
+      status: reminder.status,
       text: reminder.text,
     }));
 };

@@ -3,6 +3,8 @@ Feature: Sync data
   I want my data to be saved and synced across devices
   So that I have the latest chanegs on all my devices
 
+  # TODO: Fillin scenarios
+
   # TRIGGERS
 
   Scenario: Sync triggers on poll, when logged in
@@ -34,6 +36,8 @@ Feature: Sync data
   # When we add a reminder with the text "Sync triggered when save a new post"
   # Then the sync request count "will be" "2"
   # And the sync request types "is" "REHYDRATE, SET_REMINDER"
+
+  Scenario: Sync triggered when mark a reminder as done
 
   Scenario: Sync triggered when edit a post
   # Given we add a hook with id "syncCron" and type "none"

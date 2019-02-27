@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Button as UIButton, View } from 'src/components';
 import Text from 'src/lib/components/Text';
 import { IType } from 'src/lib/config/styles/buttons';
+import { ColorVal } from 'src/lib/config/styles/textIconColors';
 import { Text as TextType } from 'src/lib/types/general';
 import { Children } from 'src/lib/types/libs';
 import {
@@ -32,6 +33,7 @@ export interface IPassedDownProps {
   iconLeft?: boolean;
   iconRight?: boolean;
   disabled?: boolean;
+  _dangerouslySetIconColor?: ColorVal;
 }
 
 interface IProps extends IPassedDownProps {

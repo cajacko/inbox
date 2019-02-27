@@ -9,6 +9,9 @@ const general = {
     Delete: {
       web: '.AddReminder__Delete',
     },
+    Done: {
+      web: '.AddReminder__Done',
+    },
     Input: {
       web: '.AddReminder__Input',
     },
@@ -16,6 +19,9 @@ const general = {
       web: '.AddReminder__Save',
     },
     web: '.AddReminder',
+  },
+  Done: {
+    web: '.Done',
   },
   EditReminder: {
     web: '.AddReminder--Edit',
@@ -96,6 +102,14 @@ const general = {
     LogoutButton: {
       web: '.Menu__LogoutButton',
     },
+    MenuItems: {
+      Done: {
+        web: '.Menu__DoneButton',
+      },
+      Inbox: {
+        web: '.Menu__InboxButton',
+      },
+    },
     web: '.Menu',
   },
   NoReminders: {
@@ -119,6 +133,14 @@ const general = {
       DeleteButton: {
         web: ({ index }: { index: number }) =>
           `.Reminder:nth-child(${index + 1}) .Reminder__HoverDelete`,
+      },
+      DoneButton: {
+        web: ({ index }: { index: number }) =>
+          `.Reminder:nth-child(${index + 1}) .Reminder__HoverDone`,
+      },
+      DoneIcon: {
+        web: ({ index }: { index: number }) =>
+          `.Reminder:nth-child(${index + 1}) .Reminder__DoneIcon`,
       },
       EditButton: {
         web: ({ index }: { index: number }) =>

@@ -20,6 +20,10 @@ class ReminderList {
   private reminderListScrollSelector: ISelector =
     selectors.general.ReminderList.Scroll;
   private noRemindersSelector: ISelector = selectors.general.NoReminders;
+  private reminderDoneButtonSelector: ISelector =
+    selectors.general.ReminderList.Reminder.DoneButton;
+  private reminderDoneIconSelector: ISelector =
+    selectors.general.ReminderList.Reminder.DoneIcon;
 
   public async count(conditional: ICondition, value: number) {
     return driver.count(
@@ -55,6 +59,9 @@ class ReminderList {
     let selector;
 
     switch (component) {
+      case 'done':
+        selector = getSelector(this.reminderDoneButtonSelector, { index });
+        break;
       case 'delete':
         selector = getSelector(this.reminderDeleteButtonSelector, { index });
         break;
@@ -101,6 +108,23 @@ class ReminderList {
 
   public async noRemindersVisible(conditional: ICondition) {
     return driver.visible(conditional, getSelector(this.noRemindersSelector));
+  }
+
+  public async iconVisible(
+    conditional: ICondition,
+    index: number,
+    icon: string
+  ) {
+    const getIcon = () => {
+      switch (icon) {
+        case 'done':
+          return this.reminderDoneIconSelector;
+        default:
+          throw new Error(`Unknown icon given ${icon}`);
+      }
+    };
+
+    return driver.visible(conditional, getSelector(getIcon(), { index }));
   }
 }
 
