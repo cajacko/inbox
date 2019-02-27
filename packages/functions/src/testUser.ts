@@ -1,29 +1,12 @@
 import * as functions from 'firebase-functions';
-import * as admin from 'firebase-admin';
+import { IDb } from './types/general';
 import auth from './utils/auth';
-import db from './utils/db';
+import dbHOC from './utils/db';
 import { testEmail } from '../env.local.json';
 
-/**
- * Get the revoked id tokens doc
- */
-const getRevokedIdTokensDoc = () =>
-  db.collection('revokedIdTokens').doc('tokens');
+const revokedTokensField = 'revokedIdTokens';
 
-/**
- * Set the revoked tokens
- */
-const setRevokedIdTokens = (data: string[]) =>
-  getRevokedIdTokensDoc().set({ tokens: data });
-
-/**
- * Get the revoked tokens
- */
-export const getRevokedIdTokens = () =>
-  getRevokedIdTokensDoc()
-    .get()
-    .then(snapshot => snapshot.data() || { tokens: [] })
-    .then(({ tokens }) => tokens);
+let dbCache: IDb | undefined;
 
 /**
  * Get the test user ref
@@ -32,42 +15,44 @@ export const getTestUserId = () =>
   auth.getUserByEmail(testEmail).then(user => user.uid);
 
 /**
- * Get all the data from the query
+ * Get the test db
  */
-const getQueryData = (query: admin.firestore.QuerySnapshot) =>
-  Promise.all(query.docs.map((data) => {
-    if (!data.exists) return {};
+export const getTestDb = (): Promise<IDb> => {
+  if (dbCache) return Promise.resolve(dbCache);
 
-    return {
-      [data.id]: data.data(),
-    };
-  })).then(data => data.reduce((acc, obj) => ({ ...acc, ...obj }), {}));
+  return getTestUserId().then((userId) => {
+    dbCache = dbHOC(userId);
+
+    return dbCache;
+  });
+};
 
 /**
- * Get all the data associated with a firestore doc
+ * Set the revoked tokens
  */
-const getAll = (doc: admin.firestore.DocumentReference) =>
-  doc.getCollections().then(collections =>
-    Promise.all(collections.map(collection =>
-      collection
-        .get()
-        .then(data => getQueryData(data))
-        .then(data => ({
-          [collection.id]: data,
-        })))).then(data => data.reduce((acc, obj) => ({ ...acc, ...obj }), {})));
+const setRevokedIdTokens = (data: string[]) =>
+  getTestDb().then(db => db.set(revokedTokensField, data));
+
+/**
+ * Get the revoked tokens
+ */
+export const getRevokedIdTokens = () =>
+  getTestDb().then(db =>
+    db.get(revokedTokensField).then(tokens => tokens || []));
 
 /**
  * Return all the test user data
  */
 export const getTestUser = (req: functions.Request, res: functions.Response) =>
-  getTestUserId().then(userId =>
-    getAll(db.collection('users').doc(userId))
+  getTestDb().then(db =>
+    db
+      .get('')
       .catch(e => ({
         hasError: true,
         error: e.message,
       }))
       .then((data) => {
-        res.json(data);
+        res.json(data || {});
       }));
 
 /**
@@ -76,39 +61,17 @@ export const getTestUser = (req: functions.Request, res: functions.Response) =>
 export const clearTestUser = (
   req: functions.Request,
   res: functions.Response
-) => {
-  const collectiosToDelete = ['reminders'];
-
-  return getTestUserId()
-    .then(userId =>
-      Promise.all([
-        setRevokedIdTokens([]),
-        db
-          .collection('users')
-          .doc(userId)
-          .delete(),
-        Promise.all(collectiosToDelete.map(collection =>
-          db
-            .collection(`/users/${userId}/${collection}`)
-            .get()
-            .then((docs) => {
-              const batch = db.batch();
-
-              docs.forEach((doc) => {
-                batch.delete(doc.ref);
-              });
-
-              return batch.commit();
-            }))),
-      ]))
-    .catch(e => ({
-      hasError: true,
-      error: e.message,
-    }))
-    .then((data) => {
-      res.json(data);
-    });
-};
+) =>
+  getTestDb().then(db =>
+    db
+      .remove('')
+      .catch(e => ({
+        hasError: true,
+        error: e.message,
+      }))
+      .then(() => {
+        res.json({ success: true, error: null });
+      }));
 
 /**
  * Revoke a test user id

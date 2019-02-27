@@ -1,4 +1,4 @@
-import * as admin from 'firebase-admin';
+import { IDb } from '../../../types/general';
 import { IApiReminder } from '../types';
 
 /**
@@ -15,10 +15,7 @@ export const validateDate = (time: number, error: string) => {
 /**
  * Set an individual reminder
  */
-export const setReminder = (
-  reminder: IApiReminder,
-  db: admin.firestore.DocumentReference
-) => {
+export const setReminder = (reminder: IApiReminder, db: IDb) => {
   try {
     validateDate(reminder.dateCreated, 'Date created is not a valid date');
     validateDate(reminder.dateModified, 'Date modified is not a valid date');
@@ -26,55 +23,37 @@ export const setReminder = (
     return Promise.reject(e);
   }
 
-  const doc = db.collection('reminders').doc(reminder.id);
+  const location = `reminders/${reminder.id}`;
 
   // If the doc exists then update the record, as we won't have fields like
   // dateCreated in the payload, otherwise create as new
-  return doc.get().then((data) => {
-    if (data.exists) {
-      return doc.update(reminder);
-    }
+  return db
+    .get(location)
+    .then((data) => {
+      if (data) {
+        return { ...data, ...reminder };
+      }
 
-    const finalReminder = reminder.dateCreated
-      ? reminder
-      : // ensuring we always have a created data, shouldn't happen though
-      { ...reminder, dateCreated: new Date().getTime() };
-
-    return doc.set(finalReminder);
-  });
+      return reminder.dateCreated
+        ? reminder
+        : // ensuring we always have a created date, shouldn't happen though
+        { ...reminder, dateCreated: new Date().getTime() };
+    })
+    .then(data => db.set(location, data));
 };
 
 /**
  * Get all the users reminders
  */
-export const getReminders = (db: admin.firestore.DocumentReference) =>
-  db
-    .collection('reminders')
-    .orderBy('dateModified')
-    .get()
-    .then((snapshot) => {
-      if (snapshot.empty) {
-        return [];
-      }
+export const getReminders = (db: IDb) =>
+  db.get('reminders').then((reminders?: { [key: string]: IApiReminder }) => {
+    if (!reminders) return [];
 
-      const data: IApiReminder[] = [];
-
-      snapshot.forEach((doc) => {
-        // @ts-ignore
-        const docData: IApiReminder = doc.data();
-
-        if (!docData) return;
-
-        // Sets default state in case it's not set for some reason
-        data.push({ status: 'INBOX', ...docData });
-      });
-
-      return data;
-    });
+    return Object.values(reminders).sort((reminderA, reminderB) => reminderA.dateModified - reminderB.dateModified);
+  });
 
 export const Query = {
-  getReminders: (vars: any, db: admin.firestore.DocumentReference) =>
-    getReminders(db),
+  getReminders: (vars: any, db: IDb) => getReminders(db),
 };
 
 export const Mutation = {};
