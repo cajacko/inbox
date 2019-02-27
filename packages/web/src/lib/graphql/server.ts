@@ -105,6 +105,9 @@ const graphqlServer = (isTestUser: boolean) => (
   let queryResolvers = {};
   let mutationResolvers = {};
 
+  // Got errors when accessing from localhost so added this in
+  res.set('Access-Control-Allow-Origin', '*');
+
   if (config.typeDefs) {
     Object.values(config.typeDefs).forEach(({ types, query, mutation }) => {
       if (types) {

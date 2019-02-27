@@ -39,21 +39,32 @@ class Api {
   }
 
   public async clearTestData() {
-    return fetchApi('clearTestUser')
-      .then(() => this.getUserData())
-      .then((data) => {
-        if (!isEqual(data, {})) {
-          let json: string;
+    const iterations = 3;
+    let json: string;
 
-          try {
-            json = JSON.stringify(data, undefined, 2);
-          } catch (e) {
-            json = '';
+    const loop = (i = 0): Promise<void> => {
+      if (i > iterations) {
+        return Promise.reject(new Error(`clearTestData did not clear successfully. Server data was:\n\n${String(json)}\n`));
+      }
+
+      return fetchApi('clearTestUser')
+        .then(() => this.getUserData())
+        .then((data) => {
+          if (!isEqual(data, {})) {
+            try {
+              json = JSON.stringify(data, undefined, 2);
+            } catch (e) {
+              json = '';
+            }
+
+            return loop(i + 1);
           }
 
-          throw new Error(`clearTestData did not clear successfully. Server data was:\n\n${json}\n`);
-        }
-      });
+          return Promise.resolve();
+        });
+    };
+
+    return loop();
   }
 
   private async getUserData() {
@@ -79,7 +90,7 @@ class Api {
             dateModified
             id
             text
-            deleted
+            status
           }
         }
       }

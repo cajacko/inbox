@@ -27,6 +27,7 @@
     "@types/graphql": "^14.0.5",
     "concurrently": "^4.1.0",
     "fs-extra": "^7.0.1",
+    "promise-queue": "^2.2.5",
     "temp-dir": "^1.0.0",
     "tslint": "~5.8.0",
     "typescript": "3.2.2"

@@ -30,6 +30,9 @@ export interface ILogs {
   logger: any[];
 }
 
+// eslint-disable-next-line id-length
+type ResolveWaitForNetworkIdle = (error?: Error) => void;
+
 class Browser {
   private browser: null | puppeteer.Browser = null;
   private page: null | puppeteer.Page = null;
@@ -45,6 +48,9 @@ class Browser {
   };
   private networkListenerId: number = 0;
   private networkListeners: { [key: string]: NetworkListener } = {};
+  private inflight: number = 0;
+  private resolveWaitForNetworkIdle: ResolveWaitForNetworkIdle | null = null;
+  private pageId: number = 0;
 
   constructor() {
     this.dialogOpen = this.dialogOpen.bind(this);
@@ -76,7 +82,7 @@ class Browser {
       }
     }
 
-    this.page = null;
+    this.clearPage();
   }
 
   public async open(nonHeadless: boolean) {
@@ -316,14 +322,41 @@ class Browser {
         await this.page.close();
       }
 
-      this.page = null;
+      this.clearPage();
     }
 
     if (!this.page || this.page.isClosed()) {
+      this.pageId += 1;
+
+      const thisPageId = this.pageId;
       this.page = await this.browser.newPage();
+
+      if (this.resolveWaitForNetworkIdle) {
+        this.resolveWaitForNetworkIdle(new Error('Creating a new page, but something is waiting for the network to be idle'));
+      }
+
+      this.inflight = 0;
 
       this.page.on('dialog', this.dialogOpen);
       this.page.on('console', this.captureConsole);
+
+      this.page.on('request', () => {
+        if (thisPageId !== this.pageId) return;
+        this.inflight += 1;
+      });
+
+      const onRequestFinished = () => {
+        if (thisPageId !== this.pageId) return;
+
+        this.inflight = this.inflight === 0 ? 0 : this.inflight - 1;
+
+        if (this.inflight === 0 && this.resolveWaitForNetworkIdle) {
+          this.resolveWaitForNetworkIdle();
+        }
+      };
+
+      this.page.on('requestfinished', onRequestFinished);
+      this.page.on('requestfailed', onRequestFinished);
 
       // Reset the mouse, as puppeteer seems to have it in the middle of the
       // page causing hovering effects
@@ -610,8 +643,12 @@ class Browser {
 
     await this.page.close({ runBeforeUnload: true });
 
+    this.inflight = 0;
+    // eslint-disable-next-line id-length
+    this.resolveWaitForNetworkIdle = null;
+
     if (clear) {
-      this.page = null;
+      this.clearPage();
     }
   }
 
@@ -754,6 +791,43 @@ class Browser {
 
       return null;
     }, token);
+  }
+
+  public async waitForNetworkIdle(timeoutVal: number) {
+    return new Promise((resolve, reject) => {
+      if (this.inflight === 0 || !this.page) {
+        // eslint-disable-next-line id-length
+        this.resolveWaitForNetworkIdle = null;
+        resolve();
+        return;
+      }
+
+      const timeout = setTimeout(() => {
+        clearTimeout(timeout);
+        reject(new Error(`waitForNetworkIdle timed out with ${this.inflight} requests left`));
+      }, timeoutVal);
+
+      // eslint-disable-next-line id-length
+      this.resolveWaitForNetworkIdle = (error) => {
+        if (!timeout) return;
+
+        clearTimeout(timeout);
+
+        if (error) {
+          reject(error);
+        } else {
+          resolve();
+        }
+      };
+    });
+  }
+
+  private clearPage() {
+    this.page = null;
+    this.inflight = 0;
+    // eslint-disable-next-line id-length
+    this.resolveWaitForNetworkIdle = null;
+    this.pageId += 1;
   }
 }
 

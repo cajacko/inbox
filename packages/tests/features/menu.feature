@@ -4,12 +4,8 @@ Feature: Menu
   So that I can configure the app
 
   Background:
-    Given we add a hook with id "login" and type "success"
-    And the driver is ready
-    When the app is navigated to "/"
-    And the login button is pressed
-    Then the "logged in" home route "will be" visible
-    And the menu "is not" visible
+    Given we have logged in successfully
+    Then the menu "is not" visible
     When the menu button is pressed
     Then the menu "will be" visible
 

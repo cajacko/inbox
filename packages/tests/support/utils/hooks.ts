@@ -78,16 +78,34 @@ Before(function (testCase) {
   return api.clearTestData();
 });
 
-After(async (testCase) => {
-  log('AFTER')();
+const afterTimeout = 10000;
 
+After({ timeout: afterTimeout }, async (testCase) => {
+  const afterLog = log('AFTER');
+  afterLog('Init');
+
+  afterLog('Dismiss alert');
   await driver.dismissAlert();
+  afterLog('Alert dismissed, clear hooks');
 
   driver.clearHooks();
+  afterLog('Hooks cleared, clear logs');
   driver.clearLogs();
+  afterLog('Logs cleared, wait for network idle');
+
+  try {
+    await driver.waitForNetworkIdle(afterTimeout - 2000);
+  } catch (e) {
+    afterLog('Network idle failed');
+  }
+
+  afterLog('Network idle, reset driver');
 
   await driver.reset();
+  afterLog('Driver reset, reset logs');
   resetLogs();
+  afterLog('Logs reset');
+  afterLog('Done');
 });
 
 AfterAll(() => driver.close());

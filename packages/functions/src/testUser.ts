@@ -1,7 +1,7 @@
 import * as functions from 'firebase-functions';
 import { IDb } from './types/general';
 import auth from './utils/auth';
-import dbHOC from './utils/db';
+import dbHOC, { clearDbQueue } from './utils/db';
 import { testEmail } from '../env.local.json';
 
 const revokedTokensField = 'revokedIdTokens';
@@ -62,16 +62,20 @@ export const clearTestUser = (
   req: functions.Request,
   res: functions.Response
 ) =>
-  getTestDb().then(db =>
-    db
-      .remove('')
-      .catch(e => ({
-        hasError: true,
-        error: e.message,
-      }))
-      .then(() => {
-        res.json({ success: true, error: null });
-      }));
+  // Clear the queue so calls from the last test won't get run in the current
+  // test
+  clearDbQueue()
+    .then(() => getTestDb())
+    .then(db =>
+      db
+        .remove('')
+        .catch(e => ({
+          hasError: true,
+          error: e.message,
+        }))
+        .then(() => {
+          res.json({ success: true, error: null });
+        }));
 
 /**
  * Revoke a test user id

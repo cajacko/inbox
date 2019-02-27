@@ -34,12 +34,12 @@ try {
     };
 
     if (isTestEnv()) {
-      waitForTestEnv().then(() => {
+      return waitForTestEnv().then(() => {
         actual();
       });
-    } else {
-      actual();
     }
+
+    return Promise.resolve(actual());
   };
 
   /**
@@ -63,7 +63,7 @@ try {
     const loop = () => {
       if (window.hooks) {
         try {
-          render();
+          render().catch(() => onError());
         } catch (e) {
           onError();
         }
@@ -78,7 +78,7 @@ try {
 
     loop();
   } else {
-    render();
+    render().catch(() => onError());
   }
 } catch (e) {
   onError();

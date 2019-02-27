@@ -5,6 +5,7 @@ Feature: Edit reminder
 
   Background:
     Given we have logged in successfully
+    Then the reminder list count "is" "0"
     When we add a reminder with the text "Edit a reminder"
     Then the reminder list count "is" "1"
     And the "1st" reminder status "will be" "Saved"

@@ -7,8 +7,9 @@ Feature: Login
     Given we add a hook with id "loggedIn" and type "false"
     And the driver is ready
     When the app is navigated to "/"
-    Then the login scene "is" visible
-    Then the login title "is" visible
+    Then the splash screen "will not be" visible
+    And the login scene "is" visible
+    And the login title "is" visible
     And the login button "is" visible
     And the login cancel button "is not" visible
     And the app version matches the expected version
@@ -18,9 +19,10 @@ Feature: Login
     Given we add a hook with id "loggedIn" and type "delay"
     And the driver is ready
     When the app is navigated to "/"
-    And the login button is pressed
+    Then the splash screen "will not be" visible
+    When the login button is pressed
     Then the login scene "is" visible
-    Then the login title "is" visible
+    And the login title "is" visible
     And the login button "is not" visible
     And the login cancel button "is" visible
     And the login loading icon "is" visible
@@ -32,10 +34,12 @@ Feature: Login
     Given we add a hook with id "login" and type "delay"
     And the driver is ready
     When the app is navigated to "/"
-    And the login button is pressed
+    Then the splash screen "will not be" visible
+    When the login button is pressed
     Then the login cancel button "is" visible
     And the login loading icon "is" visible
     And the "logged in" home route "will be" visible
+    And the header loading icon "will not be" visible
     And the screenshot matches
 
   @web
@@ -43,7 +47,8 @@ Feature: Login
     Given we add a hook with id "login" and type "googleFailed"
     And the driver is ready
     When the app is navigated to "/"
-    And the login button is pressed
+    Then the splash screen "will not be" visible
+    When the login button is pressed
     Then the login error text "will be" "Failed to login with Google, maybe your email or password was incorrect"
     And the screenshot matches
 
@@ -51,7 +56,8 @@ Feature: Login
     Given we add a hook with id "login" and type "delay"
     And the driver is ready
     When the app is navigated to "/"
-    And the login button is pressed
+    Then the splash screen "will not be" visible
+    When the login button is pressed
     And the login cancel button is pressed
     Then the login scene "is" visible
     And the login button "is" visible

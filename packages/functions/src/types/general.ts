@@ -14,6 +14,7 @@ export interface IDb {
   get: (location: string) => Promise<any>;
   set: (location: string, value: AllSupportedTypes) => Promise<void>;
   remove: (location: string) => Promise<void>;
+  _clearQueue?: () => Promise<void>;
 }
 
 export type DB = (userID: string) => IDb;
