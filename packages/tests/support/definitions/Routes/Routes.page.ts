@@ -7,7 +7,7 @@ import getSelector from '../../utils/getSelector';
 
 class Routes {
   private doneSceneSelector: ISelector = selectors.general.Done;
-  private homeSceneSelector: ISelector = selectors.general.Home;
+  private homeSceneSelector: ISelector = selectors.general.Home.Container;
 
   public async routeVisible(condition: ICondition, route: string) {
     const getRoute = () => {

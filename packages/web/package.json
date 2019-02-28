@@ -6,7 +6,7 @@
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js --env=jsdom",
-    "deploy": "firebase deploy --only hosting"
+    "deploy": "yarn build && firebase deploy --only hosting"
   },
   "dependencies": {
     "@sentry/browser": "^4.5.3",

@@ -865,6 +865,14 @@ class Browser {
 
     return this.page.url();
   }
+
+  public async setOffline(offline: boolean) {
+    await this.ensurePage();
+
+    if (!this.page) throw new Error('No page to set offline');
+
+    return this.page.setOfflineMode(offline);
+  }
 }
 
 export default Browser;
