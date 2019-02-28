@@ -9,6 +9,8 @@ import {
 import border from 'src/lib/utils/applyBorder';
 import margin from 'src/lib/utils/applyMargin';
 import padding from 'src/lib/utils/applyPadding';
+import { View as AnimatedView } from 'src/packages/animated';
+import unit from 'src/utils/unit';
 import styled from 'styled-components';
 
 export const BACKGROUND_COLOR = WHITE;
@@ -17,23 +19,43 @@ export const CHECK_COLOR = GREEN;
 
 export const SWIPE_BACKGROUND_COLOR = GREEN_DARK;
 export const SWIPE_ICON_SIZE = 20;
+const borderWidth = 2;
 
 const reminderSpacing = 16;
+
+export const REMINDER_HEIGHT = 50;
+
+/**
+ * Get the container height - the borders
+ */
+const containerHeight = ({ hasBottomBorder, hasTopBorder }: IProps) => {
+  let height = REMINDER_HEIGHT;
+
+  if (hasBottomBorder) height -= borderWidth;
+  if (hasTopBorder) height -= borderWidth;
+
+  return unit(height);
+};
 
 interface IProps {
   hasBottomBorder: boolean;
   hasTopBorder: boolean;
 }
 
+export const Wrapper = styled(AnimatedView)`
+  overflow: hidden;
+`;
+
 export const Container = styled(View)<IProps>`
   position: relative;
   z-index: 2;
   ${({ hasBottomBorder, hasTopBorder }) =>
-    border(GREY_LIGHTER, 2, {
+    border(GREY_LIGHTER, borderWidth, {
       bottom: hasBottomBorder,
       top: hasTopBorder,
     })}
   flex-direction: row;
+  height: ${containerHeight};
   background-color: ${BACKGROUND_COLOR};
 `;
 
@@ -43,7 +65,7 @@ export const Inner = styled(View)`
   justify-content: space-between;
   align-items: center;
   background-color: ${BACKGROUND_COLOR};
-  ${padding(reminderSpacing)}
+  ${padding({ horizontal: reminderSpacing })};
 `;
 
 export const EditMenu = styled(View)`
