@@ -30,6 +30,13 @@ const getHeaderProps = (props: RouteComponentProps): IPassedProps => {
         backgroundColor: BACKGROUND_COLORS.GREEN_DARK,
         title: 'General.Done',
       };
+
+    case '/snoozed':
+      return {
+        activeKey: 'snoozed',
+        backgroundColor: BACKGROUND_COLORS.ORANGE_DARK,
+        title: 'General.Snoozed',
+      };
     default:
       return {
         activeKey: null,
@@ -48,6 +55,8 @@ const getTestId = (props: RouteComponentProps): string | undefined => {
       return 'Home';
     case '/done':
       return 'Done';
+    case '/snoozed':
+      return 'Snoozed';
     default:
       return undefined;
   }
@@ -60,6 +69,8 @@ const getList = (props: RouteComponentProps): SelectorStatus => {
   switch (props.location.pathname) {
     case '/done':
       return 'DONE';
+    case '/snoozed':
+      return 'SNOOZED';
     default:
       return 'INBOX';
   }

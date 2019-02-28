@@ -18,6 +18,9 @@ const general = {
     Save: {
       web: '.AddReminder__Save',
     },
+    Snooze: {
+      web: '.AddReminder__Snooze',
+    },
     web: '.AddReminder',
   },
   Done: {
@@ -145,6 +148,10 @@ const general = {
       EditButton: {
         web: ({ index }: { index: number }) =>
           `.Reminder:nth-child(${index + 1}) .Reminder__HoverEdit`,
+      },
+      SnoozeButton: {
+        web: ({ index }: { index: number }) =>
+          `.Reminder:nth-child(${index + 1}) .Reminder__HoverSnooze`,
       },
       Status: {
         Error: {

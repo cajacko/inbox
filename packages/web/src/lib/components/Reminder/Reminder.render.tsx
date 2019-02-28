@@ -2,6 +2,7 @@ import * as React from 'react';
 import { SwipeRow } from 'src/components';
 import { Ref } from 'src/components/SwipeRow';
 import Check from 'src/lib/assets/icons/Check';
+import Clock from 'src/lib/assets/icons/Clock';
 import EllipsisV from 'src/lib/assets/icons/EllipsisV';
 import Trash from 'src/lib/assets/icons/Trash';
 import Button from 'src/lib/components/Button';
@@ -45,6 +46,7 @@ export interface IComponentProps {
   setSwipeRef: (ref: Ref) => void;
   showSwiper: boolean;
   height: Animated.AnimatedInterpolation;
+  onSnooze: () => void;
 }
 
 interface IProps
@@ -119,6 +121,14 @@ const Reminder = (props: IProps) => {
         </Button>
         {props.isHovering && (
           <Style.EditMenu testID="Reminder__Hover">
+            <Button
+              type={getButtonType('ICON.GREYED_OUT')}
+              analyticsAction="SNOOZE_HOVER"
+              analyticsCategory="REMINDER"
+              action={props.onSnooze}
+              testID="Reminder__HoverSnooze"
+              icon={Clock}
+            />
             <Button
               type={getButtonType('ICON.GREYED_OUT')}
               analyticsAction="DELETE_HOVER"

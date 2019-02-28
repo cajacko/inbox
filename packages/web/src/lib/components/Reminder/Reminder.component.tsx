@@ -104,6 +104,17 @@ class ReminderComponent extends React.Component<IProps, IState> {
   }
 
   /**
+   * On snooze, show the menu
+   */
+  private onSnooze() {
+    // Show the modal for it
+    // this.props.context.show(SnoozeReminder, {
+    //   close: this.props.context.hide,
+    //   id: this.props.id,
+    // });
+  }
+
+  /**
    * Set the swiper ref
    */
   private setSwipeRef(ref: Ref) {
@@ -152,6 +163,7 @@ class ReminderComponent extends React.Component<IProps, IState> {
     return (
       <Reminder
         {...this.props}
+        onSnooze={this.onSnooze}
         height={height}
         onSetDone={this.onSetDone}
         showSwiper={this.state.showSwiper}

@@ -24,6 +24,8 @@ class ReminderList {
     selectors.general.ReminderList.Reminder.DoneButton;
   private reminderDoneIconSelector: ISelector =
     selectors.general.ReminderList.Reminder.DoneIcon;
+  private reminderSnoozeButtonSelector: ISelector =
+    selectors.general.ReminderList.Reminder.SnoozeButton;
 
   public async count(conditional: ICondition, value: number) {
     return driver.count(
@@ -61,6 +63,9 @@ class ReminderList {
     switch (component) {
       case 'done':
         selector = getSelector(this.reminderDoneButtonSelector, { index });
+        break;
+      case 'snooze':
+        selector = getSelector(this.reminderSnoozeButtonSelector, { index });
         break;
       case 'delete':
         selector = getSelector(this.reminderDeleteButtonSelector, { index });

@@ -3,6 +3,7 @@ import {
   GREEN_DARK,
   GREY_DARK,
   GREY_LIGHTER,
+  ORANGE_DARK,
   PRIMARY_DARK,
   SECONDARY_DARK,
 } from 'src/lib/config/styles/colors';
@@ -16,6 +17,7 @@ export const HEADER_COLOR = SECONDARY_DARK;
 export const TEXT_COLOR = GREY_DARK;
 export const DONE_COLOR = GREEN_DARK;
 export const INBOX_COLOR = PRIMARY_DARK;
+export const SNOOZED_COLOR = ORANGE_DARK;
 
 const menuPadding = 14;
 

@@ -120,3 +120,5 @@ Feature: Done
     When we navigate to the "home" scene
     Then the reminder list count "is" "1"
     And the text for the "1st" reminder "is" "Item to be done"
+
+  Scenario: Can mark a snoozed reminder as done

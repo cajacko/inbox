@@ -10,6 +10,10 @@ export const GREEN: '#66BB6A' = '#66BB6A';
 export const GREEN_LIGHT: '#81C784' = '#81C784';
 export const GREEN_DARK: '#43A047' = '#43A047';
 
+export const ORANGE: '#F57C00' = '#F57C00';
+export const ORANGE_LIGHT: '#FFB74D' = '#FFB74D';
+export const ORANGE_DARK: '#E65100' = '#E65100';
+
 export const ERROR: typeof SECONDARY_DARK = SECONDARY_DARK;
 export const ERROR_LIGHT: typeof SECONDARY_LIGHT = SECONDARY_LIGHT;
 export const ERROR_DARK: typeof SECONDARY_DARK = SECONDARY_DARK;

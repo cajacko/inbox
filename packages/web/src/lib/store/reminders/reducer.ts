@@ -18,7 +18,7 @@ export interface IReminder {
   dateModified: number;
   dateCreated: number;
   saveStatus: 'saving' | 'saved' | 'error';
-  status: 'DONE' | 'DELETED' | 'INBOX';
+  status: 'DONE' | 'DELETED' | 'INBOX' | 'SNOOZED';
 }
 
 export interface IState {

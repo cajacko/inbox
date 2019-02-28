@@ -99,6 +99,13 @@ class AddReminderComponent extends React.Component<IProps, IState> {
   }
 
   /**
+   * Show the snooze modal for this reminder
+   */
+  private onSnooze() {
+    // Show the snooze modal
+  }
+
+  /**
    * Set the input ref
    */
   private setInputRef(ref: TextInputRef | null) {
@@ -120,6 +127,7 @@ class AddReminderComponent extends React.Component<IProps, IState> {
   public render() {
     return (
       <AddReminder
+        onSnooze={this.onSnooze}
         isDone={!!this.props.isDone}
         onDone={this.onDone}
         setInputRef={this.setInputRef}

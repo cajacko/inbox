@@ -43,7 +43,7 @@ const getChangedReminders = (): IApiReminder[] => {
       dateCreated: reminder.dateCreated,
       dateModified: reminder.dateModified,
       id: reminder.id,
-      status: reminder.status,
+      status: reminder.status === 'SNOOZED' ? 'INBOX' : reminder.status,
       text: reminder.text,
     }));
 };
