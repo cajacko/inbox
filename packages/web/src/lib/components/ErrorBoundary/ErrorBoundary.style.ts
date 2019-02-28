@@ -24,9 +24,15 @@ export const Inner = styled(View)`
   max-width: ${unit(600)};
 `;
 
-export const Buttons = styled(View)``;
+export const Buttons = styled(View)`
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+`;
 
-export const Button = styled(View)``;
+export const Button = styled(View)`
+  ${applyMargin(STANDARD_SPACING)}
+`;
 
 export const BottomMargin = styled(View)<{ hasMargin: boolean }>`
   flex-direction: column;

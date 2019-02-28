@@ -857,6 +857,22 @@ class Browser {
     this.resolveWaitForNetworkIdle = null;
     this.pageId += 1;
   }
+
+  public async getRoute() {
+    await this.ensurePage();
+
+    if (!this.page) throw new Error('No page to get route for');
+
+    return this.page.url();
+  }
+
+  public async setOffline(offline: boolean) {
+    await this.ensurePage();
+
+    if (!this.page) throw new Error('No page to set offline');
+
+    return this.page.setOfflineMode(offline);
+  }
 }
 
 export default Browser;

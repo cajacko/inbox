@@ -10,6 +10,7 @@ interface IProps {
   leftOpenValue?: number;
   rightOpenValue?: number;
   onRowOpen?: () => void;
+  onRowDidClose?: () => void;
 }
 
 /**
@@ -31,14 +32,16 @@ const getFriction = ({
   return {};
 };
 
+export type Ref = React.RefObject<RNSwipeRow>;
+
 /**
  * Render text on the web
  */
-const SwipeRow = ({ children, hidden, ...props }: IProps) => (
-  <RNSwipeRow {...getFriction(props)} {...props}>
+const SwipeRow = ({ children, hidden, ...props }: IProps, ref: Ref) => (
+  <RNSwipeRow {...getFriction(props)} {...props} ref={ref}>
     {hidden}
     {children}
   </RNSwipeRow>
 );
 
-export default SwipeRow;
+export default React.forwardRef(SwipeRow);
