@@ -11,6 +11,14 @@ let interval: null | NodeJS.Timeout = null;
 const isLoggedIn = () => store.getState().user.isLoggedIn;
 
 /**
+ * Stop the cron
+ */
+export const stop = () => {
+  if (interval) clearInterval(interval);
+  interval = null;
+};
+
+/**
  * Start the cron
  */
 export const start = (timeoutParam: number = 60000) => {
@@ -19,16 +27,11 @@ export const start = (timeoutParam: number = 60000) => {
   interval = setInterval(() => {
     if (testHookExists('snoozeCron', 'none')) return;
 
-    if (!isLoggedIn()) return;
+    if (!isLoggedIn()) {
+      stop();
+      return;
+    }
 
     store.dispatch(updateSnoozed());
   }, timeout);
-};
-
-/**
- * Stop the cron
- */
-export const stop = () => {
-  if (interval) clearInterval(interval);
-  interval = null;
 };

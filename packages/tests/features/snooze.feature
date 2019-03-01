@@ -13,7 +13,7 @@ Feature: Snooze
     Then the "1st" reminder "snooze" button "is" visible
 
   Scenario: Snooze button displays correctly in edit scene
-    Given we have logged in
+    Given we have logged in successfully
     When we add a reminder with the text "Item to be done"
     And the "1st" reminder is pressed
     Then the edit reminder scene "is" visible
@@ -87,6 +87,8 @@ Feature: Snooze
     Then the "home" route "is" visible
     And the reminder list count "is" "10"
 
+  # Checks the following scenario as well
+  # Scenario: Snoozed cron runs when loggedin from persisted state
   Scenario: When a reminders due date is up, it moves from snoozed to done, on cron
     Given we add a hook with id "syncCron" and type "none"
     And we add a hook with id "snoozeCronInterval" and type "short"
@@ -125,10 +127,24 @@ Feature: Snooze
     Then the "home" route "will be" visible
     And the reminder list count "is" "10"
 
-  Scenario: Snoozed is updated on login
-  Scenario: Snoozed cron does not run if not logged in
-  Scenario: Snoozed cron runs when loggedin from persisted state
-  Scenario: Snoozed cron runs when after login
+  # This can't happen, if we're not logged in, there's nothing in the redux
+  # store. When we login, there won't be anything to update from snoozed, you
+  # need to wait until that first sync happens, which triggers the check anyways
+  # Scenario: Snoozed is updated on login
+
+  # Not worth testing this
+  # Scenario: Snoozed cron does not run if not logged in
+
+  Scenario: Snoozed cron runs after login
+    Given we add a hook with id "syncCron" and type "none"
+    And we add a hook with id "snoozeCronInterval" and type "short"
+    And we preload the api with "10" "snoozed" reminders
+    And we have logged in successfully
+    Then the header loading icon "will not be" visible
+    And the reminder list count "is" "0"
+    When we add a hook with id "now" and type "plus2Days"
+    And we remove the hook with id "snoozeCron"
+    Then the reminder list count "will be" "10"
 
 # IDEAS
 

@@ -9,6 +9,8 @@ import analytics from 'src/lib/utils/analytics';
 import history from 'src/lib/utils/history';
 import marketingCopy from 'src/lib/utils/marketingCopy';
 import store from 'src/lib/utils/store';
+import { startSyncCron } from 'src/lib/utils/sync';
+import * as updateSnoozedCron from 'src/lib/utils/updateSnoozedCron';
 import AuthImplementation from 'src/modules/Auth';
 import testHook from 'src/utils/testHook';
 
@@ -77,6 +79,12 @@ class Auth {
               throw e || new AppError('No user returned from login', '100-010');
             });
         }
+
+        // User has logged in, trigger any login actions here, such as updating
+        // redux, starting syncs and crons etc
+
+        startSyncCron();
+        updateSnoozedCron.start();
 
         return Auth.setUser(user, true, redirectPath);
       });
