@@ -18,6 +18,7 @@ import {
 const mapStateToProps = (state: IState, { id }: IPassedProps) => ({
   ...state.reminders[id],
   isDone: state.reminders[id].status === 'DONE',
+  isSnoozed: state.reminders[id].status === 'SNOOZED',
 });
 
 /**

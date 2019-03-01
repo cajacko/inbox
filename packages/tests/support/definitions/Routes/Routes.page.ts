@@ -8,6 +8,7 @@ import getSelector from '../../utils/getSelector';
 class Routes {
   private doneSceneSelector: ISelector = selectors.general.Done;
   private homeSceneSelector: ISelector = selectors.general.Home.Container;
+  private snoozedSceneSelector: ISelector = selectors.general.Snoozed;
 
   public async routeVisible(condition: ICondition, route: string) {
     const getRoute = () => {
@@ -16,6 +17,8 @@ class Routes {
           return getSelector(this.homeSceneSelector);
         case 'done':
           return getSelector(this.doneSceneSelector);
+        case 'snoozed':
+          return getSelector(this.snoozedSceneSelector);
         default:
           throw new Error(`Unknown route given ${route}`);
       }

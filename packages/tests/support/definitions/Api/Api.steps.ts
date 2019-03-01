@@ -9,6 +9,12 @@ Given('we preload the api with {string} reminders', count =>
 
 When('we revoke the id token', () => api.revokeToken());
 
-Then('the sync request count {string} {string}', (string, string2) =>
-  // Write code here that turns the phrase above into concrete actions
-  'pending');
+Then(
+  'the sync request count {string} {string}',
+  (string, string2) =>
+    // Write code here that turns the phrase above into concrete actions
+    'pending'
+);
+
+Given('we preload the api with {string} {string} reminders', (count, status) =>
+  api.preloadReminders(parseInt(count, 10), status));

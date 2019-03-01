@@ -5,18 +5,14 @@ import {
   SYNC_SUCCESS,
 } from 'src/lib/store/sync/actions';
 import createReducer from 'src/lib/utils/createReducer';
-import {
-  DELETE_REMINDER,
-  SET_REMINDER,
-  SET_REMINDER_SAVE_STATUS,
-  TOGGLE_REMINDER_DONE,
-} from './actions';
+import { DELETE_REMINDER, SET_REMINDER, TOGGLE_REMINDER_DONE } from './actions';
 
 export interface IReminder {
   id: string;
   text: string;
   dateModified: number;
   dateCreated: number;
+  dueDate: number;
   saveStatus: 'saving' | 'saved' | 'error';
   status: 'DONE' | 'DELETED' | 'INBOX' | 'SNOOZED';
 }
@@ -47,19 +43,41 @@ const updateStatus = (
   return newState;
 };
 
+/**
+ * Figure out if the reminder status should be snoozed or not
+ */
+const getStatus = (
+  givenStatus: IReminder['status'],
+  dueDate: number,
+  time: number
+): IReminder['status'] => {
+  switch (givenStatus) {
+    case 'INBOX':
+    case 'SNOOZED': {
+      if (dueDate > time) return 'SNOOZED';
+
+      return 'INBOX';
+    }
+
+    default:
+      return givenStatus;
+  }
+};
+
 export default createReducer<IState>(initialState, {
   [SET_REMINDER]: (
     state: IState,
     {
-      id, text, dateModified, dateCreated, saveStatus, status,
+      id, text, dateModified, dateCreated, dueDate, saveStatus, status, time,
     }
   ): IState => {
     const reminder: IReminder = {
       dateCreated,
       dateModified,
+      dueDate,
       id,
       saveStatus,
-      status,
+      status: getStatus(status, dueDate, time),
       text,
     };
 
@@ -79,7 +97,10 @@ export default createReducer<IState>(initialState, {
   },
   [SYNC_SUCCESS]: (
     state,
-    { newItems: { reminders } }: { newItems: { reminders: IApiReminder[] } }
+    {
+      time,
+      newItems: { reminders },
+    }: { newItems: { reminders: IApiReminder[] }; time: number }
   ): IState => {
     if (!reminders) return state;
 
@@ -97,23 +118,31 @@ export default createReducer<IState>(initialState, {
         return;
       }
 
-      newState[reminder.id] = { ...reminder, saveStatus: 'saved' };
+      newState[reminder.id] = {
+        ...reminder,
+        saveStatus: 'saved',
+        status: getStatus(reminder.status, reminder.dueDate, time),
+      };
     });
 
     return newState;
   },
-  [SET_REMINDER_SAVE_STATUS]: (state, { id, saveStatus }) =>
-    updateStatus(state, [state[id]], saveStatus),
   [SYNC_REQUESTED]: (state, { changedReminders }) =>
     updateStatus(state, changedReminders, 'saving'),
   [SYNC_FAILED]: (state, { changedReminders }) =>
     updateStatus(state, changedReminders, 'error'),
-  [TOGGLE_REMINDER_DONE]: (state, { id, dateModified, isDone }) => {
+  [TOGGLE_REMINDER_DONE]: (state, {
+    id, dateModified, isDone, time,
+  }) => {
+    const existingReminder = state[id];
+
     const reminder: IReminder = {
-      ...state[id],
+      ...existingReminder,
       dateModified,
       saveStatus: 'saving',
-      status: isDone ? 'DONE' : 'INBOX',
+      status: isDone
+        ? 'DONE'
+        : getStatus('INBOX', existingReminder.dueDate, time),
     };
 
     return { ...state, [id]: reminder };

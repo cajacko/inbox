@@ -7,6 +7,7 @@ export const types = `
     text: String!
     dateCreated: Date!
     dateModified: Date!
+    dueDate: Date!
     status: String!
   }
 
@@ -15,6 +16,7 @@ export const types = `
     text: String!
     dateCreated: Date
     dateModified: Date!
+    dueDate: Date!
     status: String!
   }
 `;

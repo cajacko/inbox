@@ -4,6 +4,7 @@ import {
   GREEN,
   GREEN_DARK,
   GREY_LIGHTER,
+  ORANGE_DARK,
   WHITE,
 } from 'src/lib/config/styles/colors';
 import border from 'src/lib/utils/applyBorder';
@@ -16,6 +17,7 @@ import styled from 'styled-components';
 export const BACKGROUND_COLOR = WHITE;
 export const ICON_SIZE = STATUS_ICON_SIZE;
 export const CHECK_COLOR = GREEN;
+export const SNOOZED_COLOR = ORANGE_DARK;
 
 export const SWIPE_BACKGROUND_COLOR = GREEN_DARK;
 export const SWIPE_ICON_SIZE = 20;

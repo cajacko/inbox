@@ -17,6 +17,7 @@ export const sync = ({
         reminders {
           dateCreated
           dateModified
+          dueDate
           id
           text
           status

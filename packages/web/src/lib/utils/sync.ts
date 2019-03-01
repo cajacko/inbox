@@ -42,6 +42,7 @@ const getChangedReminders = (): IApiReminder[] => {
     .map(reminder => ({
       dateCreated: reminder.dateCreated,
       dateModified: reminder.dateModified,
+      dueDate: reminder.dueDate,
       id: reminder.id,
       status: reminder.status === 'SNOOZED' ? 'INBOX' : reminder.status,
       text: reminder.text,

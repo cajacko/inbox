@@ -9,6 +9,7 @@ import {
   rootReducer,
 } from 'src/lib/utils/middleware/logout';
 import syncMiddleware from 'src/lib/utils/middleware/sync';
+import time from 'src/lib/utils/middleware/time';
 import sync, { startSyncCron } from 'src/lib/utils/sync';
 import Storage from 'src/modules/Storage';
 import isTestEnv from 'src/utils/conditionals/isTestEnv';
@@ -18,7 +19,7 @@ import waitForTestEnv from 'src/utils/waitForTestEnv';
 const initialState = testHook('initialState', undefined);
 
 const store = new Store(reducers, initialState, {
-  middleware: [analyticsMiddleWare, syncMiddleware, logoutMiddleware],
+  middleware: [analyticsMiddleWare, syncMiddleware, logoutMiddleware, time],
   // purgeOnLoad: true,
   rootReducer,
   shouldLogState: true,

@@ -18,7 +18,11 @@ import { IPassedProps } from './AddReminder.render';
 const mapStateToProps = (state: IState, { id }: IPassedProps) => {
   const props: any = id ? state.reminders[id] : {};
 
-  return { ...props, isDone: props.status === 'DONE' };
+  return {
+    ...props,
+    isDone: props.status === 'DONE',
+    isSnoozed: props.status === 'SNOOZED',
+  };
 };
 
 /**

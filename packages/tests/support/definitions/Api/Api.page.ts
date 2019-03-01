@@ -77,8 +77,8 @@ class Api {
 
   public getTestData = this.getExpectedData;
 
-  public async preloadReminders(count: number) {
-    const reminders = buildReminderObj(count, false);
+  public async preloadReminders(count: number, status?: string) {
+    const reminders = buildReminderObj(count, false, status);
 
     await this.graphqlRequest(
       `

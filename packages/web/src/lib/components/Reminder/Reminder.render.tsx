@@ -16,6 +16,7 @@ export interface IContainerStateProps {
   text: string;
   saveStatus: 'saving' | 'saved' | 'error';
   isDone: boolean;
+  isSnoozed: boolean;
 }
 
 export interface IContainerDispatchProps {
@@ -103,6 +104,14 @@ const Reminder = (props: IProps) => {
                 backgroundColor={Style.BACKGROUND_COLOR}
               />
               <Style.Symbols>
+                {props.isSnoozed && (
+                  <Style.Icon testID="Reminder__SnoozedIcon">
+                    <Clock
+                      _dangerouslySetColor={Style.SNOOZED_COLOR}
+                      size={Style.ICON_SIZE}
+                    />
+                  </Style.Icon>
+                )}
                 {props.isDone && (
                   <Style.Icon testID="Reminder__DoneIcon">
                     <Check

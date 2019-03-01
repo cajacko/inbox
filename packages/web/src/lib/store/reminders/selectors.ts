@@ -38,7 +38,7 @@ const getReminderObjectList = createSelector<
 
 const orderReminders = createSelector<IReminder[], IReminder[], IReminder[]>(
   reminders => reminders,
-  list => list.sort((a, b) => b.dateModified - a.dateModified)
+  list => list.sort((a, b) => b.dueDate - a.dueDate)
 );
 
 const selectReminderListAsObjects = createSelector<

@@ -5,7 +5,6 @@ import testHook from 'src/utils/testHook';
 import { IReminder } from './reducer';
 
 export const SET_REMINDER = 'SET_REMINDER';
-export const SET_REMINDER_SAVE_STATUS = 'SET_REMINDER_SAVE_STATUS';
 export const DELETE_REMINDER = 'DELETE_REMINDER';
 export const TOGGLE_REMINDER_DONE = 'TOGGLE_REMINDER_DONE';
 
@@ -14,12 +13,6 @@ export const SYNC_ACTIONS = [
   DELETE_REMINDER,
   TOGGLE_REMINDER_DONE,
 ];
-
-export const setReminderSaveStatus = makeActionCreator(
-  SET_REMINDER_SAVE_STATUS,
-  'id',
-  'saveStatus'
-);
 
 export const setReminder = makeActionCreator(
   SET_REMINDER,
@@ -35,10 +28,12 @@ export const setReminder = makeActionCreator(
     const data: {
       dateCreated: IReminder['dateCreated'];
       dateModified: IReminder['dateModified'];
+      dueDate: IReminder['dueDate'];
       id: IReminder['id'];
       } = testHook('newReminder', {
         dateCreated: id ? undefined : now,
         dateModified: now,
+        dueDate: now,
         id: id || uuid(),
       });
 

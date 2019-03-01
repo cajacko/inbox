@@ -16,6 +16,7 @@ import {
   InputPanel,
   Panel,
   Right,
+  SNOOZE_COLOR,
 } from './AddReminder.style';
 
 const analyticsCategory = 'ADD_REMINDER_SCENE';
@@ -36,6 +37,7 @@ export interface IProps extends IPassedProps {
   isNew: boolean;
   onDelete: () => void;
   isDone: boolean;
+  isSnoozed: boolean;
   onSnooze: () => void;
 }
 
@@ -81,6 +83,9 @@ const AddReminder = (props: IProps) => {
             <Button
               action={props.onSnooze}
               testID="AddReminder__Snooze"
+              _dangerouslySetIconColor={
+                props.isSnoozed ? SNOOZE_COLOR : undefined
+              }
               icon={Clock}
               analyticsAction="SNOOZE"
               analyticsCategory={analyticsCategory}

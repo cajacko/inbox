@@ -24,6 +24,8 @@ class ReminderList {
     selectors.general.ReminderList.Reminder.DoneButton;
   private reminderDoneIconSelector: ISelector =
     selectors.general.ReminderList.Reminder.DoneIcon;
+  private reminderSnoozeIconSelector: ISelector =
+    selectors.general.ReminderList.Reminder.SnoozeIcon;
   private reminderSnoozeButtonSelector: ISelector =
     selectors.general.ReminderList.Reminder.SnoozeButton;
 
@@ -124,6 +126,8 @@ class ReminderList {
       switch (icon) {
         case 'done':
           return this.reminderDoneIconSelector;
+        case 'snooze':
+          return this.reminderSnoozeIconSelector;
         default:
           throw new Error(`Unknown icon given ${icon}`);
       }

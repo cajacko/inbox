@@ -6,6 +6,7 @@ const TEXT_LIMIT = 100;
 
 export interface IContainerStateProps {
   isDone: boolean;
+  isSnoozed: boolean;
   text?: string;
 }
 
@@ -127,6 +128,7 @@ class AddReminderComponent extends React.Component<IProps, IState> {
   public render() {
     return (
       <AddReminder
+        isSnoozed={!!this.props.isSnoozed}
         onSnooze={this.onSnooze}
         isDone={!!this.props.isDone}
         onDone={this.onDone}

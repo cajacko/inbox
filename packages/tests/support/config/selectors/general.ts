@@ -153,6 +153,10 @@ const general = {
         web: ({ index }: { index: number }) =>
           `.Reminder:nth-child(${index + 1}) .Reminder__HoverSnooze`,
       },
+      SnoozeIcon: {
+        web: ({ index }: { index: number }) =>
+          `.Reminder:nth-child(${index + 1}) .Reminder__SnoozedIcon`,
+      },
       Status: {
         Error: {
           web: ({ index }: { index: number }) =>
@@ -179,6 +183,9 @@ const general = {
       web: '.ReminderList__Scroll',
     },
     web: '.ReminderList',
+  },
+  Snoozed: {
+    web: '.Snoozed',
   },
   SplashScreen: {
     web: '.splashScreen',
