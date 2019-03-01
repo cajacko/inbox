@@ -1,4 +1,5 @@
 import { IApiReminder } from 'src/lib/graphql/types';
+import CustomDate from 'src/lib/modules/CustomDate';
 import { IReminder } from 'src/lib/store/reminders/reducer';
 import {
   syncFailed,
@@ -66,7 +67,7 @@ const sync = (type: SyncType) => {
 
   try {
     const changedReminders = getChangedReminders();
-    const dateSyncRequested = new Date().getTime();
+    const dateSyncRequested = CustomDate.now();
 
     store.dispatch(syncRequested(changedReminders, dateSyncRequested, type));
 

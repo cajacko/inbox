@@ -1,3 +1,5 @@
+/* eslint @miovision/disallow-date/no-static-date: 0 */
+/* eslint @miovision/disallow-date/no-new-date: 0 */
 import { IDb } from '../../../types/general';
 import { IApiReminder } from '../types';
 
@@ -35,7 +37,7 @@ export const setReminder = (reminder: IApiReminder, db: IDb) => {
         return { ...data, ...reminder };
       }
 
-      const now = new Date().getTime();
+      const now = Date.now();
 
       return reminder.dateCreated
         ? reminder

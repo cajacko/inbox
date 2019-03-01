@@ -1,10 +1,11 @@
 import { Middleware } from 'redux';
+import CustomDate from 'src/lib/modules/CustomDate';
 
 /**
  * Add the time to the action
  */
 const timeMiddleware: Middleware = () => next => (reduxAction) => {
-  const time = new Date().getTime();
+  const time = CustomDate.now();
 
   const action = Object.assign({}, reduxAction);
 

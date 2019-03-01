@@ -710,6 +710,8 @@ class Browser {
     this.logs.console.push({
       args: msg.args().map((arg) => {
         try {
+          // TODO: This returns a promise, need to resolve these to string at
+          // point
           return arg.jsonValue();
         } catch (e) {
           try {

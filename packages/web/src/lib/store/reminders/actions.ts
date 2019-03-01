@@ -1,3 +1,4 @@
+import CustomDate from 'src/lib/modules/CustomDate';
 import makeActionCreator from 'src/lib/utils/makeActionCreator';
 import store from 'src/lib/utils/store';
 import uuid from 'src/lib/utils/uuid';
@@ -17,7 +18,7 @@ export const SYNC_ACTIONS = [
 export const setReminder = makeActionCreator(
   SET_REMINDER,
   (id, text): IReminder => {
-    const now = new Date().getTime();
+    const now = CustomDate.now();
 
     const existingReminder = store.getState().reminders[id];
 
@@ -47,7 +48,7 @@ export const setReminder = makeActionCreator(
 );
 
 export const deleteReminder = makeActionCreator(DELETE_REMINDER, (id) => {
-  const now = new Date().getTime();
+  const now = CustomDate.now();
 
   const dateModified = testHook('newReminder', now);
 
@@ -57,7 +58,7 @@ export const deleteReminder = makeActionCreator(DELETE_REMINDER, (id) => {
 export const toggleReminderDone = makeActionCreator(
   TOGGLE_REMINDER_DONE,
   (id, isDone) => {
-    const now = new Date().getTime();
+    const now = CustomDate.now();
 
     const dateModified = testHook('newReminder', now);
 

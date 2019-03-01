@@ -1,4 +1,6 @@
+import { createTransform } from 'redux-persist';
 import { IApiReminder } from 'src/lib/graphql/types';
+import CustomDate from 'src/lib/modules/CustomDate';
 import {
   SYNC_FAILED,
   SYNC_REQUESTED,
@@ -63,6 +65,28 @@ const getStatus = (
       return givenStatus;
   }
 };
+
+export const transform = createTransform(
+  // transform state on its way to being serialized and persisted.
+  inboundState => inboundState,
+  // transform state being rehydrated
+  (outboundState: IState): IState => {
+    const now = CustomDate.now();
+
+    const state = {};
+
+    Object.values(outboundState).forEach((reminder) => {
+      state[reminder.id] = ({
+        ...reminder,
+        status: getStatus(reminder.status, reminder.dueDate, now),
+      });
+    });
+
+    return state;
+  },
+  // define which reducers this transform gets called for.
+  { whitelist: ['reminders'] }
+);
 
 export default createReducer<IState>(initialState, {
   [SET_REMINDER]: (

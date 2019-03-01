@@ -39,7 +39,7 @@ Feature: Snooze
     Given we preload the api with "10" "snoozed" reminders
     And we have logged in successfully
     When we navigate to the "snoozed" scene
-    Then the "snoozed" route "is" visible
+    Then the "snoozed" route "will be" visible
     And the header loading icon "will not be" visible
     And the "1st" reminder "snooze" icon "is" visible
     And the screenshot matches
@@ -53,7 +53,7 @@ Feature: Snooze
     Given we preload the api with "10" "snoozed" reminders
     And we have logged in successfully
     When we navigate to the "snoozed" scene
-    Then the "snoozed" route "is" visible
+    Then the "snoozed" route "will be" visible
     And the header loading icon "will not be" visible
     When the "1st" reminder is pressed
     Then the edit reminder scene "is" visible
@@ -63,8 +63,31 @@ Feature: Snooze
   # BEHAVIOUR
 
   Scenario: Reminders with a due date in the future show in the snoozed scene
-  Scenario: When a reminders due date is up, it moves from snoozed to done, on cron
+    Given we preload the api with "10" "snoozed" reminders
+    And we have logged in successfully
+    Then the header loading icon "will not be" visible
+    And the reminder list count "is" "0"
+    When we navigate to the "snoozed" scene
+    Then the "snoozed" route "will be" visible
+    And the reminder list count "is" "10"
+
   Scenario: When a reminders due date is up, it moves from snoozed to done, on load
+    Given we preload the api with "10" "snoozed" reminders
+    And we have logged in successfully
+    Then the header loading icon "will not be" visible
+    And the reminder list count "is" "0"
+    When we navigate to the "snoozed" scene
+    Then the "snoozed" route "will be" visible
+    And the reminder list count "is" "10"
+    When we add a hook with id "now" and type "plus2Days"
+    And we reload the app
+    Then the "snoozed" route "will be" visible
+    And the reminder list count "is" "0"
+    When we navigate to the "home" scene
+    Then the "home" route "is" visible
+    And the reminder list count "is" "10"
+
+  Scenario: When a reminders due date is up, it moves from snoozed to done, on cron
   Scenario: When a reminders due date is up, it moves from snoozed to done, on sync success
 
 # IDEAS

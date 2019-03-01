@@ -1,3 +1,4 @@
+import CustomDate from 'src/lib/modules/CustomDate';
 import Sentry from 'src/lib/modules/Sentry';
 import history from 'src/lib/utils/history';
 import PlatformAnalytics from 'src/modules/Analytics';
@@ -77,7 +78,7 @@ class Analytics {
           value,
         },
         message: action,
-        timestamp: new Date().getTime(),
+        timestamp: CustomDate.now(),
         type: 'ANALYTICS_EVENT',
       });
     }
@@ -101,7 +102,7 @@ class Analytics {
           scene,
         },
         message: scene,
-        timestamp: new Date().getTime(),
+        timestamp: CustomDate.now(),
         type: 'ANALYTICS_SCENE',
       });
     }

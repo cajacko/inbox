@@ -72,6 +72,13 @@ const browserHooks = (
         id: 'new',
       }),
     },
+    now: {
+      plus2Days: () => {
+        const now = new Date();
+        now.setDate(now.getDate() + 2);
+        return now.getTime();
+      },
+    },
     refreshIdToken: {
       error: reject('No refreshIdToken'),
     },
