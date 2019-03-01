@@ -33,6 +33,8 @@ Feature: Snooze
     And the header loading icon "will not be" visible
     And the screenshot matches
 
+  # Next scenario covers this
+  # Scenario: Snoozed reminder has snooze icon
   Scenario: Snoozed scene displays correctly
     Given we preload the api with "10" "snoozed" reminders
     And we have logged in successfully
@@ -46,10 +48,16 @@ Feature: Snooze
   # Don't think we can automate this
   # Scenario: Swipe to snooze displays correctly
 
-  Scenario: Snoozed reminder has snooze icon
-  Scenario: Snoozed reminder displays correctly in edit scene
   # Snooze icon is coloured
-
+  Scenario: Snoozed reminder displays correctly in edit scene
+    Given we preload the api with "10" "snoozed" reminders
+    And we have logged in successfully
+    When we navigate to the "snoozed" scene
+    Then the "snoozed" route "is" visible
+    And the header loading icon "will not be" visible
+    When the "1st" reminder is pressed
+    Then the edit reminder scene "is" visible
+    And the screenshot matches
 
 
   # BEHAVIOUR

@@ -65,12 +65,12 @@ const Reminder = (props: IProps) => {
     disableLeftSwipe: true,
     disableRightSwipe: props.isDone,
     hidden: (
-      <Style.SwipeContainer>
+      <Style.SwipeContainerLeft>
         <Check
-          backgroundColor={Style.SWIPE_BACKGROUND_COLOR}
+          backgroundColor={Style.SWIPE_BACKGROUND_COLOR_LEFT}
           size={Style.SWIPE_ICON_SIZE}
         />
-      </Style.SwipeContainer>
+      </Style.SwipeContainerLeft>
     ),
     leftOpenValue: 150,
     onRowDidClose: props.onRowDidClose,
