@@ -8,6 +8,7 @@ import { IReminder } from './reducer';
 export const SET_REMINDER = 'SET_REMINDER';
 export const DELETE_REMINDER = 'DELETE_REMINDER';
 export const TOGGLE_REMINDER_DONE = 'TOGGLE_REMINDER_DONE';
+export const UPDATE_SNOOZED = 'UPDATE_SNOOZED';
 
 export const SYNC_ACTIONS = [
   SET_REMINDER,
@@ -65,3 +66,5 @@ export const toggleReminderDone = makeActionCreator(
     return { id, dateModified, isDone };
   }
 );
+
+export const updateSnoozed  = makeActionCreator(UPDATE_SNOOZED);

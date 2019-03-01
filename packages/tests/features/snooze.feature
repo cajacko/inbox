@@ -88,7 +88,47 @@ Feature: Snooze
     And the reminder list count "is" "10"
 
   Scenario: When a reminders due date is up, it moves from snoozed to done, on cron
+    Given we add a hook with id "syncCron" and type "none"
+    And we add a hook with id "snoozeCronInterval" and type "short"
+    And we add a hook with id "snoozeCron" and type "none"
+    And we preload the api with "10" "snoozed" reminders
+    And we have logged in successfully
+    Then the header loading icon "will not be" visible
+    And the reminder list count "is" "0"
+    When we navigate to the "snoozed" scene
+    Then the "snoozed" route "will be" visible
+    And the header loading icon "will not be" visible
+    And the reminder list count "is" "10"
+    When we add a hook with id "now" and type "plus2Days"
+    And we remove the hook with id "snoozeCron"
+    Then the reminder list count "will be" "0"
+    When we navigate to the "home" scene
+    Then the "home" route "will be" visible
+    And the reminder list count "is" "10"
+
   Scenario: When a reminders due date is up, it moves from snoozed to done, on sync success
+    Given we add a hook with id "syncCronInterval" and type "short"
+    And we add a hook with id "syncCron" and type "none"
+    And we add a hook with id "snoozeCron" and type "none"
+    And we preload the api with "10" "snoozed" reminders
+    And we have logged in successfully
+    Then the header loading icon "will not be" visible
+    And the reminder list count "is" "0"
+    When we navigate to the "snoozed" scene
+    Then the "snoozed" route "will be" visible
+    And the header loading icon "will not be" visible
+    And the reminder list count "is" "10"
+    When we add a hook with id "now" and type "plus2Days"
+    And we remove the hook with id "syncCron"
+    Then the reminder list count "will be" "0"
+    When we navigate to the "home" scene
+    Then the "home" route "will be" visible
+    And the reminder list count "is" "10"
+
+  Scenario: Snoozed is updated on login
+  Scenario: Snoozed cron does not run if not logged in
+  Scenario: Snoozed cron runs when loggedin from persisted state
+  Scenario: Snoozed cron runs when after login
 
 # IDEAS
 

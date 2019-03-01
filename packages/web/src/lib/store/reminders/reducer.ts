@@ -7,7 +7,7 @@ import {
   SYNC_SUCCESS,
 } from 'src/lib/store/sync/actions';
 import createReducer from 'src/lib/utils/createReducer';
-import { DELETE_REMINDER, SET_REMINDER, TOGGLE_REMINDER_DONE } from './actions';
+import { DELETE_REMINDER, SET_REMINDER, TOGGLE_REMINDER_DONE, UPDATE_SNOOZED } from './actions';
 
 export interface IReminder {
   id: string;
@@ -66,29 +66,40 @@ const getStatus = (
   }
 };
 
+/**
+ * Update all snoozed reminders
+ */
+const updateSnoozed = (state: IState, time: number): IState => {
+  const nextState = {};
+
+  Object.values(state).forEach((reminder) => {
+    const status = getStatus(reminder.status, reminder.dueDate, time);
+
+    if (status !== reminder.status) {
+      nextState[reminder.id] = ({
+        ...reminder,
+        status,
+      });
+    } else {
+      nextState[reminder.id] = reminder;
+    }
+  });
+
+  return nextState;
+};
+
 export const transform = createTransform(
   // transform state on its way to being serialized and persisted.
   inboundState => inboundState,
   // transform state being rehydrated
-  (outboundState: IState): IState => {
-    const now = CustomDate.now();
-
-    const state = {};
-
-    Object.values(outboundState).forEach((reminder) => {
-      state[reminder.id] = ({
-        ...reminder,
-        status: getStatus(reminder.status, reminder.dueDate, now),
-      });
-    });
-
-    return state;
-  },
+  (outboundState: IState): IState =>
+    updateSnoozed(outboundState, CustomDate.now()),
   // define which reducers this transform gets called for.
   { whitelist: ['reminders'] }
 );
 
 export default createReducer<IState>(initialState, {
+  [UPDATE_SNOOZED]: (state: IState, { time }) => updateSnoozed(state, time),
   [SET_REMINDER]: (
     state: IState,
     {

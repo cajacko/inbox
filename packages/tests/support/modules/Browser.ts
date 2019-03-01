@@ -400,6 +400,14 @@ class Browser {
     await this.setHooks();
   }
 
+  public async removeHook(id: string, nonHeadless: boolean) {
+    this.nonHeadless = nonHeadless;
+
+    delete this.hooks[id];
+
+    await this.setHooks();
+  }
+
   public clearHooks() {
     this.hooks = {};
   }

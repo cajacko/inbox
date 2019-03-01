@@ -148,7 +148,9 @@ const scheduleSync = (type: SyncType) => {
 /**
  * Start the sync cron
  */
-export const startSyncCron = (interval: number = 10000) => {
+export const startSyncCron = (intervalParam: number = 10000) => {
+  const interval = testHook('syncCronInterval', intervalParam);
+
   try {
     if (cron) clearInterval(cron);
 

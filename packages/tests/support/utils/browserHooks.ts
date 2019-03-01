@@ -85,6 +85,9 @@ const browserHooks = (
     root: {
       crash: crash('Root crash'),
     },
+    snoozeCronInterval: {
+      short: () => 1000,
+    },
     splashScreen: {
       error: crash('Splash screen error'),
       stall: () => ({
@@ -96,6 +99,9 @@ const browserHooks = (
       delay: () => () => delay(15000),
       error: () => () => Promise.reject(new Error('Bad bad')),
       minorDelay: () => () => delay(1000),
+    },
+    syncCronInterval: {
+      short: () => 1000,
     },
   };
 

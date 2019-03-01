@@ -36,3 +36,10 @@ When('we reload the app', () => driver.reload());
 
 When('we set the network as {string}', type =>
   driver.setOffline(type === 'offline'));
+
+When('we remove the hook with id {string}', function (id) {
+  // @ts-ignore
+  const { nonHeadless } = this;
+
+  return driver.removeHook(id, nonHeadless);
+});
