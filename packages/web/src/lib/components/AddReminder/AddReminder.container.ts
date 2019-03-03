@@ -34,7 +34,11 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   setDone: (id: string, val: boolean) => dispatch(toggleReminderDone(id, val)),
 });
 
-export default connect<IContainerStateProps, IContainerDispatchProps>(
+export default connect<
+IContainerStateProps,
+IContainerDispatchProps,
+IPassedProps
+>(
   mapStateToProps,
   mapDispatchToProps
 )(AddReminder);

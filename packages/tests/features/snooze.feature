@@ -1,3 +1,6 @@
+# All snooze suggestions are handled by snooze_suggestions.feature
+# All checking that the actual snoozed date is set coreectly happens in
+# snooze_suggestions.feature and snooze_custom_date.feature
 Feature: Snooze
   As a user
   I want to snooze reminders
@@ -44,8 +47,7 @@ Feature: Snooze
     And the "1st" reminder "snooze" icon "is" visible
     And the screenshot matches
 
-  # TODO:
-  # Don't think we can automate this
+  # Don't think we can automate this yet
   # Scenario: Swipe to snooze displays correctly
 
   # Snooze icon is coloured
@@ -146,13 +148,24 @@ Feature: Snooze
     And we remove the hook with id "snoozeCron"
     Then the reminder list count "will be" "10"
 
+  # More advanced displays and behaviour of suggested times are checked in
+  # snooze_suggestions.feature
+  Scenario: Snooze menu displays correctly from hover
+  Scenario: Snooze menu displays correctly from edit scene
+  Scenario: Snooze menu displays correctly from swipe
+
+  # More advanced displays and behaviour of custom date and times are checked in
+  # snooze_custom_date.feature
+  Scenario: Custom snooze date menu displays correctly from edit scene
+  Scenario: Custom snooze date time displays correctly from edit scene
+
+  Scenario: Custom snooze date menu displays correctly from hover
+  Scenario: Custom snooze date time displays correctly from hover
+
+  Scenario: Custom snooze date menu displays correctly from swipe
+  Scenario: Custom snooze date time displays correctly from swipe
+
 # IDEAS
-
-# Scenario: Snooze menu displays correctly from hover
-# Scenario: Snooze menu displays correctly
-
-# Scenario: Custom snooze date menu displays correctly
-# Scenario: Custom snooze date time displays correctly
 
 # Scenario: Snooze a reminder via the hover menu
 # Scenario: Snooze a reminder via the edit scene

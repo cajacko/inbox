@@ -1,5 +1,9 @@
 import * as React from 'react';
 import { TextInputRef } from 'src/components/TextInput';
+import Snooze from 'src/lib/components/Snooze';
+import * as SnoozeModal from 'src/lib/context/SnoozeModal';
+import withConsumer from 'src/lib/HOCs/withConsumer';
+import { IValue } from 'src/lib/HOCs/withModalContext';
 import AddReminder, { IPassedProps } from './AddReminder.render';
 
 const TEXT_LIMIT = 100;
@@ -19,7 +23,9 @@ export interface IContainerDispatchProps {
 interface IProps
   extends IPassedProps,
     IContainerDispatchProps,
-    IContainerStateProps {}
+    IContainerStateProps {
+  context: IValue;
+}
 
 interface IState {
   value: string;
@@ -47,6 +53,7 @@ class AddReminderComponent extends React.Component<IProps, IState> {
     this.onSave = this.onSave.bind(this);
     this.onDelete = this.onDelete.bind(this);
     this.onDone = this.onDone.bind(this);
+    this.onSnooze = this.onSnooze.bind(this);
   }
 
   /**
@@ -103,7 +110,10 @@ class AddReminderComponent extends React.Component<IProps, IState> {
    * Show the snooze modal for this reminder
    */
   private onSnooze() {
-    // Show the snooze modal
+    this.props.context.show(Snooze, {
+      close: this.props.context.hide,
+      id: this.props.id,
+    });
   }
 
   /**
@@ -146,4 +156,4 @@ class AddReminderComponent extends React.Component<IProps, IState> {
   }
 }
 
-export default AddReminderComponent;
+export default withConsumer(SnoozeModal.Consumer)(AddReminderComponent);

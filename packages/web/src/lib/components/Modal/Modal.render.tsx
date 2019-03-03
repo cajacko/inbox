@@ -18,6 +18,8 @@ interface IProps {
   Component: React.ComponentType<IComponentProps>;
   props: { [key: string]: any };
   hide: () => void;
+  zIndex: number;
+  fullScreenBreakpoint?: number;
 }
 
 interface ISize {
@@ -38,17 +40,19 @@ const onChange = (next: ISize, prev: ISize) =>
 /**
  *  Displays a modal overlay
  */
-const Modal = ({ Component, props, hide }: IProps) => (
+const Modal = ({
+  Component, props, hide, zIndex,
+}: IProps) => (
   <Measure onChange={onChange}>
     {({ width, measureProps }) => (
-      <Container {...measureProps}>
+      <Container zIndex={zIndex} {...measureProps}>
         {showFullScreen(width) ? (
-          <FullContent>
+          <FullContent zIndex={zIndex}>
             <Component fullScreen {...props} />
           </FullContent>
         ) : (
           <React.Fragment>
-            <Content>
+            <Content zIndex={zIndex}>
               <Component fullScreen={false} {...props} />
             </Content>
             <Button
@@ -58,7 +62,9 @@ const Modal = ({ Component, props, hide }: IProps) => (
               analyticsCategory="MODAL"
             >
               {({ isHovering }) => (
-                <Overlay isHovering={isHovering}>{null}</Overlay>
+                <Overlay zIndex={zIndex} isHovering={isHovering}>
+                  {null}
+                </Overlay>
               )}
             </Button>
           </React.Fragment>

@@ -1,7 +1,11 @@
 import * as React from 'react';
+import { compose } from 'redux';
 import AddReminder from 'src/lib/components/AddReminder';
-import * as Modal from 'src/lib/context/Modal';
+import Snooze from 'src/lib/components/Snooze';
+import * as AddReminderModal from 'src/lib/context/AddReminderModal';
+import * as SnoozeModal from 'src/lib/context/SnoozeModal';
 import withConsumer from 'src/lib/HOCs/withConsumer';
+import { IValue } from 'src/lib/HOCs/withModalContext';
 import Reminder, {
   IContainerDispatchProps,
   IContainerStateProps,
@@ -16,7 +20,8 @@ interface IProps
   extends IPassedProps,
     IContainerStateProps,
     IContainerDispatchProps {
-  context: Modal.IValue;
+  addReminderModal: IValue;
+  snoozeModal: IValue;
 }
 
 /**
@@ -34,6 +39,7 @@ class ReminderComponent extends React.Component<IProps, IState> {
     };
 
     this.edit = this.edit.bind(this);
+    this.onSnooze = this.onSnooze.bind(this);
     this.onMouseIn = this.onMouseIn.bind(this);
     this.onMouseOut = this.onMouseOut.bind(this);
   }
@@ -60,20 +66,19 @@ class ReminderComponent extends React.Component<IProps, IState> {
    * On snooze, show the menu
    */
   private onSnooze() {
-    console.log('onSnooze');
     // Show the modal for it
-    // this.props.context.show(SnoozeReminder, {
-    //   close: this.props.context.hide,
-    //   id: this.props.id,
-    // });
+    this.props.snoozeModal.show(Snooze, {
+      close: this.props.snoozeModal.hide,
+      id: this.props.id,
+    });
   }
 
   /**
    * Show the add modal
    */
   private edit() {
-    this.props.context.show(AddReminder, {
-      close: this.props.context.hide,
+    this.props.addReminderModal.show(AddReminder, {
+      close: this.props.addReminderModal.hide,
       id: this.props.id,
     });
   }
@@ -100,4 +105,7 @@ class ReminderComponent extends React.Component<IProps, IState> {
   }
 }
 
-export default withConsumer(Modal.Consumer)(ReminderComponent);
+export default compose(
+  withConsumer(AddReminderModal.Consumer, 'addReminderModal'),
+  withConsumer(SnoozeModal.Consumer, 'snoozeModal')
+)(ReminderComponent);

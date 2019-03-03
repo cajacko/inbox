@@ -2,7 +2,8 @@ const buildReminderObj = (count: number, isRedux: boolean, status?: string) => {
   const reminderObj = {};
 
   for (let i = 1; i < count + 1; i += 1) {
-    const now = new Date().getTime();
+    const timeDiff = i * 1000;
+    const now = new Date().getTime() - timeDiff;
     const dueDate = new Date(now);
 
     if (status === 'snoozed') {

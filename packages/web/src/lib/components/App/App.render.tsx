@@ -7,7 +7,8 @@ import ErrorBoundary from 'src/lib/components/ErrorBoundary';
 import Router from 'src/lib/components/Router';
 import { entry } from 'src/lib/config/routes';
 import { WHITE } from 'src/lib/config/styles/colors';
-import * as Modal from 'src/lib/context/Modal';
+import * as AddReminderModal from 'src/lib/context/AddReminderModal';
+import * as SnoozeModal from 'src/lib/context/SnoozeModal';
 import errors from 'src/lib/utils/errors';
 import history from 'src/lib/utils/history';
 import store from 'src/lib/utils/store';
@@ -31,13 +32,15 @@ const App = () => {
                 <ErrorBoundary defaultError={errors.getError('100-007')}>
                   <EntryRouter history={history}>
                     <ErrorBoundary defaultError={errors.getError('100-012')}>
-                      <Modal.Provider>
-                        <ErrorBoundary
-                          defaultError={errors.getError('100-013')}
-                        >
-                          <Router routes={entry} testHookKey="mainRouter" />
-                        </ErrorBoundary>
-                      </Modal.Provider>
+                      <SnoozeModal.Provider>
+                        <AddReminderModal.Provider>
+                          <ErrorBoundary
+                            defaultError={errors.getError('100-013')}
+                          >
+                            <Router routes={entry} testHookKey="mainRouter" />
+                          </ErrorBoundary>
+                        </AddReminderModal.Provider>
+                      </SnoozeModal.Provider>
                     </ErrorBoundary>
                   </EntryRouter>
                 </ErrorBoundary>
