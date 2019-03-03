@@ -11,6 +11,9 @@ interface IProps {
   rightOpenValue?: number;
   onRowOpen?: () => void;
   onRowDidClose?: () => void;
+  onSwipeValueChange?: (res: { value: number }) => void;
+  stopLeftSwipe?: number;
+  stopRightSwipe?: number;
 }
 
 /**

@@ -1,15 +1,13 @@
 import * as React from 'react';
-import { SwipeRow } from 'src/components';
-import { Ref } from 'src/components/SwipeRow';
 import Check from 'src/lib/assets/icons/Check';
 import Clock from 'src/lib/assets/icons/Clock';
 import EllipsisV from 'src/lib/assets/icons/EllipsisV';
 import Trash from 'src/lib/assets/icons/Trash';
 import Button from 'src/lib/components/Button';
 import Status from 'src/lib/components/ReminderStatus';
+import SwipeAndClose from 'src/lib/components/SwipeAndClose';
 import Text from 'src/lib/components/Text';
 import getButtonType from 'src/lib/utils/getButtonType';
-import Animated from 'src/packages/animated';
 import * as Style from './Reminder.style';
 
 export interface IContainerStateProps {
@@ -42,11 +40,6 @@ export interface IComponentProps {
     onMouseMove: Event;
     onMouseOver: Event;
   };
-  onRowOpen: () => void;
-  onRowDidClose: () => void;
-  setSwipeRef: (ref: Ref) => void;
-  showSwiper: boolean;
-  height: Animated.AnimatedInterpolation;
   onSnooze: () => void;
 }
 
@@ -59,28 +52,34 @@ interface IProps
 /**
  * Display a list of reminders
  */
-const Reminder = (props: IProps) => {
-  const Wrapper = props.showSwiper ? SwipeRow : Style.Wrapper;
-  const wrapperProps = props.showSwiper ? {
-    disableLeftSwipe: true,
-    disableRightSwipe: props.isDone,
-    hidden: (
-      <Style.SwipeContainerLeft>
-        <Check
-          backgroundColor={Style.SWIPE_BACKGROUND_COLOR_LEFT}
+const Reminder = (props: IProps) => (
+  <SwipeAndClose
+    height={Style.REMINDER_HEIGHT}
+    leftComponent={
+      props.isDone ? (
+        undefined
+      ) : (
+        <Style.SwipeContainerLeft>
+          <Check
+            backgroundColor={Style.SWIPE_BACKGROUND_COLOR_LEFT}
+            size={Style.SWIPE_ICON_SIZE}
+          />
+        </Style.SwipeContainerLeft>
+      )
+    }
+    rightComponent={
+      <Style.SwipeContainerRight>
+        <Clock
+          backgroundColor={Style.SWIPE_BACKGROUND_COLOR_RIGHT}
           size={Style.SWIPE_ICON_SIZE}
         />
-      </Style.SwipeContainerLeft>
-    ),
-    leftOpenValue: 150,
-    onRowDidClose: props.onRowDidClose,
-    onRowOpen: props.onRowOpen,
-    ref: props.setSwipeRef,
-  } : { style: { height: props.height } };
-
-  return (
-    // @ts-ignore
-    <Wrapper {...wrapperProps}>
+      </Style.SwipeContainerRight>
+    }
+    onSwipeLeftAnimateClose
+    onSwipeLeft={props.onSetDone(!props.isDone)}
+    onSwipeRight={props.onSnooze}
+  >
+    {({ closeAndRun }) => (
       <Style.Container
         key={props.id}
         testID="Reminder"
@@ -150,7 +149,7 @@ const Reminder = (props: IProps) => {
               type={getButtonType('ICON.GREYED_OUT')}
               analyticsAction="DONE_HOVER"
               analyticsCategory="REMINDER"
-              action={props.onSetDone(!props.isDone)}
+              action={closeAndRun(props.onSetDone(!props.isDone))}
               testID="Reminder__HoverDone"
               icon={Check}
             />
@@ -165,8 +164,8 @@ const Reminder = (props: IProps) => {
           </Style.EditMenu>
         )}
       </Style.Container>
-    </Wrapper>
-  );
-};
+    )}
+  </SwipeAndClose>
+);
 
 export default Reminder;

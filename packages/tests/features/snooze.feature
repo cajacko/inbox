@@ -164,5 +164,5 @@ Feature: Snooze
 # Scenario: Can swipe to snooze from snooze scene
 # Scenario: Can navigate to the snoozed scene from the menu
 
-# Scenario: Snozoe a reminder, mark as done, then mark as undone
+# Scenario: Snooze a reminder, mark as done, then mark as undone
 # Where should it go, should the due date be reset?
