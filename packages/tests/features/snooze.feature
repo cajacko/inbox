@@ -151,8 +151,23 @@ Feature: Snooze
   # More advanced displays and behaviour of suggested times are checked in
   # snooze_suggestions.feature
   Scenario: Snooze menu displays correctly from hover
+    Given we have logged in successfully
+    When we add a reminder with the text "Item to be snoozed"
+    And the we hover over the "1st" reminder
+    And the "1st" reminder hover "snooze" button is pressed
+    Then the snooze reminder modal "is" visible
+    And the screenshot matches
+
   Scenario: Snooze menu displays correctly from edit scene
-  Scenario: Snooze menu displays correctly from swipe
+    Given we have logged in successfully
+    When we add a reminder with the text "Item to be snoozed"
+    And the "1st" reminder is pressed
+    And the edit scene "snooze button" is pressed
+    Then the snooze reminder modal "is" visible
+    And the screenshot matches
+
+  # Can't be tested yet
+  # Scenario: Snooze menu displays correctly from swipe
 
   # More advanced displays and behaviour of custom date and times are checked in
   # snooze_custom_date.feature

@@ -75,6 +75,7 @@ const Reminder = (props: IProps) => (
         />
       </Style.SwipeContainerRight>
     }
+    onSwipeLeftWaitForClose
     onSwipeLeftAnimateClose
     onSwipeLeft={props.onSetDone(!props.isDone)}
     onSwipeRight={props.onSnooze}

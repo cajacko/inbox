@@ -98,5 +98,10 @@
     "label": "No component to show in swiper",
     "message": "Errors.DevError.Message",
     "title": "Errors.DevError.Title"
+  },
+  "100-021": {
+    "label": "Invalid Snooze type",
+    "message": "Errors.DevError.Message",
+    "title": "Errors.DevError.Title"
   }
 }

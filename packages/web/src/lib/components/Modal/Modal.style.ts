@@ -10,11 +10,17 @@ import shadow from 'src/lib/utils/shadow';
 import unit from 'src/utils/unit';
 import styled from 'styled-components';
 
-export const FULL_SCREEN_BREAKPOINT = 800;
-
 const overlayMargin = 40;
 const overlayTotalMargin = overlayMargin * 2;
-const overlayContentWidth = FULL_SCREEN_BREAKPOINT - overlayTotalMargin;
+
+/**
+ * Get the overlay content width
+ */
+const overlayContentWidth = (fullScreenBreakpoint?: number) => {
+  if (!fullScreenBreakpoint) return '';
+
+  return `width: ${unit(fullScreenBreakpoint - overlayTotalMargin)};`;
+};
 
 /**
  * Get the zIndex for the component
@@ -28,6 +34,14 @@ const getZIndex = (componentOrder: number) => ({
   const modalModifier = zIndex * 100;
 
   return from + modalModifier + componentOrder;
+};
+
+export const BUTTON_STYLE: React.CSSProperties = {
+  bottom: 0,
+  left: 0,
+  position: 'absolute',
+  right: 0,
+  top: 0,
 };
 
 export const Container = styled(View)<{ zIndex: number }>`
@@ -52,10 +66,15 @@ export const Overlay = styled(View)<{ isHovering: boolean; zIndex: number }>`
   z-index: ${getZIndex(2)};
 `;
 
-export const Content = styled(View)<{ zIndex: number }>`
+interface IProps {
+  zIndex: number;
+  fullScreenBreakpoint?: number;
+}
+
+export const Content = styled(View)<IProps>`
   position: relative;
   z-index: ${getZIndex(3)};
-  width: ${unit(overlayContentWidth)};
+  ${({ fullScreenBreakpoint }) => overlayContentWidth(fullScreenBreakpoint)}
   ${margin({ horizontal: overlayMargin, top: overlayMargin })}
   background-color: ${WHITE};
   ${shadow()}

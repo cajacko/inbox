@@ -25,6 +25,8 @@ interface IProps {
   onSwipeRight?: () => void;
   onSwipeLeftAnimateClose?: boolean;
   onSwipeRightAnimateClose?: boolean;
+  onSwipeLeftWaitForClose?: boolean;
+  onSwipeRightWaitForClose?: boolean;
 }
 
 /**
@@ -71,11 +73,23 @@ class SwipeAndCloseComponent extends React.Component<IProps, IState> {
    * When the swiper row opens, indicate we've opened it, then close the row
    */
   private onRowOpen() {
+    let immediateFunc;
+
     if (this.state.showLeftComponent && this.props.onSwipeLeft) {
-      this.onRowDidCloseFunc = this.props.onSwipeLeft;
+      if (this.props.onSwipeLeftWaitForClose) {
+        this.onRowDidCloseFunc = this.props.onSwipeLeft;
+      } else {
+        immediateFunc = this.props.onSwipeLeft;
+      }
     } else if (!this.state.showLeftComponent && this.props.onSwipeRight) {
-      this.onRowDidCloseFunc = this.props.onSwipeRight;
+      if (this.props.onSwipeRightWaitForClose) {
+        this.onRowDidCloseFunc = this.props.onSwipeRight;
+      } else {
+        immediateFunc = this.props.onSwipeRight;
+      }
     }
+
+    if (immediateFunc) immediateFunc();
 
     if (this.swipeRef && this.swipeRef.closeRow) {
       this.swipeRef.closeRow();

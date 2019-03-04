@@ -1,1 +1,1 @@
-export { default } from './Snooze.render';
+export { default } from './Snooze.component';

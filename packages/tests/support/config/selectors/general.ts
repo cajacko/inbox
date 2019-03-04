@@ -184,6 +184,9 @@ const general = {
     },
     web: '.ReminderList',
   },
+  SnoozeModal: {
+    web: '.SnoozedModal',
+  },
   Snoozed: {
     web: '.Snoozed',
   },
