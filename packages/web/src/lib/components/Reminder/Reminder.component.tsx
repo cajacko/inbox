@@ -70,6 +70,7 @@ class ReminderComponent extends React.Component<IProps, IState> {
     this.props.snoozeModal.show(Snooze, {
       close: this.props.snoozeModal.hide,
       id: this.props.id,
+      setDueDate: this.props.onSetDueDate,
     });
   }
 

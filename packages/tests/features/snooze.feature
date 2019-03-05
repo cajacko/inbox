@@ -156,6 +156,7 @@ Feature: Snooze
     And the we hover over the "1st" reminder
     And the "1st" reminder hover "snooze" button is pressed
     Then the snooze reminder modal "is" visible
+    Then the header loading icon "will not be" visible
     And the screenshot matches
 
   Scenario: Snooze menu displays correctly from edit scene
@@ -180,13 +181,61 @@ Feature: Snooze
   Scenario: Custom snooze date menu displays correctly from swipe
   Scenario: Custom snooze date time displays correctly from swipe
 
-# IDEAS
+  Scenario: Selecting a snooze suggestion from the hover menu closes the modal
+    Given we have logged in successfully
+    When we add a reminder with the text "Item to be snoozed"
+    And the we hover over the "1st" reminder
+    And the "1st" reminder hover "snooze" button is pressed
+    Then the snooze reminder modal "is" visible
+    And the "later today" snooze suggestion is pressed
+    And the snooze reminder modal "is not" visible
+    And the edit reminder scene "is not" visible
 
-# Scenario: Snooze a reminder via the hover menu
-# Scenario: Snooze a reminder via the edit scene
-# Scenario: Snooze reminder from swipe left
+  Scenario: Selecting a snooze suggestion from the edit menu closes both modals
+    Given we have logged in successfully
+    When we add a reminder with the text "Item to be snoozed"
+    And the "1st" reminder is pressed
+    And the edit scene "snooze button" is pressed
+    Then the snooze reminder modal "is" visible
+    And the "later today" snooze suggestion is pressed
+    And the snooze reminder modal "is not" visible
+    And the edit reminder scene "is not" visible
+
+  Scenario: Snooze an existing reminder via the hover menu
+    Given we have logged in successfully
+    When we add a reminder with the text "Item to be snoozed"
+    Then the reminder list count "is" "1"
+    And the we hover over the "1st" reminder
+    And the "1st" reminder hover "snooze" button is pressed
+    Then the snooze reminder modal "is" visible
+    And the "later today" snooze suggestion is pressed
+    Then the reminder list count "is" "0"
+    And the header loading icon "will not be" visible
+    When we navigate to the "snoozed" scene
+    Then the "snoozed" route "will be" visible
+    And the reminder list count "is" "1"
+
+  Scenario: Snooze an existing reminder via the edit scene
+    Given we have logged in successfully
+    When we add a reminder with the text "Item to be snoozed"
+    Then the reminder list count "is" "1"
+    And the "1st" reminder is pressed
+    And the edit scene "snooze button" is pressed
+    Then the snooze reminder modal "is" visible
+    And the "later today" snooze suggestion is pressed
+    Then the reminder list count "is" "0"
+    And the header loading icon "will not be" visible
+    When we navigate to the "snoozed" scene
+    Then the "snoozed" route "will be" visible
+    And the reminder list count "is" "1"
+
+# Scenario: Snooze an existing reminder from swipe left
+# Scenario: Snooze a reminder when create it
+
+# Scenario: Snooze a new reminder, turns the edit scene snooze icon to orange
 
 # Scenario: Can snooze reminder that is done
+# This does not close both modals
 
 # Scenario: Can swipe to snooze from done scene
 # Scenario: Can swipe to snooze from snooze scene

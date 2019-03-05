@@ -185,6 +185,11 @@ const general = {
     web: '.ReminderList',
   },
   SnoozeModal: {
+    Suggestions: {
+      LaterToday: {
+        web: '.Suggestion--LaterToday',
+      },
+    },
     web: '.SnoozedModal',
   },
   Snoozed: {

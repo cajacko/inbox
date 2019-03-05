@@ -60,6 +60,7 @@ const Snooze = ({ type, suggestions, onSelectDateAndTime }: IProps) => {
                 backgroundColor={FOOTER_BACKGROUND}
                 icon={Calendar}
                 title={{ _textFromConst: 'Select date and time' }}
+                testID="Suggestion--SelectDateTime"
                 action={onSelectDateAndTime}
               />
             </SuggestionContainer>

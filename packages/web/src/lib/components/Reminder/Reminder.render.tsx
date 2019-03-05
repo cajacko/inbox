@@ -20,6 +20,7 @@ export interface IContainerStateProps {
 export interface IContainerDispatchProps {
   onDelete: () => void;
   onSetDone: (val: boolean) => () => void;
+  onSetDueDate: (time: number) => void;
 }
 
 export interface IPassedProps {

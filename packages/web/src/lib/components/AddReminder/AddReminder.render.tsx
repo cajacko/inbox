@@ -23,7 +23,7 @@ const analyticsCategory = 'ADD_REMINDER_SCENE';
 
 export interface IPassedProps {
   fullScreen: boolean;
-  close: () => void;
+  close: (closeAllModals?: boolean) => void;
   id?: string;
 }
 

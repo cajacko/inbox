@@ -126,9 +126,18 @@ const withModalContext = (zIndex: number, fullScreenBreakpoint?: number) => {
     /**
      * Hide the modal
      */
-    private hide() {
-      const search = removeQueryParam(this.props.location.search, modalId);
-      const location = `${this.props.location.pathname}${search}`;
+    private hide(hideAllModals: boolean = false) {
+      let location;
+
+      // If closing multiple modals at the same time, this func will probably
+      // not get the new location when closing the 2nd modal, so it ends up
+      // keeping one of them. So use the hide all flag to hide all modals
+      if (hideAllModals) {
+        location = this.props.location.pathname;
+      } else {
+        const search = removeQueryParam(this.props.location.search, modalId);
+        location = `${this.props.location.pathname}${search}`;
+      }
 
       this.props.history.push(location);
     }

@@ -16,6 +16,7 @@ export interface ISuggestion {
   title: TextType;
   text?: TextType;
   action: () => void;
+  testID: string;
 }
 
 export interface IProps extends ISuggestion {
@@ -35,12 +36,14 @@ const Suggestion = ({
   icon: Icon,
   text,
   title,
+  testID,
 }: IProps) => (
   <Button
     action={action}
     analyticsAction={analyticsAction}
     analyticsCategory={analyticsCategory}
     styles={{ flex: 1, flexDirection: 'row' }}
+    testID={testID}
   >
     {({ isHovering }) => (
       <Container isHovering={isHovering}>

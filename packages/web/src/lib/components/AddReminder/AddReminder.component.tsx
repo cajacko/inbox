@@ -12,10 +12,11 @@ export interface IContainerStateProps {
   isDone: boolean;
   isSnoozed: boolean;
   text?: string;
+  onSetDueDate: (id: string, time: number) => void;
 }
 
 export interface IContainerDispatchProps {
-  save: (value: string, id?: string) => void;
+  save: (value: string, dueDate?: number, id?: string) => void;
   delete: (id: string) => void;
   setDone: (id: string, val: boolean) => void;
 }
@@ -29,6 +30,7 @@ interface IProps
 
 interface IState {
   value: string;
+  dueDate?: number;
 }
 
 /**
@@ -79,7 +81,7 @@ class AddReminderComponent extends React.Component<IProps, IState> {
     if (this.isDisabled()) return;
 
     this.props.close();
-    this.props.save(this.state.value, this.props.id);
+    this.props.save(this.state.value, this.state.dueDate, this.props.id);
   }
 
   /**
@@ -113,6 +115,14 @@ class AddReminderComponent extends React.Component<IProps, IState> {
     this.props.context.show(Snooze, {
       close: this.props.context.hide,
       id: this.props.id,
+      setDueDate: (dueDate: number) => {
+        if (this.props.id) {
+          this.props.close(true);
+          this.props.onSetDueDate(this.props.id, dueDate);
+        } else {
+          this.setState({ dueDate });
+        }
+      },
     });
   }
 
@@ -138,7 +148,7 @@ class AddReminderComponent extends React.Component<IProps, IState> {
   public render() {
     return (
       <AddReminder
-        isSnoozed={!!this.props.isSnoozed}
+        isSnoozed={!!this.props.isSnoozed || !!this.state.dueDate}
         onSnooze={this.onSnooze}
         isDone={!!this.props.isDone}
         onDone={this.onDone}
