@@ -112,6 +112,9 @@ const general = {
       Inbox: {
         web: '.Menu__InboxButton',
       },
+      Snoozed: {
+        web: '.Menu__SnoozedButton',
+      },
     },
     web: '.Menu',
   },

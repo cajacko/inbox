@@ -291,9 +291,38 @@ Feature: Snooze
     When we navigate to the "snoozed" scene
     Then the reminder list count "is" "1"
 
-# Scenario: Can swipe to snooze from done scene
-# Scenario: Can swipe to snooze from snooze scene
-# Scenario: Can navigate to the snoozed scene from the menu
+  # Can't test yet
+  # Scenario: Can swipe to snooze from done scene
+  # Scenario: Can swipe to snooze from snooze scene
 
-# Scenario: Snooze a reminder, mark as done, then mark as undone
-# Where should it go, should the due date be reset?
+  Scenario: Can navigate to the snoozed scene from the menu
+    Given we have logged in successfully
+    When the menu button is pressed
+    Then the menu "will be" visible
+    And the menu "snoozed" button is pressed
+    Then the "snoozed" route "is" visible
+
+  Scenario: Snooze a reminder, mark as done, then mark as undone, does not retain snooze dueDate
+    Given we have logged in successfully
+    When we add a reminder with the text "Item to be snoozed"
+    And the "1st" reminder is pressed
+    And the edit scene "snooze button" is pressed
+    And the "later today" snooze suggestion is pressed
+    Then the reminder list count "is" "0"
+    And the header loading icon "will not be" visible
+    When we navigate to the "snoozed" scene
+    Then the reminder list count "is" "1"
+    When the "1st" reminder is pressed
+    And the edit scene "done button" is pressed
+    Then the reminder list count "is" "0"
+    And the header loading icon "will not be" visible
+    When we navigate to the "done" scene
+    Then the reminder list count "is" "1"
+    When the "1st" reminder is pressed
+    And the edit scene "done button" is pressed
+    Then the reminder list count "is" "0"
+    And the header loading icon "will not be" visible
+    When we navigate to the "snoozed" scene
+    Then the reminder list count "is" "0"
+    When we navigate to the "home" scene
+    Then the reminder list count "is" "1"

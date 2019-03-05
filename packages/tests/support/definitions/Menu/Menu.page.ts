@@ -11,6 +11,7 @@ class Menu {
   private backgroundButton = selectors.general.Menu.BackgroundButton;
   private doneMenuItem = selectors.general.Menu.MenuItems.Done;
   private inboxMenuItem = selectors.general.Menu.MenuItems.Inbox;
+  private snoozedMenuItem = selectors.general.Menu.MenuItems.Snoozed;
 
   public async visible(conditional: ICondition) {
     return driver.visible(conditional, getSelector(this.menu));
@@ -39,6 +40,8 @@ class Menu {
           return getSelector(this.doneMenuItem);
         case 'inbox':
           return getSelector(this.inboxMenuItem);
+        case 'snoozed':
+          return getSelector(this.snoozedMenuItem);
         default:
           throw new Error(`Unknown menu item given ${item}`);
       }

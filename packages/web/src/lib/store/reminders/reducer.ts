@@ -186,6 +186,7 @@ export default createReducer<IState>(initialState, {
     id, dateModified, isDone, time,
   }) => setReminder(state, id, {
     dateModified,
+    dueDate: time,
     saveStatus: 'saving',
     status: isDone ? 'DONE' : 'INBOX',
   }, time),
