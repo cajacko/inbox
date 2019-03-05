@@ -156,7 +156,7 @@ Feature: Snooze
     And the we hover over the "1st" reminder
     And the "1st" reminder hover "snooze" button is pressed
     Then the snooze reminder modal "is" visible
-    Then the header loading icon "will not be" visible
+    And the header loading icon "will not be" visible
     And the screenshot matches
 
   Scenario: Snooze menu displays correctly from edit scene
@@ -229,10 +229,49 @@ Feature: Snooze
     Then the "snoozed" route "will be" visible
     And the reminder list count "is" "1"
 
-# Scenario: Snooze an existing reminder from swipe left
-# Scenario: Snooze a reminder when create it
+  # Cant test this yet
+  # Scenario: Snooze an existing reminder from swipe left
 
-# Scenario: Snooze a new reminder, turns the edit scene snooze icon to orange
+  Scenario: Snooze a reminder when create it does not save it
+    Given we have logged in successfully
+    Then the reminder list count "is" "0"
+    And the add reminder button is pressed
+    And the text "Snooze as create" is typed into the add reminder input
+    And the edit scene "snooze button" is pressed
+    And the "later today" snooze suggestion is pressed
+    Then the snooze reminder modal "is not" visible
+    And the add reminder scene "is" visible
+    When the add reminder cancel button is pressed
+    Then the add reminder scene "is not" visible
+    And the reminder list count "is" "0"
+    When we navigate to the "snoozed" scene
+    Then the "snoozed" route "will be" visible
+    And the reminder list count "is" "0"
+
+  Scenario: Snooze a reminder when create it, then save, snoozes the reminder
+    Given we have logged in successfully
+    Then the reminder list count "is" "0"
+    When the add reminder button is pressed
+    And the text "Snooze as create" is typed into the add reminder input
+    And the edit scene "snooze button" is pressed
+    And the "later today" snooze suggestion is pressed
+    When the add reminder save button is pressed
+    Then the reminder list count "is" "0"
+    And the header loading icon "will not be" visible
+    When we navigate to the "snoozed" scene
+    Then the "snoozed" route "will be" visible
+    And the reminder list count "is" "1"
+
+  Scenario: Snooze a reminder when create it turns the snooze icon orange
+    Given we have logged in successfully
+    Then the reminder list count "is" "0"
+    And the add reminder button is pressed
+    And the text "Snooze as create" is typed into the add reminder input
+    And the edit scene "snooze button" is pressed
+    And the "later today" snooze suggestion is pressed
+    Then the snooze reminder modal "is not" visible
+    And the add reminder scene "is" visible
+    And the screenshot matches
 
 # Scenario: Can snooze reminder that is done
 # This does not close both modals
