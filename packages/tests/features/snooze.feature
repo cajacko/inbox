@@ -273,8 +273,23 @@ Feature: Snooze
     And the add reminder scene "is" visible
     And the screenshot matches
 
-# Scenario: Can snooze reminder that is done
-# This does not close both modals
+  # Takes out the done status
+  Scenario: Can snooze reminder that is done
+    Given we preload the redux state with "1" "done" reminders
+    And we have logged in successfully
+    Then the reminder list count "is" "0"
+    And the header loading icon "will not be" visible
+    When we navigate to the "snoozed" scene
+    Then the reminder list count "is" "0"
+    When we navigate to the "done" scene
+    Then the reminder list count "is" "1"
+    When the we hover over the "1st" reminder
+    And the "1st" reminder hover "snooze" button is pressed
+    And the "later today" snooze suggestion is pressed
+    Then the reminder list count "is" "0"
+    And the header loading icon "will not be" visible
+    When we navigate to the "snoozed" scene
+    Then the reminder list count "is" "1"
 
 # Scenario: Can swipe to snooze from done scene
 # Scenario: Can swipe to snooze from snooze scene
