@@ -33,7 +33,7 @@ Feature: Done
   Scenario: Mark a reminder as done successfully via the hover button
     When the we hover over the "1st" reminder
     And the "1st" reminder hover "done" button is pressed
-    Then the reminder list count "is" "0"
+    Then the reminder list count "will be" "0"
     And the header loading icon "will not be" visible
     When we navigate to the "done" scene
     Then the reminder list count "is" "1"
@@ -54,6 +54,7 @@ Feature: Done
   Scenario: Done list displays correctly
     When the we hover over the "1st" reminder
     And the "1st" reminder hover "done" button is pressed
+    Then the reminder list count "will be" "0"
     And the header loading icon "will not be" visible
     When we navigate to the "done" scene
     Then the "done" route "is" visible
@@ -79,14 +80,14 @@ Feature: Done
   Scenario: Unmarking a reminder as done puts it back in the inbox list
     When the we hover over the "1st" reminder
     And the "1st" reminder hover "done" button is pressed
-    Then the reminder list count "is" "0"
+    Then the reminder list count "will be" "0"
     And the header loading icon "will not be" visible
     When we navigate to the "done" scene
     Then the reminder list count "is" "1"
     And the text for the "1st" reminder "is" "Item to be done"
     When the we hover over the "1st" reminder
     And the "1st" reminder hover "done" button is pressed
-    Then the reminder list count "is" "0"
+    Then the reminder list count "will be" "0"
     And the header loading icon "will not be" visible
     When we navigate to the "home" scene
     Then the reminder list count "is" "1"
