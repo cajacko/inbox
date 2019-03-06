@@ -40,8 +40,10 @@ export const ConfirmHeader = styled(View)`
   ${margin({ bottom: 10 })}
 `;
 
+const buttonWidth = 300;
+
 export const ConfirmButton = styled(View)`
-  width: ${unit(300)};
+  width: ${unit(buttonWidth)};
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
@@ -62,4 +64,14 @@ export const ConfirmSaveButton = styled(View)`
   align-items: center;
   justify-content: center;
   ${margin({ top: 10 })}
+`;
+
+export const TimeSuggestionsContainer = styled(View)``;
+
+export const TimeSuggestion = styled(View)`
+  width: ${unit(buttonWidth)};
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  ${padding(10)}
 `;

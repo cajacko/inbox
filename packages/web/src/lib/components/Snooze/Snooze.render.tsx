@@ -24,6 +24,12 @@ export interface ISuggestion extends ISuggestionLoopItem {
   key: keyof typeof suggestionsAction;
 }
 
+export interface ISuggestedTimes {
+  label: string;
+  time?: string;
+  onChangeTime: () => void;
+}
+
 export interface IProps {
   type: 'SUGGESTIONS' | 'CALENDAR' | 'TIME' | 'CONFIRM' | 'TIME_SUGGESTIONS';
   suggestions: ISuggestion[];
@@ -33,6 +39,7 @@ export interface IProps {
   onSelectTime: () => void;
   customTimeLabel: string;
   customTime: string;
+  suggestedTimes: ISuggestedTimes[];
 }
 
 /**
@@ -47,6 +54,7 @@ const Snooze = ({
   onSelectTime,
   customTimeLabel,
   customTime,
+  suggestedTimes,
 }: IProps) => {
   switch (type) {
     case 'SUGGESTIONS':
@@ -154,8 +162,37 @@ const Snooze = ({
         </Style.ConfirmContainer>
       );
 
-    case 'TIME':
     case 'TIME_SUGGESTIONS':
+      return (
+        <Style.TimeSuggestionsContainer>
+          {suggestedTimes.map(({ label, time, onChangeTime }) => (
+            <Button
+              key={label}
+              analyticsAction="OPEN_TIME"
+              analyticsCategory="SNOOZE_CUSTOM_CONFIRM"
+              action={onChangeTime}
+            >
+              {() => (
+                <Style.TimeSuggestion>
+                  <Text
+                    text={{ _textFromConst: label }}
+                    backgroundColor={BACKGROUND_COLORS.WHITE}
+                  />
+                  {time && (
+                    <Text
+                      text={{ _textFromConst: time }}
+                      backgroundColor={BACKGROUND_COLORS.WHITE}
+                      greyedOut
+                    />
+                  )}
+                </Style.TimeSuggestion>
+              )}
+            </Button>
+          ))}
+        </Style.TimeSuggestionsContainer>
+      );
+
+    case 'TIME':
       return <View>{null}</View>;
 
     default:

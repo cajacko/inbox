@@ -5,7 +5,11 @@ import Couch from 'src/lib/assets/icons/Couch';
 import Moon from 'src/lib/assets/icons/Moon';
 import Sun from 'src/lib/assets/icons/Sun';
 import CustomDate from 'src/lib/modules/CustomDate';
-import Snooze, { IProps as RenderProps, ISuggestion } from './Snooze.render';
+import Snooze, {
+  IProps as RenderProps,
+  ISuggestedTimes,
+  ISuggestion,
+} from './Snooze.render';
 
 interface IProps {
   fullScreen: boolean;
@@ -19,6 +23,7 @@ interface IState {
   customDate: string;
   customTimeLabel: string;
   customTime: string;
+  suggestedTimes: ISuggestedTimes[];
 }
 
 /**
@@ -40,6 +45,29 @@ class SnoozeComponent extends React.Component<IProps, IState> {
       customDate: 'Wed 6 Mar',
       customTime: '17:30',
       customTimeLabel: 'Suggestions.Time.Evening',
+      suggestedTimes: [
+        {
+          label: 'Morning',
+          onChangeTime: this.onChangeTime,
+          time: '06:30',
+        },
+        {
+          label: 'Afternoon',
+          onChangeTime: this.onChangeTime,
+          time: '12:30',
+        },
+        {
+          label: 'Evening',
+          onChangeTime: this.onChangeTime,
+          time: '17:30',
+        },
+        {
+          label: 'Customised',
+          onChangeTime: () => {
+            this.setState({ type: 'TIME' });
+          },
+        },
+      ],
       suggestions: [
         {
           action: this.onSelectDate(new CustomDate(CustomDate.now() + 360000)),
@@ -125,6 +153,10 @@ class SnoozeComponent extends React.Component<IProps, IState> {
     this.setState({ type: 'TIME_SUGGESTIONS' });
   }
 
+  private onChangeTime() {
+    console.log('onChangeTime');
+  }
+
   /**
    * Render the component
    */
@@ -139,6 +171,7 @@ class SnoozeComponent extends React.Component<IProps, IState> {
         onSelectTime={this.onSelectTime}
         customTimeLabel={this.state.customTimeLabel}
         customTime={this.state.customTime}
+        suggestedTimes={this.state.suggestedTimes}
       />
     );
   }
