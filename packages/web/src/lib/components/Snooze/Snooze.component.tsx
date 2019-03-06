@@ -40,6 +40,7 @@ class SnoozeComponent extends React.Component<IProps, IState> {
     this.onSelectDateAndTime = this.onSelectDateAndTime.bind(this);
     this.onChangeDate = this.onChangeDate.bind(this);
     this.onSelectTime = this.onSelectTime.bind(this);
+    this.onChangeTime = this.onChangeTime.bind(this);
 
     this.state = {
       customDate: 'Wed 6 Mar',
@@ -153,8 +154,11 @@ class SnoozeComponent extends React.Component<IProps, IState> {
     this.setState({ type: 'TIME_SUGGESTIONS' });
   }
 
+  /**
+   * When the time is selected show the confirm view
+   */
   private onChangeTime() {
-    console.log('onChangeTime');
+    this.setState({ type: 'CONFIRM' });
   }
 
   /**
@@ -172,6 +176,7 @@ class SnoozeComponent extends React.Component<IProps, IState> {
         customTimeLabel={this.state.customTimeLabel}
         customTime={this.state.customTime}
         suggestedTimes={this.state.suggestedTimes}
+        onChangeTime={this.onChangeTime}
       />
     );
   }

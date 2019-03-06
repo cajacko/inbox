@@ -6,12 +6,14 @@ import {
   COLORS_FOR_BACKGROUND,
 } from 'src/lib/config/styles/textIconColors';
 import CustomDate from 'src/lib/modules/CustomDate';
+import marketingCopy from 'src/lib/utils/marketingCopy';
 import { createGlobalStyle } from 'styled-components';
 
 registerLocale('en-GB', enGB);
 
 interface IProps {
   onChange: () => void;
+  showTimeOnly?: boolean;
 }
 
 const daySpacing = 14;
@@ -26,7 +28,9 @@ const GlobalStyle = createGlobalStyle`
     font-size: 14px;
   }
 
-  .react-datepicker__navigation:hover, .react-datepicker__day:hover {
+  .react-datepicker__navigation:hover,
+  .react-datepicker__day:hover,
+  .react-datepicker__time-list-item:hover {
     opacity: 0.5;
   }
 
@@ -109,6 +113,34 @@ const GlobalStyle = createGlobalStyle`
     color: ${COLORS_FOR_BACKGROUND[selectedBackgroundColor].default};
     border-radius: 50%;
   }
+
+  .react-datepicker-time__header {
+    display: flex;
+    flex: 1;
+    padding: ${daySpacing}px;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    color: ${COLORS_FOR_BACKGROUND[headingColor].default};
+  }
+
+  .react-datepicker__time-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    height: 200px;
+    overflow: auto;
+  }
+
+  .react-datepicker__time-list-item {
+    display: flex;
+    flex: 1;
+    padding: 10px ${daySpacing}px;
+    align-items: center;
+    justify-content: center;
+    width: 200px;
+    cursor: pointer;
+  }
 `;
 
 /**
@@ -143,6 +175,11 @@ class DatePickerComponent extends React.Component<IProps> {
           onChange={this.props.onChange}
           locale="en-GB"
           selected={selected}
+          showTimeSelect={!!this.props.showTimeOnly}
+          showTimeSelectOnly={!!this.props.showTimeOnly}
+          timeIntervals={15}
+          dateFormat="h:mm aa"
+          timeCaption={marketingCopy.get('DatePicker.Time')}
         />
       </React.Fragment>
     );

@@ -16,6 +16,9 @@
       "Custom": "Custom"
     }
   },
+  "DatePicker": {
+    "Time": "Select a Time"
+  },
   "Navigation": {
     "GoBack": "GO BACK",
     "GoToHome": "GO TO HOME"

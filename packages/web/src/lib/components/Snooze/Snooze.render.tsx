@@ -1,5 +1,6 @@
+/* eslint max-lines: 0 */
 import * as React from 'react';
-import { DatePicker, View } from 'src/components';
+import { DatePicker, TimePicker } from 'src/components';
 import Calendar from 'src/lib/assets/icons/CalendarAlt';
 import ChevronDown from 'src/lib/assets/icons/ChevronDown';
 import Button from 'src/lib/components/Button';
@@ -40,6 +41,7 @@ export interface IProps {
   customTimeLabel: string;
   customTime: string;
   suggestedTimes: ISuggestedTimes[];
+  onChangeTime: () => void;
 }
 
 /**
@@ -55,6 +57,7 @@ const Snooze = ({
   customTimeLabel,
   customTime,
   suggestedTimes,
+  onChangeTime,
 }: IProps) => {
   switch (type) {
     case 'SUGGESTIONS':
@@ -87,6 +90,9 @@ const Snooze = ({
           </Style.Footer>
         </Style.Container>
       );
+
+    case 'TIME':
+      return <TimePicker onChange={onChangeTime} />;
 
     case 'CALENDAR':
       return <DatePicker onChange={onChangeDate} />;
@@ -165,22 +171,22 @@ const Snooze = ({
     case 'TIME_SUGGESTIONS':
       return (
         <Style.TimeSuggestionsContainer>
-          {suggestedTimes.map(({ label, time, onChangeTime }) => (
+          {suggestedTimes.map(suggestedTime => (
             <Button
-              key={label}
+              key={suggestedTime.label}
               analyticsAction="OPEN_TIME"
               analyticsCategory="SNOOZE_CUSTOM_CONFIRM"
-              action={onChangeTime}
+              action={suggestedTime.onChangeTime}
             >
               {() => (
                 <Style.TimeSuggestion>
                   <Text
-                    text={{ _textFromConst: label }}
+                    text={{ _textFromConst: suggestedTime.label }}
                     backgroundColor={BACKGROUND_COLORS.WHITE}
                   />
-                  {time && (
+                  {suggestedTime.time && (
                     <Text
-                      text={{ _textFromConst: time }}
+                      text={{ _textFromConst: suggestedTime.time }}
                       backgroundColor={BACKGROUND_COLORS.WHITE}
                       greyedOut
                     />
@@ -191,9 +197,6 @@ const Snooze = ({
           ))}
         </Style.TimeSuggestionsContainer>
       );
-
-    case 'TIME':
-      return <View>{null}</View>;
 
     default:
       throw new AppError(`Invalid type given to Snooze: ${type}`, '100-021');
