@@ -188,7 +188,13 @@ const general = {
     web: '.ReminderList',
   },
   SnoozeModal: {
+    Calendar: {
+      web: '.Calendar',
+    },
     Suggestions: {
+      Custom: {
+        web: '.Suggestion--SelectDateTime',
+      },
       LaterToday: {
         web: '.Suggestion--LaterToday',
       },

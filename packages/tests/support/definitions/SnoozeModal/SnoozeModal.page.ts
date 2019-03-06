@@ -7,6 +7,9 @@ class SnoozeModal {
   private snoozeModal = selectors.general.SnoozeModal;
   private laterTodaySelector =
     selectors.general.SnoozeModal.Suggestions.LaterToday;
+  private customDateTimeSelector =
+    selectors.general.SnoozeModal.Suggestions.Custom;
+  private snoozeCalendar = selectors.general.SnoozeModal.Calendar;
 
   public async visible(conditional: ICondition) {
     return driver.visible(conditional, getSelector(this.snoozeModal));
@@ -23,6 +26,14 @@ class SnoozeModal {
     };
 
     return driver.press(getSelector(getSuggestion()));
+  }
+
+  public async calendarVisible(conditional: ICondition) {
+    return driver.visible(conditional, getSelector(this.snoozeCalendar));
+  }
+
+  public async pressCustomDate() {
+    return driver.press(getSelector(this.customDateTimeSelector));
   }
 }
 

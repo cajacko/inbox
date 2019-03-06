@@ -8,6 +8,14 @@
     "Done": "Done",
     "Snoozed": "Snoozed"
   },
+  "Suggestions": {
+    "Time": {
+      "Morning": "Morning",
+      "Afternoon": "Afternoon",
+      "Evening": "Evening",
+      "Custom": "Custom"
+    }
+  },
   "Navigation": {
     "GoBack": "GO BACK",
     "GoToHome": "GO TO HOME"
