@@ -41,6 +41,7 @@ class SnoozeComponent extends React.Component<IProps, IState> {
     this.onChangeDate = this.onChangeDate.bind(this);
     this.onSelectTime = this.onSelectTime.bind(this);
     this.onChangeTime = this.onChangeTime.bind(this);
+    this.onSave = this.onSave.bind(this);
 
     this.state = {
       customDate: 'Wed 6 Mar',
@@ -50,16 +51,19 @@ class SnoozeComponent extends React.Component<IProps, IState> {
         {
           label: 'Morning',
           onChangeTime: this.onChangeTime,
+          testID: 'TimeSuggestion--Morning',
           time: '06:30',
         },
         {
           label: 'Afternoon',
           onChangeTime: this.onChangeTime,
+          testID: 'TimeSuggestion--Afternoon',
           time: '12:30',
         },
         {
           label: 'Evening',
           onChangeTime: this.onChangeTime,
+          testID: 'TimeSuggestion--Evening',
           time: '17:30',
         },
         {
@@ -67,6 +71,7 @@ class SnoozeComponent extends React.Component<IProps, IState> {
           onChangeTime: () => {
             this.setState({ type: 'TIME' });
           },
+          testID: 'TimeSuggestion--Customised',
         },
       ],
       suggestions: [
@@ -162,6 +167,13 @@ class SnoozeComponent extends React.Component<IProps, IState> {
   }
 
   /**
+   * When the save button is pressed, save the custom date
+   */
+  private onSave() {
+    this.onSelectDate(new CustomDate())();
+  }
+
+  /**
    * Render the component
    */
   public render() {
@@ -177,6 +189,7 @@ class SnoozeComponent extends React.Component<IProps, IState> {
         customTime={this.state.customTime}
         suggestedTimes={this.state.suggestedTimes}
         onChangeTime={this.onChangeTime}
+        onSave={this.onSave}
       />
     );
   }

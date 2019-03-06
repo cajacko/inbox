@@ -1,3 +1,6 @@
+/* eslint max-lines: 0 */
+import getReactDatePickerDay from '../../utils/getReactDatePickerDay';
+
 const general = {
   AddButton: {
     web: '.AddButton',
@@ -22,6 +25,12 @@ const general = {
       web: '.AddReminder__Snooze',
     },
     web: '.AddReminder',
+  },
+  DatePicker: {
+    Day: {
+      web: ({ day }: { day: number }) =>
+        `.react-datepicker__day--${getReactDatePickerDay(day)}`,
+    },
   },
   Done: {
     web: '.Done',
@@ -189,7 +198,13 @@ const general = {
   },
   SnoozeModal: {
     Calendar: {
-      web: '.Calendar',
+      web: '.Snooze--DatePicker',
+    },
+    ChangeTime: {
+      web: '.SnoozeConfirm__Time',
+    },
+    Save: {
+      web: '.SnoozeConfirm__Save',
     },
     Suggestions: {
       Custom: {
@@ -197,6 +212,14 @@ const general = {
       },
       LaterToday: {
         web: '.Suggestion--LaterToday',
+      },
+      Time: {
+        Customised: {
+          web: '.TimeSuggestion--Customised',
+        },
+        Evening: {
+          web: '.TimeSuggestion--Evening',
+        },
       },
     },
     web: '.SnoozedModal',

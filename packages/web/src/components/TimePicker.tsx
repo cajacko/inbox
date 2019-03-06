@@ -3,13 +3,14 @@ import DatePicker from 'src/components/DatePicker';
 
 interface IProps {
   onChange: () => void;
+  testID?: string;
 }
 
 /**
  * Show the time picker
  */
-const TimePicker = ({ onChange }: IProps) => (
-  <DatePicker onChange={onChange} showTimeOnly />
+const TimePicker = ({ onChange, testID }: IProps) => (
+  <DatePicker onChange={onChange} showTimeOnly testID={testID} />
 );
 
 export default TimePicker;

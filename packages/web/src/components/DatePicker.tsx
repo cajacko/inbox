@@ -1,3 +1,4 @@
+/* eslint max-lines: 0 */
 import enGB from 'date-fns/locale/en-GB';
 import * as React from 'react';
 import DatePicker, { registerLocale } from 'react-datepicker';
@@ -14,6 +15,7 @@ registerLocale('en-GB', enGB);
 interface IProps {
   onChange: () => void;
   showTimeOnly?: boolean;
+  testID?: string;
 }
 
 const daySpacing = 14;
@@ -171,6 +173,7 @@ class DatePickerComponent extends React.Component<IProps> {
       <React.Fragment>
         <GlobalStyle />
         <DatePicker
+          calendarClassName={this.props.testID}
           inline
           onChange={this.props.onChange}
           locale="en-GB"

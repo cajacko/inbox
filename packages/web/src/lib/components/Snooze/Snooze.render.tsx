@@ -29,6 +29,7 @@ export interface ISuggestedTimes {
   label: string;
   time?: string;
   onChangeTime: () => void;
+  testID: string;
 }
 
 export interface IProps {
@@ -42,6 +43,7 @@ export interface IProps {
   customTime: string;
   suggestedTimes: ISuggestedTimes[];
   onChangeTime: () => void;
+  onSave: () => void;
 }
 
 /**
@@ -58,11 +60,14 @@ const Snooze = ({
   customTime,
   suggestedTimes,
   onChangeTime,
+  onSave,
 }: IProps) => {
+  const testID = 'SnoozedModal';
+
   switch (type) {
     case 'SUGGESTIONS':
       return (
-        <Style.Container testID="SnoozedModal">
+        <Style.Container testID={testID}>
           <Style.Suggestions>
             {suggestions.map(({ key, ...suggestion }) => (
               <Style.Suggestion key={key}>
@@ -92,14 +97,14 @@ const Snooze = ({
       );
 
     case 'TIME':
-      return <TimePicker onChange={onChangeTime} />;
+      return <TimePicker onChange={onChangeTime} testID="Snooze--TimePicker" />;
 
     case 'CALENDAR':
-      return <DatePicker onChange={onChangeDate} />;
+      return <DatePicker onChange={onChangeDate} testID="Snooze--DatePicker" />;
 
     case 'CONFIRM':
       return (
-        <Style.ConfirmContainer>
+        <Style.ConfirmContainer testID={testID}>
           <Style.ConfirmHeader>
             <Text
               text={{ _textFromConst: 'Select date and time' }}
@@ -133,6 +138,7 @@ const Snooze = ({
             analyticsAction="OPEN_TIME"
             analyticsCategory="SNOOZE_CUSTOM_CONFIRM"
             action={onSelectTime}
+            testID="SnoozeConfirm__Time"
           >
             {() => (
               <Style.ConfirmButton>
@@ -163,6 +169,8 @@ const Snooze = ({
               analyticsAction="SAVE"
               analyticsCategory="SNOOZE_CUSTOM_CONFIRM"
               type={getButtonType('TRANSPARENT.PRIMARY')}
+              testID="SnoozeConfirm__Save"
+              action={onSave}
             />
           </Style.ConfirmSaveButton>
         </Style.ConfirmContainer>
@@ -170,13 +178,14 @@ const Snooze = ({
 
     case 'TIME_SUGGESTIONS':
       return (
-        <Style.TimeSuggestionsContainer>
+        <Style.TimeSuggestionsContainer testID={testID}>
           {suggestedTimes.map(suggestedTime => (
             <Button
               key={suggestedTime.label}
               analyticsAction="OPEN_TIME"
               analyticsCategory="SNOOZE_CUSTOM_CONFIRM"
               action={suggestedTime.onChangeTime}
+              testID={suggestedTime.testID}
             >
               {() => (
                 <Style.TimeSuggestion>
