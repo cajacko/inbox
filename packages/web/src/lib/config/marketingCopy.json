@@ -17,7 +17,8 @@
     }
   },
   "DatePicker": {
-    "Time": "Select a Time"
+    "Time": "Select a Time",
+    "Set": "Set"
   },
   "Navigation": {
     "GoBack": "GO BACK",

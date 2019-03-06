@@ -1,6 +1,7 @@
 /* eslint max-lines: 0 */
 import * as React from 'react';
-import { DatePicker, TimePicker } from 'src/components';
+import DatePicker from 'src/components/DatePicker';
+import TimePicker from 'src/components/TimePicker';
 import Calendar from 'src/lib/assets/icons/CalendarAlt';
 import ChevronDown from 'src/lib/assets/icons/ChevronDown';
 import Button from 'src/lib/components/Button';
@@ -64,6 +65,81 @@ const Snooze = ({
 }: IProps) => {
   const testID = 'SnoozedModal';
 
+  const confirm = (
+    <Style.ConfirmContainer testID={testID}>
+      <Style.ConfirmHeader>
+        <Text
+          text={{ _textFromConst: 'Select date and time' }}
+          backgroundColor={BACKGROUND_COLORS.WHITE}
+          type="h6"
+        />
+      </Style.ConfirmHeader>
+
+      <Button
+        analyticsAction="OPEN_DATE"
+        analyticsCategory="SNOOZE_CUSTOM_CONFIRM"
+        action={onSelectDateAndTime}
+        styles={{ flexDirection: 'row' }}
+      >
+        {() => (
+          <Style.ConfirmButton>
+            <Text
+              text={{ _textFromConst: customDate }}
+              backgroundColor={BACKGROUND_COLORS.WHITE}
+            />
+            <Style.ConfirmRight>
+              <ChevronDown
+                size={Style.CHEVRON_SIZE}
+                backgroundColor={BACKGROUND_COLORS.WHITE}
+              />
+            </Style.ConfirmRight>
+          </Style.ConfirmButton>
+        )}
+      </Button>
+
+      <Button
+        analyticsAction="OPEN_TIME"
+        analyticsCategory="SNOOZE_CUSTOM_CONFIRM"
+        action={onSelectTime}
+        testID="SnoozeConfirm__Time"
+        styles={{ flexDirection: 'row' }}
+      >
+        {() => (
+          <Style.ConfirmButton>
+            <Text
+              text={customTimeLabel}
+              backgroundColor={BACKGROUND_COLORS.WHITE}
+            />
+            <Style.ConfirmRight>
+              <Style.ConfirmValue>
+                <Text
+                  text={{ _textFromConst: customTime }}
+                  backgroundColor={BACKGROUND_COLORS.WHITE}
+                  greyedOut
+                />
+              </Style.ConfirmValue>
+              <ChevronDown
+                size={Style.CHEVRON_SIZE}
+                backgroundColor={BACKGROUND_COLORS.WHITE}
+              />
+            </Style.ConfirmRight>
+          </Style.ConfirmButton>
+        )}
+      </Button>
+
+      <Style.ConfirmSaveButton>
+        <Button
+          text={{ _textFromConst: 'Save' }}
+          analyticsAction="SAVE"
+          analyticsCategory="SNOOZE_CUSTOM_CONFIRM"
+          type={getButtonType('TRANSPARENT.PRIMARY')}
+          testID="SnoozeConfirm__Save"
+          action={onSave}
+        />
+      </Style.ConfirmSaveButton>
+    </Style.ConfirmContainer>
+  );
+
   switch (type) {
     case 'SUGGESTIONS':
       return (
@@ -97,84 +173,25 @@ const Snooze = ({
       );
 
     case 'TIME':
-      return <TimePicker onChange={onChangeTime} testID="Snooze--TimePicker" />;
+      return (
+        <TimePicker
+          onChange={onChangeTime}
+          testID="Snooze--TimePicker"
+          backgroundComponent={confirm}
+        />
+      );
 
     case 'CALENDAR':
-      return <DatePicker onChange={onChangeDate} testID="Snooze--DatePicker" />;
+      return (
+        <DatePicker
+          onChange={onChangeDate}
+          testID="Snooze--DatePicker"
+          backgroundComponent={confirm}
+        />
+      );
 
     case 'CONFIRM':
-      return (
-        <Style.ConfirmContainer testID={testID}>
-          <Style.ConfirmHeader>
-            <Text
-              text={{ _textFromConst: 'Select date and time' }}
-              backgroundColor={BACKGROUND_COLORS.WHITE}
-              type="h6"
-            />
-          </Style.ConfirmHeader>
-
-          <Button
-            analyticsAction="OPEN_DATE"
-            analyticsCategory="SNOOZE_CUSTOM_CONFIRM"
-            action={onSelectDateAndTime}
-          >
-            {() => (
-              <Style.ConfirmButton>
-                <Text
-                  text={{ _textFromConst: customDate }}
-                  backgroundColor={BACKGROUND_COLORS.WHITE}
-                />
-                <Style.ConfirmRight>
-                  <ChevronDown
-                    size={Style.CHEVRON_SIZE}
-                    backgroundColor={BACKGROUND_COLORS.WHITE}
-                  />
-                </Style.ConfirmRight>
-              </Style.ConfirmButton>
-            )}
-          </Button>
-
-          <Button
-            analyticsAction="OPEN_TIME"
-            analyticsCategory="SNOOZE_CUSTOM_CONFIRM"
-            action={onSelectTime}
-            testID="SnoozeConfirm__Time"
-          >
-            {() => (
-              <Style.ConfirmButton>
-                <Text
-                  text={customTimeLabel}
-                  backgroundColor={BACKGROUND_COLORS.WHITE}
-                />
-                <Style.ConfirmRight>
-                  <Style.ConfirmValue>
-                    <Text
-                      text={{ _textFromConst: customTime }}
-                      backgroundColor={BACKGROUND_COLORS.WHITE}
-                      greyedOut
-                    />
-                  </Style.ConfirmValue>
-                  <ChevronDown
-                    size={Style.CHEVRON_SIZE}
-                    backgroundColor={BACKGROUND_COLORS.WHITE}
-                  />
-                </Style.ConfirmRight>
-              </Style.ConfirmButton>
-            )}
-          </Button>
-
-          <Style.ConfirmSaveButton>
-            <Button
-              text={{ _textFromConst: 'Save' }}
-              analyticsAction="SAVE"
-              analyticsCategory="SNOOZE_CUSTOM_CONFIRM"
-              type={getButtonType('TRANSPARENT.PRIMARY')}
-              testID="SnoozeConfirm__Save"
-              action={onSave}
-            />
-          </Style.ConfirmSaveButton>
-        </Style.ConfirmContainer>
-      );
+      return confirm;
 
     case 'TIME_SUGGESTIONS':
       return (
@@ -186,6 +203,7 @@ const Snooze = ({
               analyticsCategory="SNOOZE_CUSTOM_CONFIRM"
               action={suggestedTime.onChangeTime}
               testID={suggestedTime.testID}
+              styles={{ flexDirection: 'row' }}
             >
               {() => (
                 <Style.TimeSuggestion>

@@ -7,6 +7,7 @@ import {
   COLORS_FOR_BACKGROUND,
 } from 'src/lib/config/styles/textIconColors';
 import CustomDate from 'src/lib/modules/CustomDate';
+import { Children } from 'src/lib/types/libs';
 import marketingCopy from 'src/lib/utils/marketingCopy';
 import { createGlobalStyle } from 'styled-components';
 
@@ -16,6 +17,7 @@ interface IProps {
   onChange: () => void;
   showTimeOnly?: boolean;
   testID?: string;
+  backgroundComponent: Children;
 }
 
 const daySpacing = 14;
