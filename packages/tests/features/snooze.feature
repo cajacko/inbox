@@ -151,7 +151,8 @@ Feature: Snooze
   # More advanced displays and behaviour of suggested times are checked in
   # snooze_suggestions.feature
   Scenario: Snooze menu displays correctly from hover
-    Given we have logged in successfully
+    Given we add a hook with id "now" and type "fixed1"
+    And we have logged in successfully
     When we add a reminder with the text "Item to be snoozed"
     And the we hover over the "1st" reminder
     And the "1st" reminder hover "snooze" button is pressed
@@ -160,7 +161,8 @@ Feature: Snooze
     And the screenshot matches
 
   Scenario: Snooze menu displays correctly from edit scene
-    Given we have logged in successfully
+    Given we add a hook with id "now" and type "fixed1"
+    And we have logged in successfully
     When we add a reminder with the text "Item to be snoozed"
     And the "1st" reminder is pressed
     And the edit scene "snooze button" is pressed
@@ -173,7 +175,8 @@ Feature: Snooze
   # More advanced displays and behaviour of custom date and times are checked in
   # snooze_custom_date.feature
   Scenario: Custom snooze date picker displays correctly from edit scene
-    Given we have logged in successfully
+    Given we add a hook with id "now" and type "fixed1"
+    And we have logged in successfully
     When we add a reminder with the text "Item to be snoozed"
     And the "1st" reminder is pressed
     And the edit scene "snooze button" is pressed
@@ -182,7 +185,8 @@ Feature: Snooze
     And the screenshot matches
 
   Scenario: Custom snooze confirm displays correctly from edit scene
-    Given we have logged in successfully
+    Given we add a hook with id "now" and type "fixed1"
+    And we have logged in successfully
     When we add a reminder with the text "Item to be snoozed"
     And the "1st" reminder is pressed
     And the edit scene "snooze button" is pressed
@@ -191,7 +195,8 @@ Feature: Snooze
     And the screenshot matches
 
   Scenario: Custom snooze time suggestions displays correctly from edit scene
-    Given we have logged in successfully
+    Given we add a hook with id "now" and type "fixed1"
+    And we have logged in successfully
     When we add a reminder with the text "Item to be snoozed"
     And the "1st" reminder is pressed
     And the edit scene "snooze button" is pressed
@@ -201,7 +206,8 @@ Feature: Snooze
     And the screenshot matches
 
   Scenario: Custom snooze time picker displays correctly from edit scene
-    Given we have logged in successfully
+    Given we add a hook with id "now" and type "fixed1"
+    And we have logged in successfully
     When we add a reminder with the text "Item to be snoozed"
     And the "1st" reminder is pressed
     And the edit scene "snooze button" is pressed
@@ -212,7 +218,9 @@ Feature: Snooze
     And the screenshot matches
 
   Scenario: Custom snooze date picker displays correctly from hover
-    Given we have logged in successfully
+    Given we add a hook with id "now" and type "fixed1"
+    And we add a hook with id "now" and type "fixed1"
+    And we have logged in successfully
     When we add a reminder with the text "Item to be snoozed"
     And the we hover over the "1st" reminder
     And the "1st" reminder hover "snooze" button is pressed
@@ -221,7 +229,8 @@ Feature: Snooze
     And the screenshot matches
 
   Scenario: Custom snooze confirm displays correctly from hover
-    Given we have logged in successfully
+    Given we add a hook with id "now" and type "fixed1"
+    And we have logged in successfully
     When we add a reminder with the text "Item to be snoozed"
     And the we hover over the "1st" reminder
     And the "1st" reminder hover "snooze" button is pressed
@@ -230,7 +239,8 @@ Feature: Snooze
     And the screenshot matches
 
   Scenario: Custom snooze time suggestions displays correctly from hover
-    Given we have logged in successfully
+    Given we add a hook with id "now" and type "fixed1"
+    And we have logged in successfully
     When we add a reminder with the text "Item to be snoozed"
     And the we hover over the "1st" reminder
     And the "1st" reminder hover "snooze" button is pressed
@@ -240,7 +250,8 @@ Feature: Snooze
     And the screenshot matches
 
   Scenario: Custom snooze time picker displays correctly from hover
-    Given we have logged in successfully
+    Given we add a hook with id "now" and type "fixed1"
+    And we have logged in successfully
     When we add a reminder with the text "Item to be snoozed"
     And the we hover over the "1st" reminder
     And the "1st" reminder hover "snooze" button is pressed

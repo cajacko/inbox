@@ -74,6 +74,7 @@ const browserHooks = (
       }),
     },
     now: {
+      fixed1: () => new Date(2019, 2, 6, 5, 0, 0).getTime(),
       plus2Days: () => {
         const now = new Date();
         now.setDate(now.getDate() + 2);
