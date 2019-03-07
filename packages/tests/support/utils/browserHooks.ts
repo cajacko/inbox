@@ -13,7 +13,7 @@ declare global {
 
 const browserHooks = (
   hooks: { [key: string]: string },
-  constants: { [key: string]: any }
+  constants: { scenarioValues: { [key: string]: any }; [key: string]: any }
 ) => {
   window.hooks = {};
   window.hookTypes = {};
@@ -80,6 +80,7 @@ const browserHooks = (
         now.setDate(now.getDate() + 2);
         return now.getTime();
       },
+      value: () => constants.scenarioValues.now,
     },
     refreshIdToken: {
       error: reject('No refreshIdToken'),

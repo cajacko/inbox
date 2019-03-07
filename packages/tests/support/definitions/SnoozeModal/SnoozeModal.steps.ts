@@ -21,3 +21,9 @@ When('the snooze confirm change time button is pressed', () =>
 
 When('the snooze scene custom save button is pressed', () =>
   snoozeModal.pressSave());
+
+Then(
+  /the "(.+?)" snooze suggestions visiblity "(.+?)" (false|true)/,
+  (suggestion, condition, value) =>
+    snoozeModal.suggestionVisible(condition, suggestion, value)
+);

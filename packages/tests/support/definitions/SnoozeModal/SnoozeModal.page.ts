@@ -1,12 +1,22 @@
 import selectors from '../../config/selectors';
 import driver from '../../utils/driver';
-import { ICondition } from '../../utils/ensureCondition';
+import ensureCondition, { ICondition } from '../../utils/ensureCondition';
 import getSelector from '../../utils/getSelector';
 
 class SnoozeModal {
   private snoozeModal = selectors.general.SnoozeModal;
+
   private laterTodaySelector =
     selectors.general.SnoozeModal.Suggestions.LaterToday;
+  private laterThisWeekSelector =
+    selectors.general.SnoozeModal.Suggestions.LaterThisWeek;
+  private nextWeekSelector = selectors.general.SnoozeModal.Suggestions.NextWeek;
+  private nextWeekendSelector =
+    selectors.general.SnoozeModal.Suggestions.NextWeekend;
+  private thisWeekendSelector =
+    selectors.general.SnoozeModal.Suggestions.ThisWeekend;
+  private tomorrowSelector = selectors.general.SnoozeModal.Suggestions.Tomorrow;
+
   private customDateTimeSelector =
     selectors.general.SnoozeModal.Suggestions.Custom;
   private snoozeCalendar = selectors.general.SnoozeModal.Calendar;
@@ -21,17 +31,27 @@ class SnoozeModal {
     return driver.visible(conditional, getSelector(this.snoozeModal));
   }
 
-  public async pressSuggestion(suggestion: string) {
-    const getSuggestion = () => {
-      switch (suggestion) {
-        case 'later today':
-          return this.laterTodaySelector;
-        default:
-          throw new Error(`No suggestion for ${suggestion}`);
-      }
-    };
+  private getSuggestion(suggestion: string) {
+    switch (suggestion) {
+      case 'later today':
+        return this.laterTodaySelector;
+      case 'later this week':
+        return this.laterThisWeekSelector;
+      case 'next week':
+        return this.nextWeekSelector;
+      case 'next weekend':
+        return this.nextWeekendSelector;
+      case 'this weekend':
+        return this.thisWeekendSelector;
+      case 'tomorrow':
+        return this.tomorrowSelector;
+      default:
+        throw new Error(`No suggestion for ${suggestion}`);
+    }
+  }
 
-    return driver.press(getSelector(getSuggestion()));
+  public async pressSuggestion(suggestion: string) {
+    return driver.press(getSelector(this.getSuggestion(suggestion)));
   }
 
   public async calendarVisible(conditional: ICondition) {
@@ -63,6 +83,23 @@ class SnoozeModal {
 
   public async pressSave() {
     return driver.press(getSelector(this.saveSelector));
+  }
+
+  public async suggestionVisible(
+    condition: string,
+    suggestion: string,
+    value: 'true' | 'false'
+  ) {
+    const finalCondition = ensureCondition(condition);
+
+    if (value === 'false') {
+      finalCondition.positive = !finalCondition.positive;
+    }
+
+    return driver.visible(
+      finalCondition,
+      getSelector(this.getSuggestion(suggestion))
+    );
   }
 }
 

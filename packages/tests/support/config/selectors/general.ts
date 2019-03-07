@@ -210,8 +210,20 @@ const general = {
       Custom: {
         web: '.Suggestion--SelectDateTime',
       },
+      LaterThisWeek: {
+        web: '.Suggestion--LaterThisWeek',
+      },
       LaterToday: {
         web: '.Suggestion--LaterToday',
+      },
+      NextWeek: {
+        web: '.Suggestion--NextWeek',
+      },
+      NextWeekend: {
+        web: '.Suggestion--NextWeekend',
+      },
+      ThisWeekend: {
+        web: '.Suggestion--ThisWeekend',
       },
       Time: {
         Customised: {
@@ -220,6 +232,9 @@ const general = {
         Evening: {
           web: '.TimeSuggestion--Evening',
         },
+      },
+      Tomorrow: {
+        web: '.Suggestion--Tomorrow',
       },
     },
     web: '.SnoozedModal',
