@@ -42,7 +42,7 @@ Feature: Snooze Suggestions
     When we add a reminder with the text "Item to be snoozed"
     And the we hover over the "1st" reminder
     And the "1st" reminder hover "snooze" button is pressed
-    Then the "today" snooze suggestions visiblity "is" <shows>
+    Then the "later today" snooze suggestions visiblity "is" <shows>
     And the header loading icon "will not be" visible
     And the screenshot matches, <time>, <shows>
 

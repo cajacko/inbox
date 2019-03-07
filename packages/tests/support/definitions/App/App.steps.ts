@@ -44,6 +44,35 @@ When('we remove the hook with id {string}', function (id) {
   return driver.removeHook(id, nonHeadless);
 });
 
+Given(/we set the time to (.*)/, function (time) {
+  // @ts-ignore
+  const { nonHeadless } = this;
+
+  const date = new Date(2019, 2, 4, 5, 0, 0);
+  let hour;
+
+  switch (time) {
+    case 'beforeMorning':
+      hour = 4;
+      break;
+    case 'beforeAfternoon':
+      hour = 11;
+      break;
+    case 'beforeEvening':
+      hour = 16;
+      break;
+    case 'afterEvening':
+      hour = 21;
+      break;
+    default:
+      throw new Error(`Day does not exist ${hour}`);
+  }
+
+  date.setHours(hour);
+
+  return driver.setDate(date.getTime(), nonHeadless);
+});
+
 Given(/we set the day to (.*)/, function (day) {
   // @ts-ignore
   const { nonHeadless } = this;
