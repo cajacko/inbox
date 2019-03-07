@@ -1,10 +1,6 @@
 import * as React from 'react';
-import Briefcase from 'src/lib/assets/icons/Briefcase';
-import BusinessTime from 'src/lib/assets/icons/BusinessTime';
-import Couch from 'src/lib/assets/icons/Couch';
-import Moon from 'src/lib/assets/icons/Moon';
-import Sun from 'src/lib/assets/icons/Sun';
 import CustomDate from 'src/lib/modules/CustomDate';
+import { getDates, getTimes } from 'src/lib/utils/getSnoozeSuggestions';
 import Snooze, {
   IProps as RenderProps,
   ISuggestedTimes,
@@ -47,83 +43,10 @@ class SnoozeComponent extends React.Component<IProps, IState> {
       customDate: 'Wed 6 Mar',
       customTime: '17:30',
       customTimeLabel: 'Suggestions.Time.Evening',
-      suggestedTimes: [
-        {
-          label: 'Morning',
-          onChangeTime: this.onChangeTime,
-          testID: 'TimeSuggestion--Morning',
-          time: '06:30',
-        },
-        {
-          label: 'Afternoon',
-          onChangeTime: this.onChangeTime,
-          testID: 'TimeSuggestion--Afternoon',
-          time: '12:30',
-        },
-        {
-          label: 'Evening',
-          onChangeTime: this.onChangeTime,
-          testID: 'TimeSuggestion--Evening',
-          time: '17:30',
-        },
-        {
-          label: 'Customised',
-          onChangeTime: () => {
-            this.setState({ type: 'TIME' });
-          },
-          testID: 'TimeSuggestion--Customised',
-        },
-      ],
-      suggestions: [
-        {
-          action: this.onSelectDate(new CustomDate(CustomDate.now() + 360000)),
-          icon: Moon,
-          key: 'laterToday',
-          testID: 'Suggestion--LaterToday',
-          text: { _textFromConst: 'Mon 06:45' },
-          title: { _textFromConst: 'Later Today' },
-        },
-        {
-          action: this.onSelectDate(new CustomDate(CustomDate.now() + 360000)),
-          icon: Sun,
-          key: 'tomorrow',
-          testID: 'Suggestion--Tomorrow',
-          text: { _textFromConst: 'Mon 06:45' },
-          title: { _textFromConst: 'Tomorrow' },
-        },
-        {
-          action: this.onSelectDate(new CustomDate(CustomDate.now() + 360000)),
-          icon: Briefcase,
-          key: 'laterThisWeek',
-          testID: 'Suggestion--LaterThisWeek',
-          text: { _textFromConst: 'Mon 06:45' },
-          title: { _textFromConst: 'Later This Week' },
-        },
-        {
-          action: this.onSelectDate(new CustomDate(CustomDate.now() + 360000)),
-          icon: Couch,
-          key: 'thisWeekend',
-          testID: 'Suggestion--ThisWeekend',
-          text: { _textFromConst: 'Mon 06:45' },
-          title: { _textFromConst: 'This Weekend' },
-        },
-        {
-          action: this.onSelectDate(new CustomDate(CustomDate.now() + 360000)),
-          icon: BusinessTime,
-          key: 'nextWeek',
-          testID: 'Suggestion--NextWeek',
-          text: { _textFromConst: 'Mon 06:45' },
-          title: { _textFromConst: 'Next Week' },
-        },
-        {
-          action: this.onSelectDate(new CustomDate(CustomDate.now() + 360000)),
-          icon: Couch,
-          key: 'nextWeekend',
-          testID: 'Suggestion--NextWeekend',
-          text: { _textFromConst: 'Mon 06:45' },
-          title: { _textFromConst: 'Next Weekend' },
-        },
-      ],
+      suggestedTimes: getTimes(this.onChangeTime, () => {
+        this.setState({ type: 'TIME' });
+      }),
+      suggestions: getDates(this.onSelectDate),
       type: 'SUGGESTIONS',
     };
   }

@@ -33,6 +33,11 @@ class CustomDate {
 
   // Add actual date methods here as we use them
   public getTime: Date['getTime'];
+  public setHours: Date['setHours'];
+  public setMinutes: Date['setMinutes'];
+  public setDate: Date['setDate'];
+  public getDate: Date['getDate'];
+  public getDay: Date['getDay'];
 }
 
 export default CustomDate;

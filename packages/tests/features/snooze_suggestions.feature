@@ -22,7 +22,7 @@ Feature: Snooze Suggestions
     When we add a reminder with the text "Item to be snoozed"
     And the we hover over the "1st" reminder
     And the "1st" reminder hover "snooze" button is pressed
-    Then the "later today" snooze suggestions visiblity "is" <shows>
+    Then the "later this week" snooze suggestions visiblity "is" <shows>
     And the header loading icon "will not be" visible
     And the screenshot matches, <day>, <shows>
 
@@ -44,7 +44,7 @@ Feature: Snooze Suggestions
     And the "1st" reminder hover "snooze" button is pressed
     Then the "today" snooze suggestions visiblity "is" <shows>
     And the header loading icon "will not be" visible
-    And the screenshot matches
+    And the screenshot matches, <time>, <shows>
 
     Examples:
       | time            | shows |
@@ -61,7 +61,7 @@ Feature: Snooze Suggestions
     And the "1st" reminder hover "snooze" button is pressed
     Then the "next week" snooze suggestions visiblity "is" <shows>
     And the header loading icon "will not be" visible
-    And the screenshot matches
+    And the screenshot matches, <day>, <shows>
 
     Examples:
       | day       | shows |
@@ -81,7 +81,7 @@ Feature: Snooze Suggestions
     And the "1st" reminder hover "snooze" button is pressed
     Then the "next weekend" snooze suggestions visiblity "is" <shows>
     And the header loading icon "will not be" visible
-    And the screenshot matches
+    And the screenshot matches, <day>, <shows>
 
     Examples:
       | day       | shows |
@@ -101,7 +101,7 @@ Feature: Snooze Suggestions
     And the "1st" reminder hover "snooze" button is pressed
     Then the "this weekend" snooze suggestions visiblity "is" <shows>
     And the header loading icon "will not be" visible
-    And the screenshot matches
+    And the screenshot matches, <day>, <shows>
 
     Examples:
       | day       | shows |
@@ -121,7 +121,7 @@ Feature: Snooze Suggestions
     And the "1st" reminder hover "snooze" button is pressed
     Then the "tomorrow" snooze suggestions visiblity "is" <shows>
     And the header loading icon "will not be" visible
-    And the screenshot matches
+    And the screenshot matches, <day>, <shows>
 
     Examples:
       | day       | shows |
@@ -136,17 +136,17 @@ Feature: Snooze Suggestions
   # TODO: Handle custom time suggestions
 
   Scenario Outline: Custom times show
-    Examples:
-      | time            | suggestion | shows |
-      | beforeMorning   | morning    | true  |
-      | beforeMorning   | afternoon  | true  |
-      | beforeMorning   | evening    | true  |
-      | beforeAfternoon | morning    | false |
-      | beforeAfternoon | afternoon  | true  |
-      | beforeAfternoon | evening    | true  |
-      | beforeEvening   | morning    | false |
-      | beforeEvening   | afternoon  | false |
-      | beforeEvening   | evening    | true  |
+  #   Examples:
+  #     | time            | suggestion | shows |
+  #     | beforeMorning   | morning    | true  |
+  #     | beforeMorning   | afternoon  | true  |
+  #     | beforeMorning   | evening    | true  |
+  #     | beforeAfternoon | morning    | false |
+  #     | beforeAfternoon | afternoon  | true  |
+  #     | beforeAfternoon | evening    | true  |
+  #     | beforeEvening   | morning    | false |
+  #     | beforeEvening   | afternoon  | false |
+  #     | beforeEvening   | evening    | true  |
 
   Scenario: When we're past the set evening time, the time suggestions do not show
 # We go straight to the time selection
