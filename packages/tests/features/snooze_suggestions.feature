@@ -14,8 +14,8 @@ Feature: Snooze Suggestions
   Scenario: This weekend snoozes to the correct time
   Scenario: Tomorrow snoozes to the correct time
 
-  # TODO: Capture screenshots as well
   # WHEN TO SHOW SUGGESTIONS
+
   Scenario Outline: Later this week shows
     Given we set the day to <day>
     And we have logged in successfully
@@ -136,17 +136,24 @@ Feature: Snooze Suggestions
   # TODO: Handle custom time suggestions
 
   Scenario Outline: Custom times show
-  #   Examples:
-  #     | time            | suggestion | shows |
-  #     | beforeMorning   | morning    | true  |
-  #     | beforeMorning   | afternoon  | true  |
-  #     | beforeMorning   | evening    | true  |
-  #     | beforeAfternoon | morning    | false |
-  #     | beforeAfternoon | afternoon  | true  |
-  #     | beforeAfternoon | evening    | true  |
-  #     | beforeEvening   | morning    | false |
-  #     | beforeEvening   | afternoon  | false |
-  #     | beforeEvening   | evening    | true  |
+    Given we set the time to <time>
+    And we have logged in successfully
+    When we add a reminder with the text "Item to be snoozed"
+    And the we hover over the "1st" reminder
+    And the "1st" reminder hover "snooze" button is pressed
+    And the snooze scene custom date button is pressed
+    And day "7" in the date picker is pressed
+    And the snooze confirm change time button is pressed
+    Then the "morning" snooze time suggestions visiblity "is" <morning>
+    And the "afternoon" snooze time suggestions visiblity "is" <afternoon>
+    And the "evening" snooze time suggestions visiblity "is" <evening>
+    And the screenshot matches, <time>, <morning>, <afternoon>, <evening>
+
+    Examples:
+      | time            | morning | afternoon | evening |
+      | beforeMorning   | true    | true      | true    |
+      | beforeAfternoon | false   | true      | true    |
+      | beforeEvening   | false   | false     | true    |
 
   Scenario: When we're past the set evening time, the time suggestions do not show
 # We go straight to the time selection
