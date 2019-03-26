@@ -3,8 +3,8 @@ import * as React from 'react';
 import DatePicker from 'src/components/DatePicker';
 import TimePicker from 'src/components/TimePicker';
 import Calendar from 'src/lib/assets/icons/CalendarAlt';
-import ChevronDown from 'src/lib/assets/icons/ChevronDown';
 import Button from 'src/lib/components/Button';
+import DropDown from 'src/lib/components/DropDown';
 import Suggestion from 'src/lib/components/Suggestion';
 import { ISuggestion as ISuggestionLoopItem } from 'src/lib/components/Suggestion/Suggestion.render';
 import Text from 'src/lib/components/Text';
@@ -75,57 +75,20 @@ const Snooze = ({
         />
       </Style.ConfirmHeader>
 
-      <Button
+
+      <DropDown
+        text={{ _textFromConst: customDate }}
+        action={onSelectDateAndTime}
         analyticsAction="OPEN_DATE"
         analyticsCategory="SNOOZE_CUSTOM_CONFIRM"
-        action={onSelectDateAndTime}
-        styles={{ flexDirection: 'row' }}
-      >
-        {() => (
-          <Style.ConfirmButton>
-            <Text
-              text={{ _textFromConst: customDate }}
-              backgroundColor={BACKGROUND_COLORS.WHITE}
-            />
-            <Style.ConfirmRight>
-              <ChevronDown
-                size={Style.CHEVRON_SIZE}
-                backgroundColor={BACKGROUND_COLORS.WHITE}
-              />
-            </Style.ConfirmRight>
-          </Style.ConfirmButton>
-        )}
-      </Button>
+      />
 
-      <Button
+      <DropDown
+        text={{ _textFromConst: customTime }}
+        action={onSelectTime}
         analyticsAction="OPEN_TIME"
         analyticsCategory="SNOOZE_CUSTOM_CONFIRM"
-        action={onSelectTime}
-        testID="SnoozeConfirm__Time"
-        styles={{ flexDirection: 'row' }}
-      >
-        {() => (
-          <Style.ConfirmButton>
-            <Text
-              text={customTimeLabel}
-              backgroundColor={BACKGROUND_COLORS.WHITE}
-            />
-            <Style.ConfirmRight>
-              <Style.ConfirmValue>
-                <Text
-                  text={{ _textFromConst: customTime }}
-                  backgroundColor={BACKGROUND_COLORS.WHITE}
-                  greyedOut
-                />
-              </Style.ConfirmValue>
-              <ChevronDown
-                size={Style.CHEVRON_SIZE}
-                backgroundColor={BACKGROUND_COLORS.WHITE}
-              />
-            </Style.ConfirmRight>
-          </Style.ConfirmButton>
-        )}
-      </Button>
+      />
 
       <Style.ConfirmSaveButton>
         <Button

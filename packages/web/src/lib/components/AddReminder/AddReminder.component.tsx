@@ -137,6 +137,7 @@ class AddReminderComponent extends React.Component<IProps, IState> {
    */
   private onRepeat() {
     this.props.repeatModal.show(Repeat, {
+      close: this.props.repeatModal.hide,
       id: this.props.id,
     });
   }

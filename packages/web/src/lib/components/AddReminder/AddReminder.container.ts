@@ -23,7 +23,7 @@ const mapStateToProps = (state: IState, { id }: IPassedProps) => {
   return {
     ...props,
     isDone: props.status === 'DONE',
-    isRepeated: id ? isRepeated(id, state) : false,
+    isRepeated: isRepeated(state, id),
     isSnoozed: props.status === 'SNOOZED',
   };
 };

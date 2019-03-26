@@ -1,1 +1,1 @@
-export { default } from './Repeat.render';
+export { default } from './Repeat.container';
