@@ -2,6 +2,7 @@ import * as React from 'react';
 import { TextInputRef } from 'src/components/TextInput';
 import Check from 'src/lib/assets/icons/Check';
 import Clock from 'src/lib/assets/icons/Clock';
+import Redo from 'src/lib/assets/icons/Redo';
 import Times from 'src/lib/assets/icons/Times';
 import Trash from 'src/lib/assets/icons/Trash';
 import Button from 'src/lib/components/Button';
@@ -15,6 +16,7 @@ import {
   Input,
   InputPanel,
   Panel,
+  REPEAT_COLOR,
   Right,
   SNOOZE_COLOR,
 } from './AddReminder.style';
@@ -38,6 +40,8 @@ export interface IProps extends IPassedProps {
   onDelete: () => void;
   isDone: boolean;
   isSnoozed: boolean;
+  isRepeated: boolean;
+  onRepeat: () => void;
   onSnooze: () => void;
 }
 
@@ -80,6 +84,17 @@ const AddReminder = (props: IProps) => {
           {!inputBelow && input}
 
           <Right>
+            <Button
+              action={props.onRepeat}
+              testID="AddReminder__Repeat"
+              _dangerouslySetIconColor={
+                props.isRepeated ? REPEAT_COLOR : undefined
+              }
+              icon={Redo}
+              analyticsAction="REPEAT"
+              analyticsCategory={analyticsCategory}
+              type={getButtonType('ICON.GREYED_OUT')}
+            />
             <Button
               action={props.onSnooze}
               testID="AddReminder__Snooze"

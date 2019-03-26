@@ -3,6 +3,7 @@ import {
   GREEN,
   GREY_LIGHTER,
   ORANGE_DARK,
+  PRIMARY_DARK,
   WHITE,
 } from 'src/lib/config/styles/colors';
 import border from 'src/lib/utils/applyBorder';
@@ -13,6 +14,7 @@ import styled from 'styled-components';
 export const BACKGROUND_COLOR = WHITE;
 export const CHECK_COLOR = GREEN;
 export const SNOOZE_COLOR = ORANGE_DARK;
+export const REPEAT_COLOR = PRIMARY_DARK;
 
 interface IContentProps {
   fullScreen: boolean;

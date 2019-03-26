@@ -22,6 +22,8 @@ const mapStateToProps = (state: IState, { id }: IPassedProps) => {
   return {
     ...props,
     isDone: props.status === 'DONE',
+    // TODO: Logic for this
+    isRepeated: true,
     isSnoozed: props.status === 'SNOOZED',
   };
 };

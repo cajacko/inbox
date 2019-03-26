@@ -10,13 +10,13 @@ Feature: Repeating Reminders
   Scenario: Repeat button shows in the new reminder scene
   Scenario: Repeated is highlighted in the side menu
   Scenario: Repeated scene shows correctly
+
+  # TODO:
   Scenario: Repeating reminder shows correctly in the edit scene
 
   Scenario: The repeat modal displays correctly with no repeat
   Scenario: The repeat modal displays correctly with a repeat
   Scenario: Selecting a repeat option displays correctly
-
-  Scenario: A repeating reminder highlights the repeated hover button
 
 # BEHAVIOUR
 

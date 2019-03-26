@@ -13,6 +13,7 @@ export interface IContainerStateProps {
   isSnoozed: boolean;
   text?: string;
   onSetDueDate: (id: string, time: number) => void;
+  isRepeated: boolean;
 }
 
 export interface IContainerDispatchProps {
@@ -56,6 +57,7 @@ class AddReminderComponent extends React.Component<IProps, IState> {
     this.onDelete = this.onDelete.bind(this);
     this.onDone = this.onDone.bind(this);
     this.onSnooze = this.onSnooze.bind(this);
+    this.onRepeat = this.onRepeat.bind(this);
   }
 
   /**
@@ -127,6 +129,24 @@ class AddReminderComponent extends React.Component<IProps, IState> {
   }
 
   /**
+   * Show the repeat modal
+   */
+  private onRepeat() {
+    // this.props.context.show(Snooze, {
+    //   close: this.props.context.hide,
+    //   id: this.props.id,
+    //   setDueDate: (dueDate: number) => {
+    //     if (this.props.id) {
+    //       this.props.close(true);
+    //       this.props.onSetDueDate(this.props.id, dueDate);
+    //     } else {
+    //       this.setState({ dueDate });
+    //     }
+    //   },
+    // });
+  }
+
+  /**
    * Set the input ref
    */
   private setInputRef(ref: TextInputRef | null) {
@@ -148,8 +168,10 @@ class AddReminderComponent extends React.Component<IProps, IState> {
   public render() {
     return (
       <AddReminder
+        isRepeated={!!this.props.isRepeated}
         isSnoozed={!!this.props.isSnoozed || !!this.state.dueDate}
         onSnooze={this.onSnooze}
+        onRepeat={this.onRepeat}
         isDone={!!this.props.isDone}
         onDone={this.onDone}
         setInputRef={this.setInputRef}
