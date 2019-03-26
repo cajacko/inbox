@@ -23,6 +23,7 @@ Feature: Repeating Reminders
 # 1 - no repeat
 # 2 - daily, weekly, monthly, yearly (check unhappy paths)
 # 3 - Clearing repeat does not repeat
+#  - Repeating reminders show up in the snoozed list as well, but only once
 # 4 - Repeat and snooze stuff
 # 5 - Handle custom repeats
 

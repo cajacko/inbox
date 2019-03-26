@@ -16,6 +16,7 @@ export interface IContainerStateProps {
   saveStatus: 'saving' | 'saved' | 'error';
   isDone: boolean;
   isSnoozed: boolean;
+  isRepeated: boolean;
 }
 
 export interface IContainerDispatchProps {
@@ -107,6 +108,14 @@ const Reminder = (props: IProps) => (
                 backgroundColor={Style.BACKGROUND_COLOR}
               />
               <Style.Symbols>
+                {props.isRepeated && (
+                  <Style.Icon testID="Reminder__RepeatedIcon">
+                    <Redo
+                      _dangerouslySetColor={Style.REPEATED_COLOR}
+                      size={Style.ICON_SIZE}
+                    />
+                  </Style.Icon>
+                )}
                 {props.isSnoozed && (
                   <Style.Icon testID="Reminder__SnoozedIcon">
                     <Clock
@@ -181,3 +190,4 @@ const Reminder = (props: IProps) => (
 );
 
 export default Reminder;
+
