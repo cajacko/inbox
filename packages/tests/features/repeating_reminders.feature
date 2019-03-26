@@ -18,30 +18,35 @@ Feature: Repeating Reminders
   Scenario: The repeat modal displays correctly with a repeat
   Scenario: Selecting a repeat option displays correctly
 
-# BEHAVIOUR
+  # BEHAVIOUR
 
-# 1 - no repeat
-# 2 - daily, weekly, monthly, yearly (check unhappy paths)
-# 3 - Clearing repeat does not repeat
-#  - Repeating reminders show up in the snoozed list as well, but only once
-# 4 - Repeat and snooze stuff
-#  - Repeat a new reminder, shows isRepeating
-# 5 - Handle custom repeats
+  # No repeat
+  Scenario: Non repeating reminder does not come back after done and 2 years later
+  # Scenario: Repeat a reminder, clear the repeat, mark as done then it does not repeat
 
-# TODO: repeat is a new icon in the edit/add menu and hover
-# The dropdown things displays correctly, with no repeat and with various
-# repeat types
-# Does a repeated icon have a separate icon?
-# A repeated list in menu/scene?
-# Repeat type (none, daily, weekly, monthly, yearly, customised) displays
-# correctly
-# Customised displays correctly for each type
-# Cant repeat done? Or does it undone it?
-# Repeat brings the reminder into the inbox when the time ellapses, test on
-# each suggested type and customised one
-# Set repeat then mark as done, still comes up
-# Mark a repeat as done, asks if you want to stop repeating
-# Mark a repeat as done, still repeats
-# Snooze a repeat to a date after the next repeat cron, doesn't trigger the
-# repeat until the snooze ellapses
-# Alert if snooze a repeated reminder past the next cron date?
+  # Generic repeat functionality
+  # Scenario: A repeated reminder is triggered and was not marked as done
+  # Scenario: A repeated reminder is triggered and was marked as done
+  # Scenario: A repeated reminder is triggered on a snoozed reminder with a snooze date after the next repeat date
+  # Scenario: A repeated reminder is triggered on a snoozed reminder with a snooze date before the next repeat date
+  # Scenario: A deleted reminder does not repeat
+
+  # Suggested repeats (Use data tables for checking various times)
+  Scenario: Repeat a reminder daily works
+# Scenario: Repeat a reminder weekly works
+# Scenario: Repeat a reminder monthly works
+# Scenario: Repeat a reminder yearly works
+
+# Where it shows
+# Scenario: A repeated reminder in the inbox shows the next occurance in snoozed
+# Scenario: A repeated reminder in snoozed only shows the 1 instance
+# Scenario: A repeated reminder marked as done shows 1 instance in the done scene
+# Scenario: The last time a repeated reminder is marked as done, is the time it displays in in the done scene
+
+# New reminders
+# Scenario: Setting the repeat for a new reminder, highlights the icon and sets the repeat on save
+# Scenario: Clearing the repeat for a new reminder, dulls the icon and does not set the repeat on save
+
+# TODO: Handle custom repeats
+# TODO: Show stop reminder when mark as done
+# TODO: Warn someone if snoozing a reminder to after the next cron date

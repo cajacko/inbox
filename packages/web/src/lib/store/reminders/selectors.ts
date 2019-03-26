@@ -72,23 +72,3 @@ export const selectOrderedRemindersKeys = (
   state: IState,
   list: SelectorStatus
 ) => selectReminderListAsObjects(selectOrderedRemindersObjects(state, list));
-
-/**
- * Is the reminder a repeated one or not
- */
-export const isRepeated = (state: IState, id?: string) => {
-  // TODO: Actually decide
-  if (state) return true;
-
-  return false;
-};
-
-/**
- * Get the repeat text to show
- */
-export const getRepeatText = (state: IState, id?: string) => {
-  // TODO: Actually decide
-  if (state) return 'Does not repeat';
-
-  return '';
-};

@@ -5,7 +5,7 @@ import {
   setDueDate,
   toggleReminderDone,
 } from 'src/lib/store/reminders/actions';
-import { isRepeated } from 'src/lib/store/reminders/selectors';
+import { isRepeated } from 'src/lib/store/repeats/selectors';
 import { Dispatch } from 'src/lib/types/libs';
 import Reminder from './Reminder.component';
 import {

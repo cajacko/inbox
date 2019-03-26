@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { IState } from 'src/lib/store/reducers';
-import { setReminderRepeat } from 'src/lib/store/reminders/actions';
-import { getRepeatText } from 'src/lib/store/reminders/selectors';
+import { setReminderRepeat } from 'src/lib/store/repeats/actions';
+import { getRepeatText } from 'src/lib/store/repeats/selectors';
 import { Dispatch } from 'src/lib/types/libs';
 import Repeat, {
   IContainerDispatchProps,

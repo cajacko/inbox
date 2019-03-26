@@ -10,7 +10,6 @@ export const DELETE_REMINDER = 'DELETE_REMINDER';
 export const TOGGLE_REMINDER_DONE = 'TOGGLE_REMINDER_DONE';
 export const UPDATE_SNOOZED = 'UPDATE_SNOOZED';
 export const SET_DUE_DATE = 'SET_DUE_DATE';
-export const SET_REMINDER_REPEAT = 'SET_REMINDER_REPEAT';
 
 export const SYNC_ACTIONS = [
   SET_REMINDER,
@@ -73,5 +72,3 @@ export const toggleReminderDone = makeActionCreator(
 export const updateSnoozed = makeActionCreator(UPDATE_SNOOZED);
 
 export const setDueDate = makeActionCreator(SET_DUE_DATE, 'id', 'dueDate');
-
-export const setReminderRepeat = makeActionCreator(SET_REMINDER_REPEAT, 'payload');
