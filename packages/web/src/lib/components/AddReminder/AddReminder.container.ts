@@ -6,6 +6,7 @@ import {
   setReminder,
   toggleReminderDone,
 } from 'src/lib/store/reminders/actions';
+import { isRepeated } from 'src/lib/store/reminders/selectors';
 import { Dispatch } from 'src/lib/types/libs';
 import AddReminder, {
   IContainerDispatchProps,
@@ -22,8 +23,7 @@ const mapStateToProps = (state: IState, { id }: IPassedProps) => {
   return {
     ...props,
     isDone: props.status === 'DONE',
-    // TODO: Logic for this
-    isRepeated: true,
+    isRepeated: id ? isRepeated(id, state) : false,
     isSnoozed: props.status === 'SNOOZED',
   };
 };

@@ -436,3 +436,5 @@ Feature: Snooze
     Then the reminder list count "is" "0"
     When we navigate to the "home" scene
     Then the reminder list count "is" "1"
+
+  Scenario: Clear snoozed time to bring back into inbox

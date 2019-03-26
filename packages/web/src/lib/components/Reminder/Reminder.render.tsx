@@ -190,4 +190,3 @@ const Reminder = (props: IProps) => (
 );
 
 export default Reminder;
-

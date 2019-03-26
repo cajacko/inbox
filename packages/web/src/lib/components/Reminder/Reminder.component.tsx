@@ -1,8 +1,10 @@
 import * as React from 'react';
 import { compose } from 'redux';
 import AddReminder from 'src/lib/components/AddReminder';
+import Repeat from 'src/lib/components/Repeat';
 import Snooze from 'src/lib/components/Snooze';
 import * as AddReminderModal from 'src/lib/context/AddReminderModal';
+import * as RepeatModal from 'src/lib/context/RepeatModal';
 import * as SnoozeModal from 'src/lib/context/SnoozeModal';
 import withConsumer from 'src/lib/HOCs/withConsumer';
 import { IValue } from 'src/lib/HOCs/withModalContext';
@@ -22,6 +24,7 @@ interface IProps
     IContainerDispatchProps {
   addReminderModal: IValue;
   snoozeModal: IValue;
+  repeatModal: IValue;
 }
 
 /**
@@ -80,11 +83,9 @@ class ReminderComponent extends React.Component<IProps, IState> {
    */
   private onRepeat() {
     // Show the modal for it
-    // this.props.snoozeModal.show(Snooze, {
-    //   close: this.props.snoozeModal.hide,
-    //   id: this.props.id,
-    //   setDueDate: this.props.onSetDueDate,
-    // });
+    this.props.repeatModal.show(Repeat, {
+      id: this.props.id,
+    });
   }
 
   /**
@@ -122,5 +123,6 @@ class ReminderComponent extends React.Component<IProps, IState> {
 
 export default compose(
   withConsumer(AddReminderModal.Consumer, 'addReminderModal'),
-  withConsumer(SnoozeModal.Consumer, 'snoozeModal')
+  withConsumer(SnoozeModal.Consumer, 'snoozeModal'),
+  withConsumer(RepeatModal.Consumer, 'repeatModal')
 )(ReminderComponent);

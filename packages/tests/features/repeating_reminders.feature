@@ -25,6 +25,7 @@ Feature: Repeating Reminders
 # 3 - Clearing repeat does not repeat
 #  - Repeating reminders show up in the snoozed list as well, but only once
 # 4 - Repeat and snooze stuff
+#  - Repeat a new reminder, shows isRepeating
 # 5 - Handle custom repeats
 
 # TODO: repeat is a new icon in the edit/add menu and hover

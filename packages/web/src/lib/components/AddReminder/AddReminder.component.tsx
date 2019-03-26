@@ -1,6 +1,9 @@
 import * as React from 'react';
+import { compose } from 'redux';
 import { TextInputRef } from 'src/components/TextInput';
+import Repeat from 'src/lib/components/Repeat';
 import Snooze from 'src/lib/components/Snooze';
+import * as RepeatModal from 'src/lib/context/RepeatModal';
 import * as SnoozeModal from 'src/lib/context/SnoozeModal';
 import withConsumer from 'src/lib/HOCs/withConsumer';
 import { IValue } from 'src/lib/HOCs/withModalContext';
@@ -26,7 +29,8 @@ interface IProps
   extends IPassedProps,
     IContainerDispatchProps,
     IContainerStateProps {
-  context: IValue;
+  snoozeModal: IValue;
+  repeatModal: IValue;
 }
 
 interface IState {
@@ -114,8 +118,8 @@ class AddReminderComponent extends React.Component<IProps, IState> {
    * Show the snooze modal for this reminder
    */
   private onSnooze() {
-    this.props.context.show(Snooze, {
-      close: this.props.context.hide,
+    this.props.snoozeModal.show(Snooze, {
+      close: this.props.snoozeModal.hide,
       id: this.props.id,
       setDueDate: (dueDate: number) => {
         if (this.props.id) {
@@ -132,18 +136,9 @@ class AddReminderComponent extends React.Component<IProps, IState> {
    * Show the repeat modal
    */
   private onRepeat() {
-    // this.props.context.show(Snooze, {
-    //   close: this.props.context.hide,
-    //   id: this.props.id,
-    //   setDueDate: (dueDate: number) => {
-    //     if (this.props.id) {
-    //       this.props.close(true);
-    //       this.props.onSetDueDate(this.props.id, dueDate);
-    //     } else {
-    //       this.setState({ dueDate });
-    //     }
-    //   },
-    // });
+    this.props.repeatModal.show(Repeat, {
+      id: this.props.id,
+    });
   }
 
   /**
@@ -188,4 +183,7 @@ class AddReminderComponent extends React.Component<IProps, IState> {
   }
 }
 
-export default withConsumer(SnoozeModal.Consumer)(AddReminderComponent);
+export default compose(
+  withConsumer(SnoozeModal.Consumer, 'snoozeModal'),
+  withConsumer(RepeatModal.Consumer, 'repeatModal')
+)(AddReminderComponent);

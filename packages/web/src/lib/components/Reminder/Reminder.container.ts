@@ -5,6 +5,7 @@ import {
   setDueDate,
   toggleReminderDone,
 } from 'src/lib/store/reminders/actions';
+import { isRepeated } from 'src/lib/store/reminders/selectors';
 import { Dispatch } from 'src/lib/types/libs';
 import Reminder from './Reminder.component';
 import {
@@ -19,8 +20,7 @@ import {
 const mapStateToProps = (state: IState, { id }: IPassedProps) => ({
   ...state.reminders[id],
   isDone: state.reminders[id].status === 'DONE',
-  // TODO:
-  isRepeated: true,
+  isRepeated: isRepeated(id, state),
   isSnoozed: state.reminders[id].status === 'SNOOZED',
 });
 
