@@ -42,6 +42,7 @@ class ReminderComponent extends React.Component<IProps, IState> {
     this.onSnooze = this.onSnooze.bind(this);
     this.onMouseIn = this.onMouseIn.bind(this);
     this.onMouseOut = this.onMouseOut.bind(this);
+    this.onRepeat = this.onRepeat.bind(this);
   }
 
   /**
@@ -75,6 +76,18 @@ class ReminderComponent extends React.Component<IProps, IState> {
   }
 
   /**
+   * On repeat, show the modal to handle it
+   */
+  private onRepeat() {
+    // Show the modal for it
+    // this.props.snoozeModal.show(Snooze, {
+    //   close: this.props.snoozeModal.hide,
+    //   id: this.props.id,
+    //   setDueDate: this.props.onSetDueDate,
+    // });
+  }
+
+  /**
    * Show the add modal
    */
   private edit() {
@@ -91,6 +104,7 @@ class ReminderComponent extends React.Component<IProps, IState> {
     return (
       <Reminder
         {...this.props}
+        onRepeat={this.onRepeat}
         onSnooze={this.onSnooze}
         onSetDone={this.props.onSetDone}
         edit={this.edit}

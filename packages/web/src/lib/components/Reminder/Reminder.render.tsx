@@ -2,6 +2,7 @@ import * as React from 'react';
 import Check from 'src/lib/assets/icons/Check';
 import Clock from 'src/lib/assets/icons/Clock';
 import EllipsisV from 'src/lib/assets/icons/EllipsisV';
+import Redo from 'src/lib/assets/icons/Redo';
 import Trash from 'src/lib/assets/icons/Trash';
 import Button from 'src/lib/components/Button';
 import Status from 'src/lib/components/ReminderStatus';
@@ -42,6 +43,7 @@ export interface IComponentProps {
     onMouseOver: Event;
   };
   onSnooze: () => void;
+  onRepeat: () => void;
 }
 
 interface IProps
@@ -131,6 +133,14 @@ const Reminder = (props: IProps) => (
         </Button>
         {props.isHovering && (
           <Style.EditMenu testID="Reminder__Hover">
+            <Button
+              type={getButtonType('ICON.GREYED_OUT')}
+              analyticsAction="REPEAT_HOVER"
+              analyticsCategory="REMINDER"
+              action={props.onRepeat}
+              testID="Reminder__HoverRepeat"
+              icon={Redo}
+            />
             <Button
               type={getButtonType('ICON.GREYED_OUT')}
               analyticsAction="SNOOZE_HOVER"

@@ -3,9 +3,28 @@ Feature: Repeating Reminders
   I want to have reminders that come up at repeated intervals
   So that I can be reminded about things I have to do regularly
 
-  Scenario:: Repeat dropdown displays correctly on custom date confirm modal
-  Scenario: Repeat dropdown displays correctly if the reminder is already a repeated one
-  Scenario: A repeating reminder has the repeated icon in the list view
+  # DISPLAY
+
+  Scenario: Repeat button shows correctly in hover menu
+  Scenario: Repeat button shows correctly in edit scene
+  Scenario: Repeat button shows in the new reminder scene
+  Scenario: Repeated is highlighted in the side menu
+  Scenario: Repeated scene shows correctly
+  Scenario: Repeating reminder shows correctly in the edit scene
+
+  Scenario: The repeat modal displays correctly with no repeat
+  Scenario: The repeat modal displays correctly with a repeat
+  Scenario: Selecting a repeat option displays correctly
+
+  Scenario: A repeating reminder highlights the repeated hover button
+
+# BEHAVIOUR
+
+# 1 - no repeat
+# 2 - daily, weekly, monthly, yearly (check unhappy paths)
+# 3 - Clearing repeat does not repeat
+# 4 - Repeat and snooze stuff
+# 5 - Handle custom repeats
 
 # TODO: repeat is a new icon in the edit/add menu and hover
 # The dropdown things displays correctly, with no repeat and with various
