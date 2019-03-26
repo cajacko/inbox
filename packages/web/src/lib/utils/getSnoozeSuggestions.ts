@@ -25,7 +25,7 @@ const suggestedTimes = {
   },
 };
 
-type OnSelect = (date: CustomDate) => void;
+type OnSelect = (date: CustomDate) => () => void;
 
 /**
  * Get suggested dates
@@ -157,7 +157,7 @@ export const getDates = (onSelect: OnSelect): ISuggestion[] => {
     const date = suggestion.getDate();
 
     return {
-      action: () => onSelect(date),
+      action: onSelect(date),
       icon: suggestion.icon,
       key: suggestion.key,
       testID: suggestion.testID,
