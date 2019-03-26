@@ -6,7 +6,8 @@
     "Title": "Inbox",
     "UnsavedChanges": "You have unsaved changes, are you sure you want to exit?",
     "Done": "Done",
-    "Snoozed": "Snoozed"
+    "Snoozed": "Snoozed",
+    "Repeated": "Repeated"
   },
   "Suggestions": {
     "Time": {
@@ -44,7 +45,8 @@
     "NavItems": {
       "Inbox": "Inbox",
       "Done": "Done",
-      "Snoozed": "Snoozed"
+      "Snoozed": "Snoozed",
+      "Repeated": "Repeated"
     }
   },
   "AddReminder": {

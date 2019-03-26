@@ -3,7 +3,7 @@ import { createSelector } from 'reselect';
 import { IState } from 'src/lib/store/reducers';
 import { IReminder } from 'src/lib/store/reminders/reducer';
 
-export type SelectorStatus = IReminder['status'] | null;
+export type SelectorStatus = IReminder['status'] | null | 'REPEATED';
 
 const selectAllReminders = createSelector<
   IState,

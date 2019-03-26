@@ -18,6 +18,7 @@ export const TEXT_COLOR = GREY_DARK;
 export const DONE_COLOR = GREEN_DARK;
 export const INBOX_COLOR = PRIMARY_DARK;
 export const SNOOZED_COLOR = ORANGE_DARK;
+export const REPEATED_COLOR = SECONDARY_DARK;
 
 const menuPadding = 14;
 

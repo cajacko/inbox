@@ -4,6 +4,7 @@ import { RouteComponentProps, withRouter } from 'react-router';
 import Check from 'src/lib/assets/icons/Check';
 import Clock from 'src/lib/assets/icons/Clock';
 import Inbox from 'src/lib/assets/icons/Inbox';
+import Redo from 'src/lib/assets/icons/Redo';
 import SignOut from 'src/lib/assets/icons/SignOut';
 import Times from 'src/lib/assets/icons/Times';
 import Button from 'src/lib/components/Button';
@@ -16,7 +17,7 @@ import * as Style from './Menu.style';
 export type ColorKey = keyof typeof colors;
 export type ColorVal = typeof colors[ColorKey];
 
-export type ActiveKeys = 'inbox' | 'done' | 'snoozed';
+export type ActiveKeys = 'inbox' | 'done' | 'snoozed' | 'repeated';
 export type ActiveKey = ActiveKeys | null;
 
 type MenuItemKeys = ActiveKeys | 'close' | 'logout';
@@ -99,6 +100,17 @@ const getMenuItems = ({ close, history, activeKey }: IGetMenuItems): IMenuItems[
       selected: false,
       testID: 'Menu__SnoozedButton',
       text: 'Menu.NavItems.Snoozed',
+    },
+    {
+      Icon: Redo,
+      action: pushWithClose(history, close, '/repeated'),
+      analyticsAction: 'REPEATED',
+      analyticsCategory: 'MENU',
+      iconColor: Style.REPEATED_COLOR,
+      key: 'repeated',
+      selected: false,
+      testID: 'Menu__RepeatedButton',
+      text: 'Menu.NavItems.Repeated',
     },
     {
       Icon: Check,
