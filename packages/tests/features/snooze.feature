@@ -10,10 +10,6 @@ Feature: Snooze
   # Scenario: Can't snooze to a date in the past via suggestion
   # Scenario: Can't snooze to a date in the past via custom date
 
-  # As the other tests preload the data
-  # Scenario: Snoozing an existing reminder works
-  # Scenario: Snoozing a new reminder works
-
   # DISPLAY
 
   Scenario: Snooze button displays correctly in hover menu
@@ -454,3 +450,33 @@ Feature: Snooze
     Then the reminder list count "is" "0"
     When we navigate to the "home" scene
     Then the reminder list count "is" "1"
+
+  # As the other tests preload the data
+  Scenario: Snoozing an existing reminder works
+    Given we have logged in successfully
+    When we add a reminder with the text "Item to be snoozed"
+    Then the reminder list count "is" "1"
+    And the "1st" reminder is pressed
+    And the edit scene "snooze button" is pressed
+    Then the snooze reminder modal "is" visible
+    And the "later today" snooze suggestion is pressed
+    Then the reminder list count "is" "0"
+    And the header loading icon "will not be" visible
+    When we add a hook with id "now" and type "plus2Days"
+    And we reload the app
+    Then the reminder list count "will be" "1"
+
+  # As the other tests preload the data
+  Scenario: Snoozing a new reminder works
+    Given we have logged in successfully
+    Then the reminder list count "is" "0"
+    When the add reminder button is pressed
+    And the text "Snooze as create" is typed into the add reminder input
+    And the edit scene "snooze button" is pressed
+    And the "later today" snooze suggestion is pressed
+    When the add reminder save button is pressed
+    Then the reminder list count "is" "0"
+    And the header loading icon "will not be" visible
+    When we add a hook with id "now" and type "plus2Days"
+    And we reload the app
+    Then the reminder list count "will be" "1"

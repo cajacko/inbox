@@ -9,55 +9,67 @@ Feature: Snooze Suggestions
     Given we set the day to monday
     And we have logged in successfully
     When we add a reminder with the text "Item to be snoozed"
+    And the header loading icon "will not be" visible
     And the we hover over the "1st" reminder
     And the "1st" reminder hover "snooze" button is pressed
     And the "later this week" snooze suggestion is pressed
-    Then the due date of the only reminder "is" "2018-01-01 06:30"
+    And the header loading icon "will not be" visible
+    Then the due date of the only reminder "is" "2019-03-06 06:30"
 
   Scenario: Later today snoozes to the correct time
     Given we set the day to monday
     And we have logged in successfully
     When we add a reminder with the text "Item to be snoozed"
+    And the header loading icon "will not be" visible
     And the we hover over the "1st" reminder
     And the "1st" reminder hover "snooze" button is pressed
     And the "later today" snooze suggestion is pressed
-    Then the due date of the only reminder "is" "2018-01-01 06:30"
+    And the header loading icon "will not be" visible
+    Then the due date of the only reminder "is" "2019-03-04 17:30"
 
   Scenario: Next week snoozes to the correct time
     Given we set the day to monday
     And we have logged in successfully
     When we add a reminder with the text "Item to be snoozed"
+    And the header loading icon "will not be" visible
     And the we hover over the "1st" reminder
     And the "1st" reminder hover "snooze" button is pressed
     And the "next week" snooze suggestion is pressed
-    Then the due date of the only reminder "is" "2018-01-01 06:30"
+    And the header loading icon "will not be" visible
+    Then the due date of the only reminder "is" "2019-03-11 06:30"
 
   Scenario: Next weekend snoozes to the correct time
-    Given we set the day to monday
+    Given we set the day to saturday
     And we have logged in successfully
     When we add a reminder with the text "Item to be snoozed"
+    And the header loading icon "will not be" visible
     And the we hover over the "1st" reminder
     And the "1st" reminder hover "snooze" button is pressed
     And the "next weekend" snooze suggestion is pressed
-    Then the due date of the only reminder "is" "2018-01-01 06:30"
+    And the header loading icon "will not be" visible
+    Then the due date of the only reminder "is" "2019-03-16 06:30"
 
   Scenario: This weekend snoozes to the correct time
     Given we set the day to monday
     And we have logged in successfully
     When we add a reminder with the text "Item to be snoozed"
+    And the header loading icon "will not be" visible
     And the we hover over the "1st" reminder
     And the "1st" reminder hover "snooze" button is pressed
     And the "this weekend" snooze suggestion is pressed
-    Then the due date of the only reminder "is" "2018-01-01 06:30"
+    And the header loading icon "will not be" visible
+    Then the due date of the only reminder "is" "2019-03-09 06:30"
 
   Scenario: Tomorrow snoozes to the correct time
     Given we set the day to monday
     And we have logged in successfully
     When we add a reminder with the text "Item to be snoozed"
+    And the header loading icon "will not be" visible
     And the we hover over the "1st" reminder
     And the "1st" reminder hover "snooze" button is pressed
     And the "tomorrow" snooze suggestion is pressed
-    Then the due date of the only reminder "is" "2018-01-01 06:30"
+    And the header loading icon "will not be" visible
+    Then the due date of the only reminder "is" "2019-03-05 06:30"
 
   # WHEN TO SHOW SUGGESTIONS
 

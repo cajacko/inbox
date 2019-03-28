@@ -18,3 +18,8 @@ Then(
 
 Given('we preload the api with {string} {string} reminders', (count, status) =>
   api.preloadReminders(parseInt(count, 10), status));
+
+Then(
+  'the due date of the only reminder {string} {string}',
+  (conditional, date) => api.checkOnlyDueDate(conditional, date)
+);
