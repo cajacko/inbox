@@ -1,6 +1,8 @@
+/* eslint max-lines: 0 */
 import * as React from 'react';
 import { RouteComponentProps, withRouter } from 'react-router';
 import Check from 'src/lib/assets/icons/Check';
+import Clock from 'src/lib/assets/icons/Clock';
 import Inbox from 'src/lib/assets/icons/Inbox';
 import SignOut from 'src/lib/assets/icons/SignOut';
 import Times from 'src/lib/assets/icons/Times';
@@ -9,23 +11,12 @@ import Text from 'src/lib/components/Text';
 import * as colors from 'src/lib/config/styles/colors';
 import Auth from 'src/lib/modules/Auth';
 import { Text as TextType } from 'src/lib/types/general';
-import {
-  Container,
-  DONE_COLOR,
-  Header,
-  HEADER_COLOR,
-  HeaderSpacing,
-  INBOX_COLOR,
-  MenuIcon,
-  MenuItem,
-  MenuItemInner,
-  TEXT_COLOR,
-} from './Menu.style';
+import * as Style from './Menu.style';
 
 export type ColorKey = keyof typeof colors;
 export type ColorVal = typeof colors[ColorKey];
 
-export type ActiveKeys = 'inbox' | 'done';
+export type ActiveKeys = 'inbox' | 'done' | 'snoozed';
 export type ActiveKey = ActiveKeys | null;
 
 type MenuItemKeys = ActiveKeys | 'close' | 'logout';
@@ -81,7 +72,7 @@ const getMenuItems = ({ close, history, activeKey }: IGetMenuItems): IMenuItems[
       action: close,
       analyticsAction: 'CLOSE',
       analyticsCategory: 'MENU',
-      iconColor: TEXT_COLOR,
+      iconColor: Style.TEXT_COLOR,
       key: 'close',
       selected: false,
       testID: 'Menu__CloseButton',
@@ -92,18 +83,29 @@ const getMenuItems = ({ close, history, activeKey }: IGetMenuItems): IMenuItems[
       action: pushWithClose(history, close, '/'),
       analyticsAction: 'INBOX',
       analyticsCategory: 'MENU',
-      iconColor: INBOX_COLOR,
+      iconColor: Style.INBOX_COLOR,
       key: 'inbox',
       selected: false,
       testID: 'Menu__InboxButton',
       text: 'Menu.NavItems.Inbox',
     },
     {
+      Icon: Clock,
+      action: pushWithClose(history, close, '/snoozed'),
+      analyticsAction: 'SNOOZED',
+      analyticsCategory: 'MENU',
+      iconColor: Style.SNOOZED_COLOR,
+      key: 'snoozed',
+      selected: false,
+      testID: 'Menu__SnoozedButton',
+      text: 'Menu.NavItems.Snoozed',
+    },
+    {
       Icon: Check,
       action: pushWithClose(history, close, '/done'),
       analyticsAction: 'DONE',
       analyticsCategory: 'MENU',
-      iconColor: DONE_COLOR,
+      iconColor: Style.DONE_COLOR,
       key: 'done',
       selected: false,
       testID: 'Menu__DoneButton',
@@ -114,7 +116,7 @@ const getMenuItems = ({ close, history, activeKey }: IGetMenuItems): IMenuItems[
       action: () => Auth.logout(true),
       analyticsAction: 'LOGOUT',
       analyticsCategory: 'MENU',
-      iconColor: TEXT_COLOR,
+      iconColor: Style.TEXT_COLOR,
       key: 'logout',
       selected: false,
       testID: 'Menu__LogoutButton',
@@ -138,13 +140,13 @@ const Menu = ({
   backgroundColor,
   ...props
 }: IProps) => {
-  const headerBackgroundColor = isDesktop ? undefined : HEADER_COLOR;
+  const headerBackgroundColor = isDesktop ? undefined : Style.HEADER_COLOR;
   const textBackgroundColor = headerBackgroundColor || backgroundColor;
 
   return (
-    <Container testID={showTestID ? 'Menu' : ''}>
+    <Style.Container testID={showTestID ? 'Menu' : ''}>
       {(!isDesktop || name) && (
-        <Header backgroundColor={headerBackgroundColor}>
+        <Style.Header backgroundColor={headerBackgroundColor}>
           {!isDesktop && (
             <Text
               type="h4"
@@ -154,44 +156,44 @@ const Menu = ({
           )}
           {name && (
             <React.Fragment>
-              <HeaderSpacing noSpacing={isDesktop}>
+              <Style.HeaderSpacing noSpacing={isDesktop}>
                 <Text
                   type="subtitle1"
                   text="Menu.Welcome"
                   backgroundColor={textBackgroundColor}
                 />
-              </HeaderSpacing>
-              <HeaderSpacing>
+              </Style.HeaderSpacing>
+              <Style.HeaderSpacing>
                 <Text
                   type="subtitle2"
                   text={{ _textFromConst: name }}
                   backgroundColor={textBackgroundColor}
                 />
-              </HeaderSpacing>
+              </Style.HeaderSpacing>
             </React.Fragment>
           )}
-        </Header>
+        </Style.Header>
       )}
       {getMenuItems(props).filter(({ key }) => !isDesktop || key !== 'close').map(({
  key, text, Icon, iconColor, selected, ...menuItems
 }) => (
-          <MenuItem key={key}>
+          <Style.MenuItem key={key}>
             <Button {...menuItems}>
               {({ isHovering }) => (
-                <MenuItemInner selected={isHovering || selected}>
-                  <MenuIcon>
+                <Style.MenuItemInner selected={isHovering || selected}>
+                  <Style.MenuIcon>
                     <Icon size={20} _dangerouslySetColor={iconColor} />
-                  </MenuIcon>
+                  </Style.MenuIcon>
                   <Text
                     text={text}
-                    _dangerouslySetColor={selected ? iconColor : TEXT_COLOR}
+                    _dangerouslySetColor={selected ? iconColor : Style.TEXT_COLOR}
                   />
-                </MenuItemInner>
+                </Style.MenuItemInner>
               )}
             </Button>
-          </MenuItem>
+          </Style.MenuItem>
         ))}
-    </Container>
+    </Style.Container>
   );
 };
 

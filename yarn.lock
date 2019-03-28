@@ -873,6 +873,13 @@
     libnpm "^2.0.1"
     write-file-atomic "^2.3.0"
 
+"@miovision/eslint-plugin-disallow-date@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@miovision/eslint-plugin-disallow-date/-/eslint-plugin-disallow-date-1.0.1.tgz#e36dab27a422a4a747dfddea6f0642ef7eb74de4"
+  integrity sha512-pc7ya3j82lIB4nM27LFpCf0mnWLeDvkqKFCyb+nmHEGkSSC4xOU720LzRaN6E2Jy0h+VGG1IwTpldBu/XPc9rw==
+  dependencies:
+    requireindex "~1.1.0"
+
 "@mrmlnc/readdir-enhanced@^2.2.1":
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/@mrmlnc/readdir-enhanced/-/readdir-enhanced-2.2.1.tgz#524af240d1a360527b730475ecfa1344aa540dde"

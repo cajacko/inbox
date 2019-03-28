@@ -37,8 +37,10 @@ export interface IRoute {
 
 export interface IUser {
   id: string;
-  displayName: string | null;
-  photoURL: string | null;
+  idToken: string | null;
+  displayName?: string | null;
+  refreshToken?: string | null;
+  photoURL?: string | null;
 }
 
 export interface IBreadcrumb {

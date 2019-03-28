@@ -12,9 +12,11 @@
     "test:eslint": "eslint packages --ext .jsx,.js,.ts,.tsx",
     "start:src": "baf packages/web/src/lib packages/app/src/lib packages/functions/src/lib",
     "build:tslint": "tsc -p tsconfig.rules.json",
-    "postinstall": "yarn build:tslint && lerna bootstrap"
+    "postinstall": "yarn build:tslint && lerna bootstrap",
+    "ensure-creds": "node .scripts/env/ensureCreds.js"
   },
   "devDependencies": {
+    "@miovision/eslint-plugin-disallow-date": "^1.0.1",
     "@types/fs-extra": "^5.0.4",
     "concurrently": "^4.1.0",
     "eslint": "4.18.1",

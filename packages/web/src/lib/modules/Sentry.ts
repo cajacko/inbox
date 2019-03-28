@@ -1,4 +1,5 @@
 import AppError from 'src/lib/modules/AppError';
+import CustomDate from 'src/lib/modules/CustomDate';
 import {
   IBreadcrumb,
   ISentryMessage,
@@ -124,7 +125,7 @@ class Sentry {
       message,
       route,
       tags: finalTags,
-      timestamp: new Date().getTime(),
+      timestamp: CustomDate.now(),
       userId,
       version,
     });

@@ -1,3 +1,5 @@
+/* eslint @miovision/disallow-date/no-static-date: 0 */
+/* eslint @miovision/disallow-date/no-new-date: 0 */
 import { IDb } from '../../../types/general';
 import { IApiReminder } from '../types';
 
@@ -19,6 +21,7 @@ export const setReminder = (reminder: IApiReminder, db: IDb) => {
   try {
     validateDate(reminder.dateCreated, 'Date created is not a valid date');
     validateDate(reminder.dateModified, 'Date modified is not a valid date');
+    validateDate(reminder.dueDate, 'Due date is not a valid date');
   } catch (e) {
     return Promise.reject(e);
   }
@@ -34,10 +37,12 @@ export const setReminder = (reminder: IApiReminder, db: IDb) => {
         return { ...data, ...reminder };
       }
 
+      const now = Date.now();
+
       return reminder.dateCreated
         ? reminder
-        : // ensuring we always have a created date, shouldn't happen though
-        { ...reminder, dateCreated: new Date().getTime() };
+        : // ensuring we always have a created date and due date, shouldn't happen though
+        { dateCreated: now, dueDate: now, ...reminder };
     })
     .then(data => db.set(location, data));
 };
@@ -49,7 +54,13 @@ export const getReminders = (db: IDb) =>
   db.get('reminders').then((reminders?: { [key: string]: IApiReminder }) => {
     if (!reminders) return [];
 
-    return Object.values(reminders).sort((reminderA, reminderB) => reminderA.dateModified - reminderB.dateModified);
+    return Object.values(reminders)
+      .sort((reminderA, reminderB) => reminderA.dueDate - reminderB.dueDate)
+      .map(reminder => ({
+        // Backup in case we have old data with no dueDate
+        dueDate: reminder.dateCreated,
+        ...reminder,
+      }));
   });
 
 export const Query = {

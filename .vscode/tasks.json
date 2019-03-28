@@ -1,0 +1,88 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "start:all",
+      "dependsOn": [
+        "start:metro",
+        "start:src",
+        "start:web",
+        "start:functions",
+        "watch:tests",
+        "start:ios"
+      ],
+      "problemMatcher": []
+    },
+    {
+      "label": "start:src",
+      "command": "yarn",
+      "args": ["start:src"],
+      "isBackground": true,
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "start:metro",
+      "command": "yarn",
+      "args": ["start:metro"],
+      "isBackground": true,
+      "options": {
+        "cwd": "${workspaceFolder}/packages/app"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "start:web",
+      "command": "yarn",
+      "args": ["start"],
+      "isBackground": true,
+      "options": {
+        "cwd": "${workspaceFolder}/packages/web"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "start:functions",
+      "command": "yarn",
+      "args": ["start"],
+      "isBackground": true,
+      "options": {
+        "cwd": "${workspaceFolder}/packages/functions"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "watch:tests",
+      "command": "yarn",
+      "args": ["watch"],
+      "isBackground": true,
+      "options": {
+        "cwd": "${workspaceFolder}/packages/tests"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "open:react-native-debugger",
+      "command": "open",
+      "args": ["-a", "React Native Debugger"],
+      "isBackground": true,
+      "options": {
+        "cwd": "${workspaceFolder}/packages/app"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "start:ios",
+      "command": "yarn",
+      "args": ["start:ios"],
+      "isBackground": true,
+      "options": {
+        "cwd": "${workspaceFolder}/packages/app"
+      },
+      "problemMatcher": [],
+      "dependsOn": ["open:react-native-debugger"]
+    }
+  ]
+}

@@ -1,16 +1,22 @@
 import * as React from 'react';
 import { TextInputRef } from 'src/components/TextInput';
+import Snooze from 'src/lib/components/Snooze';
+import * as SnoozeModal from 'src/lib/context/SnoozeModal';
+import withConsumer from 'src/lib/HOCs/withConsumer';
+import { IValue } from 'src/lib/HOCs/withModalContext';
 import AddReminder, { IPassedProps } from './AddReminder.render';
 
 const TEXT_LIMIT = 100;
 
 export interface IContainerStateProps {
   isDone: boolean;
+  isSnoozed: boolean;
   text?: string;
+  onSetDueDate: (id: string, time: number) => void;
 }
 
 export interface IContainerDispatchProps {
-  save: (value: string, id?: string) => void;
+  save: (value: string, dueDate?: number, id?: string) => void;
   delete: (id: string) => void;
   setDone: (id: string, val: boolean) => void;
 }
@@ -18,10 +24,13 @@ export interface IContainerDispatchProps {
 interface IProps
   extends IPassedProps,
     IContainerDispatchProps,
-    IContainerStateProps {}
+    IContainerStateProps {
+  context: IValue;
+}
 
 interface IState {
   value: string;
+  dueDate?: number;
 }
 
 /**
@@ -46,6 +55,7 @@ class AddReminderComponent extends React.Component<IProps, IState> {
     this.onSave = this.onSave.bind(this);
     this.onDelete = this.onDelete.bind(this);
     this.onDone = this.onDone.bind(this);
+    this.onSnooze = this.onSnooze.bind(this);
   }
 
   /**
@@ -71,7 +81,7 @@ class AddReminderComponent extends React.Component<IProps, IState> {
     if (this.isDisabled()) return;
 
     this.props.close();
-    this.props.save(this.state.value, this.props.id);
+    this.props.save(this.state.value, this.state.dueDate, this.props.id);
   }
 
   /**
@@ -99,6 +109,24 @@ class AddReminderComponent extends React.Component<IProps, IState> {
   }
 
   /**
+   * Show the snooze modal for this reminder
+   */
+  private onSnooze() {
+    this.props.context.show(Snooze, {
+      close: this.props.context.hide,
+      id: this.props.id,
+      setDueDate: (dueDate: number) => {
+        if (this.props.id) {
+          this.props.close(true);
+          this.props.onSetDueDate(this.props.id, dueDate);
+        } else {
+          this.setState({ dueDate });
+        }
+      },
+    });
+  }
+
+  /**
    * Set the input ref
    */
   private setInputRef(ref: TextInputRef | null) {
@@ -120,6 +148,8 @@ class AddReminderComponent extends React.Component<IProps, IState> {
   public render() {
     return (
       <AddReminder
+        isSnoozed={!!this.props.isSnoozed || !!this.state.dueDate}
+        onSnooze={this.onSnooze}
         isDone={!!this.props.isDone}
         onDone={this.onDone}
         setInputRef={this.setInputRef}
@@ -136,4 +166,4 @@ class AddReminderComponent extends React.Component<IProps, IState> {
   }
 }
 
-export default AddReminderComponent;
+export default withConsumer(SnoozeModal.Consumer)(AddReminderComponent);

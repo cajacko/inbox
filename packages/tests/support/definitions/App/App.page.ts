@@ -26,8 +26,8 @@ class App {
     return errorPath;
   }
 
-  public async screenshotMatches(world: HookScenarioResult) {
-    const existingPath = getScreenshotPath(world);
+  public async screenshotMatches(world: HookScenarioResult, params?: string) {
+    const existingPath = getScreenshotPath(world, params);
     const newPath = existingPath.replace('.png', '.new.png');
     const diffPath = existingPath.replace('.png', '.diff.png');
 

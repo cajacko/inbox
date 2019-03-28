@@ -51,6 +51,7 @@ class Browser {
   private inflight: number = 0;
   private resolveWaitForNetworkIdle: ResolveWaitForNetworkIdle | null = null;
   private pageId: number = 0;
+  private hookValues: { [key: string]: any } = {};
 
   constructor() {
     this.dialogOpen = this.dialogOpen.bind(this);
@@ -192,7 +193,7 @@ class Browser {
 
     if (!this.page) throw new Error('No page object to set hooks within');
 
-    await this.page.evaluate(browserHooks, this.hooks, hookConstants());
+    await this.page.evaluate(browserHooks, this.hooks, hookConstants(this.hookValues));
   }
 
   public async screenshot(path: string) {
@@ -400,8 +401,17 @@ class Browser {
     await this.setHooks();
   }
 
+  public async removeHook(id: string, nonHeadless: boolean) {
+    this.nonHeadless = nonHeadless;
+
+    delete this.hooks[id];
+
+    await this.setHooks();
+  }
+
   public clearHooks() {
     this.hooks = {};
+    this.hookValues = {};
   }
 
   public async getCount(selector: string) {
@@ -710,6 +720,8 @@ class Browser {
     this.logs.console.push({
       args: msg.args().map((arg) => {
         try {
+          // TODO: This returns a promise, need to resolve these to string at
+          // point
           return arg.jsonValue();
         } catch (e) {
           try {
@@ -872,6 +884,11 @@ class Browser {
     if (!this.page) throw new Error('No page to set offline');
 
     return this.page.setOfflineMode(offline);
+  }
+
+  public async setDate(time: number, nonHeadless: boolean) {
+    this.hookValues.now = time;
+    await this.addHook('now', 'value', nonHeadless);
   }
 }
 

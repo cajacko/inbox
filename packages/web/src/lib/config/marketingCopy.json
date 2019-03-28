@@ -5,7 +5,20 @@
     "ContactEmail": "contact@charliejackson.com",
     "Title": "Inbox",
     "UnsavedChanges": "You have unsaved changes, are you sure you want to exit?",
-    "Done": "Done"
+    "Done": "Done",
+    "Snoozed": "Snoozed"
+  },
+  "Suggestions": {
+    "Time": {
+      "Morning": "Morning",
+      "Afternoon": "Afternoon",
+      "Evening": "Evening",
+      "Custom": "Custom"
+    }
+  },
+  "DatePicker": {
+    "Time": "Select a Time",
+    "Set": "Set"
   },
   "Navigation": {
     "GoBack": "GO BACK",
@@ -30,7 +43,8 @@
     "Logout": "Logout",
     "NavItems": {
       "Inbox": "Inbox",
-      "Done": "Done"
+      "Done": "Done",
+      "Snoozed": "Snoozed"
     }
   },
   "AddReminder": {

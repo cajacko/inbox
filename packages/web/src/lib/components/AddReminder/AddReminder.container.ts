@@ -2,6 +2,7 @@ import { connect } from 'react-redux';
 import { IState } from 'src/lib/store/reducers';
 import {
   deleteReminder,
+  setDueDate,
   setReminder,
   toggleReminderDone,
 } from 'src/lib/store/reminders/actions';
@@ -18,7 +19,11 @@ import { IPassedProps } from './AddReminder.render';
 const mapStateToProps = (state: IState, { id }: IPassedProps) => {
   const props: any = id ? state.reminders[id] : {};
 
-  return { ...props, isDone: props.status === 'DONE' };
+  return {
+    ...props,
+    isDone: props.status === 'DONE',
+    isSnoozed: props.status === 'SNOOZED',
+  };
 };
 
 /**
@@ -26,11 +31,17 @@ const mapStateToProps = (state: IState, { id }: IPassedProps) => {
  */
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   delete: (id: string) => dispatch(deleteReminder(id)),
-  save: (reminder: string, id?: string) => dispatch(setReminder(id, reminder)),
+  onSetDueDate: (id: string, time: number) => dispatch(setDueDate(id, time)),
+  save: (text: string, dueDate?: number, id?: string) =>
+    dispatch(setReminder(id, text, dueDate)),
   setDone: (id: string, val: boolean) => dispatch(toggleReminderDone(id, val)),
 });
 
-export default connect<IContainerStateProps, IContainerDispatchProps>(
+export default connect<
+IContainerStateProps,
+IContainerDispatchProps,
+IPassedProps
+>(
   mapStateToProps,
   mapDispatchToProps
 )(AddReminder);

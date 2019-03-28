@@ -2,12 +2,31 @@ import { HookScenarioResult } from 'cucumber';
 import { join } from 'path';
 import getScenarioPath from './getScenarioPath';
 
-const getScreenshotPath = (scenarioResult: HookScenarioResult) => {
+const getScreenshotPath = (
+  scenarioResult: HookScenarioResult,
+  params?: string
+) => {
   const {
-    dir, platform, size, filePath, scenario,
-  } = getScenarioPath(scenarioResult);
+    dir,
+    exampleParams,
+    platform,
+    size,
+    filePath,
+    scenario,
+  } = getScenarioPath(scenarioResult, params);
 
-  return join(dir, 'screenshots', platform, size, filePath, `${scenario}.png`);
+  const exampleString = exampleParams.length
+    ? exampleParams.reduce((acc, param) => `${acc}_${param}`, '-')
+    : '';
+
+  return join(
+    dir,
+    'screenshots',
+    platform,
+    size,
+    filePath,
+    `${scenario}${exampleString}.png`
+  );
 };
 
 export default getScreenshotPath;

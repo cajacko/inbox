@@ -1,3 +1,4 @@
+import mockUser from 'src/lib/config/mockUser';
 import Alert from 'src/lib/modules/Alert';
 import AppError from 'src/lib/modules/AppError';
 import {
@@ -9,7 +10,10 @@ import analytics from 'src/lib/utils/analytics';
 import history from 'src/lib/utils/history';
 import marketingCopy from 'src/lib/utils/marketingCopy';
 import store from 'src/lib/utils/store';
+import { startSyncCron } from 'src/lib/utils/sync';
+import * as updateSnoozedCron from 'src/lib/utils/updateSnoozedCron';
 import AuthImplementation from 'src/modules/Auth';
+import getEnvVar from 'src/utils/getEnvVar';
 import testHook from 'src/utils/testHook';
 
 let loginId = 0;
@@ -23,7 +27,11 @@ class Auth {
    */
   public static getUser(): Promise<IUser | null> {
     return testHook('getUser', Promise.resolve())
-      .then(() => AuthImplementation.getUser())
+      .then(() => {
+        if (getEnvVar('BY_PASS_AUTH')) return Promise.resolve(mockUser);
+
+        return AuthImplementation.getUser();
+      })
       .then((user: IUser) => {
         analytics.setUserIfNotSet({ userId: user.id });
 
@@ -77,6 +85,12 @@ class Auth {
               throw e || new AppError('No user returned from login', '100-010');
             });
         }
+
+        // User has logged in, trigger any login actions here, such as updating
+        // redux, starting syncs and crons etc
+
+        startSyncCron();
+        updateSnoozedCron.start();
 
         return Auth.setUser(user, true, redirectPath);
       });

@@ -1,27 +1,27 @@
 import * as React from 'react';
-import { Ref } from 'src/components/SwipeRow';
+import { compose } from 'redux';
 import AddReminder from 'src/lib/components/AddReminder';
-import * as Modal from 'src/lib/context/Modal';
+import Snooze from 'src/lib/components/Snooze';
+import * as AddReminderModal from 'src/lib/context/AddReminderModal';
+import * as SnoozeModal from 'src/lib/context/SnoozeModal';
 import withConsumer from 'src/lib/HOCs/withConsumer';
-import Animated from 'src/packages/animated';
-import unit from 'src/utils/unit';
+import { IValue } from 'src/lib/HOCs/withModalContext';
 import Reminder, {
   IContainerDispatchProps,
   IContainerStateProps,
   IPassedProps,
 } from './Reminder.render';
-import { REMINDER_HEIGHT } from './Reminder.style';
 
 interface IState {
   isHovering: boolean;
-  showSwiper: boolean;
 }
 
 interface IProps
   extends IPassedProps,
     IContainerStateProps,
     IContainerDispatchProps {
-  context: Modal.IValue;
+  addReminderModal: IValue;
+  snoozeModal: IValue;
 }
 
 /**
@@ -36,18 +36,12 @@ class ReminderComponent extends React.Component<IProps, IState> {
 
     this.state = {
       isHovering: false,
-      showSwiper: true,
     };
 
-    this.heightAnimation = new Animated.Value(1);
-
     this.edit = this.edit.bind(this);
+    this.onSnooze = this.onSnooze.bind(this);
     this.onMouseIn = this.onMouseIn.bind(this);
     this.onMouseOut = this.onMouseOut.bind(this);
-    this.setSwipeRef = this.setSwipeRef.bind(this);
-    this.onRowOpen = this.onRowOpen.bind(this);
-    this.onRowDidClose = this.onRowDidClose.bind(this);
-    this.onSetDone = this.onSetDone.bind(this);
   }
 
   /**
@@ -69,95 +63,36 @@ class ReminderComponent extends React.Component<IProps, IState> {
   }
 
   /**
-   * When the row closes, check if we should dispatch the action, and do it if
-   * so
+   * On snooze, show the menu
    */
-  private onRowDidClose() {
-    if (this.markAsDoneOnClose) {
-      this.onSetDone(!this.props.isDone)();
-    }
-  }
-
-  /**
-   * When the swiper row opens, indicate we've opened it, then close the row
-   */
-  private onRowOpen() {
-    if (this.swipeRef && this.swipeRef.closeRow) {
-      this.markAsDoneOnClose = true;
-      this.swipeRef.closeRow();
-    } else {
-      this.markAsDoneOnClose = false;
-      this.onSetDone(!this.props.isDone)();
-    }
-  }
-
-  /**
-   * Mark the reminder as done
-   */
-  private onSetDone(isDone: boolean) {
-    return () => {
-      this.animateClose().then(() => {
-        this.markAsDoneOnClose = false;
-        this.props.onSetDone(isDone)();
-      });
-    };
-  }
-
-  /**
-   * Set the swiper ref
-   */
-  private setSwipeRef(ref: Ref) {
-    this.swipeRef = ref;
+  private onSnooze() {
+    // Show the modal for it
+    this.props.snoozeModal.show(Snooze, {
+      close: this.props.snoozeModal.hide,
+      id: this.props.id,
+      setDueDate: this.props.onSetDueDate,
+    });
   }
 
   /**
    * Show the add modal
    */
   private edit() {
-    this.props.context.show(AddReminder, {
-      close: this.props.context.hide,
+    this.props.addReminderModal.show(AddReminder, {
+      close: this.props.addReminderModal.hide,
       id: this.props.id,
     });
   }
 
   /**
-   * Animate the reminder to close
-   */
-  private animateClose() {
-    return new Promise((resolve) => {
-      this.setState({ showSwiper: false }, () => {
-        Animated.timing(this.heightAnimation, {
-          duration: 250,
-          toValue: 0,
-        }).start(() => {
-          resolve();
-        });
-      });
-    });
-  }
-
-  private swipeRef: Ref;
-  private markAsDoneOnClose: boolean = false;
-  private heightAnimation: Animated.Value;
-
-  /**
    * Render the component
    */
   public render() {
-    const height = this.heightAnimation.interpolate({
-      inputRange: [0, 1],
-      outputRange: [unit(0), unit(REMINDER_HEIGHT)],
-    });
-
     return (
       <Reminder
         {...this.props}
-        height={height}
-        onSetDone={this.onSetDone}
-        showSwiper={this.state.showSwiper}
-        setSwipeRef={this.setSwipeRef}
-        onRowOpen={this.onRowOpen}
-        onRowDidClose={this.onRowDidClose}
+        onSnooze={this.onSnooze}
+        onSetDone={this.props.onSetDone}
         edit={this.edit}
         isHovering={this.state.isHovering}
         buttonEvents={{
@@ -171,4 +106,7 @@ class ReminderComponent extends React.Component<IProps, IState> {
   }
 }
 
-export default withConsumer(Modal.Consumer)(ReminderComponent);
+export default compose(
+  withConsumer(AddReminderModal.Consumer, 'addReminderModal'),
+  withConsumer(SnoozeModal.Consumer, 'snoozeModal')
+)(ReminderComponent);

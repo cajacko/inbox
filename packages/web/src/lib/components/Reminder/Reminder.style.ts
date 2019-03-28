@@ -4,6 +4,7 @@ import {
   GREEN,
   GREEN_DARK,
   GREY_LIGHTER,
+  ORANGE_DARK,
   WHITE,
 } from 'src/lib/config/styles/colors';
 import border from 'src/lib/utils/applyBorder';
@@ -16,8 +17,10 @@ import styled from 'styled-components';
 export const BACKGROUND_COLOR = WHITE;
 export const ICON_SIZE = STATUS_ICON_SIZE;
 export const CHECK_COLOR = GREEN;
+export const SNOOZED_COLOR = ORANGE_DARK;
 
-export const SWIPE_BACKGROUND_COLOR = GREEN_DARK;
+export const SWIPE_BACKGROUND_COLOR_LEFT = GREEN_DARK;
+export const SWIPE_BACKGROUND_COLOR_RIGHT = ORANGE_DARK;
 export const SWIPE_ICON_SIZE = 20;
 const borderWidth = 2;
 
@@ -93,9 +96,14 @@ export const Symbols = styled(View)`
   align-items: center;
 `;
 
-export const SwipeContainer = styled(View)`
-  background-color: ${SWIPE_BACKGROUND_COLOR};
+export const SwipeContainerLeft = styled(View)`
+  background-color: ${SWIPE_BACKGROUND_COLOR_LEFT};
   flex: 1;
   justify-content: center;
   ${padding({ horizontal: reminderSpacing })}
+`;
+
+export const SwipeContainerRight = styled(SwipeContainerLeft)`
+  background-color: ${SWIPE_BACKGROUND_COLOR_RIGHT};
+  align-items: flex-end;
 `;

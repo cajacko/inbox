@@ -2,8 +2,9 @@ import * as React from 'react';
 import AddReminder from 'src/lib/components/AddReminder';
 import { MENU_WIDTH } from 'src/lib/components/Menu/Menu.style';
 import { BackgroundColorVal } from 'src/lib/config/styles/textIconColors';
-import * as Modal from 'src/lib/context/Modal';
+import * as AddReminderModal from 'src/lib/context/AddReminderModal';
 import withConsumer from 'src/lib/HOCs/withConsumer';
+import { IValue } from 'src/lib/HOCs/withModalContext';
 import Animated from 'src/packages/animated';
 import unit from 'src/utils/unit';
 import HeaderWithDrawer, { ActiveKey } from './HeaderWithDrawer.render';
@@ -21,7 +22,7 @@ interface IProps extends IPassedProps {
     maxContentWidth: number;
     isFullWidth: boolean;
   }) => JSX.Element;
-  context: Modal.IValue;
+  context: IValue;
 }
 
 interface IState {
@@ -129,4 +130,4 @@ class HeaderWithDrawerC extends React.Component<IProps, IState> {
   }
 }
 
-export default withConsumer(Modal.Consumer)(HeaderWithDrawerC);
+export default withConsumer(AddReminderModal.Consumer)(HeaderWithDrawerC);

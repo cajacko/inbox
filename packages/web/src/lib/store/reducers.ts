@@ -5,6 +5,7 @@ import login, {
 import reminders, {
   IJSState as ReminderJSState,
   IState as ReminderState,
+  transform as reminderTransform,
 } from './reminders/reducer';
 import sync, {
   IJSState as SyncJSState,
@@ -30,6 +31,8 @@ export interface IJSState {
 }
 
 export type ReducerKey = keyof IState;
+
+export const transforms = [reminderTransform];
 
 export default {
   login,

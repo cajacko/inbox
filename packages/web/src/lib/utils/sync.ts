@@ -1,4 +1,5 @@
 import { IApiReminder } from 'src/lib/graphql/types';
+import CustomDate from 'src/lib/modules/CustomDate';
 import { IReminder } from 'src/lib/store/reminders/reducer';
 import {
   syncFailed,
@@ -42,8 +43,9 @@ const getChangedReminders = (): IApiReminder[] => {
     .map(reminder => ({
       dateCreated: reminder.dateCreated,
       dateModified: reminder.dateModified,
+      dueDate: reminder.dueDate,
       id: reminder.id,
-      status: reminder.status,
+      status: reminder.status === 'SNOOZED' ? 'INBOX' : reminder.status,
       text: reminder.text,
     }));
 };
@@ -65,7 +67,7 @@ const sync = (type: SyncType) => {
 
   try {
     const changedReminders = getChangedReminders();
-    const dateSyncRequested = new Date().getTime();
+    const dateSyncRequested = CustomDate.now();
 
     store.dispatch(syncRequested(changedReminders, dateSyncRequested, type));
 
@@ -146,7 +148,9 @@ const scheduleSync = (type: SyncType) => {
 /**
  * Start the sync cron
  */
-export const startSyncCron = (interval: number = 10000) => {
+export const startSyncCron = (intervalParam: number = 10000) => {
+  const interval = testHook('syncCronInterval', intervalParam);
+
   try {
     if (cron) clearInterval(cron);
 

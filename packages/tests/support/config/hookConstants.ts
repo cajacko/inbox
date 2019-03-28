@@ -8,4 +8,7 @@ export const set = (key: string, value: any) => {
   hookConstants[key] = value;
 };
 
-export default () => hookConstants;
+export default (scenarioValues: { [key: string]: any }) => ({
+  ...hookConstants,
+  scenarioValues,
+});

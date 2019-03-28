@@ -8,14 +8,14 @@ Feature: Sync data
   # TRIGGERS
 
   Scenario: Sync triggers on poll, when logged in
-  # Given we add a hook with id "syncCron" and type "short"
+  # Given we add a hook with id "syncCronInterval" and type "short"
   # And we have logged in successfully
   # Then a sync request with the type "cron" "will be" dispatched
   # And the sync request count "is" "2"
   # And the sync request types "is" "LOGIN, CRON"
 
   Scenario: Sync triggers on poll when logged in from persisted state
-  # Given we add a hook with id "syncCron" and type "short"
+  # Given we add a hook with id "syncCronInterval" and type "short"
   # And we have opened the app in a logged in state
   # Then the sync request count "will be" "2"
   # And the sync request types "is" "REHYDRATE, CRON"

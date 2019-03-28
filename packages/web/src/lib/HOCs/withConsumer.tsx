@@ -8,7 +8,7 @@ interface IProps {
 }
 
 interface IComponentProps extends IProps {
-  context: Context;
+  [key: string]: Context;
 }
 
 interface IConsumerProps {
@@ -21,8 +21,14 @@ type ConsumerType = React.ComponentType<IConsumerProps>;
 /**
  * Wrap the component with the given consumer
  */
-const withConsumer = (Consumer: ConsumerType) => (Component: ComponentType) => (props: IProps) => (
-  <Consumer>{context => <Component context={context} {...props} />}</Consumer>
+const withConsumer = (Consumer: ConsumerType, contextId?: string) => (Component: ComponentType) => (props: IProps) => (
+  <Consumer>
+    {(context) => {
+      const componentProps = contextId ? { [contextId]: context } : { context };
+
+      return <Component {...componentProps} {...props} />;
+    }}
+  </Consumer>
 );
 
 export default withConsumer;

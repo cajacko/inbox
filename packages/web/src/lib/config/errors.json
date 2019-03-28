@@ -93,5 +93,15 @@
     "label": "Trying to get refresh id in mobile app",
     "message": "Errors.DevError.Message",
     "title": "Errors.DevError.Title"
+  },
+  "100-020": {
+    "label": "No component to show in swiper",
+    "message": "Errors.DevError.Message",
+    "title": "Errors.DevError.Title"
+  },
+  "100-021": {
+    "label": "Invalid Snooze type",
+    "message": "Errors.DevError.Message",
+    "title": "Errors.DevError.Title"
   }
 }

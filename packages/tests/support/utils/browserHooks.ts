@@ -13,7 +13,7 @@ declare global {
 
 const browserHooks = (
   hooks: { [key: string]: string },
-  constants: { [key: string]: any }
+  constants: { scenarioValues: { [key: string]: any }; [key: string]: any }
 ) => {
   window.hooks = {};
   window.hookTypes = {};
@@ -69,14 +69,27 @@ const browserHooks = (
       newReminder: () => ({
         dateCreated: 1549898515336,
         dateModified: 1549898515336,
+        dueDate: 1549898515336,
         id: 'new',
       }),
+    },
+    now: {
+      fixed1: () => new Date(2019, 2, 6, 5, 0, 0).getTime(),
+      plus2Days: () => {
+        const now = new Date();
+        now.setDate(now.getDate() + 2);
+        return now.getTime();
+      },
+      value: () => constants.scenarioValues.now,
     },
     refreshIdToken: {
       error: reject('No refreshIdToken'),
     },
     root: {
       crash: crash('Root crash'),
+    },
+    snoozeCronInterval: {
+      short: () => 1000,
     },
     splashScreen: {
       error: crash('Splash screen error'),
@@ -89,6 +102,9 @@ const browserHooks = (
       delay: () => () => delay(15000),
       error: () => () => Promise.reject(new Error('Bad bad')),
       minorDelay: () => () => delay(1000),
+    },
+    syncCronInterval: {
+      short: () => 1000,
     },
   };
 

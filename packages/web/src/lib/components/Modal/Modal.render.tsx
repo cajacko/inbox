@@ -2,9 +2,9 @@ import * as React from 'react';
 import Button from 'src/lib/components/Button';
 import Measure from 'src/lib/components/Layout/Measure';
 import {
+  BUTTON_STYLE,
   Container,
   Content,
-  FULL_SCREEN_BREAKPOINT,
   FullContent,
   Overlay,
 } from './Modal.style';
@@ -18,6 +18,8 @@ interface IProps {
   Component: React.ComponentType<IComponentProps>;
   props: { [key: string]: any };
   hide: () => void;
+  zIndex: number;
+  fullScreenBreakpoint?: number;
 }
 
 interface ISize {
@@ -27,28 +29,45 @@ interface ISize {
 /**
  * Should the full screen by shown
  */
-const showFullScreen = (width: number) => width < FULL_SCREEN_BREAKPOINT;
+const showFullScreen = (width: number, fullScreenBreakpoint?: number) => {
+  if (fullScreenBreakpoint) return width < fullScreenBreakpoint;
+
+  return false;
+};
 
 /**
  * On width change, see if we should re-render
  */
-const onChange = (next: ISize, prev: ISize) =>
-  showFullScreen(next.width) !== showFullScreen(prev.width);
+const onChange = (fullScreenBreakpoint?: number) => (
+  next: ISize,
+  prev: ISize
+) =>
+  showFullScreen(next.width, fullScreenBreakpoint) !==
+  showFullScreen(prev.width, fullScreenBreakpoint);
 
 /**
  *  Displays a modal overlay
  */
-const Modal = ({ Component, props, hide }: IProps) => (
-  <Measure onChange={onChange}>
+const Modal = ({
+  Component,
+  props,
+  hide,
+  zIndex,
+  fullScreenBreakpoint,
+}: IProps) => (
+  <Measure onChange={onChange(fullScreenBreakpoint)}>
     {({ width, measureProps }) => (
-      <Container {...measureProps}>
-        {showFullScreen(width) ? (
-          <FullContent>
+      <Container zIndex={zIndex} {...measureProps}>
+        {showFullScreen(width, fullScreenBreakpoint) ? (
+          <FullContent zIndex={zIndex}>
             <Component fullScreen {...props} />
           </FullContent>
         ) : (
           <React.Fragment>
-            <Content>
+            <Content
+              zIndex={zIndex}
+              fullScreenBreakpoint={fullScreenBreakpoint}
+            >
               <Component fullScreen={false} {...props} />
             </Content>
             <Button
@@ -56,9 +75,12 @@ const Modal = ({ Component, props, hide }: IProps) => (
               action={hide}
               analyticsAction="HIDE"
               analyticsCategory="MODAL"
+              styles={BUTTON_STYLE}
             >
               {({ isHovering }) => (
-                <Overlay isHovering={isHovering}>{null}</Overlay>
+                <Overlay zIndex={zIndex} isHovering={isHovering}>
+                  {null}
+                </Overlay>
               )}
             </Button>
           </React.Fragment>

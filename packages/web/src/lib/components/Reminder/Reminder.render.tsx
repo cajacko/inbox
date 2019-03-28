@@ -1,25 +1,26 @@
 import * as React from 'react';
-import { SwipeRow } from 'src/components';
-import { Ref } from 'src/components/SwipeRow';
 import Check from 'src/lib/assets/icons/Check';
+import Clock from 'src/lib/assets/icons/Clock';
 import EllipsisV from 'src/lib/assets/icons/EllipsisV';
 import Trash from 'src/lib/assets/icons/Trash';
 import Button from 'src/lib/components/Button';
 import Status from 'src/lib/components/ReminderStatus';
+import SwipeAndClose from 'src/lib/components/SwipeAndClose';
 import Text from 'src/lib/components/Text';
 import getButtonType from 'src/lib/utils/getButtonType';
-import Animated from 'src/packages/animated';
 import * as Style from './Reminder.style';
 
 export interface IContainerStateProps {
   text: string;
   saveStatus: 'saving' | 'saved' | 'error';
   isDone: boolean;
+  isSnoozed: boolean;
 }
 
 export interface IContainerDispatchProps {
   onDelete: () => void;
   onSetDone: (val: boolean) => () => void;
+  onSetDueDate: (time: number) => void;
 }
 
 export interface IPassedProps {
@@ -40,11 +41,7 @@ export interface IComponentProps {
     onMouseMove: Event;
     onMouseOver: Event;
   };
-  onRowOpen: () => void;
-  onRowDidClose: () => void;
-  setSwipeRef: (ref: Ref) => void;
-  showSwiper: boolean;
-  height: Animated.AnimatedInterpolation;
+  onSnooze: () => void;
 }
 
 interface IProps
@@ -56,28 +53,35 @@ interface IProps
 /**
  * Display a list of reminders
  */
-const Reminder = (props: IProps) => {
-  const Wrapper = props.showSwiper ? SwipeRow : Style.Wrapper;
-  const wrapperProps = props.showSwiper ? {
-    disableLeftSwipe: true,
-    disableRightSwipe: props.isDone,
-    hidden: (
-      <Style.SwipeContainer>
-        <Check
-          backgroundColor={Style.SWIPE_BACKGROUND_COLOR}
+const Reminder = (props: IProps) => (
+  <SwipeAndClose
+    height={Style.REMINDER_HEIGHT}
+    leftComponent={
+      props.isDone ? (
+        undefined
+      ) : (
+        <Style.SwipeContainerLeft>
+          <Check
+            backgroundColor={Style.SWIPE_BACKGROUND_COLOR_LEFT}
+            size={Style.SWIPE_ICON_SIZE}
+          />
+        </Style.SwipeContainerLeft>
+      )
+    }
+    rightComponent={
+      <Style.SwipeContainerRight>
+        <Clock
+          backgroundColor={Style.SWIPE_BACKGROUND_COLOR_RIGHT}
           size={Style.SWIPE_ICON_SIZE}
         />
-      </Style.SwipeContainer>
-    ),
-    leftOpenValue: 150,
-    onRowDidClose: props.onRowDidClose,
-    onRowOpen: props.onRowOpen,
-    ref: props.setSwipeRef,
-  } : { style: { height: props.height } };
-
-  return (
-    // @ts-ignore
-    <Wrapper {...wrapperProps}>
+      </Style.SwipeContainerRight>
+    }
+    onSwipeLeftWaitForClose
+    onSwipeLeftAnimateClose
+    onSwipeLeft={props.onSetDone(!props.isDone)}
+    onSwipeRight={props.onSnooze}
+  >
+    {({ closeAndRun }) => (
       <Style.Container
         key={props.id}
         testID="Reminder"
@@ -101,6 +105,14 @@ const Reminder = (props: IProps) => {
                 backgroundColor={Style.BACKGROUND_COLOR}
               />
               <Style.Symbols>
+                {props.isSnoozed && (
+                  <Style.Icon testID="Reminder__SnoozedIcon">
+                    <Clock
+                      _dangerouslySetColor={Style.SNOOZED_COLOR}
+                      size={Style.ICON_SIZE}
+                    />
+                  </Style.Icon>
+                )}
                 {props.isDone && (
                   <Style.Icon testID="Reminder__DoneIcon">
                     <Check
@@ -121,6 +133,14 @@ const Reminder = (props: IProps) => {
           <Style.EditMenu testID="Reminder__Hover">
             <Button
               type={getButtonType('ICON.GREYED_OUT')}
+              analyticsAction="SNOOZE_HOVER"
+              analyticsCategory="REMINDER"
+              action={props.onSnooze}
+              testID="Reminder__HoverSnooze"
+              icon={Clock}
+            />
+            <Button
+              type={getButtonType('ICON.GREYED_OUT')}
               analyticsAction="DELETE_HOVER"
               analyticsCategory="REMINDER"
               action={props.onDelete}
@@ -131,7 +151,7 @@ const Reminder = (props: IProps) => {
               type={getButtonType('ICON.GREYED_OUT')}
               analyticsAction="DONE_HOVER"
               analyticsCategory="REMINDER"
-              action={props.onSetDone(!props.isDone)}
+              action={closeAndRun(props.onSetDone(!props.isDone))}
               testID="Reminder__HoverDone"
               icon={Check}
             />
@@ -146,8 +166,8 @@ const Reminder = (props: IProps) => {
           </Style.EditMenu>
         )}
       </Style.Container>
-    </Wrapper>
-  );
-};
+    )}
+  </SwipeAndClose>
+);
 
 export default Reminder;

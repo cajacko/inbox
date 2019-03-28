@@ -1,3 +1,6 @@
+/* eslint max-lines: 0 */
+import getReactDatePickerDay from '../../utils/getReactDatePickerDay';
+
 const general = {
   AddButton: {
     web: '.AddButton',
@@ -18,7 +21,16 @@ const general = {
     Save: {
       web: '.AddReminder__Save',
     },
+    Snooze: {
+      web: '.AddReminder__Snooze',
+    },
     web: '.AddReminder',
+  },
+  DatePicker: {
+    Day: {
+      web: ({ day }: { day: number }) =>
+        `.react-datepicker__day--${getReactDatePickerDay(day)}`,
+    },
   },
   Done: {
     web: '.Done',
@@ -109,6 +121,9 @@ const general = {
       Inbox: {
         web: '.Menu__InboxButton',
       },
+      Snoozed: {
+        web: '.Menu__SnoozedButton',
+      },
     },
     web: '.Menu',
   },
@@ -146,6 +161,14 @@ const general = {
         web: ({ index }: { index: number }) =>
           `.Reminder:nth-child(${index + 1}) .Reminder__HoverEdit`,
       },
+      SnoozeButton: {
+        web: ({ index }: { index: number }) =>
+          `.Reminder:nth-child(${index + 1}) .Reminder__HoverSnooze`,
+      },
+      SnoozeIcon: {
+        web: ({ index }: { index: number }) =>
+          `.Reminder:nth-child(${index + 1}) .Reminder__SnoozedIcon`,
+      },
       Status: {
         Error: {
           web: ({ index }: { index: number }) =>
@@ -172,6 +195,61 @@ const general = {
       web: '.ReminderList__Scroll',
     },
     web: '.ReminderList',
+  },
+  SnoozeModal: {
+    Calendar: {
+      web: '.Snooze--DatePicker',
+    },
+    ChangeTime: {
+      web: '.SnoozeConfirm__Time',
+    },
+    Save: {
+      web: '.SnoozeConfirm__Save',
+    },
+    Suggestions: {
+      Afternoon: {
+        web: '.TimeSuggestion--Afternoon',
+      },
+      Custom: {
+        web: '.Suggestion--SelectDateTime',
+      },
+      Evening: {
+        web: '.TimeSuggestion--Evening',
+      },
+      LaterThisWeek: {
+        web: '.Suggestion--LaterThisWeek',
+      },
+      LaterToday: {
+        web: '.Suggestion--LaterToday',
+      },
+      Morning: {
+        web: '.TimeSuggestion--Morning',
+      },
+      NextWeek: {
+        web: '.Suggestion--NextWeek',
+      },
+      NextWeekend: {
+        web: '.Suggestion--NextWeekend',
+      },
+      ThisWeekend: {
+        web: '.Suggestion--ThisWeekend',
+      },
+      Time: {
+        Customised: {
+          web: '.TimeSuggestion--Customised',
+        },
+        Evening: {
+          web: '.TimeSuggestion--Evening',
+        },
+      },
+      Tomorrow: {
+        web: '.Suggestion--Tomorrow',
+      },
+    },
+    web: '.SnoozedModal',
+  },
+  Snoozed: {
+    web: '.Snoozed',
   },
   SplashScreen: {
     web: '.splashScreen',

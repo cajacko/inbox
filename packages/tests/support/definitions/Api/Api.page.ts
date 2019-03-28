@@ -77,8 +77,8 @@ class Api {
 
   public getTestData = this.getExpectedData;
 
-  public async preloadReminders(count: number) {
-    const reminders = buildReminderObj(count, false);
+  public async preloadReminders(count: number, status?: string) {
+    const reminders = buildReminderObj(count, false, status);
 
     await this.graphqlRequest(
       `
@@ -112,6 +112,54 @@ class Api {
 
   public async revokeToken() {
     await driver.setIdToken('VOID');
+  }
+
+  public async checkOnlyDueDate(condition: ICondition, date: string) {
+    let setDate: Date;
+    let expectedDate: Date;
+
+    await conditional(
+      condition,
+      () =>
+        this.getUserData().then((data) => {
+          try {
+            const { reminders } = data;
+
+            const id = Object.keys(data.reminders)[0];
+            const reminder = reminders[id];
+            const { dueDate } = reminder;
+
+            setDate = new Date(dueDate);
+            expectedDate = new Date(date);
+
+            const isSame = () => {
+              if (setDate.getFullYear() !== expectedDate.getFullYear()) {
+                return false;
+              }
+              if (setDate.getMonth() !== expectedDate.getMonth()) return false;
+              if (setDate.getDate() !== expectedDate.getDate()) return false;
+              if (setDate.getHours() !== expectedDate.getHours()) return false;
+              if (setDate.getMinutes() !== expectedDate.getMinutes()) {
+                return false;
+              }
+
+              return true;
+            };
+
+            return isSame();
+          } catch (e) {
+            return false;
+          }
+        }),
+      () => ({
+        negative:
+          'The set due date matches the expected due date, expected it not to',
+        positive: `The set due date does not match the expected due date:\nreceived ${String(setDate)}\nexpected ${String(expectedDate)}`,
+        waitNegative:
+          'The set due date matches the expected due date, expected it not to',
+        waitPositive: `The set due date does not match the expected due date:\nreceived ${String(setDate)}\nexpected ${String(expectedDate)}`,
+      })
+    );
   }
 }
 

@@ -1,6 +1,9 @@
 {
   "extends": ["airbnb"],
   "rules": {
+    "@miovision/disallow-date/no-new-date": "error",
+    "@miovision/disallow-date/no-static-date": "error",
+    "@miovision/disallow-date/no-to-date": "error",
     "react/default-props-match-prop-types": "off",
     "import/no-unresolved": "off",
     "no-unused-vars": "off",
@@ -133,6 +136,14 @@
       "rules": {
         "require-jsdoc": "off"
       }
+    },
+    {
+      "files": ["packages/tests/**/*"],
+      "rules": {
+        "@miovision/disallow-date/no-new-date": "off",
+        "@miovision/disallow-date/no-static-date": "off",
+        "@miovision/disallow-date/no-to-date": "off"
+      }
     }
   ],
   "settings": {
@@ -154,7 +165,7 @@
   "parserOptions": {
     "jsx": true
   },
-  "plugins": ["jest", "cajacko"],
+  "plugins": ["jest", "cajacko", "@miovision/disallow-date"],
   "env": {
     "jest/globals": true
   },

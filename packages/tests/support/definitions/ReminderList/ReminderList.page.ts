@@ -24,6 +24,10 @@ class ReminderList {
     selectors.general.ReminderList.Reminder.DoneButton;
   private reminderDoneIconSelector: ISelector =
     selectors.general.ReminderList.Reminder.DoneIcon;
+  private reminderSnoozeIconSelector: ISelector =
+    selectors.general.ReminderList.Reminder.SnoozeIcon;
+  private reminderSnoozeButtonSelector: ISelector =
+    selectors.general.ReminderList.Reminder.SnoozeButton;
 
   public async count(conditional: ICondition, value: number) {
     return driver.count(
@@ -61,6 +65,9 @@ class ReminderList {
     switch (component) {
       case 'done':
         selector = getSelector(this.reminderDoneButtonSelector, { index });
+        break;
+      case 'snooze':
+        selector = getSelector(this.reminderSnoozeButtonSelector, { index });
         break;
       case 'delete':
         selector = getSelector(this.reminderDeleteButtonSelector, { index });
@@ -119,6 +126,8 @@ class ReminderList {
       switch (icon) {
         case 'done':
           return this.reminderDoneIconSelector;
+        case 'snooze':
+          return this.reminderSnoozeIconSelector;
         default:
           throw new Error(`Unknown icon given ${icon}`);
       }
