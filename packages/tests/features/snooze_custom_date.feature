@@ -1,26 +1,46 @@
 # Custom time suggestions are handled in snooze_suggestions.feature
 Feature: Snooze Custom Date
-As a user
-I want to snooze reminders to a specific date and time
-So that I can get reminded at the specific time I want to
+  As a user
+  I want to snooze reminders to a specific date and time
+  So that I can get reminded at the specific time I want to
 
-# TODO: Check the dueDate set is correct
+  # Scenario: Can navigate back from date picker via back button
+  # Scenario: Can navigate back from time picker via back button
 
-# Scenario: Can navigate back from date picker via back button
-# Scenario: Can navigate back from time picker via back button
+  # Can navigate months
+  # Can scroll and select time
 
-# TODO: The custom date and time label bit shows the correct date and time
+  Scenario: Snoozing to a custom date sets the correct date
+    Given we have logged in successfully
+    When we add a reminder with the text "Item to be snoozed"
+    And the we hover over the "1st" reminder
+    And the "1st" reminder hover "snooze" button is pressed
+    And the snooze scene custom date button is pressed
+    And day "8" in the date picker is pressed
+    And the snooze confirm save button is pressed
+    Then the header loading icon "will not be" visible
+    And the due date of the only reminder "is" "2019-03-08 06:30"
 
-# Can navigate months
-# Can scroll and select time
+  Scenario: Snoozing to the morning suggestion sets the correct time
+  Scenario: Snoozing to the afternoon suggestion sets the correct time
+  Scenario: Snoozing to the evening suggestion sets the correct time
+  Scenario: Snoozing to a custom time sets the correct time
 
-# Select custom date normally
-# The first time we see the confirm modal, the time is the last suggested time for the day
-# Whats the suggested time when past evening
-# Whats the suggested time if near midnight?
+  Scenario: Snoozing to a custom date and suggested time sets the correct date and time
+  Scenario: Snoozing to a custom date and a custom time sets the correct date and time
 
-# Select custom time when first see confirm modal
-# Reselect date
-# Reselect time
+  Scenario: Accepting the default custom snooze date and time sets the correct date and time
 
-# TODO: Hover styles
+  Scenario: Changing the date updates the label on the confirm modal
+  Scenario: Changing the time updates the label on the confirm modal
+
+# Scenario: Default custom date
+#     | day      | timeOfDay       | time  |
+#     | today    | beforeMorning   | 17:30 |
+#     | today    | beforeAfternoon | 17:30 |
+#     | today    | beforeEvening   | 17:30 |
+#     | today    | afterEvening    | 23:45 |
+#     | tomorrow | beforeMorning   | 06:30 |
+#     | tomorrow | beforeAfternoon | 06:30 |
+#     | tomorrow | beforeEvening   | 06:30 |
+#     | tomorrow | afterEvening    | 06:30 |

@@ -190,55 +190,55 @@ Feature: Snooze Suggestions
       | saturday  | true  |
       | sunday    | true  |
 
-# Scenario Outline: Custom times show on the current day
-#   Given we set the time to <time>
-#   And we have logged in successfully
-#   When we add a reminder with the text "Item to be snoozed"
-#   And the we hover over the "1st" reminder
-#   And the "1st" reminder hover "snooze" button is pressed
-#   And the snooze scene custom date button is pressed
-#   And day "7" in the date picker is pressed
-#   And the snooze confirm change time button is pressed
-#   Then the "morning" snooze time suggestions visiblity "is" <morning>
-#   And the "afternoon" snooze time suggestions visiblity "is" <afternoon>
-#   And the "evening" snooze time suggestions visiblity "is" <evening>
-#   And the screenshot matches, <time>, <morning>, <afternoon>, <evening>
+  Scenario Outline: Custom times show on the current day
+    Given we set the time to <time>
+    And we have logged in successfully
+    When we add a reminder with the text "Item to be snoozed"
+    And the we hover over the "1st" reminder
+    And the "1st" reminder hover "snooze" button is pressed
+    And the snooze scene custom date button is pressed
+    And day "7" in the date picker is pressed
+    And the snooze confirm change time button is pressed
+    Then the "morning" snooze time suggestions visiblity "is" <morning>
+    And the "afternoon" snooze time suggestions visiblity "is" <afternoon>
+    And the "evening" snooze time suggestions visiblity "is" <evening>
+    And the screenshot matches, <time>, <morning>, <afternoon>, <evening>
 
-#   Examples:
-#     | time            | morning | afternoon | evening |
-#     | beforeMorning   | true    | true      | true    |
-#     | beforeAfternoon | false   | true      | true    |
-#     | beforeEvening   | false   | false     | true    |
+    Examples:
+      | time            | morning | afternoon | evening |
+      | beforeMorning   | true    | true      | true    |
+      | beforeAfternoon | false   | true      | true    |
+      | beforeEvening   | false   | false     | true    |
 
-# Scenario: When we're snoozing to the current day and past the set evening time, the time suggestions do not show
-#   Given we set the time to afterEvening
-#   And we have logged in successfully
-#   When we add a reminder with the text "Item to be snoozed"
-#   And the we hover over the "1st" reminder
-#   And the "1st" reminder hover "snooze" button is pressed
-#   And the snooze scene custom date button is pressed
-#   And day "7" in the date picker is pressed
-#   And the snooze confirm change time button is pressed
-#   Then the time suggestions component "is not" visible
-#   And the custom time picker "is" visible
+  Scenario: When we're snoozing to the current day and past the set evening time, the time suggestions do not show
+    Given we set the time to afterEvening
+    And we have logged in successfully
+    When we add a reminder with the text "Item to be snoozed"
+    And the we hover over the "1st" reminder
+    And the "1st" reminder hover "snooze" button is pressed
+    And the snooze scene custom date button is pressed
+    And day "7" in the date picker is pressed
+    And the snooze confirm change time button is pressed
+    Then the time suggestions component "is not" visible
+    And the custom time picker "is" visible
 
-# Scenario Outline: Custom times show on a future day
-#   Given we set the time to <time>
-#   And we have logged in successfully
-#   When we add a reminder with the text "Item to be snoozed"
-#   And the we hover over the "1st" reminder
-#   And the "1st" reminder hover "snooze" button is pressed
-#   And the snooze scene custom date button is pressed
-#   And day "8" in the date picker is pressed
-#   And the snooze confirm change time button is pressed
-#   Then the "morning" snooze time suggestions visiblity "is" <morning>
-#   And the "afternoon" snooze time suggestions visiblity "is" <afternoon>
-#   And the "evening" snooze time suggestions visiblity "is" <evening>
-#   And the screenshot matches, <time>, <morning>, <afternoon>, <evening>
+  Scenario Outline: Custom times show on a future day
+    Given we set the time to <time>
+    And we have logged in successfully
+    When we add a reminder with the text "Item to be snoozed"
+    And the we hover over the "1st" reminder
+    And the "1st" reminder hover "snooze" button is pressed
+    And the snooze scene custom date button is pressed
+    And day "8" in the date picker is pressed
+    And the snooze confirm change time button is pressed
+    Then the "morning" snooze time suggestions visiblity "is" <morning>
+    And the "afternoon" snooze time suggestions visiblity "is" <afternoon>
+    And the "evening" snooze time suggestions visiblity "is" <evening>
+    And the screenshot matches, <time>, <morning>, <afternoon>, <evening>
 
-#   Examples:
-#     | time            | morning | afternoon | evening |
-#     | beforeMorning   | true    | true      | true    |
-#     | beforeAfternoon | true    | true      | true    |
-#     | beforeEvening   | true    | true      | true    |
-#     | afterEvening    | true    | true      | true    |
+    Examples:
+      | time            | morning | afternoon | evening |
+      | beforeMorning   | true    | true      | true    |
+      | beforeAfternoon | true    | true      | true    |
+      | beforeEvening   | true    | true      | true    |
+      | afterEvening    | true    | true      | true    |

@@ -2,7 +2,7 @@
 import * as React from 'react';
 import DatePicker from 'src/components/DatePicker';
 import TimePicker from 'src/components/TimePicker';
-// import Calendar from 'src/lib/assets/icons/CalendarAlt';
+import Calendar from 'src/lib/assets/icons/CalendarAlt';
 import ChevronDown from 'src/lib/assets/icons/ChevronDown';
 import Button from 'src/lib/components/Button';
 import Suggestion from 'src/lib/components/Suggestion';
@@ -156,7 +156,7 @@ const Snooze = ({
               </Style.Suggestion>
             ))}
           </Style.Suggestions>
-          {/* <Style.Footer>
+          <Style.Footer>
             <Style.Suggestion>
               <Suggestion
                 analyticsAction="SELECT_DATE_TIME"
@@ -168,7 +168,7 @@ const Snooze = ({
                 action={onSelectDateAndTime}
               />
             </Style.Suggestion>
-          </Style.Footer> */}
+          </Style.Footer>
         </Style.Container>
       );
 
