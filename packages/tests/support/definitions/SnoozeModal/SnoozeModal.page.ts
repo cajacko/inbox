@@ -26,6 +26,10 @@ class SnoozeModal {
   private customisedTimeSelector =
     selectors.general.SnoozeModal.Suggestions.Time.Customised;
   private saveSelector = selectors.general.SnoozeModal.Save;
+  private morningSelector = selectors.general.SnoozeModal.Suggestions.Morning;
+  private afternoonSelector =
+    selectors.general.SnoozeModal.Suggestions.Afternoon;
+  private eveningSelector = selectors.general.SnoozeModal.Suggestions.Evening;
 
   public async visible(conditional: ICondition) {
     return driver.visible(conditional, getSelector(this.snoozeModal));
@@ -45,6 +49,12 @@ class SnoozeModal {
         return this.thisWeekendSelector;
       case 'tomorrow':
         return this.tomorrowSelector;
+      case 'morning':
+        return this.morningSelector;
+      case 'afternoon':
+        return this.afternoonSelector;
+      case 'evening':
+        return this.eveningSelector;
       default:
         throw new Error(`No suggestion for ${suggestion}`);
     }

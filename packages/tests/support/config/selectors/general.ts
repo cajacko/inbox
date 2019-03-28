@@ -207,14 +207,23 @@ const general = {
       web: '.SnoozeConfirm__Save',
     },
     Suggestions: {
+      Afternoon: {
+        web: '.TimeSuggestion--Afternoon',
+      },
       Custom: {
         web: '.Suggestion--SelectDateTime',
+      },
+      Evening: {
+        web: '.TimeSuggestion--Evening',
       },
       LaterThisWeek: {
         web: '.Suggestion--LaterThisWeek',
       },
       LaterToday: {
         web: '.Suggestion--LaterToday',
+      },
+      Morning: {
+        web: '.TimeSuggestion--Morning',
       },
       NextWeek: {
         web: '.Suggestion--NextWeek',

@@ -6,6 +6,14 @@ Feature: Snooze
   I want to snooze reminders
   So that I can get reminded at a more appropiate date
 
+  # TODO:
+  # Scenario: Can't snooze to a date in the past via suggestion
+  # Scenario: Can't snooze to a date in the past via custom date
+
+  # As the other tests preload the data
+  # Scenario: Snoozing an existing reminder works
+  # Scenario: Snoozing a new reminder works
+
   # DISPLAY
 
   Scenario: Snooze button displays correctly in hover menu
@@ -167,6 +175,7 @@ Feature: Snooze
     And the "1st" reminder is pressed
     And the edit scene "snooze button" is pressed
     Then the snooze reminder modal "is" visible
+    And the header loading icon "will not be" visible
     And the screenshot matches
 
   # Can't be tested yet
@@ -174,92 +183,100 @@ Feature: Snooze
 
   # More advanced displays and behaviour of custom date and times are checked in
   # snooze_custom_date.feature
-  Scenario: Custom snooze date picker displays correctly from edit scene
-    Given we add a hook with id "now" and type "fixed1"
-    And we have logged in successfully
-    When we add a reminder with the text "Item to be snoozed"
-    And the "1st" reminder is pressed
-    And the edit scene "snooze button" is pressed
-    And the snooze scene custom date button is pressed
-    Then the snooze custom date scene "is" visible
-    And the screenshot matches
+  # Scenario: Custom snooze date picker displays correctly from edit scene
+  #   Given we add a hook with id "now" and type "fixed1"
+  #   And we have logged in successfully
+  #   When we add a reminder with the text "Item to be snoozed"
+  #   And the "1st" reminder is pressed
+  #   And the edit scene "snooze button" is pressed
+  #   And the snooze scene custom date button is pressed
+  #   Then the snooze custom date scene "is" visible
+  #   And the header loading icon "will not be" visible
+  #   And the screenshot matches
 
-  Scenario: Custom snooze confirm displays correctly from edit scene
-    Given we add a hook with id "now" and type "fixed1"
-    And we have logged in successfully
-    When we add a reminder with the text "Item to be snoozed"
-    And the "1st" reminder is pressed
-    And the edit scene "snooze button" is pressed
-    And the snooze scene custom date button is pressed
-    And day "7" in the date picker is pressed
-    And the screenshot matches
+  # Scenario: Custom snooze confirm displays correctly from edit scene
+  #   Given we add a hook with id "now" and type "fixed1"
+  #   And we have logged in successfully
+  #   When we add a reminder with the text "Item to be snoozed"
+  #   And the "1st" reminder is pressed
+  #   And the edit scene "snooze button" is pressed
+  #   And the snooze scene custom date button is pressed
+  #   And day "7" in the date picker is pressed
+  #   Then the header loading icon "will not be" visible
+  #   And the screenshot matches
 
-  Scenario: Custom snooze time suggestions displays correctly from edit scene
-    Given we add a hook with id "now" and type "fixed1"
-    And we have logged in successfully
-    When we add a reminder with the text "Item to be snoozed"
-    And the "1st" reminder is pressed
-    And the edit scene "snooze button" is pressed
-    And the snooze scene custom date button is pressed
-    And day "7" in the date picker is pressed
-    And the snooze confirm change time button is pressed
-    And the screenshot matches
+  # Scenario: Custom snooze time suggestions displays correctly from edit scene
+  #   Given we add a hook with id "now" and type "fixed1"
+  #   And we have logged in successfully
+  #   When we add a reminder with the text "Item to be snoozed"
+  #   And the "1st" reminder is pressed
+  #   And the edit scene "snooze button" is pressed
+  #   And the snooze scene custom date button is pressed
+  #   And day "7" in the date picker is pressed
+  #   And the snooze confirm change time button is pressed
+  #   Then the header loading icon "will not be" visible
+  #   And the screenshot matches
 
-  Scenario: Custom snooze time picker displays correctly from edit scene
-    Given we add a hook with id "now" and type "fixed1"
-    And we have logged in successfully
-    When we add a reminder with the text "Item to be snoozed"
-    And the "1st" reminder is pressed
-    And the edit scene "snooze button" is pressed
-    And the snooze scene custom date button is pressed
-    And day "7" in the date picker is pressed
-    And the snooze confirm change time button is pressed
-    And the "customised" snooze time suggestion is pressed
-    And the screenshot matches
+  # Scenario: Custom snooze time picker displays correctly from edit scene
+  #   Given we add a hook with id "now" and type "fixed1"
+  #   And we have logged in successfully
+  #   When we add a reminder with the text "Item to be snoozed"
+  #   And the "1st" reminder is pressed
+  #   And the edit scene "snooze button" is pressed
+  #   And the snooze scene custom date button is pressed
+  #   And day "7" in the date picker is pressed
+  #   And the snooze confirm change time button is pressed
+  #   And the "customised" snooze time suggestion is pressed
+  #   Then the header loading icon "will not be" visible
+  #   And the screenshot matches
 
-  Scenario: Custom snooze date picker displays correctly from hover
-    Given we add a hook with id "now" and type "fixed1"
-    And we add a hook with id "now" and type "fixed1"
-    And we have logged in successfully
-    When we add a reminder with the text "Item to be snoozed"
-    And the we hover over the "1st" reminder
-    And the "1st" reminder hover "snooze" button is pressed
-    And the snooze scene custom date button is pressed
-    Then the snooze custom date scene "is" visible
-    And the screenshot matches
+  # Scenario: Custom snooze date picker displays correctly from hover
+  #   Given we add a hook with id "now" and type "fixed1"
+  #   And we add a hook with id "now" and type "fixed1"
+  #   And we have logged in successfully
+  #   When we add a reminder with the text "Item to be snoozed"
+  #   And the we hover over the "1st" reminder
+  #   And the "1st" reminder hover "snooze" button is pressed
+  #   And the snooze scene custom date button is pressed
+  #   Then the snooze custom date scene "is" visible
+  #   And the header loading icon "will not be" visible
+  #   And the screenshot matches
 
-  Scenario: Custom snooze confirm displays correctly from hover
-    Given we add a hook with id "now" and type "fixed1"
-    And we have logged in successfully
-    When we add a reminder with the text "Item to be snoozed"
-    And the we hover over the "1st" reminder
-    And the "1st" reminder hover "snooze" button is pressed
-    And the snooze scene custom date button is pressed
-    And day "7" in the date picker is pressed
-    And the screenshot matches
+  # Scenario: Custom snooze confirm displays correctly from hover
+  #   Given we add a hook with id "now" and type "fixed1"
+  #   And we have logged in successfully
+  #   When we add a reminder with the text "Item to be snoozed"
+  #   And the we hover over the "1st" reminder
+  #   And the "1st" reminder hover "snooze" button is pressed
+  #   And the snooze scene custom date button is pressed
+  #   And day "7" in the date picker is pressed
+  #   Then the header loading icon "will not be" visible
+  #   And the screenshot matches
 
-  Scenario: Custom snooze time suggestions displays correctly from hover
-    Given we add a hook with id "now" and type "fixed1"
-    And we have logged in successfully
-    When we add a reminder with the text "Item to be snoozed"
-    And the we hover over the "1st" reminder
-    And the "1st" reminder hover "snooze" button is pressed
-    And the snooze scene custom date button is pressed
-    And day "7" in the date picker is pressed
-    And the snooze confirm change time button is pressed
-    And the screenshot matches
+  # Scenario: Custom snooze time suggestions displays correctly from hover
+  #   Given we add a hook with id "now" and type "fixed1"
+  #   And we have logged in successfully
+  #   When we add a reminder with the text "Item to be snoozed"
+  #   And the we hover over the "1st" reminder
+  #   And the "1st" reminder hover "snooze" button is pressed
+  #   And the snooze scene custom date button is pressed
+  #   And day "7" in the date picker is pressed
+  #   And the snooze confirm change time button is pressed
+  #   Then the header loading icon "will not be" visible
+  #   And the screenshot matches
 
-  Scenario: Custom snooze time picker displays correctly from hover
-    Given we add a hook with id "now" and type "fixed1"
-    And we have logged in successfully
-    When we add a reminder with the text "Item to be snoozed"
-    And the we hover over the "1st" reminder
-    And the "1st" reminder hover "snooze" button is pressed
-    And the snooze scene custom date button is pressed
-    And day "7" in the date picker is pressed
-    And the snooze confirm change time button is pressed
-    And the "customised" snooze time suggestion is pressed
-    And the screenshot matches
+  # Scenario: Custom snooze time picker displays correctly from hover
+  #   Given we add a hook with id "now" and type "fixed1"
+  #   And we have logged in successfully
+  #   When we add a reminder with the text "Item to be snoozed"
+  #   And the we hover over the "1st" reminder
+  #   And the "1st" reminder hover "snooze" button is pressed
+  #   And the snooze scene custom date button is pressed
+  #   And day "7" in the date picker is pressed
+  #   And the snooze confirm change time button is pressed
+  #   And the "customised" snooze time suggestion is pressed
+  #   Then the header loading icon "will not be" visible
+  #   And the screenshot matches
 
   # Can't test yet
   # Scenario: Custom snooze date picker displays correctly from swipe
@@ -287,29 +304,29 @@ Feature: Snooze
     And the snooze reminder modal "is not" visible
     And the edit reminder scene "is not" visible
 
-  Scenario: Selecting a custom snooze date from the hover menu closes the modal
-    Given we have logged in successfully
-    When we add a reminder with the text "Item to be snoozed"
-    And the we hover over the "1st" reminder
-    And the "1st" reminder hover "snooze" button is pressed
-    Then the snooze reminder modal "is" visible
-    When the snooze scene custom date button is pressed
-    And day "7" in the date picker is pressed
-    And the snooze scene custom save button is pressed
-    And the snooze reminder modal "is not" visible
-    And the edit reminder scene "is not" visible
+  # Scenario: Selecting a custom snooze date from the hover menu closes the modal
+  #   Given we have logged in successfully
+  #   When we add a reminder with the text "Item to be snoozed"
+  #   And the we hover over the "1st" reminder
+  #   And the "1st" reminder hover "snooze" button is pressed
+  #   Then the snooze reminder modal "is" visible
+  #   When the snooze scene custom date button is pressed
+  #   And day "7" in the date picker is pressed
+  #   And the snooze scene custom save button is pressed
+  #   And the snooze reminder modal "is not" visible
+  #   And the edit reminder scene "is not" visible
 
-  Scenario: Selecting a custom snooze date from the edit menu closes both modals
-    Given we have logged in successfully
-    When we add a reminder with the text "Item to be snoozed"
-    And the "1st" reminder is pressed
-    And the edit scene "snooze button" is pressed
-    Then the snooze reminder modal "is" visible
-    When the snooze scene custom date button is pressed
-    And day "7" in the date picker is pressed
-    And the snooze scene custom save button is pressed
-    And the snooze reminder modal "is not" visible
-    And the edit reminder scene "is not" visible
+  # Scenario: Selecting a custom snooze date from the edit menu closes both modals
+  #   Given we have logged in successfully
+  #   When we add a reminder with the text "Item to be snoozed"
+  #   And the "1st" reminder is pressed
+  #   And the edit scene "snooze button" is pressed
+  #   Then the snooze reminder modal "is" visible
+  #   When the snooze scene custom date button is pressed
+  #   And day "7" in the date picker is pressed
+  #   And the snooze scene custom save button is pressed
+  #   And the snooze reminder modal "is not" visible
+  #   And the edit reminder scene "is not" visible
 
   Scenario: Snooze an existing reminder via the hover menu
     Given we have logged in successfully
@@ -381,6 +398,7 @@ Feature: Snooze
     And the "later today" snooze suggestion is pressed
     Then the snooze reminder modal "is not" visible
     And the add reminder scene "is" visible
+    And the header loading icon "will not be" visible
     And the screenshot matches
 
   # Takes out the done status

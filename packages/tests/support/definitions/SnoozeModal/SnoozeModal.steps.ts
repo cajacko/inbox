@@ -27,3 +27,9 @@ Then(
   (suggestion, condition, value) =>
     snoozeModal.suggestionVisible(condition, suggestion, value)
 );
+
+Then(
+  /the "(.+?)" snooze time suggestions visiblity "(.+?)" (false|true)/,
+  (suggestion, condition, value) =>
+    snoozeModal.suggestionVisible(condition, suggestion, value)
+);

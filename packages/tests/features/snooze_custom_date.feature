@@ -1,14 +1,15 @@
 # Custom time suggestions are handled in snooze_suggestions.feature
 Feature: Snooze Custom Date
-  As a user
-  I want to snooze reminders to a specific date and time
-  So that I can get reminded at the specific time I want to
+As a user
+I want to snooze reminders to a specific date and time
+So that I can get reminded at the specific time I want to
 
-  Scenario: Can navigate back from date picker via back button
-  Scenario: Can navigate back from time picker via back button
+# TODO: Check the dueDate set is correct
 
-# TODO: Cannot snooze past date
-# TODO: Cannot snooze past time
+# Scenario: Can navigate back from date picker via back button
+# Scenario: Can navigate back from time picker via back button
+
+# TODO: The custom date and time label bit shows the correct date and time
 
 # Can navigate months
 # Can scroll and select time
@@ -22,6 +23,4 @@ Feature: Snooze Custom Date
 # Reselect date
 # Reselect time
 
-# Error if somehow a past date tries to get submitted (as could happen if wait a
-# bit)
 # TODO: Hover styles
