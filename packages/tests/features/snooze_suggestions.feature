@@ -197,11 +197,12 @@ Feature: Snooze Suggestions
     And the we hover over the "1st" reminder
     And the "1st" reminder hover "snooze" button is pressed
     And the snooze scene custom date button is pressed
-    And day "7" in the date picker is pressed
+    And day "4" in the date picker is pressed
     And the snooze confirm change time button is pressed
     Then the "morning" snooze time suggestions visiblity "is" <morning>
     And the "afternoon" snooze time suggestions visiblity "is" <afternoon>
     And the "evening" snooze time suggestions visiblity "is" <evening>
+    And the header loading icon "will not be" visible
     And the screenshot matches, <time>, <morning>, <afternoon>, <evening>
 
     Examples:
@@ -229,11 +230,12 @@ Feature: Snooze Suggestions
     And the we hover over the "1st" reminder
     And the "1st" reminder hover "snooze" button is pressed
     And the snooze scene custom date button is pressed
-    And day "8" in the date picker is pressed
+    And day "5" in the date picker is pressed
     And the snooze confirm change time button is pressed
     Then the "morning" snooze time suggestions visiblity "is" <morning>
     And the "afternoon" snooze time suggestions visiblity "is" <afternoon>
     And the "evening" snooze time suggestions visiblity "is" <evening>
+    And the header loading icon "will not be" visible
     And the screenshot matches, <time>, <morning>, <afternoon>, <evening>
 
     Examples:

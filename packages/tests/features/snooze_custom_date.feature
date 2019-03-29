@@ -55,3 +55,25 @@ Feature: Snooze Custom Date
       | tomorrow | beforeAfternoon | 06:30 |
       | tomorrow | beforeEvening   | 06:30 |
       | tomorrow | afterEvening    | 06:30 |
+
+  Scenario Outline: Custom time shows the correct suggestion label text
+    Given we have logged in successfully
+    When we add a reminder with the text "Item to be snoozed"
+    And the we hover over the "1st" reminder
+    And the "1st" reminder hover "snooze" button is pressed
+    And the snooze scene custom date button is pressed
+    And day "7" in the date picker is pressed
+    And the snooze confirm change time button is pressed
+    And the "customised" snooze time suggestion is pressed
+    And the snooze time is set to <time>
+    Then the snooze scene custom time label "is" <label>
+
+    Examples:
+      | time  | label     |
+      | 05:00 | Custom    |
+      | 06:30 | Morning   |
+      | 08:00 | Custom    |
+      | 12:30 | Afternoon |
+      | 15:00 | Custom    |
+      | 17:30 | Evening   |
+      | 20:00 | Custom    |

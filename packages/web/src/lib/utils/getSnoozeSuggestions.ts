@@ -182,6 +182,8 @@ export const getTimes = (
   onChangeTime: (date: CustomDate | null) => void,
   onCustomised: () => void
 ): ISuggestedTimes[] => {
+  const now = new CustomDate().getTime();
+
   const suggestions = [
     {
       label: 'Morning',
@@ -202,7 +204,11 @@ export const getTimes = (
       label: 'Customised',
       testID: 'TimeSuggestion--Customised',
     },
-  ];
+  ].filter(({ time }) => {
+    if (!time) return true;
+
+    return time.getTime() > now;
+  });
 
   return suggestions.map(({ label, time, testID }) => ({
     label,
