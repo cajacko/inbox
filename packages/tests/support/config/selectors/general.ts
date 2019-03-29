@@ -1,5 +1,6 @@
 /* eslint max-lines: 0 */
 import getReactDatePickerDay from '../../utils/getReactDatePickerDay';
+import getTimePosition from '../../utils/getTimePosition';
 
 const general = {
   AddButton: {
@@ -30,6 +31,11 @@ const general = {
     Day: {
       web: ({ day }: { day: number }) =>
         `.react-datepicker__day--${getReactDatePickerDay(day)}`,
+    },
+    Time: {
+      web: ({ time }: { time: string }) =>
+        `.react-datepicker__time-list-item:nth-child(${getTimePosition(time) +
+          1})`,
     },
   },
   Done: {
@@ -204,6 +210,9 @@ const general = {
       web: '.SnoozeConfirm__Time',
     },
     CustomTime: {
+      web: '.SnoozeConfirm__TimeValue',
+    },
+    CustomTimeLabel: {
       web: '.SnoozeConfirm__TimeLabel',
     },
     Save: {

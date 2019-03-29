@@ -31,6 +31,8 @@ class SnoozeModal {
     selectors.general.SnoozeModal.Suggestions.Afternoon;
   private eveningSelector = selectors.general.SnoozeModal.Suggestions.Evening;
   private customTimeSelector = selectors.general.SnoozeModal.CustomTime;
+  private customTimeLabelSelector =
+    selectors.general.SnoozeModal.CustomTimeLabel;
 
   public async visible(conditional: ICondition) {
     return driver.visible(conditional, getSelector(this.snoozeModal));
@@ -115,6 +117,14 @@ class SnoozeModal {
 
   public async customTimeIs(condition: ICondition, time: string) {
     return driver.text(condition, getSelector(this.customTimeSelector), time);
+  }
+
+  public async customTimeLabelIs(condition: ICondition, label: string) {
+    return driver.text(
+      condition,
+      getSelector(this.customTimeLabelSelector),
+      label
+    );
   }
 }
 

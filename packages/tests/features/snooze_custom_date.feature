@@ -10,6 +10,8 @@ Feature: Snooze Custom Date
   # Can navigate months
   # Can scroll and select time
 
+  # TODO: Existing snooze date shows that snooze when click custom snooze
+
   Scenario: Snoozing to a custom date sets the correct date
     Given we set the day to monday
     And we have logged in successfully

@@ -36,3 +36,6 @@ Then(
 
 Then(/the snooze scene custom time "(.+?)" (.*)/, (condition, time) =>
   snoozeModal.customTimeIs(condition, time));
+
+Then(/the snooze scene custom time label "(.+?)" (.*)/, (condition, label) =>
+  snoozeModal.customTimeLabelIs(condition, label));

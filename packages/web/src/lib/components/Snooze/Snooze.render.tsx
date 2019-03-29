@@ -112,6 +112,7 @@ const Snooze = ({
             <Text
               text={customTimeLabel}
               backgroundColor={BACKGROUND_COLORS.WHITE}
+              testID="SnoozeConfirm__TimeLabel"
             />
             <Style.ConfirmRight>
               <Style.ConfirmValue>
@@ -119,7 +120,7 @@ const Snooze = ({
                   text={{ _textFromConst: customTime }}
                   backgroundColor={BACKGROUND_COLORS.WHITE}
                   greyedOut
-                  testID="SnoozeConfirm__TimeLabel"
+                  testID="SnoozeConfirm__TimeValue"
                 />
               </Style.ConfirmValue>
               <ChevronDown
