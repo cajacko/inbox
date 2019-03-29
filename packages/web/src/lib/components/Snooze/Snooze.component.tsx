@@ -1,6 +1,11 @@
 import * as React from 'react';
 import CustomDate from 'src/lib/modules/CustomDate';
-import { getDates, getTimes } from 'src/lib/utils/getSnoozeSuggestions';
+import getLabelsFromDate from 'src/lib/utils/getLabelsFromDate';
+import {
+  getDates,
+  getTimes,
+  suggestedTimes,
+} from 'src/lib/utils/getSnoozeSuggestions';
 import Snooze, {
   IProps as RenderProps,
   ISuggestedTimes,
@@ -16,9 +21,7 @@ interface IProps {
 interface IState {
   type: RenderProps['type'];
   suggestions: ISuggestion[];
-  customDate: string;
-  customTimeLabel: string;
-  customTime: string;
+  customDate: CustomDate;
   suggestedTimes: ISuggestedTimes[];
 }
 
@@ -39,13 +42,11 @@ class SnoozeComponent extends React.Component<IProps, IState> {
     this.onChangeTime = this.onChangeTime.bind(this);
     this.onSave = this.onSave.bind(this);
 
+    const customDate = new CustomDate();
+
     this.state = {
-      customDate: 'Wed 6 Mar',
-      customTime: '17:30',
-      customTimeLabel: 'Suggestions.Time.Evening',
-      suggestedTimes: getTimes(this.onChangeTime, () => {
-        this.setState({ type: 'TIME' });
-      }),
+      customDate: suggestedTimes.morning.getTime(customDate),
+      suggestedTimes: this.getSuggestedTimes(customDate),
       suggestions: getDates(this.onSelectDate),
       type: 'SUGGESTIONS',
     };
@@ -71,8 +72,16 @@ class SnoozeComponent extends React.Component<IProps, IState> {
   /**
    * When the date is selected show the confirm view
    */
-  private onChangeDate() {
-    this.setState({ type: 'CONFIRM' });
+  private onChangeDate(date: CustomDate | null) {
+    if (!date) return;
+
+    const newDate = new CustomDate(this.state.customDate);
+
+    newDate.setFullYear(date.getFullYear());
+    newDate.setMonth(date.getMonth());
+    newDate.setDate(date.getDate());
+
+    this.setState({ type: 'CONFIRM', customDate: newDate });
   }
 
   /**
@@ -85,31 +94,50 @@ class SnoozeComponent extends React.Component<IProps, IState> {
   /**
    * When the time is selected show the confirm view
    */
-  private onChangeTime() {
-    this.setState({ type: 'CONFIRM' });
+  private onChangeTime(date: CustomDate | null) {
+    if (!date) return;
+
+    const newDate = new CustomDate(this.state.customDate);
+
+    newDate.setHours(date.getHours());
+    newDate.setMinutes(date.getMinutes());
+
+    this.setState({ type: 'CONFIRM', customDate: newDate });
   }
 
   /**
    * When the save button is pressed, save the custom date
    */
   private onSave() {
-    this.onSelectDate(new CustomDate())();
+    this.onSelectDate(this.state.customDate)();
+  }
+
+  /**
+   * Get the suggested times to display
+   */
+  private getSuggestedTimes(date: CustomDate) {
+    return getTimes(date, this.onChangeTime, () => {
+      this.setState({ type: 'TIME' });
+    });
   }
 
   /**
    * Render the component
    */
   public render() {
+    const { date, time, timeLabel } = getLabelsFromDate(this.state.customDate);
+
     return (
       <Snooze
         type={this.state.type}
         onSelectDateAndTime={this.onSelectDateAndTime}
         suggestions={this.state.suggestions}
         onChangeDate={this.onChangeDate}
-        customDate={this.state.customDate}
+        customDate={date}
+        customDateObject={this.state.customDate}
         onSelectTime={this.onSelectTime}
-        customTimeLabel={this.state.customTimeLabel}
-        customTime={this.state.customTime}
+        customTimeLabel={timeLabel}
+        customTime={time}
         suggestedTimes={this.state.suggestedTimes}
         onChangeTime={this.onChangeTime}
         onSave={this.onSave}

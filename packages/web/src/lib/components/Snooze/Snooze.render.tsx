@@ -10,6 +10,7 @@ import { ISuggestion as ISuggestionLoopItem } from 'src/lib/components/Suggestio
 import Text from 'src/lib/components/Text';
 import { BACKGROUND_COLORS } from 'src/lib/config/styles/textIconColors';
 import AppError from 'src/lib/modules/AppError';
+import CustomDate from 'src/lib/modules/CustomDate';
 import getButtonType from 'src/lib/utils/getButtonType';
 import * as Style from './Snooze.style';
 
@@ -37,20 +38,22 @@ export interface IProps {
   type: 'SUGGESTIONS' | 'CALENDAR' | 'TIME' | 'CONFIRM' | 'TIME_SUGGESTIONS';
   suggestions: ISuggestion[];
   onSelectDateAndTime: () => void;
-  onChangeDate: () => void;
+  onChangeDate: (date: CustomDate) => void;
   customDate: string;
   onSelectTime: () => void;
   customTimeLabel: string;
   customTime: string;
   suggestedTimes: ISuggestedTimes[];
-  onChangeTime: () => void;
+  onChangeTime: (date: CustomDate | null) => void;
   onSave: () => void;
+  customDateObject: CustomDate;
 }
 
 /**
  * Render and control the snooze modals
  */
 const Snooze = ({
+  customDateObject,
   type,
   suggestions,
   onSelectDateAndTime,
@@ -184,6 +187,7 @@ const Snooze = ({
     case 'CALENDAR':
       return (
         <DatePicker
+          date={customDateObject}
           onChange={onChangeDate}
           testID="Snooze--DatePicker"
           backgroundComponent={confirm}

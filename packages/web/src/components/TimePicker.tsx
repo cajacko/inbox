@@ -1,9 +1,10 @@
 import * as React from 'react';
 import DatePicker from 'src/components/DatePicker';
+import CustomDate from 'src/lib/modules/CustomDate';
 import { Children } from 'src/lib/types/libs';
 
 interface IProps {
-  onChange: () => void;
+  onChange: (date: CustomDate | null) => void;
   testID?: string;
   backgroundComponent: Children;
 }

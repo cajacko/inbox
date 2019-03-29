@@ -11,13 +11,14 @@ Feature: Snooze Custom Date
   # Can scroll and select time
 
   Scenario: Snoozing to a custom date sets the correct date
-    Given we have logged in successfully
+    Given we set the day to monday
+    And we have logged in successfully
     When we add a reminder with the text "Item to be snoozed"
     And the we hover over the "1st" reminder
     And the "1st" reminder hover "snooze" button is pressed
     And the snooze scene custom date button is pressed
     And day "8" in the date picker is pressed
-    And the snooze confirm save button is pressed
+    And the snooze scene custom save button is pressed
     Then the header loading icon "will not be" visible
     And the due date of the only reminder "is" "2019-03-08 06:30"
 
