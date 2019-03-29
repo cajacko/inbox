@@ -215,3 +215,23 @@ export const getTimes = (
     time: time ? format('time', time) : undefined,
   }));
 };
+
+/**
+ * Get the initial time for the custom date
+ */
+export const getInitTime = (date: CustomDate) => {
+  const now = new CustomDate();
+
+  if (format('fullDate', now) !== format('fullDate', date)) {
+    return suggestedTimes.morning.getTime(date);
+  }
+
+  const eveningTime = suggestedTimes.evening.getTime(date);
+
+  if (now.getTime() > eveningTime.getTime()) {
+    eveningTime.setHours(23);
+    eveningTime.setMinutes(45);
+  }
+
+  return eveningTime;
+};

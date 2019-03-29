@@ -3,8 +3,8 @@ import CustomDate from 'src/lib/modules/CustomDate';
 import getLabelsFromDate from 'src/lib/utils/getLabelsFromDate';
 import {
   getDates,
+  getInitTime,
   getTimes,
-  suggestedTimes,
 } from 'src/lib/utils/getSnoozeSuggestions';
 import Snooze, {
   IProps as RenderProps,
@@ -21,7 +21,7 @@ interface IProps {
 interface IState {
   type: RenderProps['type'];
   suggestions: ISuggestion[];
-  customDate: CustomDate;
+  customDate: CustomDate | null;
   suggestedTimes: ISuggestedTimes[];
 }
 
@@ -42,11 +42,9 @@ class SnoozeComponent extends React.Component<IProps, IState> {
     this.onChangeTime = this.onChangeTime.bind(this);
     this.onSave = this.onSave.bind(this);
 
-    const customDate = new CustomDate();
-
     this.state = {
-      customDate: suggestedTimes.morning.getTime(customDate),
-      suggestedTimes: this.getSuggestedTimes(customDate),
+      customDate: null,
+      suggestedTimes: [],
       suggestions: getDates(this.onSelectDate),
       type: 'SUGGESTIONS',
     };
@@ -75,13 +73,17 @@ class SnoozeComponent extends React.Component<IProps, IState> {
   private onChangeDate(date: CustomDate | null) {
     if (!date) return;
 
-    const newDate = new CustomDate(this.state.customDate);
+    const newDate = new CustomDate(this.state.customDate || getInitTime(date));
 
     newDate.setFullYear(date.getFullYear());
     newDate.setMonth(date.getMonth());
     newDate.setDate(date.getDate());
 
-    this.setState({ type: 'CONFIRM', customDate: newDate });
+    this.setState({
+      type: 'CONFIRM',
+      customDate: newDate,
+      suggestedTimes: this.getSuggestedTimes(newDate),
+    });
   }
 
   /**
@@ -109,6 +111,8 @@ class SnoozeComponent extends React.Component<IProps, IState> {
    * When the save button is pressed, save the custom date
    */
   private onSave() {
+    if (!this.state.customDate) return;
+
     this.onSelectDate(this.state.customDate)();
   }
 
@@ -125,7 +129,9 @@ class SnoozeComponent extends React.Component<IProps, IState> {
    * Render the component
    */
   public render() {
-    const { date, time, timeLabel } = getLabelsFromDate(this.state.customDate);
+    const finalDate = this.state.customDate || new CustomDate();
+
+    const { date, time, timeLabel } = getLabelsFromDate(finalDate);
 
     return (
       <Snooze
@@ -134,7 +140,7 @@ class SnoozeComponent extends React.Component<IProps, IState> {
         suggestions={this.state.suggestions}
         onChangeDate={this.onChangeDate}
         customDate={date}
-        customDateObject={this.state.customDate}
+        customDateObject={finalDate}
         onSelectTime={this.onSelectTime}
         customTimeLabel={timeLabel}
         customTime={time}

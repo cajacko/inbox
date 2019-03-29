@@ -203,6 +203,9 @@ const general = {
     ChangeTime: {
       web: '.SnoozeConfirm__Time',
     },
+    CustomTime: {
+      web: '.SnoozeConfirm__TimeLabel',
+    },
     Save: {
       web: '.SnoozeConfirm__Save',
     },

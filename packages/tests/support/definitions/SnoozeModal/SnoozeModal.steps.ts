@@ -33,3 +33,6 @@ Then(
   (suggestion, condition, value) =>
     snoozeModal.suggestionVisible(condition, suggestion, value)
 );
+
+Then(/the snooze scene custom time "(.+?)" (.*)/, (condition, time) =>
+  snoozeModal.customTimeIs(condition, time));

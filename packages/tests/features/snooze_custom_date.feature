@@ -35,13 +35,23 @@ Feature: Snooze Custom Date
   Scenario: Changing the date updates the label on the confirm modal
   Scenario: Changing the time updates the label on the confirm modal
 
-# Scenario: Default custom date
-#     | day      | timeOfDay       | time  |
-#     | today    | beforeMorning   | 17:30 |
-#     | today    | beforeAfternoon | 17:30 |
-#     | today    | beforeEvening   | 17:30 |
-#     | today    | afterEvening    | 23:45 |
-#     | tomorrow | beforeMorning   | 06:30 |
-#     | tomorrow | beforeAfternoon | 06:30 |
-#     | tomorrow | beforeEvening   | 06:30 |
-#     | tomorrow | afterEvening    | 06:30 |
+  Scenario Outline: Default custom date
+    Given we set the time to <timeOfDay>
+    And we have logged in successfully
+    When we add a reminder with the text "Item to be snoozed"
+    And the we hover over the "1st" reminder
+    And the "1st" reminder hover "snooze" button is pressed
+    And the snooze scene custom date button is pressed
+    And <day> in the date picker is pressed
+    Then the snooze scene custom time "is" <time>
+
+    Examples:
+      | day      | timeOfDay       | time  |
+      | today    | beforeMorning   | 17:30 |
+      | today    | beforeAfternoon | 17:30 |
+      | today    | beforeEvening   | 17:30 |
+      | today    | afterEvening    | 23:45 |
+      | tomorrow | beforeMorning   | 06:30 |
+      | tomorrow | beforeAfternoon | 06:30 |
+      | tomorrow | beforeEvening   | 06:30 |
+      | tomorrow | afterEvening    | 06:30 |
