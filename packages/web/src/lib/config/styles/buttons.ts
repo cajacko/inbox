@@ -127,21 +127,27 @@ const styles: { [key: string]: IStyles } = {
   },
   TRANSPARENT: {
     height: buttonHeight,
+    iconSize: buttonHeight - 10,
     paddingHorizontal: buttonPaddingHorizontal,
     themes: {
       BLACK: {
+        iconColor: COLORS.BLACK,
         textColor: COLORS.BLACK,
       },
       GREY_DARK: {
+        iconColor: COLORS.GREY_DARK,
         textColor: COLORS.GREY_DARK,
       },
       PRIMARY: {
         disabled: {
+          iconColor: COLORS.GREY,
           textColor: COLORS.GREY,
         },
         hover: {
+          iconColor: COLORS.PRIMARY,
           textColor: COLORS.PRIMARY,
         },
+        iconColor: COLORS.PRIMARY_DARK,
         textColor: COLORS.PRIMARY_DARK,
       },
     },

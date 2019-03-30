@@ -16,7 +16,6 @@ class SnoozeModal {
   private thisWeekendSelector =
     selectors.general.SnoozeModal.Suggestions.ThisWeekend;
   private tomorrowSelector = selectors.general.SnoozeModal.Suggestions.Tomorrow;
-
   private customDateTimeSelector =
     selectors.general.SnoozeModal.Suggestions.Custom;
   private snoozeCalendar = selectors.general.SnoozeModal.Calendar;
@@ -33,6 +32,11 @@ class SnoozeModal {
   private customTimeSelector = selectors.general.SnoozeModal.CustomTime;
   private customTimeLabelSelector =
     selectors.general.SnoozeModal.CustomTimeLabel;
+  private dateSuggestionsSelector =
+    selectors.general.SnoozeModal.DateSuggestions;
+  private errorModalSector = selectors.general.SnoozeModal.ErrorModal;
+  private errorModalBackSelector = selectors.general.SnoozeModal.ErrorModalBack;
+  private confirmModalSelector = selectors.general.SnoozeModal.ConfirmModal;
 
   public async visible(conditional: ICondition) {
     return driver.visible(conditional, getSelector(this.snoozeModal));
@@ -125,6 +129,22 @@ class SnoozeModal {
       getSelector(this.customTimeLabelSelector),
       label
     );
+  }
+
+  public async dateSuggestions(condition: ICondition) {
+    return driver.visible(condition, getSelector(this.dateSuggestionsSelector));
+  }
+
+  public async errorModal(condition: ICondition) {
+    return driver.visible(condition, getSelector(this.errorModalSector));
+  }
+
+  public async pressErrorBack() {
+    return driver.press(getSelector(this.errorModalBackSelector));
+  }
+
+  public async confirmModal(condition: ICondition) {
+    return driver.visible(condition, getSelector(this.confirmModalSelector));
   }
 }
 

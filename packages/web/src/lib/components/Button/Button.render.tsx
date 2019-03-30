@@ -34,6 +34,7 @@ export interface IPassedDownProps {
   iconRight?: boolean;
   disabled?: boolean;
   _dangerouslySetIconColor?: ColorVal;
+  leftAlign?: boolean;
 }
 
 interface IProps extends IPassedDownProps {
@@ -102,6 +103,7 @@ const Button = (props: IProps) => {
           type={props.type}
           isHovering={props.isHovering}
           disabled={props.disabled}
+          leftAlign={!!props.leftAlign}
         >
           {props.text ? (
             <React.Fragment>

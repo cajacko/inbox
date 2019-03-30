@@ -41,13 +41,25 @@ class SnoozeComponent extends React.Component<IProps, IState> {
     this.onSelectTime = this.onSelectTime.bind(this);
     this.onChangeTime = this.onChangeTime.bind(this);
     this.onSave = this.onSave.bind(this);
+    this.onBack = this.onBack.bind(this);
+
+    this.lastType = 'SUGGESTIONS';
 
     this.state = {
       customDate: null,
       suggestedTimes: [],
       suggestions: getDates(this.onSelectDate),
-      type: 'SUGGESTIONS',
+      type: this.lastType,
     };
+  }
+
+  /**
+   * Save the last type
+   */
+  public componentDidUpdate(prevProps: IProps, prevState: IState) {
+    if (prevState.type !== this.lastType) {
+      this.lastType = prevState.type;
+    }
   }
 
   /**
@@ -60,8 +72,15 @@ class SnoozeComponent extends React.Component<IProps, IState> {
   /**
    * When a date is selected, close the modal and set the due date
    */
-  private onSelectDate(date: CustomDate) {
+  private onSelectDate(date: CustomDate | null) {
     return () => {
+      if (!date) return;
+
+      if (date.getTime() < new CustomDate().getTime()) {
+        this.setState({ type: 'ERROR' });
+        return;
+      }
+
       this.props.close();
       this.props.setDueDate(date.getTime());
     };
@@ -80,9 +99,9 @@ class SnoozeComponent extends React.Component<IProps, IState> {
     newDate.setDate(date.getDate());
 
     this.setState({
-      type: 'CONFIRM',
       customDate: newDate,
       suggestedTimes: this.getSuggestedTimes(newDate),
+      type: 'CONFIRM',
     });
   }
 
@@ -111,9 +130,14 @@ class SnoozeComponent extends React.Component<IProps, IState> {
    * When the save button is pressed, save the custom date
    */
   private onSave() {
-    if (!this.state.customDate) return;
-
     this.onSelectDate(this.state.customDate)();
+  }
+
+  /**
+   * Go to the last type we were on
+   */
+  private onBack() {
+    this.setState({ type: this.lastType });
   }
 
   /**
@@ -125,6 +149,8 @@ class SnoozeComponent extends React.Component<IProps, IState> {
     });
   }
 
+  private lastType: IState['type'];
+
   /**
    * Render the component
    */
@@ -135,6 +161,7 @@ class SnoozeComponent extends React.Component<IProps, IState> {
 
     return (
       <Snooze
+        onBack={this.onBack}
         type={this.state.type}
         onSelectDateAndTime={this.onSelectDateAndTime}
         suggestions={this.state.suggestions}

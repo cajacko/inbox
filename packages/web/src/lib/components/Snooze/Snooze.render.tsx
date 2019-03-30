@@ -4,6 +4,7 @@ import DatePicker from 'src/components/DatePicker';
 import TimePicker from 'src/components/TimePicker';
 import Calendar from 'src/lib/assets/icons/CalendarAlt';
 import ChevronDown from 'src/lib/assets/icons/ChevronDown';
+import ChevronLeft from 'src/lib/assets/icons/ChevronLeft';
 import Button from 'src/lib/components/Button';
 import Suggestion from 'src/lib/components/Suggestion';
 import { ISuggestion as ISuggestionLoopItem } from 'src/lib/components/Suggestion/Suggestion.render';
@@ -35,7 +36,7 @@ export interface ISuggestedTimes {
 }
 
 export interface IProps {
-  type: 'SUGGESTIONS' | 'CALENDAR' | 'TIME' | 'CONFIRM' | 'TIME_SUGGESTIONS';
+  type: 'SUGGESTIONS' | 'CALENDAR' | 'TIME' | 'CONFIRM' | 'TIME_SUGGESTIONS' | 'ERROR';
   suggestions: ISuggestion[];
   onSelectDateAndTime: () => void;
   onChangeDate: (date: CustomDate) => void;
@@ -47,6 +48,7 @@ export interface IProps {
   onChangeTime: (date: CustomDate | null) => void;
   onSave: () => void;
   customDateObject: CustomDate;
+  onBack: () => void;
 }
 
 /**
@@ -65,12 +67,13 @@ const Snooze = ({
   suggestedTimes,
   onChangeTime,
   onSave,
+  onBack,
 }: IProps) => {
   const testID = 'SnoozedModal';
 
   const confirm = (
     <Style.ConfirmContainer testID={testID}>
-      <Style.ConfirmHeader>
+      <Style.ConfirmHeader testID="SnoozeConfirm__ConfirmModal">
         <Text
           text={{ _textFromConst: 'Select date and time' }}
           backgroundColor={BACKGROUND_COLORS.WHITE}
@@ -146,10 +149,35 @@ const Snooze = ({
   );
 
   switch (type) {
+    case 'ERROR':
+      return (
+        <Style.ConfirmContainer testID={testID}>
+          <Button
+            analyticsAction="ERROR_BACK"
+            analyticsCategory="SNOOZE_CUSTOM_CONFIRM"
+            action={onBack}
+            styles={{ flexDirection: 'row', flex: 1 }}
+            icon={ChevronLeft}
+            text={{ _textFromConst: 'Back' }}
+            iconLeft
+            type={getButtonType('TRANSPARENT.PRIMARY')}
+            leftAlign
+            testID="Snooze__ErrorModalBack"
+          />
+          <Style.Error testID="Snooze__ErrorModal">
+            <Text
+              text={{ _textFromConst: 'Can not snooze to a past date, go back and pick future date' }}
+              backgroundColor={BACKGROUND_COLORS.WHITE}
+              type="body1"
+            />
+          </Style.Error>
+        </Style.ConfirmContainer>
+      );
+
     case 'SUGGESTIONS':
       return (
         <Style.Container testID={testID}>
-          <Style.Suggestions>
+          <Style.Suggestions testID="Snooze__DateSuggestions">
             {suggestions.map(({ key, ...suggestion }) => (
               <Style.Suggestion key={key}>
                 <Suggestion

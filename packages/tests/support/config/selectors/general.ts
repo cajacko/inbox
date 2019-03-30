@@ -209,11 +209,23 @@ const general = {
     ChangeTime: {
       web: '.SnoozeConfirm__Time',
     },
+    ConfirmModal: {
+      web: '.SnoozeConfirm__ConfirmModal',
+    },
     CustomTime: {
       web: '.SnoozeConfirm__TimeValue',
     },
     CustomTimeLabel: {
       web: '.SnoozeConfirm__TimeLabel',
+    },
+    DateSuggestions: {
+      web: '.Snooze__DateSuggestions',
+    },
+    ErrorModal: {
+      web: '.Snooze__ErrorModal',
+    },
+    ErrorModalBack: {
+      web: '.Snooze__ErrorModalBack',
     },
     Save: {
       web: '.SnoozeConfirm__Save',

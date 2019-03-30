@@ -39,3 +39,15 @@ Then(/the snooze scene custom time "(.+?)" (.*)/, (condition, time) =>
 
 Then(/the snooze scene custom time label "(.+?)" (.*)/, (condition, label) =>
   snoozeModal.customTimeLabelIs(condition, label));
+
+Then('the snooze reminder date suggestions {string} visible', condition =>
+  snoozeModal.dateSuggestions(condition));
+
+Then('the snooze error modal {string} visible', condition =>
+  snoozeModal.errorModal(condition));
+
+When('the snooze error back button is pressed', () =>
+  snoozeModal.pressErrorBack());
+
+Then('the snooze reminder confirm modal {string} visible', condition =>
+  snoozeModal.confirmModal(condition));
