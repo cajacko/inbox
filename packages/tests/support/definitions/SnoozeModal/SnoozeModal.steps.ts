@@ -16,6 +16,11 @@ When('the snooze scene custom date button is pressed', () =>
 When('the {string} snooze time suggestion is pressed', suggestion =>
   snoozeModal.pressTimeSuggestion(suggestion));
 
+When(
+  /the (evening|morning|afternoon) snooze time suggestion is pressed/,
+  suggestion => snoozeModal.pressTimeSuggestion(suggestion)
+);
+
 When('the snooze confirm change time button is pressed', () =>
   snoozeModal.pressChangeTime());
 

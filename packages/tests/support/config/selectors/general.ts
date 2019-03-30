@@ -259,11 +259,17 @@ const general = {
         web: '.Suggestion--ThisWeekend',
       },
       Time: {
+        Afternoon: {
+          web: '.TimeSuggestion--Afternoon',
+        },
         Customised: {
           web: '.TimeSuggestion--Customised',
         },
         Evening: {
           web: '.TimeSuggestion--Evening',
+        },
+        Morning: {
+          web: '.TimeSuggestion--Morning',
         },
       },
       Tomorrow: {

@@ -21,6 +21,10 @@ class SnoozeModal {
   private snoozeCalendar = selectors.general.SnoozeModal.Calendar;
   private eveningTimeSelector =
     selectors.general.SnoozeModal.Suggestions.Time.Evening;
+  private morningTimeSelector =
+    selectors.general.SnoozeModal.Suggestions.Time.Morning;
+  private afternoonTimeSelector =
+    selectors.general.SnoozeModal.Suggestions.Time.Afternoon;
   private changeTimeSelector = selectors.general.SnoozeModal.ChangeTime;
   private customisedTimeSelector =
     selectors.general.SnoozeModal.Suggestions.Time.Customised;
@@ -84,6 +88,10 @@ class SnoozeModal {
       switch (suggestion) {
         case 'evening':
           return this.eveningTimeSelector;
+        case 'morning':
+          return this.morningTimeSelector;
+        case 'afternoon':
+          return this.afternoonTimeSelector;
         case 'customised':
           return this.customisedTimeSelector;
         default:
