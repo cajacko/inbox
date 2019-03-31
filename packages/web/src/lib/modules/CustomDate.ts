@@ -28,16 +28,29 @@ class CustomDate {
     return testHook('now', Date.now());
   }
 
+  /**
+   * Get an actual date object for this instance
+   */
+  public toDate() {
+    return new Date(this.getTime());
+  }
+
   // tslint:disable-next-line
   private _date: Date;
 
   // Add actual date methods here as we use them
   public getTime: Date['getTime'];
   public setHours: Date['setHours'];
+  public getHours: Date['getHours'];
   public setMinutes: Date['setMinutes'];
+  public getMinutes: Date['getMinutes'];
   public setDate: Date['setDate'];
   public getDate: Date['getDate'];
   public getDay: Date['getDay'];
+  public getMonth: Date['getMonth'];
+  public setMonth: Date['setMonth'];
+  public getFullYear: Date['getFullYear'];
+  public setFullYear: Date['setFullYear'];
 }
 
 export default CustomDate;

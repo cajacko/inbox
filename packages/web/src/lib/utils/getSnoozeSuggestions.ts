@@ -10,19 +10,26 @@ import {
 import CustomDate from 'src/lib/modules/CustomDate';
 import { format } from 'src/lib/utils/dates';
 
-const suggestedTimes = {
-  afternoon: {
-    hour: 12,
-    minutes: 30,
-  },
-  evening: {
-    hour: 17,
-    minutes: 30,
-  },
-  morning: {
-    hour: 6,
-    minutes: 30,
-  },
+/**
+ * Get the suggested time props
+ */
+const getSuggestedTime = (hour: number, minutes: number) => {
+  return {
+    getTime: (date: CustomDate) => {
+      const time = new CustomDate(date);
+      time.setHours(hour);
+      time.setMinutes(minutes);
+      return time;
+    },
+    hour,
+    minutes,
+  };
+};
+
+export const suggestedTimes = {
+  afternoon: getSuggestedTime(12, 30),
+  evening: getSuggestedTime(17, 30),
+  morning: getSuggestedTime(6, 30),
 };
 
 type OnSelect = (date: CustomDate) => () => void;
@@ -171,30 +178,66 @@ export const getDates = (onSelect: OnSelect): ISuggestion[] => {
  * Get the suggested times
  */
 export const getTimes = (
-  onChangeTime: () => void,
+  date: CustomDate,
+  onChangeTime: (date: CustomDate | null) => void,
   onCustomised: () => void
-): ISuggestedTimes[] => [
-  {
-    label: 'Morning',
-    onChangeTime,
-    testID: 'TimeSuggestion--Morning',
-    time: '06:30',
-  },
-  {
-    label: 'Afternoon',
-    onChangeTime,
-    testID: 'TimeSuggestion--Afternoon',
-    time: '12:30',
-  },
-  {
-    label: 'Evening',
-    onChangeTime,
-    testID: 'TimeSuggestion--Evening',
-    time: '17:30',
-  },
-  {
-    label: 'Customised',
-    onChangeTime: onCustomised,
-    testID: 'TimeSuggestion--Customised',
-  },
-];
+): ISuggestedTimes[] => {
+  const now = new CustomDate().getTime();
+
+  const suggestions = [
+    {
+      label: 'Morning',
+      testID: 'TimeSuggestion--Morning',
+      time: suggestedTimes.morning.getTime(date),
+    },
+    {
+      label: 'Afternoon',
+      testID: 'TimeSuggestion--Afternoon',
+      time: suggestedTimes.afternoon.getTime(date),
+    },
+    {
+      label: 'Evening',
+      testID: 'TimeSuggestion--Evening',
+      time: suggestedTimes.evening.getTime(date),
+    },
+    {
+      label: 'Customised',
+      testID: 'TimeSuggestion--Customised',
+    },
+  ].filter(({ time }) => {
+    if (!time) return true;
+
+    return time.getTime() > now;
+  });
+
+  return suggestions.map(({ label, time, testID }) => ({
+    label,
+    onChangeTime: time
+      ? () => {
+        onChangeTime(time);
+      }
+      : onCustomised,
+    testID,
+    time: time ? format('time', time) : undefined,
+  }));
+};
+
+/**
+ * Get the initial time for the custom date
+ */
+export const getInitTime = (date: CustomDate) => {
+  const now = new CustomDate();
+
+  if (format('fullDate', now) !== format('fullDate', date)) {
+    return suggestedTimes.morning.getTime(date);
+  }
+
+  const eveningTime = suggestedTimes.evening.getTime(date);
+
+  if (now.getTime() > eveningTime.getTime()) {
+    eveningTime.setHours(23);
+    eveningTime.setMinutes(45);
+  }
+
+  return eveningTime;
+};

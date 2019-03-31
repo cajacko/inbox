@@ -5,10 +5,12 @@ import withCache from 'src/lib/utils/withCache';
 import { ensureDate } from './utils';
 
 export const formats = {
+  dayDate: (date: CustomDate) => moment(date.getTime()).format('ddd D MMM'),
   dayTime: (date: CustomDate) => moment(date.getTime()).format('ddd HH:mm'),
   fullDate: (date: CustomDate) =>
     moment(date.getTime()).format('ddd MMM Do YYYY'),
   monthYear: (date: CustomDate) => moment(date.getTime()).format('MMMM YYYY'),
+  time: (date: CustomDate) => moment(date.getTime()).format('HH:mm'),
 };
 
 type Format = keyof typeof formats;

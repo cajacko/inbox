@@ -16,12 +16,15 @@ class SnoozeModal {
   private thisWeekendSelector =
     selectors.general.SnoozeModal.Suggestions.ThisWeekend;
   private tomorrowSelector = selectors.general.SnoozeModal.Suggestions.Tomorrow;
-
   private customDateTimeSelector =
     selectors.general.SnoozeModal.Suggestions.Custom;
   private snoozeCalendar = selectors.general.SnoozeModal.Calendar;
   private eveningTimeSelector =
     selectors.general.SnoozeModal.Suggestions.Time.Evening;
+  private morningTimeSelector =
+    selectors.general.SnoozeModal.Suggestions.Time.Morning;
+  private afternoonTimeSelector =
+    selectors.general.SnoozeModal.Suggestions.Time.Afternoon;
   private changeTimeSelector = selectors.general.SnoozeModal.ChangeTime;
   private customisedTimeSelector =
     selectors.general.SnoozeModal.Suggestions.Time.Customised;
@@ -30,6 +33,16 @@ class SnoozeModal {
   private afternoonSelector =
     selectors.general.SnoozeModal.Suggestions.Afternoon;
   private eveningSelector = selectors.general.SnoozeModal.Suggestions.Evening;
+  private customTimeSelector = selectors.general.SnoozeModal.CustomTime;
+  private customTimeLabelSelector =
+    selectors.general.SnoozeModal.CustomTimeLabel;
+  private dateSuggestionsSelector =
+    selectors.general.SnoozeModal.DateSuggestions;
+  private errorModalSector = selectors.general.SnoozeModal.ErrorModal;
+  private errorModalBackSelector = selectors.general.SnoozeModal.ErrorModalBack;
+  private confirmModalSelector = selectors.general.SnoozeModal.ConfirmModal;
+  private customDateLabelSelector =
+    selectors.general.SnoozeModal.CustomDateLabel;
 
   public async visible(conditional: ICondition) {
     return driver.visible(conditional, getSelector(this.snoozeModal));
@@ -77,6 +90,10 @@ class SnoozeModal {
       switch (suggestion) {
         case 'evening':
           return this.eveningTimeSelector;
+        case 'morning':
+          return this.morningTimeSelector;
+        case 'afternoon':
+          return this.afternoonTimeSelector;
         case 'customised':
           return this.customisedTimeSelector;
         default:
@@ -109,6 +126,42 @@ class SnoozeModal {
     return driver.visible(
       finalCondition,
       getSelector(this.getSuggestion(suggestion))
+    );
+  }
+
+  public async customTimeIs(condition: ICondition, time: string) {
+    return driver.text(condition, getSelector(this.customTimeSelector), time);
+  }
+
+  public async customTimeLabelIs(condition: ICondition, label: string) {
+    return driver.text(
+      condition,
+      getSelector(this.customTimeLabelSelector),
+      label
+    );
+  }
+
+  public async dateSuggestions(condition: ICondition) {
+    return driver.visible(condition, getSelector(this.dateSuggestionsSelector));
+  }
+
+  public async errorModal(condition: ICondition) {
+    return driver.visible(condition, getSelector(this.errorModalSector));
+  }
+
+  public async pressErrorBack() {
+    return driver.press(getSelector(this.errorModalBackSelector));
+  }
+
+  public async confirmModal(condition: ICondition) {
+    return driver.visible(condition, getSelector(this.confirmModalSelector));
+  }
+
+  public async customDateLabelIs(condition: ICondition, label: string) {
+    return driver.text(
+      condition,
+      getSelector(this.customDateLabelSelector),
+      label
     );
   }
 }

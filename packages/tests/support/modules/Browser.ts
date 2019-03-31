@@ -890,6 +890,24 @@ class Browser {
     this.hookValues.now = time;
     await this.addHook('now', 'value', nonHeadless);
   }
+
+  public async scrollIntoView(selector: string) {
+    await this.ensurePage();
+
+    if (!this.page) throw new Error('No page to scroll');
+
+    const error = await this.page.evaluate((selectorParam) => {
+      const element = document.querySelector(selectorParam);
+
+      if (!element) return 'No element found to scroll';
+
+      element.scrollIntoView();
+
+      return null;
+    }, selector);
+
+    if (error) throw new Error(error);
+  }
 }
 
 export default Browser;

@@ -1,5 +1,6 @@
 /* eslint max-lines: 0 */
 import getReactDatePickerDay from '../../utils/getReactDatePickerDay';
+import getTimePosition from '../../utils/getTimePosition';
 
 const general = {
   AddButton: {
@@ -30,6 +31,11 @@ const general = {
     Day: {
       web: ({ day }: { day: number }) =>
         `.react-datepicker__day--${getReactDatePickerDay(day)}`,
+    },
+    Time: {
+      web: ({ time }: { time: string }) =>
+        `.react-datepicker__time-list-item:nth-child(${getTimePosition(time) +
+          1})`,
     },
   },
   Done: {
@@ -203,6 +209,27 @@ const general = {
     ChangeTime: {
       web: '.SnoozeConfirm__Time',
     },
+    ConfirmModal: {
+      web: '.SnoozeConfirm__ConfirmModal',
+    },
+    CustomDateLabel: {
+      web: '.SnoozeConfirm__CustomDateLabel',
+    },
+    CustomTime: {
+      web: '.SnoozeConfirm__TimeValue',
+    },
+    CustomTimeLabel: {
+      web: '.SnoozeConfirm__TimeLabel',
+    },
+    DateSuggestions: {
+      web: '.Snooze__DateSuggestions',
+    },
+    ErrorModal: {
+      web: '.Snooze__ErrorModal',
+    },
+    ErrorModalBack: {
+      web: '.Snooze__ErrorModalBack',
+    },
     Save: {
       web: '.SnoozeConfirm__Save',
     },
@@ -235,11 +262,17 @@ const general = {
         web: '.Suggestion--ThisWeekend',
       },
       Time: {
+        Afternoon: {
+          web: '.TimeSuggestion--Afternoon',
+        },
         Customised: {
           web: '.TimeSuggestion--Customised',
         },
         Evening: {
           web: '.TimeSuggestion--Evening',
+        },
+        Morning: {
+          web: '.TimeSuggestion--Morning',
         },
       },
       Tomorrow: {
