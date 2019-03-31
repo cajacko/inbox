@@ -212,6 +212,9 @@ const general = {
     ConfirmModal: {
       web: '.SnoozeConfirm__ConfirmModal',
     },
+    CustomDateLabel: {
+      web: '.SnoozeConfirm__CustomDateLabel',
+    },
     CustomTime: {
       web: '.SnoozeConfirm__TimeValue',
     },

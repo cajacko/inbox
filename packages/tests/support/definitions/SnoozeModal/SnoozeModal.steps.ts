@@ -56,3 +56,13 @@ When('the snooze error back button is pressed', () =>
 
 Then('the snooze reminder confirm modal {string} visible', condition =>
   snoozeModal.confirmModal(condition));
+
+Then(
+  'the snooze scene custom time value {string} {string}',
+  (condition, value) => snoozeModal.customTimeIs(condition, value)
+);
+
+Then(
+  'the snooze scene custom date label {string} {string}',
+  (condition, label) => snoozeModal.customDateLabelIs(condition, label)
+);

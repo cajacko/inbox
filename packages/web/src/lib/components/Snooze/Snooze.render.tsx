@@ -86,12 +86,14 @@ const Snooze = ({
         analyticsCategory="SNOOZE_CUSTOM_CONFIRM"
         action={onSelectDateAndTime}
         styles={{ flexDirection: 'row' }}
+        testID="Suggestion--SelectDateTime"
       >
         {() => (
           <Style.ConfirmButton>
             <Text
               text={{ _textFromConst: customDate }}
               backgroundColor={BACKGROUND_COLORS.WHITE}
+              testID="SnoozeConfirm__CustomDateLabel"
             />
             <Style.ConfirmRight>
               <ChevronDown

@@ -64,8 +64,34 @@ Feature: Snooze Custom Date
     Then the header loading icon "will not be" visible
     And the due date of the only reminder "is" "2019-03-10 15:30"
 
+  @snooze-labels
   Scenario: Changing the date updates the label on the confirm modal
+    Given we set the day to monday
+    And we have logged in successfully
+    When we add a reminder with the text "Item to be snoozed"
+    And the we hover over the "1st" reminder
+    And the "1st" reminder hover "snooze" button is pressed
+    And the snooze scene custom date button is pressed
+    And day "7" in the date picker is pressed
+    Then the snooze scene custom date label "is" "Thu 7 Mar"
+    When the snooze scene custom date button is pressed
+    And day "8" in the date picker is pressed
+    Then the snooze scene custom date label "is" "Fri 8 Mar"
+
+  @snooze-labels
   Scenario: Changing the time updates the label on the confirm modal
+    Given we set the day to monday
+    And we have logged in successfully
+    When we add a reminder with the text "Item to be snoozed"
+    And the we hover over the "1st" reminder
+    And the "1st" reminder hover "snooze" button is pressed
+    And the snooze scene custom date button is pressed
+    And day "7" in the date picker is pressed
+    Then the snooze scene custom time value "is" "06:30"
+    When the snooze confirm change time button is pressed
+    And the "customised" snooze time suggestion is pressed
+    And the snooze time is set to "15:30"
+    Then the snooze scene custom time value "is" "15:30"
 
   Scenario Outline: Default custom date
     Given we set the time to <timeOfDay>

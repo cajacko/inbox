@@ -41,6 +41,8 @@ class SnoozeModal {
   private errorModalSector = selectors.general.SnoozeModal.ErrorModal;
   private errorModalBackSelector = selectors.general.SnoozeModal.ErrorModalBack;
   private confirmModalSelector = selectors.general.SnoozeModal.ConfirmModal;
+  private customDateLabelSelector =
+    selectors.general.SnoozeModal.CustomDateLabel;
 
   public async visible(conditional: ICondition) {
     return driver.visible(conditional, getSelector(this.snoozeModal));
@@ -153,6 +155,14 @@ class SnoozeModal {
 
   public async confirmModal(condition: ICondition) {
     return driver.visible(condition, getSelector(this.confirmModalSelector));
+  }
+
+  public async customDateLabelIs(condition: ICondition, label: string) {
+    return driver.text(
+      condition,
+      getSelector(this.customDateLabelSelector),
+      label
+    );
   }
 }
 

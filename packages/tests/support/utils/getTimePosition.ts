@@ -1,9 +1,13 @@
 import * as moment from 'moment';
 
 const times: string[] = [];
-const setTime = new Date(2018, 1, 1, 0, 0);
+const setTime = new Date();
+setTime.setHours(0);
+setTime.setMinutes(0);
 
-while (setTime.getDate() === 1) {
+const day = setTime.getDate();
+
+while (setTime.getDate() === day) {
   const timeString = moment(setTime).format('HH:mm');
   times.push(timeString);
   setTime.setMinutes(setTime.getMinutes() + 15);
