@@ -1,4 +1,5 @@
 import { View } from 'src/components';
+import { LINK_HEIGHT } from 'src/lib/components/ReminderLink/ReminderLink.style';
 import { ICON_SIZE as STATUS_ICON_SIZE } from 'src/lib/components/ReminderStatus/ReminderStatus.style';
 import {
   GREEN,
@@ -24,18 +25,24 @@ export const SWIPE_BACKGROUND_COLOR_RIGHT = ORANGE_DARK;
 export const SWIPE_ICON_SIZE = 20;
 const borderWidth = 2;
 
-const reminderSpacing = 16;
+export const reminderSpacing = 16;
 
 export const REMINDER_HEIGHT = 50;
 
 /**
  * Get the container height - the borders
  */
-const containerHeight = ({ hasBottomBorder, hasTopBorder }: IProps) => {
+const containerHeight = (addLinkHeight: boolean) => ({
+  hasBottomBorder,
+  hasTopBorder,
+  hasUrl,
+}: IProps) => {
   let height = REMINDER_HEIGHT;
 
   if (hasBottomBorder) height -= borderWidth;
   if (hasTopBorder) height -= borderWidth;
+
+  if (hasUrl && addLinkHeight) height += LINK_HEIGHT;
 
   return unit(height);
 };
@@ -43,6 +50,7 @@ const containerHeight = ({ hasBottomBorder, hasTopBorder }: IProps) => {
 interface IProps {
   hasBottomBorder: boolean;
   hasTopBorder: boolean;
+  hasUrl: boolean;
 }
 
 export const Wrapper = styled(AnimatedView)`
@@ -50,15 +58,21 @@ export const Wrapper = styled(AnimatedView)`
 `;
 
 export const Container = styled(View)<IProps>`
-  position: relative;
-  z-index: 2;
   ${({ hasBottomBorder, hasTopBorder }) =>
     border(GREY_LIGHTER, borderWidth, {
       bottom: hasBottomBorder,
       top: hasTopBorder,
     })}
+  flex-direction: column;
+  height: ${containerHeight(true)};
+  background-color: ${BACKGROUND_COLOR};
+`;
+
+export const Content = styled(View)<IProps>`
+  position: relative;
+  z-index: 2;
   flex-direction: row;
-  height: ${containerHeight};
+  height: ${containerHeight(false)};
   background-color: ${BACKGROUND_COLOR};
 `;
 

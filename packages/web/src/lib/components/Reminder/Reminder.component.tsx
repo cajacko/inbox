@@ -91,6 +91,7 @@ class ReminderComponent extends React.Component<IProps, IState> {
     return (
       <Reminder
         {...this.props}
+        url="https://charliejackson.com"
         onSnooze={this.onSnooze}
         onSetDone={this.props.onSetDone}
         edit={this.edit}
