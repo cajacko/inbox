@@ -30,18 +30,26 @@ export const reminderSpacing = 16;
 
 export const REMINDER_HEIGHT = 50;
 
+export const buttonStyle: React.CSSProperties = {
+  flex: 1,
+  flexDirection: 'row',
+  width: '100%',
+};
+
 /**
  * Get the container height - the borders
  */
-const containerHeight = (addLinkHeight: boolean) => ({
+const containerHeight = (addLinkHeight: boolean, minusBorders: boolean) => ({
   hasBottomBorder,
   hasTopBorder,
   hasUrl,
 }: IProps) => {
   let height = REMINDER_HEIGHT;
 
-  if (hasBottomBorder) height -= borderWidth;
-  if (hasTopBorder) height -= borderWidth;
+  if (minusBorders) {
+    if (hasBottomBorder) height -= borderWidth;
+    if (hasTopBorder) height -= borderWidth;
+  }
 
   if (hasUrl && addLinkHeight) height += LINK_HEIGHT;
 
@@ -65,7 +73,7 @@ export const Container = styled(View)<IProps>`
       top: hasTopBorder,
     })}
   flex-direction: column;
-  height: ${containerHeight(true)};
+  height: ${containerHeight(true, false)};
   background-color: ${BACKGROUND_COLOR};
 `;
 
@@ -73,7 +81,7 @@ export const Content = styled(View)<IProps>`
   position: relative;
   z-index: 2;
   flex-direction: row;
-  height: ${containerHeight(false)};
+  height: ${containerHeight(false, true)};
   background-color: ${BACKGROUND_COLOR};
 `;
 
@@ -84,7 +92,7 @@ export const Inner = styled(View)`
   align-items: center;
   background-color: ${BACKGROUND_COLOR};
   ${padding({ horizontal: reminderSpacing })};
-  width: 100%;
+  max-width: 100%;
   ${platform() === 'web' ? 'box-sizing: border-box;' : ''}
   overflow: hidden;
 `;
@@ -133,8 +141,18 @@ export const SwipeContainerRight = styled(SwipeContainerLeft)`
 `;
 
 export const TextContainer = styled(View)`
-  width: 100%;
-  overflow: hidden;
+  flex: 1;
   ${margin({ right: 10 })}
+  flex-direction: row;
+  height: 100%;
+  align-items: center;
+  overflow: hidden;
+  position: relative;
+`;
+
+export const TextWrapper = styled(View)`
+  flex: 1;
+  overflow: hidden;
   ${platform() === 'web' ? 'white-space: nowrap;' : ''}
+  position: absolute;
 `;

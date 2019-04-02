@@ -102,18 +102,20 @@ const Reminder = (props: IProps) => (
             analyticsCategory="REMINDER"
             action={props.edit}
             testID="Reminder__Button"
-            styles={{ flex: 1, flexDirection: 'row', width: '100%' }}
+            styles={Style.buttonStyle}
             disableHover
           >
             {() => (
               <Style.Inner>
                 <Style.TextContainer>
+                  <Style.TextWrapper>
                   <Text
                     testID="Reminder__Text"
                     text={{ _textFromConst: props.text }}
                     backgroundColor={Style.BACKGROUND_COLOR}
                     numberOfLines={1}
                   />
+                  </Style.TextWrapper>
                 </Style.TextContainer>
                 <Style.Symbols>
                   {props.isSnoozed && (

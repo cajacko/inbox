@@ -26,6 +26,7 @@ const ReminderLink = ({ url, backgroundColor, padding }: IProps) => (
           <Text
             text={{ _textFromConst: url }}
             backgroundColor={backgroundColor}
+            numberOfLines={1}
           />
           <Text
             text={{ _textFromConst: 'VIEW LINK' }}
