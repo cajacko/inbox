@@ -12,6 +12,7 @@ import border from 'src/lib/utils/applyBorder';
 import margin from 'src/lib/utils/applyMargin';
 import padding from 'src/lib/utils/applyPadding';
 import { View as AnimatedView } from 'src/packages/animated';
+import platform from 'src/utils/platform';
 import unit from 'src/utils/unit';
 import styled from 'styled-components';
 
@@ -83,9 +84,16 @@ export const Inner = styled(View)`
   align-items: center;
   background-color: ${BACKGROUND_COLOR};
   ${padding({ horizontal: reminderSpacing })};
+  width: 100%;
+  ${platform() === 'web' ? 'box-sizing: border-box;' : ''}
+  overflow: hidden;
 `;
 
-export const EditMenu = styled(View)`
+interface IEditMenuProps {
+  hasLink: boolean;
+}
+
+export const EditMenu = styled(View)<IEditMenuProps>`
   position: absolute;
   top: 0;
   right: 0;
@@ -96,9 +104,11 @@ export const EditMenu = styled(View)`
   justify-content: center;
   flex-direction: row;
   ${padding({ horizontal: reminderSpacing })}
-  ${border(GREY_LIGHTER, 1, {
-    left: true,
-  })}}
+  ${({ hasLink }) =>
+    border(GREY_LIGHTER, 1, {
+      bottom: hasLink,
+      left: true,
+    })}}
 `;
 
 export const Icon = styled(View)`
@@ -120,4 +130,11 @@ export const SwipeContainerLeft = styled(View)`
 export const SwipeContainerRight = styled(SwipeContainerLeft)`
   background-color: ${SWIPE_BACKGROUND_COLOR_RIGHT};
   align-items: flex-end;
+`;
+
+export const TextContainer = styled(View)`
+  width: 100%;
+  overflow: hidden;
+  ${margin({ right: 10 })}
+  white-space: nowrap;
 `;

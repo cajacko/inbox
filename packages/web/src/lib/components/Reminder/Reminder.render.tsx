@@ -102,16 +102,18 @@ const Reminder = (props: IProps) => (
             analyticsCategory="REMINDER"
             action={props.edit}
             testID="Reminder__Button"
-            styles={{ flex: 1, flexDirection: 'row' }}
+            styles={{ flex: 1, flexDirection: 'row', width: '100%' }}
             disableHover
           >
             {() => (
               <Style.Inner>
-                <Text
-                  testID="Reminder__Text"
-                  text={{ _textFromConst: props.text }}
-                  backgroundColor={Style.BACKGROUND_COLOR}
-                />
+                <Style.TextContainer>
+                  <Text
+                    testID="Reminder__Text"
+                    text={{ _textFromConst: props.text }}
+                    backgroundColor={Style.BACKGROUND_COLOR}
+                  />
+                </Style.TextContainer>
                 <Style.Symbols>
                   {props.isSnoozed && (
                     <Style.Icon testID="Reminder__SnoozedIcon">
@@ -139,7 +141,7 @@ const Reminder = (props: IProps) => (
           </Button>
 
           {props.isHovering && (
-            <Style.EditMenu testID="Reminder__Hover">
+            <Style.EditMenu testID="Reminder__Hover" hasLink={!!props.url}>
               <Button
                 type={getButtonType('ICON.GREYED_OUT')}
                 analyticsAction="SNOOZE_HOVER"

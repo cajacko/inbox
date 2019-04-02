@@ -16,6 +16,11 @@ interface IWrapperProps {
   isHovering: boolean;
 }
 
+export const buttonStyles = {
+  flex: 1,
+  maxWidth: unit(300),
+};
+
 export const Container = styled(View)<IProps>`
   height: ${unit(LINK_HEIGHT)};
   justify-content: center;
@@ -30,6 +35,6 @@ export const Wrapper = styled(View)<IWrapperProps>`
   justify-content: space-around;
   ${applyPadding(10)}
   flex: 1;
-  max-width: ${unit(300)};
   ${shadow()}
+  overflow: hidden;
 `;

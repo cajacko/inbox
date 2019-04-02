@@ -2,7 +2,7 @@ import * as React from 'react';
 import Button from 'src/lib/components/Button';
 import Text from 'src/lib/components/Text';
 import openUrl from 'src/utils/openUrl';
-import { Container, Wrapper } from './ReminderLink.style';
+import { buttonStyles, Container, Wrapper } from './ReminderLink.style';
 
 interface IProps {
   url: string;
@@ -19,6 +19,7 @@ const ReminderLink = ({ url, backgroundColor, padding }: IProps) => (
       analyticsAction="PRESS_LINK"
       analyticsCategory="REMINDER_LINK"
       action={openUrl(url)}
+      styles={buttonStyles}
     >
       {({ isHovering }) => (
         <Wrapper isHovering={isHovering}>
