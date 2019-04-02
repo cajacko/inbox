@@ -167,6 +167,15 @@ const general = {
         web: ({ index }: { index: number }) =>
           `.Reminder:nth-child(${index + 1}) .Reminder__HoverEdit`,
       },
+      Link: {
+        web: ({ index }: { index: number }) =>
+          `.Reminder:nth-child(${index + 1}) .Reminder__Link`,
+
+        Text: {
+          web: ({ index }: { index: number }) =>
+            `.Reminder:nth-child(${index + 1}) .Reminder__LinkText`,
+        },
+      },
       SnoozeButton: {
         web: ({ index }: { index: number }) =>
           `.Reminder:nth-child(${index + 1}) .Reminder__HoverSnooze`,

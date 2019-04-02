@@ -20,10 +20,12 @@ const ReminderLink = ({ url, backgroundColor, padding }: IProps) => (
       analyticsCategory="REMINDER_LINK"
       action={openUrl(url)}
       styles={buttonStyles}
+      testID="Reminder__Link"
     >
       {({ isHovering }) => (
         <Wrapper isHovering={isHovering}>
           <Text
+            testID="Reminder__LinkText"
             text={{ _textFromConst: url }}
             backgroundColor={backgroundColor}
             numberOfLines={1}

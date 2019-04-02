@@ -110,3 +110,9 @@ Given(/we set the day to (.*)/, function (day) {
 
   return driver.setDate(date.getTime(), nonHeadless);
 });
+
+Then('the browser tab count {string} {string}', (condition, value) =>
+  app.tabCount(condition, parseInt(value, 10)));
+
+Then('the active tab url {string} {string}', (condition, value) =>
+  app.activeTabUrl(condition, value));

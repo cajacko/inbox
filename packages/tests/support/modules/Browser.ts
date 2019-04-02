@@ -908,6 +908,74 @@ class Browser {
 
     if (error) throw new Error(error);
   }
+
+  public async tabCount(condition: ICondition, count: number) {
+    this.ensurePage();
+
+    let lastCount = 0;
+
+    await conditional(
+      condition,
+      async () => {
+        if (!this.browser) throw new Error('No browser object to get pages');
+
+        const pages = await this.browser.pages();
+
+        lastCount = count;
+
+        return pages.length === count;
+      },
+      () => ({
+        negative: `Tab count is ${count} expected it not to be`,
+        positive: `Tab count is not ${count} recieved ${lastCount}`,
+        waitNegative: `Timeout waiting for tab count to not be ${count} last recieved ${lastCount}`,
+        waitPositive: `Timeout waiting for tab count to be ${count} last recieved ${lastCount}`,
+      })
+    );
+  }
+
+  public async activeTabUrl(condition: ICondition, url: string) {
+    this.ensurePage();
+
+    let lastUrl = '';
+
+    await conditional(
+      condition,
+      async () => {
+        if (!this.browser) throw new Error('No browser object to get pages');
+
+        const targets = await this.browser.targets();
+
+        const getPage = async (i = 0): Promise<puppeteer.Page> => {
+          const target = targets[i];
+
+          if (!target) throw new Error('Could not get an active page');
+
+          const page = await target.page();
+
+          if (page) return page;
+
+          return getPage(i + 1);
+        };
+
+        const page = await getPage();
+
+        if (!page) throw new Error('Target is not a page');
+
+        const link = await page.url();
+
+        lastUrl = link;
+
+        return link === url;
+      },
+      () => ({
+        negative: `Url is ${lastUrl} expected it not to be`,
+        positive: `Url is not ${url} recieved ${lastUrl}`,
+        waitNegative: `Timeout waiting for url to not be ${url} last recieved ${lastUrl}`,
+        waitPositive: `Timeout waiting for url to be ${url} last recieved ${lastUrl}`,
+      })
+    );
+  }
 }
 
 export default Browser;
