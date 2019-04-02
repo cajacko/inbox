@@ -4,8 +4,12 @@ Feature: Link
   So that I can more quickly go to the link I saved
 
   Scenario: Link displays correctly
+  Scenario: Long link displays correctly
   Scenario: Link does not show for reminder with no link
   Scenario Outline: When a reminder contains a link the link box is shown
+  # With query strings
+  # With hashtag
+
   Scenario: Tapping the link takes you to the page (In a new tab)
   Scenario: Animating a link reminder close works
   Scenario: Long link still stays on 1 line

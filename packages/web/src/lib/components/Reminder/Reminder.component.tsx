@@ -42,6 +42,7 @@ class ReminderComponent extends React.Component<IProps, IState> {
     this.onSnooze = this.onSnooze.bind(this);
     this.onMouseIn = this.onMouseIn.bind(this);
     this.onMouseOut = this.onMouseOut.bind(this);
+    this.parseUrl = this.parseUrl.bind(this);
   }
 
   /**
@@ -85,13 +86,29 @@ class ReminderComponent extends React.Component<IProps, IState> {
   }
 
   /**
+   * Parse the url from the text, if it exists
+   */
+  private parseUrl() {
+    // eslint-disable-next-line
+    const regex = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gi;
+
+    const results = this.props.text.match(regex);
+
+    if (results && results[0]) {
+      return results[0];
+    }
+
+    return undefined;
+  }
+
+  /**
    * Render the component
    */
   public render() {
     return (
       <Reminder
         {...this.props}
-        url="https://charliejackson.com"
+        url={this.parseUrl()}
         onSnooze={this.onSnooze}
         onSetDone={this.props.onSetDone}
         edit={this.edit}
