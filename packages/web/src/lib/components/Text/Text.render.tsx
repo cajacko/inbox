@@ -15,6 +15,7 @@ export interface IProps {
   greyedOut?: boolean;
   error?: boolean;
   center?: boolean;
+  numberOfLines?: number;
 }
 
 interface IAll extends IProps {

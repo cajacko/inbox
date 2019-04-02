@@ -136,5 +136,5 @@ export const TextContainer = styled(View)`
   width: 100%;
   overflow: hidden;
   ${margin({ right: 10 })}
-  white-space: nowrap;
+  ${platform() === 'web' ? 'white-space: nowrap;' : ''}
 `;

@@ -112,6 +112,7 @@ const Reminder = (props: IProps) => (
                     testID="Reminder__Text"
                     text={{ _textFromConst: props.text }}
                     backgroundColor={Style.BACKGROUND_COLOR}
+                    numberOfLines={1}
                   />
                 </Style.TextContainer>
                 <Style.Symbols>
