@@ -326,6 +326,7 @@ Feature: Snooze
     Given we set the day to monday
     And we have logged in successfully
     When we add a reminder with the text "Item to be snoozed"
+    And the header loading icon "will not be" visible
     Then the reminder list count "is" "1"
     And the we hover over the "1st" reminder
     And the "1st" reminder hover "snooze" button is pressed
@@ -335,12 +336,14 @@ Feature: Snooze
     And the header loading icon "will not be" visible
     When we navigate to the "snoozed" scene
     Then the "snoozed" route "will be" visible
+    And the header loading icon "will not be" visible
     And the reminder list count "is" "1"
 
   Scenario: Snooze an existing reminder via the edit scene
     Given we set the time to beforeMorning
     And we have logged in successfully
     When we add a reminder with the text "Item to be snoozed"
+    And the header loading icon "will not be" visible
     Then the reminder list count "is" "1"
     And the "1st" reminder is pressed
     And the edit scene "snooze button" is pressed
@@ -436,6 +439,7 @@ Feature: Snooze
     Given we set the time to beforeMorning
     And we have logged in successfully
     When we add a reminder with the text "Item to be snoozed"
+    And the header loading icon "will not be" visible
     And the "1st" reminder is pressed
     And the edit scene "snooze button" is pressed
     And the "later today" snooze suggestion is pressed
