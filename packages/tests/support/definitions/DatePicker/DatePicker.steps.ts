@@ -1,4 +1,4 @@
-import { When } from 'cucumber';
+import { Then, When } from 'cucumber';
 import datePicker from './DatePicker.page';
 
 When('day {string} in the date picker is pressed', day =>
@@ -9,3 +9,6 @@ When(/(today|tomorrow) in the date picker is pressed/, day =>
 
 When(/the snooze time is set to (.*)/, time =>
   datePicker.setTime(time.replace(/"/g, '')));
+
+Then('the custom time picker {string} visible', condition =>
+  datePicker.timeVisible(condition));

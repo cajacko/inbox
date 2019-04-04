@@ -277,7 +277,8 @@ Feature: Snooze
   # Scenario: Custom snooze time picker displays correctly from swipe
 
   Scenario: Selecting a snooze suggestion from the hover menu closes the modal
-    Given we have logged in successfully
+    Given we set the day to monday
+    And we have logged in successfully
     When we add a reminder with the text "Item to be snoozed"
     And the we hover over the "1st" reminder
     And the "1st" reminder hover "snooze" button is pressed
@@ -287,7 +288,8 @@ Feature: Snooze
     And the edit reminder scene "is not" visible
 
   Scenario: Selecting a snooze suggestion from the edit menu closes both modals
-    Given we have logged in successfully
+    Given we set the day to monday
+    And we have logged in successfully
     When we add a reminder with the text "Item to be snoozed"
     And the "1st" reminder is pressed
     And the edit scene "snooze button" is pressed
@@ -321,8 +323,10 @@ Feature: Snooze
     And the edit reminder scene "is not" visible
 
   Scenario: Snooze an existing reminder via the hover menu
-    Given we have logged in successfully
+    Given we set the day to monday
+    And we have logged in successfully
     When we add a reminder with the text "Item to be snoozed"
+    And the header loading icon "will not be" visible
     Then the reminder list count "is" "1"
     And the we hover over the "1st" reminder
     And the "1st" reminder hover "snooze" button is pressed
@@ -332,11 +336,14 @@ Feature: Snooze
     And the header loading icon "will not be" visible
     When we navigate to the "snoozed" scene
     Then the "snoozed" route "will be" visible
+    And the header loading icon "will not be" visible
     And the reminder list count "is" "1"
 
   Scenario: Snooze an existing reminder via the edit scene
-    Given we have logged in successfully
+    Given we set the time to beforeMorning
+    And we have logged in successfully
     When we add a reminder with the text "Item to be snoozed"
+    And the header loading icon "will not be" visible
     Then the reminder list count "is" "1"
     And the "1st" reminder is pressed
     And the edit scene "snooze button" is pressed
@@ -352,7 +359,8 @@ Feature: Snooze
   # Scenario: Snooze an existing reminder from swipe left
 
   Scenario: Snooze a reminder when create it does not save it
-    Given we have logged in successfully
+    Given we set the day to monday
+    And we have logged in successfully
     Then the reminder list count "is" "0"
     And the add reminder button is pressed
     And the text "Snooze as create" is typed into the add reminder input
@@ -368,7 +376,8 @@ Feature: Snooze
     And the reminder list count "is" "0"
 
   Scenario: Snooze a reminder when create it, then save, snoozes the reminder
-    Given we have logged in successfully
+    Given we set the day to monday
+    And we have logged in successfully
     Then the reminder list count "is" "0"
     When the add reminder button is pressed
     And the text "Snooze as create" is typed into the add reminder input
@@ -382,7 +391,8 @@ Feature: Snooze
     And the reminder list count "is" "1"
 
   Scenario: Snooze a reminder when create it turns the snooze icon orange
-    Given we have logged in successfully
+    Given we set the day to monday
+    And we have logged in successfully
     Then the reminder list count "is" "0"
     And the add reminder button is pressed
     And the text "Snooze as create" is typed into the add reminder input
@@ -395,14 +405,17 @@ Feature: Snooze
 
   # Takes out the done status
   Scenario: Can snooze reminder that is done
-    Given we preload the redux state with "1" "done" reminders
+    Given we set the time to beforeMorning
+    And we preload the redux state with "1" "done" reminders
     And we have logged in successfully
     Then the reminder list count "is" "0"
     And the header loading icon "will not be" visible
     When we navigate to the "snoozed" scene
-    Then the reminder list count "is" "0"
+    Then the header loading icon "will not be" visible
+    And the reminder list count "is" "0"
     When we navigate to the "done" scene
-    Then the reminder list count "is" "1"
+    Then the header loading icon "will not be" visible
+    And the reminder list count "is" "1"
     When the we hover over the "1st" reminder
     And the "1st" reminder hover "snooze" button is pressed
     And the "later today" snooze suggestion is pressed
@@ -423,33 +436,41 @@ Feature: Snooze
     Then the "snoozed" route "is" visible
 
   Scenario: Snooze a reminder, mark as done, then mark as undone, does not retain snooze dueDate
-    Given we have logged in successfully
+    Given we set the time to beforeMorning
+    And we have logged in successfully
     When we add a reminder with the text "Item to be snoozed"
+    And the header loading icon "will not be" visible
     And the "1st" reminder is pressed
     And the edit scene "snooze button" is pressed
     And the "later today" snooze suggestion is pressed
     Then the reminder list count "is" "0"
     And the header loading icon "will not be" visible
+    And the reminder list count "is" "0"
     When we navigate to the "snoozed" scene
-    Then the reminder list count "is" "1"
+    Then the header loading icon "will not be" visible
+    And the reminder list count "is" "1"
     When the "1st" reminder is pressed
     And the edit scene "done button" is pressed
     Then the reminder list count "is" "0"
     And the header loading icon "will not be" visible
+    And the reminder list count "is" "0"
     When we navigate to the "done" scene
-    Then the reminder list count "is" "1"
+    Then the header loading icon "will not be" visible
+    And the reminder list count "is" "1"
     When the "1st" reminder is pressed
     And the edit scene "done button" is pressed
     Then the reminder list count "is" "0"
     And the header loading icon "will not be" visible
     When we navigate to the "snoozed" scene
-    Then the reminder list count "is" "0"
+    Then the header loading icon "will not be" visible
+    And the reminder list count "is" "0"
     When we navigate to the "home" scene
     Then the reminder list count "is" "1"
 
   # As the other tests preload the data
   Scenario: Snoozing an existing reminder works
-    Given we have logged in successfully
+    Given we set the day to monday
+    And we have logged in successfully
     When we add a reminder with the text "Item to be snoozed"
     Then the reminder list count "is" "1"
     And the "1st" reminder is pressed
@@ -464,7 +485,8 @@ Feature: Snooze
 
   # As the other tests preload the data
   Scenario: Snoozing a new reminder works
-    Given we have logged in successfully
+    Given we set the day to monday
+    And we have logged in successfully
     Then the reminder list count "is" "0"
     When the add reminder button is pressed
     And the text "Snooze as create" is typed into the add reminder input
@@ -479,7 +501,8 @@ Feature: Snooze
 
   @snooze-error-modal
   Scenario: Can't snooze to a date in the past via suggestion
-    Given we have logged in successfully
+    Given we set the day to monday
+    And we have logged in successfully
     When we add a reminder with the text "Item to be snoozed"
     And the header loading icon "will not be" visible
     And the we hover over the "1st" reminder
@@ -491,13 +514,14 @@ Feature: Snooze
 
   @snooze-error-modal
   Scenario: Can't snooze to a date in the past via custom date
-    Given we have logged in successfully
+    Given we set the time to beforeMorning
+    And we have logged in successfully
     When we add a reminder with the text "Item to be snoozed"
     And the header loading icon "will not be" visible
     And the we hover over the "1st" reminder
     And the "1st" reminder hover "snooze" button is pressed
     And the snooze scene custom date button is pressed
-    And day "8" in the date picker is pressed
+    And day "4" in the date picker is pressed
     And the snooze confirm change time button is pressed
     And the "customised" snooze time suggestion is pressed
     And the snooze time is set to "01:00"
@@ -507,7 +531,8 @@ Feature: Snooze
 
   @snooze-error-modal
   Scenario: The snooze error modal from a suggestion will take you back to the suggested snooze dates
-    Given we have logged in successfully
+    Given we set the day to monday
+    And we have logged in successfully
     When we add a reminder with the text "Item to be snoozed"
     And the header loading icon "will not be" visible
     And the we hover over the "1st" reminder
@@ -520,13 +545,14 @@ Feature: Snooze
 
   @snooze-error-modal
   Scenario: The snooze error modal from a custom date will take you back to the confirm modal
-    Given we have logged in successfully
+    Given we set the time to beforeMorning
+    And we have logged in successfully
     When we add a reminder with the text "Item to be snoozed"
     And the header loading icon "will not be" visible
     And the we hover over the "1st" reminder
     And the "1st" reminder hover "snooze" button is pressed
     And the snooze scene custom date button is pressed
-    And day "8" in the date picker is pressed
+    And day "4" in the date picker is pressed
     And the snooze confirm change time button is pressed
     And the "customised" snooze time suggestion is pressed
     And the snooze time is set to "01:00"

@@ -5,13 +5,16 @@ interface IProps {
   children: string;
   style?: { [key: string]: any };
   testID?: string;
+  numberOfLines?: number;
 }
 
 /**
  * Render native text
  */
-const Text = ({ children, style }: IProps) => (
-  <RNText style={style}>{children}</RNText>
+const Text = ({ children, style, numberOfLines }: IProps) => (
+  <RNText style={style} numberOfLines={numberOfLines}>
+    {children}
+  </RNText>
 );
 
 export default Text;

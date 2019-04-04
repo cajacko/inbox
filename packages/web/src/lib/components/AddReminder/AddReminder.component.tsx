@@ -6,7 +6,8 @@ import withConsumer from 'src/lib/HOCs/withConsumer';
 import { IValue } from 'src/lib/HOCs/withModalContext';
 import AddReminder, { IPassedProps } from './AddReminder.render';
 
-const TEXT_LIMIT = 100;
+// Browsers prefer link lengths under 2048, added 100 to it
+const TEXT_LIMIT = 2148;
 
 export interface IContainerStateProps {
   isDone: boolean;

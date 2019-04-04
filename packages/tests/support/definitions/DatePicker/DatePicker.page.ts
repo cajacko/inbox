@@ -1,10 +1,12 @@
 import selectors from '../../config/selectors';
 import driver from '../../utils/driver';
+import { ICondition } from '../../utils/ensureCondition';
 import getSelector from '../../utils/getSelector';
 
 class DatePicker {
   private datePickerDay = selectors.general.DatePicker.Day;
   private datePickerTime = selectors.general.DatePicker.Time;
+  private datePickerTimeContainer = selectors.general.DatePicker.TimeContainer;
 
   public async pressDay(day: number) {
     return driver.press(getSelector(this.datePickerDay, { day }));
@@ -16,6 +18,10 @@ class DatePicker {
     await driver.scrollIntoView(selector);
 
     return driver.press(selector);
+  }
+
+  public async timeVisible(condition: ICondition) {
+    return driver.visible(condition, getSelector(this.datePickerTimeContainer));
   }
 }
 

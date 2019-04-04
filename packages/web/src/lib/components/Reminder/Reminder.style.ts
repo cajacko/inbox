@@ -1,4 +1,5 @@
 import { View } from 'src/components';
+import { LINK_HEIGHT } from 'src/lib/components/ReminderLink/ReminderLink.style';
 import { ICON_SIZE as STATUS_ICON_SIZE } from 'src/lib/components/ReminderStatus/ReminderStatus.style';
 import {
   GREEN,
@@ -11,6 +12,7 @@ import border from 'src/lib/utils/applyBorder';
 import margin from 'src/lib/utils/applyMargin';
 import padding from 'src/lib/utils/applyPadding';
 import { View as AnimatedView } from 'src/packages/animated';
+import platform from 'src/utils/platform';
 import unit from 'src/utils/unit';
 import styled from 'styled-components';
 
@@ -24,18 +26,32 @@ export const SWIPE_BACKGROUND_COLOR_RIGHT = ORANGE_DARK;
 export const SWIPE_ICON_SIZE = 20;
 const borderWidth = 2;
 
-const reminderSpacing = 16;
+export const reminderSpacing = 16;
 
 export const REMINDER_HEIGHT = 50;
+
+export const buttonStyle: React.CSSProperties = {
+  flex: 1,
+  flexDirection: 'row',
+  width: '100%',
+};
 
 /**
  * Get the container height - the borders
  */
-const containerHeight = ({ hasBottomBorder, hasTopBorder }: IProps) => {
+const containerHeight = (addLinkHeight: boolean, minusBorders: boolean) => ({
+  hasBottomBorder,
+  hasTopBorder,
+  hasUrl,
+}: IProps) => {
   let height = REMINDER_HEIGHT;
 
-  if (hasBottomBorder) height -= borderWidth;
-  if (hasTopBorder) height -= borderWidth;
+  if (minusBorders) {
+    if (hasBottomBorder) height -= borderWidth;
+    if (hasTopBorder) height -= borderWidth;
+  }
+
+  if (hasUrl && addLinkHeight) height += LINK_HEIGHT;
 
   return unit(height);
 };
@@ -43,6 +59,7 @@ const containerHeight = ({ hasBottomBorder, hasTopBorder }: IProps) => {
 interface IProps {
   hasBottomBorder: boolean;
   hasTopBorder: boolean;
+  hasUrl: boolean;
 }
 
 export const Wrapper = styled(AnimatedView)`
@@ -50,15 +67,21 @@ export const Wrapper = styled(AnimatedView)`
 `;
 
 export const Container = styled(View)<IProps>`
-  position: relative;
-  z-index: 2;
   ${({ hasBottomBorder, hasTopBorder }) =>
     border(GREY_LIGHTER, borderWidth, {
       bottom: hasBottomBorder,
       top: hasTopBorder,
     })}
+  flex-direction: column;
+  height: ${containerHeight(true, false)};
+  background-color: ${BACKGROUND_COLOR};
+`;
+
+export const Content = styled(View)<IProps>`
+  position: relative;
+  z-index: 2;
   flex-direction: row;
-  height: ${containerHeight};
+  height: ${containerHeight(false, true)};
   background-color: ${BACKGROUND_COLOR};
 `;
 
@@ -69,9 +92,16 @@ export const Inner = styled(View)`
   align-items: center;
   background-color: ${BACKGROUND_COLOR};
   ${padding({ horizontal: reminderSpacing })};
+  max-width: 100%;
+  ${platform() === 'web' ? 'box-sizing: border-box;' : ''}
+  overflow: hidden;
 `;
 
-export const EditMenu = styled(View)`
+interface IEditMenuProps {
+  hasLink: boolean;
+}
+
+export const EditMenu = styled(View)<IEditMenuProps>`
   position: absolute;
   top: 0;
   right: 0;
@@ -82,9 +112,11 @@ export const EditMenu = styled(View)`
   justify-content: center;
   flex-direction: row;
   ${padding({ horizontal: reminderSpacing })}
-  ${border(GREY_LIGHTER, 1, {
-    left: true,
-  })}}
+  ${({ hasLink }) =>
+    border(GREY_LIGHTER, 1, {
+      bottom: hasLink,
+      left: true,
+    })}}
 `;
 
 export const Icon = styled(View)`
@@ -106,4 +138,21 @@ export const SwipeContainerLeft = styled(View)`
 export const SwipeContainerRight = styled(SwipeContainerLeft)`
   background-color: ${SWIPE_BACKGROUND_COLOR_RIGHT};
   align-items: flex-end;
+`;
+
+export const TextContainer = styled(View)`
+  flex: 1;
+  ${margin({ right: 10 })}
+  flex-direction: row;
+  height: 100%;
+  align-items: center;
+  overflow: hidden;
+  position: relative;
+`;
+
+export const TextWrapper = styled(View)`
+  flex: 1;
+  overflow: hidden;
+  ${platform() === 'web' ? 'white-space: nowrap;' : ''}
+  position: absolute;
 `;

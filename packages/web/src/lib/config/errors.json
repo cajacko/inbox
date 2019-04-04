@@ -103,5 +103,10 @@
     "label": "Invalid Snooze type",
     "message": "Errors.DevError.Message",
     "title": "Errors.DevError.Title"
+  },
+  "100-022": {
+    "label": "Could not open link",
+    "message": "Errors.DevError.Message",
+    "title": "Errors.DevError.Title"
   }
 }

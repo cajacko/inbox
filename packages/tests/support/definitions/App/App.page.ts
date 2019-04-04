@@ -3,6 +3,7 @@ import * as fs from 'fs';
 import { ensureFile, pathExists, remove } from 'fs-extra';
 import { PNG } from 'pngjs';
 import driver from '../../utils/driver';
+import { ICondition } from '../../utils/ensureCondition';
 import getScreenshotPath from '../../utils/getScreenshotPath';
 
 // tslint:disable-next-line
@@ -103,6 +104,14 @@ class App {
 
   public async close() {
     await driver.close();
+  }
+
+  public async tabCount(condition: ICondition, count: number) {
+    return driver.tabCount(condition, count);
+  }
+
+  public async activeTabUrl(condition: ICondition, url: string) {
+    return driver.activeTabUrl(condition, url);
   }
 }
 

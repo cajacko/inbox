@@ -218,7 +218,7 @@ Feature: Snooze Suggestions
     And the we hover over the "1st" reminder
     And the "1st" reminder hover "snooze" button is pressed
     And the snooze scene custom date button is pressed
-    And day "7" in the date picker is pressed
+    And day "4" in the date picker is pressed
     And the snooze confirm change time button is pressed
     Then the time suggestions component "is not" visible
     And the custom time picker "is" visible

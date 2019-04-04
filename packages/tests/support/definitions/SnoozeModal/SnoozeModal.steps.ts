@@ -66,3 +66,6 @@ Then(
   'the snooze scene custom date label {string} {string}',
   (condition, label) => snoozeModal.customDateLabelIs(condition, label)
 );
+
+Then('the time suggestions component {string} visible', condition =>
+  snoozeModal.timeSuggestions(condition));

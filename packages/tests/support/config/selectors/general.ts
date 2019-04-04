@@ -37,6 +37,9 @@ const general = {
         `.react-datepicker__time-list-item:nth-child(${getTimePosition(time) +
           1})`,
     },
+    TimeContainer: {
+      web: '.react-datepicker__time',
+    },
   },
   Done: {
     web: '.Done',
@@ -167,6 +170,15 @@ const general = {
         web: ({ index }: { index: number }) =>
           `.Reminder:nth-child(${index + 1}) .Reminder__HoverEdit`,
       },
+      Link: {
+        web: ({ index }: { index: number }) =>
+          `.Reminder:nth-child(${index + 1}) .Reminder__Link`,
+
+        Text: {
+          web: ({ index }: { index: number }) =>
+            `.Reminder:nth-child(${index + 1}) .Reminder__LinkText`,
+        },
+      },
       SnoozeButton: {
         web: ({ index }: { index: number }) =>
           `.Reminder:nth-child(${index + 1}) .Reminder__HoverSnooze`,
@@ -278,6 +290,9 @@ const general = {
       Tomorrow: {
         web: '.Suggestion--Tomorrow',
       },
+    },
+    TimeSuggestions: {
+      web: '.SnoozedModal__TimeSuggestions',
     },
     web: '.SnoozedModal',
   },
