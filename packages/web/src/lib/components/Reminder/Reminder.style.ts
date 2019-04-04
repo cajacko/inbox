@@ -28,7 +28,7 @@ const borderWidth = 2;
 
 export const reminderSpacing = 16;
 
-export const REMINDER_HEIGHT = 50;
+export const REMINDER_HEIGHT = 60;
 
 export const buttonStyle: React.CSSProperties = {
   flex: 1,
@@ -39,11 +39,10 @@ export const buttonStyle: React.CSSProperties = {
 /**
  * Get the container height - the borders
  */
-const containerHeight = (addLinkHeight: boolean, minusBorders: boolean) => ({
-  hasBottomBorder,
-  hasTopBorder,
-  hasUrl,
-}: IProps) => {
+export const containerHeight = (
+  addLinkHeight: boolean,
+  minusBorders: boolean
+) => ({ hasBottomBorder, hasTopBorder, hasUrl }: IProps) => {
   let height = REMINDER_HEIGHT;
 
   if (minusBorders) {
@@ -53,7 +52,7 @@ const containerHeight = (addLinkHeight: boolean, minusBorders: boolean) => ({
 
   if (hasUrl && addLinkHeight) height += LINK_HEIGHT;
 
-  return unit(height);
+  return height;
 };
 
 interface IProps {
@@ -73,7 +72,7 @@ export const Container = styled(View)<IProps>`
       top: hasTopBorder,
     })}
   flex-direction: column;
-  height: ${containerHeight(true, false)};
+  height: ${props => unit(containerHeight(true, false)(props))};
   background-color: ${BACKGROUND_COLOR};
 `;
 
@@ -81,7 +80,7 @@ export const Content = styled(View)<IProps>`
   position: relative;
   z-index: 2;
   flex-direction: row;
-  height: ${containerHeight(false, true)};
+  height: ${props => unit(containerHeight(false, true)(props))};
   background-color: ${BACKGROUND_COLOR};
 `;
 
