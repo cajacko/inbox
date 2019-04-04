@@ -109,7 +109,12 @@ class SnoozeComponent extends React.Component<IProps, IState> {
    * Show the time or time suggestions
    */
   private onSelectTime() {
-    this.setState({ type: 'TIME_SUGGESTIONS' });
+    if (this.state.suggestedTimes.length > 1) {
+      this.setState({ type: 'TIME_SUGGESTIONS' });
+      return;
+    }
+
+    this.setState({ type: 'TIME' });
   }
 
   /**

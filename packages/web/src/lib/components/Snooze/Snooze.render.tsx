@@ -231,7 +231,7 @@ const Snooze = ({
 
     case 'TIME_SUGGESTIONS':
       return (
-        <Style.TimeSuggestionsContainer testID={testID}>
+        <Style.TimeSuggestionsContainer testID="SnoozedModal__TimeSuggestions">
           {suggestedTimes.map(suggestedTime => (
             <Button
               key={suggestedTime.label}

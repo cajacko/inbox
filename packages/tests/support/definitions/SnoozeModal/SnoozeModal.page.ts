@@ -43,6 +43,8 @@ class SnoozeModal {
   private confirmModalSelector = selectors.general.SnoozeModal.ConfirmModal;
   private customDateLabelSelector =
     selectors.general.SnoozeModal.CustomDateLabel;
+  private timeSuggestionsSelector =
+    selectors.general.SnoozeModal.TimeSuggestions;
 
   public async visible(conditional: ICondition) {
     return driver.visible(conditional, getSelector(this.snoozeModal));
@@ -163,6 +165,10 @@ class SnoozeModal {
       getSelector(this.customDateLabelSelector),
       label
     );
+  }
+
+  public async timeSuggestions(condition: ICondition) {
+    return driver.visible(condition, getSelector(this.timeSuggestionsSelector));
   }
 }
 

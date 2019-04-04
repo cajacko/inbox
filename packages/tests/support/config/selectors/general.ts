@@ -37,6 +37,9 @@ const general = {
         `.react-datepicker__time-list-item:nth-child(${getTimePosition(time) +
           1})`,
     },
+    TimeContainer: {
+      web: '.react-datepicker__time',
+    },
   },
   Done: {
     web: '.Done',
@@ -287,6 +290,9 @@ const general = {
       Tomorrow: {
         web: '.Suggestion--Tomorrow',
       },
+    },
+    TimeSuggestions: {
+      web: '.SnoozedModal__TimeSuggestions',
     },
     web: '.SnoozedModal',
   },
