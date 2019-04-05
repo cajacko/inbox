@@ -1,7 +1,8 @@
-type EnvKeys = 'BY_PASS_AUTH';
+type EnvKeys = 'API_ENDPOINT' | 'BY_PASS_AUTH';
 
-const env: { [K in EnvKeys]?: any } = {
-  // BY_PASS_AUTH: true,
+const env = {
+  API_ENDPOINT: process.env.API_ENDPOINT,
+  BY_PASS_AUTH: process.env.BY_PASS_AUTH,
 };
 
 /**

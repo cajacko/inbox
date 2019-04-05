@@ -1,12 +1,14 @@
 import * as sync from 'src/lib/graphql/sync/client';
+import AppError from 'src/lib/modules/AppError';
 import graphqlClient from 'src/lib/utils/graphqlClient';
+import getEnvVar from 'src/utils/getEnvVar';
 
 const client = {
   sync: sync.sync,
 };
 
-export default graphqlClient(
-  client,
-  'http://localhost:5000/inbox-981dc/us-central1/graphql/graphql'
-  // 'https://us-central1-inbox-981dc.cloudfunctions.net/graphql/graphql'
-);
+const endpoint = getEnvVar('API_ENDPOINT');
+
+if (!endpoint) throw new AppError('No env value for API_ENDPOINT', '100-023');
+
+export default graphqlClient(client, endpoint || '');

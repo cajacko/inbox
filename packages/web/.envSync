@@ -1,0 +1,7 @@
+{
+  "keys": [
+    "API_ENDPOINT",
+    "BY_PASS_AUTH"
+  ],
+  "file": ".env.local"
+}

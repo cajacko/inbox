@@ -4,6 +4,7 @@
     {
       "label": "start:all",
       "dependsOn": [
+        "start:env",
         "start:metro",
         "start:src",
         "start:web",
@@ -83,6 +84,16 @@
       },
       "problemMatcher": [],
       "dependsOn": ["open:react-native-debugger"]
+    },
+    {
+      "label": "start:env",
+      "command": "yarn",
+      "args": ["start:env"],
+      "isBackground": true,
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": []
     }
   ]
 }
