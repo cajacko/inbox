@@ -10,10 +10,10 @@
     core-js "^2.5.7"
     regenerator-runtime "^0.12.0"
 
-"@cajacko/env-sync@^0.1.0":
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/@cajacko/env-sync/-/env-sync-0.1.0.tgz#2fc7c4342fc23bbea07df162a5f386bd2cbe6154"
-  integrity sha512-0Oksa9VufXmNKisR43kVGG3fT5uOZAG0HS4EeczdYyfRFYGgelvv1aCtjp1ZUTL2nTDS5jCd2PRbRQc7EvkKbA==
+"@cajacko/env-sync@0.4.0":
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/@cajacko/env-sync/-/env-sync-0.4.0.tgz#1da84dce94ec76e28e315df97a9ae0ee743786ad"
+  integrity sha512-1KCKy9y0OIubu0b/PMyUM8yBanxAmOe0jZZIXsWjRYvfwOcT+XKiRlsjEVUsfbYd2jGf80zHoLIxku4BVc9Itw==
   dependencies:
     "@types/fs-extra" "^5.0.5"
     "@types/glob" "^7.1.1"

@@ -5,10 +5,11 @@ import hookConstants from '../config/hookConstants';
 import browserHooks from '../utils/browserHooks';
 import conditional from '../utils/conditional';
 import { ICondition } from '../utils/ensureCondition';
+import * as env from '../utils/env.json';
 import getSize from '../utils/getSize';
 import log from '../utils/log';
 
-const showBrowser = false;
+const showBrowser = env.SHOW_TEST_BROWSER;
 const shouldClose = !showBrowser;
 const headless = !showBrowser;
 

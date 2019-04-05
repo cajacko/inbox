@@ -18,7 +18,7 @@
     "ensure-creds": "node .scripts/env/ensureCreds.js"
   },
   "devDependencies": {
-    "@cajacko/env-sync": "^0.1.0",
+    "@cajacko/env-sync": "0.4.0",
     "@miovision/eslint-plugin-disallow-date": "^1.0.1",
     "@types/fs-extra": "^5.0.4",
     "concurrently": "^4.1.0",

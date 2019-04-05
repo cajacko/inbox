@@ -17,6 +17,7 @@ packages/tslint/**/*.js
 env.local.json
 .env.local.json
 .env.local
+env.json
 packages/*/.env
 packages/*/.env.json
 *.cache
