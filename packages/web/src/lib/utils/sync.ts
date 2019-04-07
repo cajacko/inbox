@@ -7,8 +7,8 @@ import {
   syncSuccess,
 } from 'src/lib/store/sync/actions';
 import api from 'src/lib/utils/api';
+import getEnvVar from 'src/lib/utils/getEnvVar';
 import store from 'src/lib/utils/store';
-import getEnvVar from 'src/utils/getEnvVar';
 import testHook from 'src/utils/testHook';
 import testHookExists from 'src/utils/testHookExists';
 

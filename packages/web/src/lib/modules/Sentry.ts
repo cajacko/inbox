@@ -7,12 +7,12 @@ import {
   OnLogType,
 } from 'src/lib/types/general';
 import getEnv from 'src/lib/utils/getEnv';
+import getEnvVar from 'src/lib/utils/getEnvVar';
 import history from 'src/lib/utils/history';
 import store from 'src/lib/utils/store';
 import sentry from 'src/modules/Sentry';
 import isDev from 'src/utils/conditionals/isDev';
 import isTestEnv from 'src/utils/conditionals/isTestEnv';
-import getEnvVar from 'src/utils/getEnvVar';
 import { version } from '../../../package.json';
 
 /**

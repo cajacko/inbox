@@ -1,7 +1,7 @@
 import * as sync from 'src/lib/graphql/sync/client';
 import AppError from 'src/lib/modules/AppError';
+import getEnvVar from 'src/lib/utils/getEnvVar';
 import graphqlClient from 'src/lib/utils/graphqlClient';
-import getEnvVar from 'src/utils/getEnvVar';
 
 const client = {
   sync: sync.sync,

@@ -5,9 +5,9 @@ import immutableTransform from 'redux-persist-transform-immutable';
 import thunk from 'redux-thunk';
 import { IJSState, IState, ReducerKey } from 'src/lib/store/reducers';
 import { IAction, Middleware } from 'src/lib/types/libs';
+import getEnvVar from 'src/lib/utils/getEnvVar';
 import isDev from 'src/utils/conditionals/isDev';
 import isTestEnv from 'src/utils/conditionals/isTestEnv';
-import getEnvVar from 'src/utils/getEnvVar';
 import logger from 'src/utils/logger';
 
 const defaultOptions = {

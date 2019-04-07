@@ -54,12 +54,17 @@ class Auth {
    * Log the user in
    */
   public static login() {
-    const { method, params } = testHook('login', {
-      method: 'signInWithPopup',
-      params: [provider],
-    });
+    return firebase
+      .auth()
+      .setPersistence(firebase.auth.Auth.Persistence.SESSION)
+      .then(() => {
+        const { method, params } = testHook('login', {
+          method: 'signInWithPopup',
+          params: [provider],
+        });
 
-    return firebase.auth()[method](...params);
+        return firebase.auth()[method](...params);
+      });
   }
 
   /**

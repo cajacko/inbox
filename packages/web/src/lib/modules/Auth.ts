@@ -7,13 +7,13 @@ import {
 } from 'src/lib/store/user/actions';
 import { IUser } from 'src/lib/types/general';
 import analytics from 'src/lib/utils/analytics';
+import getEnvVar from 'src/lib/utils/getEnvVar';
 import history from 'src/lib/utils/history';
 import marketingCopy from 'src/lib/utils/marketingCopy';
 import store from 'src/lib/utils/store';
 import { startSyncCron } from 'src/lib/utils/sync';
 import * as updateSnoozedCron from 'src/lib/utils/updateSnoozedCron';
 import AuthImplementation from 'src/modules/Auth';
-import getEnvVar from 'src/utils/getEnvVar';
 import testHook from 'src/utils/testHook';
 
 let loginId = 0;
@@ -43,7 +43,11 @@ class Auth {
   /**
    * Set the user in the store, analytics and redirect
    */
-  public static setUser(user: IUser, shouldRedirect: boolean = true, redirectPath: string = '/') {
+  public static setUser(
+    user: IUser,
+    shouldRedirect: boolean = true,
+    redirectPath: string = '/'
+  ) {
     analytics.setUserIfNotSet({ userId: user.id });
 
     store.dispatch(loginAction(user));
@@ -99,7 +103,11 @@ class Auth {
   /**
    * Logout the user
    */
-  public static logout(withAlert: boolean = false, loginText?: string, maintainStoreUserID?: string | null) {
+  public static logout(
+    withAlert: boolean = false,
+    loginText?: string,
+    maintainStoreUserID?: string | null
+  ) {
     /**
      * The actual logout func
      */
@@ -132,7 +140,11 @@ class Auth {
    * successfully
    */
   public static relogin() {
-    return Auth.logout(false, marketingCopy.get('Login.Relogin'), store.getState().user.id);
+    return Auth.logout(
+      false,
+      marketingCopy.get('Login.Relogin'),
+      store.getState().user.id
+    );
   }
 
   /**
@@ -140,6 +152,13 @@ class Auth {
    */
   public static refreshIdToken() {
     return AuthImplementation.refreshIdToken();
+  }
+
+  /**
+   * Get the users id token
+   */
+  public static getIdToken() {
+    return Auth.getUser().then(user => (user ? user.idToken : null));
   }
 }
 

@@ -1,4 +1,4 @@
-import getEnvVar from 'src/utils/getEnvVar';
+import getEnvVar from 'src/lib/utils/getEnvVar';
 
 /**
  * Get the current env

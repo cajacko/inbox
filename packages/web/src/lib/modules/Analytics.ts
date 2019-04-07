@@ -1,10 +1,10 @@
 import CustomDate from 'src/lib/modules/CustomDate';
 import Sentry from 'src/lib/modules/Sentry';
+import getEnvVar from 'src/lib/utils/getEnvVar';
 import history from 'src/lib/utils/history';
 import PlatformAnalytics from 'src/modules/Analytics';
 import isDev from 'src/utils/conditionals/isDev';
 import isTestEnv from 'src/utils/conditionals/isTestEnv';
-import getEnvVar from 'src/utils/getEnvVar';
 
 interface IUserProps {
   userId: string;

@@ -3,7 +3,6 @@
 import { GraphQLClient } from 'graphql-request';
 import AppError from 'src/lib/modules/AppError';
 import Auth from 'src/lib/modules/Auth';
-import store from 'src/lib/utils/store';
 
 type InMethod = (
   ...args: any
@@ -74,50 +73,63 @@ function graphqlClient<T>(
           }, timeout);
         }
 
-        const { idToken } = store.getState().user;
+        Auth.getIdToken().then((idToken) => {
+          /**
+           * If the request is unauthorised or we have no idtoken, try and get
+           * one
+           */
+          const unauthorisedFlow = () => {
+            if (isTryAgain) {
+              // Force manual login
+              reject(new Error('Aborting request, as had to manually login'));
 
-        const graphQLClient = new GraphQLClient(endpoint, {
-          headers: {
-            Authorization: `Bearer ${idToken}`,
-          },
-        });
-
-        graphQLClient
-          .request(queryReq, vars)
-          .then((data) => {
-            const keys = Object.keys(data);
-
-            if (keys.length === 1) {
-              resolve(data[keys[0]]);
-              return;
-            }
-
-            resolve(data);
-          })
-          .catch((e) => {
-            // Unauthorised, try and silent login and try again. Otherwise force
-            // a new login
-            if (e && e.response && e.response.status === 403) {
-              if (isTryAgain) {
-                // Force manual login
-                reject(new Error('Aborting request, as had to manually login'));
-
-                Auth.relogin();
-              } else {
-                // Try a background login
-                Auth.refreshIdToken()
-                  .catch((refreshError: AppError) => refreshError)
-                  .then(tryAgain)
-                  .then(resolve)
-                  .catch(reject);
-              }
+              Auth.relogin();
             } else {
-              reject(e);
+              // Try a background login
+              Auth.refreshIdToken()
+                .catch((refreshError: AppError) => refreshError)
+                .then(tryAgain)
+                .then(resolve)
+                .catch(reject);
             }
-          })
-          .then(() => {
-            if (timeoutInstance) clearTimeout(timeoutInstance);
+          };
+
+          if (!idToken) {
+            unauthorisedFlow();
+            return;
+          }
+
+          const graphQLClient = new GraphQLClient(endpoint, {
+            headers: {
+              Authorization: `Bearer ${idToken}`,
+            },
           });
+
+          graphQLClient
+            .request(queryReq, vars)
+            .then((data) => {
+              const keys = Object.keys(data);
+
+              if (keys.length === 1) {
+                resolve(data[keys[0]]);
+                return;
+              }
+
+              resolve(data);
+            })
+            .catch((e) => {
+              // Unauthorised, try and silent login and try again. Otherwise
+              // force a new login
+              if (e && e.response && e.response.status === 403) {
+                unauthorisedFlow();
+              } else {
+                reject(e);
+              }
+            })
+            .then(() => {
+              if (timeoutInstance) clearTimeout(timeoutInstance);
+            });
+        });
       });
     };
   });
