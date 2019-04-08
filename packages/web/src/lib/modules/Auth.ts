@@ -13,7 +13,7 @@ import marketingCopy from 'src/lib/utils/marketingCopy';
 import store from 'src/lib/utils/store';
 import { startSyncCron } from 'src/lib/utils/sync';
 import * as updateSnoozedCron from 'src/lib/utils/updateSnoozedCron';
-import AuthImplementation from 'src/modules/Auth';
+import AuthImplementation, { FirebaseUser } from 'src/modules/Auth';
 import testHook from 'src/utils/testHook';
 
 let loginId = 0;
@@ -23,6 +23,27 @@ let loginId = 0;
  */
 class Auth {
   /**
+   * Get the firebase user object
+   */
+  public static getUserObject(): Promise<FirebaseUser> {
+    return new Promise((resolve, reject) => {
+      // onAuthStateChanged is the recommended way of getting the user object
+      // https://firebase.google.com/docs/auth/web/manage-users
+      AuthImplementation.getAuth().onAuthStateChanged((user) => {
+        if (user) {
+          resolve(user);
+          return;
+        }
+
+        reject(new AppError(
+          'Firebase auth resolved but did not return a user object',
+          '100-010'
+        ));
+      });
+    });
+  }
+
+  /**
    * Get the current user
    */
   public static getUser(): Promise<IUser | null> {
@@ -30,7 +51,11 @@ class Auth {
       .then(() => {
         if (getEnvVar('BY_PASS_AUTH')) return Promise.resolve(mockUser);
 
-        return AuthImplementation.getUser();
+        return Auth.getUserObject().then(user => ({
+          displayName: user.displayName,
+          id: user.uid,
+          photoURL: user.photoURL,
+        }));
       })
       .then((user: IUser) => {
         analytics.setUserIfNotSet({ userId: user.id });
@@ -116,7 +141,9 @@ class Auth {
 
       analytics.unsetUser();
 
-      return AuthImplementation.logout().then(() => true);
+      return AuthImplementation.getAuth()
+        .signOut()
+        .then(() => true);
     };
 
     if (!withAlert) return logout();
@@ -148,17 +175,16 @@ class Auth {
   }
 
   /**
-   * Refresh the id token in the background
-   */
-  public static refreshIdToken() {
-    return AuthImplementation.refreshIdToken();
-  }
-
-  /**
    * Get the users id token
    */
   public static getIdToken() {
-    return Auth.getUser().then(user => (user ? user.idToken : null));
+    return Auth.getUserObject().then((user) => {
+      if (user) {
+        return user.getIdToken();
+      }
+
+      throw new AppError('Boo', '100-001');
+    });
   }
 }
 

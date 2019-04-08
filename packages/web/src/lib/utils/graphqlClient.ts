@@ -35,17 +35,10 @@ function graphqlClient<T>(
 
     client[methodKey] = (...passedParams: any[]) => {
       const args = passedParams.slice();
-      let isTryAgain = false;
 
       if (typeof args[0] === 'object' && args[0].tryAgain === true) {
-        isTryAgain = true;
         args.splice(0, 1);
       }
-
-      /**
-       * Func that will rerun this same query
-       */
-      const tryAgain = () => client[methodKey]({ tryAgain: true }, ...args);
 
       const { mutation, query, vars } = method(...args);
 
@@ -79,19 +72,10 @@ function graphqlClient<T>(
            * one
            */
           const unauthorisedFlow = () => {
-            if (isTryAgain) {
-              // Force manual login
-              reject(new Error('Aborting request, as had to manually login'));
+            // Force manual login
+            reject(new Error('Aborting request, as had to manually login'));
 
-              Auth.relogin();
-            } else {
-              // Try a background login
-              Auth.refreshIdToken()
-                .catch((refreshError: AppError) => refreshError)
-                .then(tryAgain)
-                .then(resolve)
-                .catch(reject);
-            }
+            Auth.relogin();
           };
 
           if (!idToken) {
