@@ -66,3 +66,11 @@ Feature: Login
     And the screenshot matches
     When the login button is pressed
     Then the "logged in" home route "will be" visible
+
+  @web
+  Scenario: Login close window, open a new tab and still logged in
+    Given we have logged in successfully
+    When the browser tab is closed
+    And the driver is ready
+    And the app is navigated to "/"
+    Then the "logged in" home route "will be" visible
