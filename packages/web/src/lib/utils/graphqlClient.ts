@@ -66,54 +66,56 @@ function graphqlClient<T>(
           }, timeout);
         }
 
-        Auth.getIdToken().then((idToken) => {
-          /**
-           * If the request is unauthorised or we have no idtoken, try and get
-           * one
-           */
-          const unauthorisedFlow = () => {
-            // Force manual login
-            reject(new Error('Aborting request, as had to manually login'));
+        /**
+         * If the request is unauthorised or we have no idtoken, try and get
+         * one
+         */
+        const unauthorisedFlow = () => {
+          // Force manual login
+          reject(new Error('Aborting request, as had to manually login'));
 
-            Auth.relogin();
-          };
+          Auth.relogin();
+        };
 
-          if (!idToken) {
-            unauthorisedFlow();
-            return;
-          }
+        Auth.getIdToken()
+          .then((idToken) => {
+            if (!idToken) {
+              unauthorisedFlow();
+              return;
+            }
 
-          const graphQLClient = new GraphQLClient(endpoint, {
-            headers: {
-              Authorization: `Bearer ${idToken}`,
-            },
-          });
-
-          graphQLClient
-            .request(queryReq, vars)
-            .then((data) => {
-              const keys = Object.keys(data);
-
-              if (keys.length === 1) {
-                resolve(data[keys[0]]);
-                return;
-              }
-
-              resolve(data);
-            })
-            .catch((e) => {
-              // Unauthorised, try and silent login and try again. Otherwise
-              // force a new login
-              if (e && e.response && e.response.status === 403) {
-                unauthorisedFlow();
-              } else {
-                reject(e);
-              }
-            })
-            .then(() => {
-              if (timeoutInstance) clearTimeout(timeoutInstance);
+            const graphQLClient = new GraphQLClient(endpoint, {
+              headers: {
+                Authorization: `Bearer ${idToken}`,
+              },
             });
-        });
+
+            graphQLClient
+              .request(queryReq, vars)
+              .then((data) => {
+                const keys = Object.keys(data);
+
+                if (keys.length === 1) {
+                  resolve(data[keys[0]]);
+                  return;
+                }
+
+                resolve(data);
+              })
+              .catch((e) => {
+                // Unauthorised, try and silent login and try again. Otherwise
+                // force a new login
+                if (e && e.response && e.response.status === 403) {
+                  unauthorisedFlow();
+                } else {
+                  reject(e);
+                }
+              })
+              .then(() => {
+                if (timeoutInstance) clearTimeout(timeoutInstance);
+              });
+          })
+          .catch(unauthorisedFlow);
       });
     };
   });

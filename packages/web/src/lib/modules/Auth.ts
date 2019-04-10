@@ -36,7 +36,7 @@ class Auth {
         }
 
         reject(new AppError(
-          'Firebase auth resolved but did not return a user object',
+          'Firebase auth but did not return a user object',
           '100-010'
         ));
       });
@@ -178,13 +178,7 @@ class Auth {
    * Get the users id token
    */
   public static getIdToken() {
-    return Auth.getUserObject().then((user) => {
-      if (user) {
-        return user.getIdToken();
-      }
-
-      throw new AppError('Boo', '100-001');
-    });
+    return Auth.getUserObject().then(user => user.getIdToken());
   }
 }
 
