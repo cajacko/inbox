@@ -7,10 +7,21 @@
         "start:env",
         "start:metro",
         "start:src",
-        "start:web",
+        "start:web-app",
         "start:functions",
         "watch:tests",
         "start:ios"
+      ],
+      "problemMatcher": []
+    },
+    {
+      "label": "start:web",
+      "dependsOn": [
+        "start:env",
+        "start:src",
+        "start:web-app",
+        "start:functions",
+        "watch:tests"
       ],
       "problemMatcher": []
     },
@@ -35,7 +46,7 @@
       "problemMatcher": []
     },
     {
-      "label": "start:web",
+      "label": "start:web-app",
       "command": "yarn",
       "args": ["start"],
       "isBackground": true,
