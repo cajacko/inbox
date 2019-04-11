@@ -74,6 +74,7 @@ export const Container = styled(View)<IProps>`
   flex-direction: column;
   height: ${props => unit(containerHeight(true, false)(props))};
   background-color: ${BACKGROUND_COLOR};
+  ${platform() === 'web' ? 'box-sizing: border-box;' : ''}
 `;
 
 export const Content = styled(View)<IProps>`
@@ -94,28 +95,6 @@ export const Inner = styled(View)`
   max-width: 100%;
   ${platform() === 'web' ? 'box-sizing: border-box;' : ''}
   overflow: hidden;
-`;
-
-interface IEditMenuProps {
-  hasLink: boolean;
-}
-
-export const EditMenu = styled(View)<IEditMenuProps>`
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  background-color: ${BACKGROUND_COLOR};
-  z-index: 1;
-  align-items: center;
-  justify-content: center;
-  flex-direction: row;
-  ${padding({ horizontal: reminderSpacing })}
-  ${({ hasLink }) =>
-    border(GREY_LIGHTER, 1, {
-      bottom: hasLink,
-      left: true,
-    })}}
 `;
 
 export const Icon = styled(View)`
