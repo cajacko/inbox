@@ -52,3 +52,17 @@ Feature: Edit reminder
     And the text " - edited" is typed into the add reminder input
     And the add reminder save button is pressed
     Then the text for the "1st" reminder "is" "Edit a reminder - edited"
+
+  @bug
+  Scenario: Editing the text on a snoozed reminder keeps it as snoozed
+    When we add a reminder with the text "1st item"
+    And the we hover over the "1st" reminder
+    And the "1st" reminder hover "snooze" button is pressed
+    And the "tomorrow" snooze suggestion is pressed
+    And the header loading icon "will not be" visible
+    When we navigate to the "snoozed" scene
+    Then the "snoozed" route "will be" visible
+    And the "1st" reminder is pressed
+    And the text " - edited" is typed into the add reminder input
+    And the add reminder save button is pressed
+    Then the reminder list count "is" "1"
