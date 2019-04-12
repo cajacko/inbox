@@ -6,45 +6,58 @@ import Text from 'src/lib/components/Text';
 import { BACKGROUND_COLORS } from 'src/lib/config/styles/textIconColors';
 import AppError from 'src/lib/modules/AppError';
 import CustomDate from 'src/lib/modules/CustomDate';
+import { ActionRepeatTypes } from 'src/lib/store/repeats/reducer';
+import { Text as TextType } from 'src/lib/types/general';
 import * as Style from './Repeat.style';
 
-const suggestions = [
-  {
-    payload: {
-      type: 'NO_REPEAT',
+const suggestions: Array<{
+  key: string;
+  payload: {
+    type: ActionRepeatTypes;
+  };
+  text: TextType;
+  }> = [
+    {
+      key: 'NO_REPEAT',
+      payload: {
+        type: 'NO_REPEAT',
+      },
+      text: { _textFromConst: 'Does not repeat' },
     },
-    text: { _textFromConst: 'Does not repeat' },
-  },
-  {
-    payload: {
-      type: 'DAILY',
+    {
+      key: 'DAILY',
+      payload: {
+        type: 'DAILY',
+      },
+      text: { _textFromConst: 'Daily' },
     },
-    text: { _textFromConst: 'Daily' },
-  },
-  {
-    payload: {
-      type: 'WEEKLY',
+    {
+      key: 'WEEKLY',
+      payload: {
+        type: 'WEEKLY',
+      },
+      text: { _textFromConst: 'Weekly' },
     },
-    text: { _textFromConst: 'Weekly' },
-  },
-  {
-    payload: {
-      type: 'MONTHLY',
+    {
+      key: 'MONTHLY',
+      payload: {
+        type: 'MONTHLY',
+      },
+      text: { _textFromConst: 'Monthly' },
     },
-    text: { _textFromConst: 'Monthly' },
-  },
-  {
-    payload: {
-      type: 'YEARLY',
+    {
+      key: 'YEARLY',
+      payload: {
+        type: 'YEARLY',
+      },
+      text: { _textFromConst: 'Yearly' },
     },
-    text: { _textFromConst: 'Yearly' },
-  },
-];
+  ];
 
 export interface IProps {
   type: 'INIT' | 'SUGGESTIONS' | 'CUSTOM_DATE_TIME';
   setType: (type: IProps['type']) => () => void;
-  onOpenRepeatStartDate: (payload: any) => () => void;
+  onOpenRepeatStartDate: (type: ActionRepeatTypes) => () => void;
   text: string;
   onSetStartDate: (date: CustomDate) => void;
 }
@@ -87,10 +100,10 @@ const Repeat = ({
         <Style.Container>
           {suggestions.map(suggestion => (
             <Button
-              key={suggestion.text._textFromConst}
+              key={suggestion.key}
               analyticsAction="SET_REPEAT_SUGGESTION"
               analyticsCategory="REPEAT"
-              action={onOpenRepeatStartDate(suggestion.payload)}
+              action={onOpenRepeatStartDate(suggestion.payload.type)}
               styles={{ flexDirection: 'row' }}
             >
               {() => (

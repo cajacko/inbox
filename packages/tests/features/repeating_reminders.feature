@@ -29,7 +29,7 @@ Feature: Repeating Reminders
   # Scenario: Repeat a reminder, clear the repeat, mark as done then it does not repeat
 
   # Generic repeat functionality
-  # Scenario: A repeated reminder is triggered and was not marked as done
+  Scenario: A repeated reminder is triggered and was not marked as done
   # Scenario: A repeated reminder is triggered and was marked as done
   # Scenario: A repeated reminder is triggered on a snoozed reminder with a snooze date after the next repeat date
   # Scenario: A repeated reminder is triggered on a snoozed reminder with a snooze date before the next repeat date
@@ -40,6 +40,7 @@ Feature: Repeating Reminders
 # Scenario: Repeat a reminder weekly works
 # Scenario: Repeat a reminder monthly works
 # Scenario: Repeat a reminder yearly works
+# Scenario: Cancelling a repeat works
 
 # Where it shows
 # Scenario: A repeated reminder in the inbox shows the next occurance in snoozed
@@ -50,6 +51,9 @@ Feature: Repeating Reminders
 # New reminders
 # Scenario: Setting the repeat for a new reminder, highlights the icon and sets the repeat on save
 # Scenario: Clearing the repeat for a new reminder, dulls the icon and does not set the repeat on save
+
+# Ensure works for edited and new reminders
+# Scenario: Does not repeats does not show calendar
 
 # TODO: Handle custom repeats
 # TODO: Show stop reminder when mark as done
