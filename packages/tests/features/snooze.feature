@@ -275,6 +275,7 @@ Feature: Snooze
   # Scenario: Custom snooze confirm displays correctly from swipe
   # Scenario: Custom snooze time suggestions displays correctly from swipe
   # Scenario: Custom snooze time picker displays correctly from swipe
+  # Scenario: Opening the snooze modal closes the keyboard
 
   Scenario: Selecting a snooze suggestion from the hover menu closes the modal
     Given we set the day to monday
