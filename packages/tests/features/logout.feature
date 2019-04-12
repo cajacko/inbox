@@ -3,6 +3,7 @@ Feature: Logout
   I want to logout of the app
   So that I can secure my data
 
+  @smoke
   Scenario: Logout succeeds
     Given we have logged in successfully
     When the menu button is pressed
@@ -22,6 +23,7 @@ Feature: Logout
     Then the "logged in" home route "is" visible
     And the menu "is" visible
 
+  @smoke
   Scenario: Logout deletes the redux cache
     Given we preload the api with "10" reminders
     And we have logged in successfully

@@ -21,17 +21,21 @@ class Auth {
    * Log the user in
    */
   public static login() {
-    return firebase
-      .auth()
-      .setPersistence(firebase.auth.Auth.Persistence.SESSION)
-      .then(() => {
-        const { method, params } = testHook('login', {
-          method: 'signInWithPopup',
-          params: [provider],
-        });
+    return (
+      firebase
+        .auth()
+        // Local storage ensures we'll persist between browser sessions see:
+        // https://firebase.google.com/docs/auth/web/auth-state-persistence
+        .setPersistence(firebase.auth.Auth.Persistence.LOCAL)
+        .then(() => {
+          const { method, params } = testHook('login', {
+            method: 'signInWithPopup',
+            params: [provider],
+          });
 
-        return firebase.auth()[method](...params);
-      });
+          return firebase.auth()[method](...params);
+        })
+    );
   }
 
   /**
