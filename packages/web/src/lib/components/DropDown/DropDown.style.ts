@@ -21,3 +21,7 @@ export const Right = styled(View)`
   align-items: center;
   ${margin({ left: 10 })}
 `;
+
+export const RightText = styled(View)`
+  ${margin({ right: 10 })}
+`;

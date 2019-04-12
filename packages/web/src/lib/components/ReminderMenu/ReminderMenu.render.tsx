@@ -2,6 +2,7 @@ import * as React from 'react';
 import Check from 'src/lib/assets/icons/Check';
 import Clock from 'src/lib/assets/icons/Clock';
 import EllipsisV from 'src/lib/assets/icons/EllipsisV';
+import Redo from 'src/lib/assets/icons/Redo';
 import Trash from 'src/lib/assets/icons/Trash';
 import Button from 'src/lib/components/Button';
 import { BackgroundColorVal } from 'src/lib/config/styles/textIconColors';
@@ -11,6 +12,7 @@ import { Container } from './ReminderMenu.style';
 interface IProps {
   edit: () => void;
   onSnooze: () => void;
+  onRepeat: () => void;
   url?: string;
   onDelete: () => void;
   onSetDone: () => void;
@@ -28,6 +30,14 @@ const ReminderMenu = (props: IProps) => (
     reminderSpacing={props.reminderSpacing}
     backgroundColor={props.backgroundColor}
   >
+    <Button
+      type={getButtonType('ICON.GREYED_OUT')}
+      analyticsAction="REPEAT_HOVER"
+      analyticsCategory="REMINDER"
+      action={props.onRepeat}
+      testID="Reminder__HoverRepeat"
+      icon={Redo}
+    />
     <Button
       type={getButtonType('ICON.GREYED_OUT')}
       analyticsAction="SNOOZE_HOVER"

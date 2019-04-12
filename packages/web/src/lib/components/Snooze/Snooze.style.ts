@@ -42,24 +42,6 @@ export const ConfirmHeader = styled(View)`
 
 const buttonWidth = 300;
 
-export const ConfirmButton = styled(View)`
-  width: ${unit(buttonWidth)};
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  ${padding({ vertical: 10 })}
-`;
-
-export const ConfirmRight = styled(View)`
-  flex-direction: row;
-  align-items: center;
-  ${margin({ left: 10 })}
-`;
-
-export const ConfirmValue = styled(View)`
-  ${margin({ right: 10 })}
-`;
-
 export const ConfirmSaveButton = styled(View)`
   align-items: center;
   justify-content: center;

@@ -1,9 +1,7 @@
 import * as React from 'react';
 import Check from 'src/lib/assets/icons/Check';
 import Clock from 'src/lib/assets/icons/Clock';
-import EllipsisV from 'src/lib/assets/icons/EllipsisV';
 import Redo from 'src/lib/assets/icons/Redo';
-import Trash from 'src/lib/assets/icons/Trash';
 import AnimateClose from 'src/lib/components/AnimateClose';
 import Button from 'src/lib/components/Button';
 import ReminderLink from 'src/lib/components/ReminderLink';
@@ -97,6 +95,14 @@ const Reminder = (props: IProps) => {
                     </Style.TextWrapper>
                   </Style.TextContainer>
                   <Style.Symbols>
+                    {props.isRepeated && (
+                      <Style.Icon testID="Reminder__RepeatedIcon">
+                        <Redo
+                          _dangerouslySetColor={Style.REPEATED_COLOR}
+                          size={Style.ICON_SIZE}
+                        />
+                      </Style.Icon>
+                    )}
                     {props.isSnoozed && (
                       <Style.Icon testID="Reminder__SnoozedIcon">
                         <Clock
@@ -124,6 +130,7 @@ const Reminder = (props: IProps) => {
 
             {props.showMenu && (
               <ReminderMenu
+                onRepeat={props.onRepeat}
                 edit={props.edit}
                 onSnooze={props.onSnooze}
                 url={props.url}

@@ -36,7 +36,13 @@ export interface ISuggestedTimes {
 }
 
 export interface IProps {
-  type: 'SUGGESTIONS' | 'CALENDAR' | 'TIME' | 'CONFIRM' | 'TIME_SUGGESTIONS' | 'ERROR';
+  type:
+    | 'SUGGESTIONS'
+    | 'CALENDAR'
+    | 'TIME'
+    | 'CONFIRM'
+    | 'TIME_SUGGESTIONS'
+    | 'ERROR';
   suggestions: ISuggestion[];
   onSelectDateAndTime: () => void;
   onChangeDate: (date: CustomDate) => void;
@@ -81,19 +87,24 @@ const Snooze = ({
         />
       </Style.ConfirmHeader>
 
-
       <DropDown
         text={{ _textFromConst: customDate }}
         action={onSelectDateAndTime}
         analyticsAction="OPEN_DATE"
         analyticsCategory="SNOOZE_CUSTOM_CONFIRM"
+        buttonTestID="Suggestion--SelectDateTime"
+        textTestID="SnoozeConfirm__CustomDateLabel"
       />
 
       <DropDown
-        text={{ _textFromConst: customTime }}
+        text={customTimeLabel}
+        rightText={{ _textFromConst: customTime }}
         action={onSelectTime}
         analyticsAction="OPEN_TIME"
         analyticsCategory="SNOOZE_CUSTOM_CONFIRM"
+        buttonTestID="SnoozeConfirm__Time"
+        textTestID="SnoozeConfirm__TimeLabel"
+        rightTextTestID="SnoozeConfirm__TimeValue"
       />
 
       <Style.ConfirmSaveButton>
@@ -127,7 +138,10 @@ const Snooze = ({
           />
           <Style.Error testID="Snooze__ErrorModal">
             <Text
-              text={{ _textFromConst: 'Can not snooze to a past date, go back and pick future date' }}
+              text={{
+                _textFromConst:
+                  'Can not snooze to a past date, go back and pick future date',
+              }}
               backgroundColor={BACKGROUND_COLORS.WHITE}
               type="body1"
             />
