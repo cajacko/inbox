@@ -9,6 +9,7 @@ Feature: Done
     Then the reminder list count "is" "1"
     And the header loading icon "will not be" visible
 
+  # Scenario: Done button shows on long press menu
   Scenario: Done button shows on hover menu
     Then the "1st" reminder "done" button "is not" visible
     When the we hover over the "1st" reminder
@@ -25,10 +26,7 @@ Feature: Done
     And the edit scene "done button" "is" visible
 
   # Check is in done list, don't think can do this yet, do manually
-  # Scenario: Mark a reminder as done successfully via the swipe menu
-  #   When the "1st" reminder is swiped "right"
-  #   Then the reminder list count "is" "0"
-  # Scenario: Cannot swipe done on done scene
+  # Scenario: Mark a reminder as done successfully via the long press menu
 
   Scenario: Mark a reminder as done successfully via the hover button
     When the we hover over the "1st" reminder
