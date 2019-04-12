@@ -1,0 +1,7 @@
+{
+  "keys": [
+    "TEST_EMAIL",
+    "USE_DEV_DB"
+  ],
+  "file": "env.json"
+}

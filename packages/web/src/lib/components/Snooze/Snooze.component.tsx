@@ -1,6 +1,11 @@
 import * as React from 'react';
 import CustomDate from 'src/lib/modules/CustomDate';
-import { getDates, getTimes } from 'src/lib/utils/getSnoozeSuggestions';
+import getLabelsFromDate from 'src/lib/utils/getLabelsFromDate';
+import {
+  getDates,
+  getInitTime,
+  getTimes,
+} from 'src/lib/utils/getSnoozeSuggestions';
 import Snooze, {
   IProps as RenderProps,
   ISuggestedTimes,
@@ -16,9 +21,7 @@ interface IProps {
 interface IState {
   type: RenderProps['type'];
   suggestions: ISuggestion[];
-  customDate: string;
-  customTimeLabel: string;
-  customTime: string;
+  customDate: CustomDate | null;
   suggestedTimes: ISuggestedTimes[];
 }
 
@@ -38,17 +41,25 @@ class SnoozeComponent extends React.Component<IProps, IState> {
     this.onSelectTime = this.onSelectTime.bind(this);
     this.onChangeTime = this.onChangeTime.bind(this);
     this.onSave = this.onSave.bind(this);
+    this.onBack = this.onBack.bind(this);
+
+    this.lastType = 'SUGGESTIONS';
 
     this.state = {
-      customDate: 'Wed 6 Mar',
-      customTime: '17:30',
-      customTimeLabel: 'Suggestions.Time.Evening',
-      suggestedTimes: getTimes(this.onChangeTime, () => {
-        this.setState({ type: 'TIME' });
-      }),
+      customDate: null,
+      suggestedTimes: [],
       suggestions: getDates(this.onSelectDate),
-      type: 'SUGGESTIONS',
+      type: this.lastType,
     };
+  }
+
+  /**
+   * Save the last type
+   */
+  public componentDidUpdate(prevProps: IProps, prevState: IState) {
+    if (prevState.type !== this.lastType) {
+      this.lastType = prevState.type;
+    }
   }
 
   /**
@@ -61,8 +72,15 @@ class SnoozeComponent extends React.Component<IProps, IState> {
   /**
    * When a date is selected, close the modal and set the due date
    */
-  private onSelectDate(date: CustomDate) {
+  private onSelectDate(date: CustomDate | null) {
     return () => {
+      if (!date) return;
+
+      if (date.getTime() < new CustomDate().getTime()) {
+        this.setState({ type: 'ERROR' });
+        return;
+      }
+
       this.props.close();
       this.props.setDueDate(date.getTime());
     };
@@ -71,45 +89,100 @@ class SnoozeComponent extends React.Component<IProps, IState> {
   /**
    * When the date is selected show the confirm view
    */
-  private onChangeDate() {
-    this.setState({ type: 'CONFIRM' });
+  private onChangeDate(date: CustomDate | null) {
+    if (!date) return;
+
+    const newDate = new CustomDate(this.state.customDate || getInitTime(date));
+
+    newDate.setFullYear(date.getFullYear());
+    newDate.setMonth(date.getMonth());
+    newDate.setDate(date.getDate());
+
+    this.setState({
+      customDate: newDate,
+      suggestedTimes: this.getSuggestedTimes(newDate),
+      type: 'CONFIRM',
+    });
   }
 
   /**
    * Show the time or time suggestions
    */
   private onSelectTime() {
-    this.setState({ type: 'TIME_SUGGESTIONS' });
+    if (this.state.suggestedTimes.length > 1) {
+      this.setState({ type: 'TIME_SUGGESTIONS' });
+      return;
+    }
+
+    this.setState({ type: 'TIME' });
   }
 
   /**
    * When the time is selected show the confirm view
    */
-  private onChangeTime() {
-    this.setState({ type: 'CONFIRM' });
+  private onChangeTime(date: CustomDate | null) {
+    if (!date) return;
+
+    const newDate = new CustomDate(this.state.customDate);
+
+    newDate.setHours(date.getHours());
+    newDate.setMinutes(date.getMinutes());
+
+    this.setState({ type: 'CONFIRM', customDate: newDate });
   }
 
   /**
    * When the save button is pressed, save the custom date
    */
   private onSave() {
-    this.onSelectDate(new CustomDate())();
+    this.onSelectDate(this.state.customDate)();
   }
+
+  /**
+   * Go to the last type we were on
+   */
+  private onBack() {
+    this.setState({ type: this.lastType });
+  }
+
+  /**
+   * Get the suggested times to display
+   */
+  private getSuggestedTimes(date: CustomDate) {
+    return getTimes(
+      date,
+      this.onChangeTime,
+      () => {
+        this.setState({ type: 'TIME' });
+      },
+      {
+        removeSameTime: true,
+      }
+    );
+  }
+
+  private lastType: IState['type'];
 
   /**
    * Render the component
    */
   public render() {
+    const finalDate = this.state.customDate || new CustomDate();
+
+    const { date, time, timeLabel } = getLabelsFromDate(finalDate);
+
     return (
       <Snooze
+        onBack={this.onBack}
         type={this.state.type}
         onSelectDateAndTime={this.onSelectDateAndTime}
         suggestions={this.state.suggestions}
         onChangeDate={this.onChangeDate}
-        customDate={this.state.customDate}
+        customDate={date}
+        customDateObject={finalDate}
         onSelectTime={this.onSelectTime}
-        customTimeLabel={this.state.customTimeLabel}
-        customTime={this.state.customTime}
+        customTimeLabel={timeLabel}
+        customTime={time}
         suggestedTimes={this.state.suggestedTimes}
         onChangeTime={this.onChangeTime}
         onSave={this.onSave}

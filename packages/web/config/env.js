@@ -25,6 +25,8 @@ var dotenvFiles = [
   paths.dotenv,
 ].filter(Boolean);
 
+const originalEnvKeys = Object.keys(process.env);
+
 // Load environment variables from .env* files. Suppress warnings using silent
 // if this file is missing. dotenv will never modify any environment variables
 // that have already been set.  Variable expansion is supported in .env files.
@@ -39,6 +41,8 @@ dotenvFiles.forEach(dotenvFile => {
     );
   }
 });
+
+const definedKeys = Object.keys(process.env).filter(key => !originalEnvKeys.includes(key));
 
 // We support resolving modules according to `NODE_PATH`.
 // This lets you use absolute paths in imports inside large monorepos:
@@ -62,7 +66,7 @@ const REACT_APP = /^REACT_APP_/i;
 
 function getClientEnvironment(publicUrl) {
   const raw = Object.keys(process.env)
-    .filter(key => REACT_APP.test(key))
+    .filter(key => REACT_APP.test(key) || definedKeys.includes(key))
     .reduce(
       (env, key) => {
         env[key] = process.env[key];

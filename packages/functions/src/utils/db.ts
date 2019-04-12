@@ -1,7 +1,10 @@
 /* eslint no-underscore-dangle: 0 */
 import { DB } from '../types/general';
-import db from './prodDb';
-// import db from './testDb';
+import prodDb from './prodDb';
+import testDb from './testDb';
+import { USE_DEV_DB } from '../../env.json';
+
+const db = USE_DEV_DB ? testDb : prodDb;
 
 /**
  * Get the users location

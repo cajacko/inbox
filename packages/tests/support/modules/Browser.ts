@@ -5,10 +5,11 @@ import hookConstants from '../config/hookConstants';
 import browserHooks from '../utils/browserHooks';
 import conditional from '../utils/conditional';
 import { ICondition } from '../utils/ensureCondition';
+import * as env from '../utils/env.json';
 import getSize from '../utils/getSize';
 import log from '../utils/log';
 
-const showBrowser = false;
+const showBrowser = env.SHOW_TEST_BROWSER;
 const shouldClose = !showBrowser;
 const headless = !showBrowser;
 
@@ -52,6 +53,7 @@ class Browser {
   private resolveWaitForNetworkIdle: ResolveWaitForNetworkIdle | null = null;
   private pageId: number = 0;
   private hookValues: { [key: string]: any } = {};
+  private nextBrowser: null | Promise<puppeteer.Browser> = null;
 
   constructor() {
     this.dialogOpen = this.dialogOpen.bind(this);
@@ -84,6 +86,15 @@ class Browser {
     }
 
     this.clearPage();
+    await this.clearBrowser();
+  }
+
+  private async clearBrowser() {
+    if (this.browser && shouldClose) {
+      await this.browser.close();
+    }
+
+    this.browser = null;
   }
 
   public async open(nonHeadless: boolean) {
@@ -135,6 +146,11 @@ class Browser {
     if (this.browser && shouldClose) {
       await this.browser.close();
     }
+
+    if (this.nextBrowser && shouldClose) {
+      const browser = await this.nextBrowser;
+      await browser.close();
+    }
   }
 
   public async navigate(route: string) {
@@ -149,9 +165,11 @@ class Browser {
     const goToPromise = new Promise((resolve, reject) => {
       if (!this.page) throw new Error('No page object to navigate within');
 
-      this.page.goto(`http://localhost:3000${route}?test-env=true`, {
-        waitUntil: 'domcontentloaded',
-      }).then(() => resolve());
+      this.page
+        .goto(`http://localhost:3000${route}?test-env=true`, {
+          waitUntil: 'domcontentloaded',
+        })
+        .then(() => resolve());
 
       navigateLog('navigating, start timeout');
 
@@ -193,7 +211,11 @@ class Browser {
 
     if (!this.page) throw new Error('No page object to set hooks within');
 
-    await this.page.evaluate(browserHooks, this.hooks, hookConstants(this.hookValues));
+    await this.page.evaluate(
+      browserHooks,
+      this.hooks,
+      hookConstants(this.hookValues)
+    );
   }
 
   public async screenshot(path: string) {
@@ -343,9 +365,18 @@ class Browser {
 
       if (this.browser) await this.browser.close();
 
-      this.browser = await puppeteer.launch({
-        headless: this.headless,
-      });
+      const getBrowser = async () =>
+        puppeteer.launch({
+          headless: this.headless,
+        });
+
+      if (this.nextBrowser) {
+        this.browser = await this.nextBrowser;
+      } else {
+        this.browser = await getBrowser();
+      }
+
+      this.nextBrowser = getBrowser();
 
       if (this.page && !this.page.isClosed()) {
         await this.page.close();
@@ -889,6 +920,92 @@ class Browser {
   public async setDate(time: number, nonHeadless: boolean) {
     this.hookValues.now = time;
     await this.addHook('now', 'value', nonHeadless);
+  }
+
+  public async scrollIntoView(selector: string) {
+    await this.ensurePage();
+
+    if (!this.page) throw new Error('No page to scroll');
+
+    const error = await this.page.evaluate((selectorParam) => {
+      const element = document.querySelector(selectorParam);
+
+      if (!element) return 'No element found to scroll';
+
+      element.scrollIntoView();
+
+      return null;
+    }, selector);
+
+    if (error) throw new Error(error);
+  }
+
+  public async tabCount(condition: ICondition, count: number) {
+    this.ensurePage();
+
+    let lastCount = 0;
+
+    await conditional(
+      condition,
+      async () => {
+        if (!this.browser) throw new Error('No browser object to get pages');
+
+        const pages = await this.browser.pages();
+
+        lastCount = count;
+
+        return pages.length === count;
+      },
+      () => ({
+        negative: `Tab count is ${count} expected it not to be`,
+        positive: `Tab count is not ${count} recieved ${lastCount}`,
+        waitNegative: `Timeout waiting for tab count to not be ${count} last recieved ${lastCount}`,
+        waitPositive: `Timeout waiting for tab count to be ${count} last recieved ${lastCount}`,
+      })
+    );
+  }
+
+  public async activeTabUrl(condition: ICondition, url: string) {
+    this.ensurePage();
+
+    let lastUrl = '';
+
+    await conditional(
+      condition,
+      async () => {
+        if (!this.browser) throw new Error('No browser object to get pages');
+
+        const targets = await this.browser.targets();
+
+        const getPage = async (i = 0): Promise<puppeteer.Page> => {
+          const target = targets[i];
+
+          if (!target) throw new Error('Could not get an active page');
+
+          const page = await target.page();
+
+          if (page) return page;
+
+          return getPage(i + 1);
+        };
+
+        const page = await getPage();
+
+        if (!page) throw new Error('Target is not a page');
+
+        const link = await page.url();
+
+        lastUrl = link;
+
+        return link === url;
+      },
+      () => ({
+        negative: `Url is ${lastUrl} expected it not to be`,
+        positive: `Url is not ${url} recieved ${lastUrl}`,
+        waitNegative: `Timeout waiting for url to not be ${url} last recieved ${lastUrl}`,
+        waitPositive: `Timeout waiting for url to be ${url} last recieved ${lastUrl}`,
+      })
+    );
   }
 }
 

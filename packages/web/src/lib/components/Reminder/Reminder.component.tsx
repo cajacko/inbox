@@ -15,7 +15,7 @@ import Reminder, {
 } from './Reminder.render';
 
 interface IState {
-  isHovering: boolean;
+  showMenu: boolean;
 }
 
 interface IProps
@@ -38,13 +38,16 @@ class ReminderComponent extends React.Component<IProps, IState> {
     super(props);
 
     this.state = {
-      isHovering: false,
+      showMenu: false,
     };
 
     this.edit = this.edit.bind(this);
     this.onSnooze = this.onSnooze.bind(this);
     this.onMouseIn = this.onMouseIn.bind(this);
     this.onMouseOut = this.onMouseOut.bind(this);
+    this.parseUrl = this.parseUrl.bind(this);
+    this.onPress = this.onPress.bind(this);
+    this.onLongPress = this.onLongPress.bind(this);
     this.onRepeat = this.onRepeat.bind(this);
   }
 
@@ -52,18 +55,22 @@ class ReminderComponent extends React.Component<IProps, IState> {
    * When the mouse enters, set the hover status
    */
   private onMouseIn() {
-    if (this.state.isHovering) return;
+    this.isHovering = true;
 
-    this.setState({ isHovering: true });
+    if (this.state.showMenu) return;
+
+    this.setState({ showMenu: true });
   }
 
   /**
    * When the mouse leaves, set the hover status
    */
   private onMouseOut() {
-    if (!this.state.isHovering) return;
+    this.isHovering = false;
 
-    this.setState({ isHovering: false });
+    if (!this.state.showMenu) return;
+
+    this.setState({ showMenu: false });
   }
 
   /**
@@ -76,6 +83,40 @@ class ReminderComponent extends React.Component<IProps, IState> {
       id: this.props.id,
       setDueDate: this.props.onSetDueDate,
     });
+  }
+
+  /**
+   * When we do a long press on the reminder we want to toggle the menu, unless
+   * we're on a device that supports hovering, in which case we don't care about
+   * manually toggling the menu
+   */
+  private onLongPress() {
+    // If we're hovering do nothing, as we don't want manual toggling of the
+    // menu if we can hover
+    if (this.isHovering) {
+      return;
+    }
+
+    // We are not hovering yet we pressed the reminder, this must be a device
+    // that does not support hovering. So toggle the menu
+    this.setState({ showMenu: !this.state.showMenu });
+  }
+
+  /**
+   * When we press a reminder show the edit view. Unless we're not hovering and
+   * the menu is already showing, which means we're on a device that doesn't
+   * support hovering and the menu must have been manually toggled via the
+   * longPress so hide the menu
+   */
+  private onPress() {
+    // If we're not hovering and the menu is showing we must have done a long
+    // press to show it, so hide it
+    if (!this.isHovering && this.state.showMenu) {
+      this.setState({ showMenu: false });
+      return;
+    }
+
+    this.edit();
   }
 
   /**
@@ -100,17 +141,38 @@ class ReminderComponent extends React.Component<IProps, IState> {
   }
 
   /**
+   * Parse the url from the text, if it exists
+   */
+  private parseUrl() {
+    // eslint-disable-next-line
+    const regex = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gi;
+
+    const results = this.props.text.match(regex);
+
+    if (results && results[0]) {
+      return results[0];
+    }
+
+    return undefined;
+  }
+
+  private isHovering: boolean = false;
+
+  /**
    * Render the component
    */
   public render() {
     return (
       <Reminder
         {...this.props}
+        url={this.parseUrl()}
         onRepeat={this.onRepeat}
         onSnooze={this.onSnooze}
         onSetDone={this.props.onSetDone}
         edit={this.edit}
-        isHovering={this.state.isHovering}
+        onLongPress={this.onLongPress}
+        onPress={this.onPress}
+        showMenu={this.state.showMenu}
         buttonEvents={{
           onMouseEnter: this.onMouseIn,
           onMouseLeave: this.onMouseOut,

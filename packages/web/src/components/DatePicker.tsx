@@ -14,10 +14,11 @@ import { createGlobalStyle } from 'styled-components';
 registerLocale('en-GB', enGB);
 
 interface IProps {
-  onChange: () => void;
+  onChange: (date: CustomDate | null) => void;
   showTimeOnly?: boolean;
   testID?: string;
   backgroundComponent: Children;
+  date?: CustomDate;
 }
 
 const daySpacing = 14;
@@ -160,6 +161,15 @@ class DatePickerComponent extends React.Component<IProps> {
     this.state = {};
 
     this.defaultSelectedDate = new CustomDate();
+
+    this.onChange = this.onChange.bind(this);
+  }
+
+  /**
+   * When the date changes trigger the onChange prop
+   */
+  private onChange(date: Date | null) {
+    this.props.onChange(date ? new CustomDate(date) : null);
   }
 
   private defaultSelectedDate: CustomDate;
@@ -169,15 +179,19 @@ class DatePickerComponent extends React.Component<IProps> {
    */
   public render() {
     // eslint-disable-next-line
-    const selected = new Date(this.defaultSelectedDate.getTime());
+    const selected = new Date(
+      this.props.date
+        ? this.props.date.getTime()
+        : this.defaultSelectedDate.getTime());
 
     return (
       <React.Fragment>
         <GlobalStyle />
         <DatePicker
+          allowSameDay
           calendarClassName={this.props.testID}
           inline
-          onChange={this.props.onChange}
+          onChange={this.onChange}
           locale="en-GB"
           selected={selected}
           showTimeSelect={!!this.props.showTimeOnly}

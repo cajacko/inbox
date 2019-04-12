@@ -75,3 +75,11 @@ export const TimeSuggestion = styled(View)`
   justify-content: space-between;
   ${padding(10)}
 `;
+
+export const Error = styled(View)`
+  ${margin({ top: 10 })}
+`;
+
+export const BackButton = styled(View)`
+  flex-direction: row;
+`;

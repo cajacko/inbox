@@ -8,6 +8,7 @@ Feature: Manage Reminders
     When we add a reminder with the text "Item to delete"
     Then the reminder list count "is" "1"
 
+  # Scenario: The reminder long press menu has a delete button
   Scenario: The reminder hover menu has a delete button
     Then the "1st" reminder "delete" button "is not" visible
     When the we hover over the "1st" reminder
@@ -23,6 +24,7 @@ Feature: Manage Reminders
     Then the edit reminder scene "is" visible
     And the edit scene "delete button" "is" visible
 
+  # Scenario: Delete a reminder successfully via the long press menu button
   Scenario: Delete a reminder successfully via the hover button
     When the we hover over the "1st" reminder
     And the "1st" reminder hover "delete" button is pressed

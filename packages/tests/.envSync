@@ -1,0 +1,6 @@
+{
+  "keys": [
+    "SHOW_TEST_BROWSER"
+  ],
+  "file": "support/utils/env.json"
+}

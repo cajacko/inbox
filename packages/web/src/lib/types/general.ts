@@ -37,9 +37,7 @@ export interface IRoute {
 
 export interface IUser {
   id: string;
-  idToken: string | null;
   displayName?: string | null;
-  refreshToken?: string | null;
   photoURL?: string | null;
 }
 

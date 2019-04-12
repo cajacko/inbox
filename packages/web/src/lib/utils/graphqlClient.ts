@@ -3,7 +3,6 @@
 import { GraphQLClient } from 'graphql-request';
 import AppError from 'src/lib/modules/AppError';
 import Auth from 'src/lib/modules/Auth';
-import store from 'src/lib/utils/store';
 
 type InMethod = (
   ...args: any
@@ -36,17 +35,10 @@ function graphqlClient<T>(
 
     client[methodKey] = (...passedParams: any[]) => {
       const args = passedParams.slice();
-      let isTryAgain = false;
 
       if (typeof args[0] === 'object' && args[0].tryAgain === true) {
-        isTryAgain = true;
         args.splice(0, 1);
       }
-
-      /**
-       * Func that will rerun this same query
-       */
-      const tryAgain = () => client[methodKey]({ tryAgain: true }, ...args);
 
       const { mutation, query, vars } = method(...args);
 
@@ -74,50 +66,56 @@ function graphqlClient<T>(
           }, timeout);
         }
 
-        const { idToken } = store.getState().user;
+        /**
+         * If the request is unauthorised or we have no idtoken, try and get
+         * one
+         */
+        const unauthorisedFlow = () => {
+          // Force manual login
+          reject(new Error('Aborting request, as had to manually login'));
 
-        const graphQLClient = new GraphQLClient(endpoint, {
-          headers: {
-            Authorization: `Bearer ${idToken}`,
-          },
-        });
+          Auth.relogin();
+        };
 
-        graphQLClient
-          .request(queryReq, vars)
-          .then((data) => {
-            const keys = Object.keys(data);
-
-            if (keys.length === 1) {
-              resolve(data[keys[0]]);
+        Auth.getIdToken()
+          .then((idToken) => {
+            if (!idToken) {
+              unauthorisedFlow();
               return;
             }
 
-            resolve(data);
-          })
-          .catch((e) => {
-            // Unauthorised, try and silent login and try again. Otherwise force
-            // a new login
-            if (e && e.response && e.response.status === 403) {
-              if (isTryAgain) {
-                // Force manual login
-                reject(new Error('Aborting request, as had to manually login'));
+            const graphQLClient = new GraphQLClient(endpoint, {
+              headers: {
+                Authorization: `Bearer ${idToken}`,
+              },
+            });
 
-                Auth.relogin();
-              } else {
-                // Try a background login
-                Auth.refreshIdToken()
-                  .catch((refreshError: AppError) => refreshError)
-                  .then(tryAgain)
-                  .then(resolve)
-                  .catch(reject);
-              }
-            } else {
-              reject(e);
-            }
+            graphQLClient
+              .request(queryReq, vars)
+              .then((data) => {
+                const keys = Object.keys(data);
+
+                if (keys.length === 1) {
+                  resolve(data[keys[0]]);
+                  return;
+                }
+
+                resolve(data);
+              })
+              .catch((e) => {
+                // Unauthorised, try and silent login and try again. Otherwise
+                // force a new login
+                if (e && e.response && e.response.status === 403) {
+                  unauthorisedFlow();
+                } else {
+                  reject(e);
+                }
+              })
+              .then(() => {
+                if (timeoutInstance) clearTimeout(timeoutInstance);
+              });
           })
-          .then(() => {
-            if (timeoutInstance) clearTimeout(timeoutInstance);
-          });
+          .catch(unauthorisedFlow);
       });
     };
   });

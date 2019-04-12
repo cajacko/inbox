@@ -10,6 +10,7 @@ interface IGenericProps {
   isHovering: boolean;
   disabled?: boolean;
   _dangerouslySetIconColor?: ColorVal;
+  leftAlign?: boolean;
 }
 
 interface IOuterProps {
@@ -102,7 +103,7 @@ const innerStyle = (props: IGenericProps) => {
   } = getTypeThemeStyles(props);
 
   return `
-    ${applyPadding({ horizontal: paddingHorizontal })}
+    ${props.leftAlign ? '' : applyPadding({ horizontal: paddingHorizontal })}
     ${borderRadius ? `border-radius: ${unit(borderRadius)}` : ''};
     ${backgroundColor ? `background-color: ${backgroundColor}` : ''};
     ${shadow || ''};
@@ -124,9 +125,19 @@ export const Outer = styled(View)<IOuterProps>`
   ${outerStyle};
 `;
 
+/**
+ * Decide how to align the items
+ */
+const innerAlign = ({ leftAlign }: IGenericProps) => {
+  if (leftAlign) return 'flex-start';
+
+  return 'center';
+};
+
 export const Inner = styled(View)<IGenericProps>`
   flex: 1;
   align-items: center;
-  justify-content: center;
+  justify-content: ${innerAlign};
+  flex-direction: row;
   ${innerStyle};
 `;

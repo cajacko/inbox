@@ -9,6 +9,7 @@ interface IProps {
   testID?: string;
   disabled?: boolean;
   style: React.CSSProperties;
+  onLongPress?: () => void;
 }
 
 /**
@@ -44,7 +45,14 @@ const onKeyPress = (action?: () => void) => (e: event) => {
  */
 const Button = React.forwardRef((
   {
-    action, children, className, testID, style, disabled, ...props
+    action,
+    children,
+    className,
+    testID,
+    style,
+    disabled,
+    onLongPress,
+    ...props
   }: IProps,
   ref: Ref
 ) => (

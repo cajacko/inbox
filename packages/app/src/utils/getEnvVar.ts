@@ -1,12 +1,8 @@
-type EnvKeys = 'BY_PASS_AUTH';
-
-const env: { [K in EnvKeys]?: any } = {
-  // BY_PASS_AUTH: true,
-};
+import Config from 'react-native-config';
 
 /**
  * Get an environmental variable
  */
-const getEnvVar = (envVar: EnvKeys) => env[envVar];
+const getEnvVar = (envVar: string) => Config[envVar];
 
 export default getEnvVar;

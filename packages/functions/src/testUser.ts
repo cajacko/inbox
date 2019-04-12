@@ -2,7 +2,7 @@ import * as functions from 'firebase-functions';
 import { IDb } from './types/general';
 import auth from './utils/auth';
 import dbHOC, { clearDbQueue } from './utils/db';
-import { testEmail } from '../env.local.json';
+import { TEST_EMAIL } from '../env.json';
 
 const revokedTokensField = 'revokedIdTokens';
 
@@ -12,7 +12,7 @@ let dbCache: IDb | undefined;
  * Get the test user ref
  */
 export const getTestUserId = () =>
-  auth.getUserByEmail(testEmail).then(user => user.uid);
+  auth.getUserByEmail(TEST_EMAIL).then(user => user.uid);
 
 /**
  * Get the test db

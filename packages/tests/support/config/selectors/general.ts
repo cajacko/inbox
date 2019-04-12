@@ -1,5 +1,6 @@
 /* eslint max-lines: 0 */
 import getReactDatePickerDay from '../../utils/getReactDatePickerDay';
+import getTimePosition from '../../utils/getTimePosition';
 
 const general = {
   AddButton: {
@@ -30,6 +31,14 @@ const general = {
     Day: {
       web: ({ day }: { day: number }) =>
         `.react-datepicker__day--${getReactDatePickerDay(day)}`,
+    },
+    Time: {
+      web: ({ time }: { time: string }) =>
+        `.react-datepicker__time-list-item:nth-child(${getTimePosition(time) +
+          1})`,
+    },
+    TimeContainer: {
+      web: '.react-datepicker__time',
     },
   },
   Done: {
@@ -161,6 +170,15 @@ const general = {
         web: ({ index }: { index: number }) =>
           `.Reminder:nth-child(${index + 1}) .Reminder__HoverEdit`,
       },
+      Link: {
+        web: ({ index }: { index: number }) =>
+          `.Reminder:nth-child(${index + 1}) .Reminder__Link`,
+
+        Text: {
+          web: ({ index }: { index: number }) =>
+            `.Reminder:nth-child(${index + 1}) .Reminder__LinkText`,
+        },
+      },
       SnoozeButton: {
         web: ({ index }: { index: number }) =>
           `.Reminder:nth-child(${index + 1}) .Reminder__HoverSnooze`,
@@ -203,18 +221,48 @@ const general = {
     ChangeTime: {
       web: '.SnoozeConfirm__Time',
     },
+    ConfirmModal: {
+      web: '.SnoozeConfirm__ConfirmModal',
+    },
+    CustomDateLabel: {
+      web: '.SnoozeConfirm__CustomDateLabel',
+    },
+    CustomTime: {
+      web: '.SnoozeConfirm__TimeValue',
+    },
+    CustomTimeLabel: {
+      web: '.SnoozeConfirm__TimeLabel',
+    },
+    DateSuggestions: {
+      web: '.Snooze__DateSuggestions',
+    },
+    ErrorModal: {
+      web: '.Snooze__ErrorModal',
+    },
+    ErrorModalBack: {
+      web: '.Snooze__ErrorModalBack',
+    },
     Save: {
       web: '.SnoozeConfirm__Save',
     },
     Suggestions: {
+      Afternoon: {
+        web: '.TimeSuggestion--Afternoon',
+      },
       Custom: {
         web: '.Suggestion--SelectDateTime',
+      },
+      Evening: {
+        web: '.TimeSuggestion--Evening',
       },
       LaterThisWeek: {
         web: '.Suggestion--LaterThisWeek',
       },
       LaterToday: {
         web: '.Suggestion--LaterToday',
+      },
+      Morning: {
+        web: '.TimeSuggestion--Morning',
       },
       NextWeek: {
         web: '.Suggestion--NextWeek',
@@ -226,16 +274,25 @@ const general = {
         web: '.Suggestion--ThisWeekend',
       },
       Time: {
+        Afternoon: {
+          web: '.TimeSuggestion--Afternoon',
+        },
         Customised: {
           web: '.TimeSuggestion--Customised',
         },
         Evening: {
           web: '.TimeSuggestion--Evening',
         },
+        Morning: {
+          web: '.TimeSuggestion--Morning',
+        },
       },
       Tomorrow: {
         web: '.Suggestion--Tomorrow',
       },
+    },
+    TimeSuggestions: {
+      web: '.SnoozedModal__TimeSuggestions',
     },
     web: '.SnoozedModal',
   },

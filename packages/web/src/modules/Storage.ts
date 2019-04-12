@@ -1,3 +1,3 @@
-import { asyncSessionStorage } from 'redux-persist/storages';
+import { asyncLocalStorage } from 'redux-persist/storages';
 
-export default asyncSessionStorage;
+export default asyncLocalStorage;

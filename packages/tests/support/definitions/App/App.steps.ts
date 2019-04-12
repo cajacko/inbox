@@ -32,6 +32,8 @@ When('the keyboard submit button is pressed', () => driver.pressSubmitKey());
 
 When('the close browser tab button is pressed', () => driver.closePage(false));
 
+When('the browser tab is closed', () => driver.closePage(true));
+
 When('we reload the app', () => driver.reload());
 
 When('we set the network as {string}', type =>
@@ -110,3 +112,9 @@ Given(/we set the day to (.*)/, function (day) {
 
   return driver.setDate(date.getTime(), nonHeadless);
 });
+
+Then('the browser tab count {string} {string}', (condition, value) =>
+  app.tabCount(condition, parseInt(value, 10)));
+
+Then('the active tab url {string} {string}', (condition, value) =>
+  app.activeTabUrl(condition, value));

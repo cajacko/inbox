@@ -24,10 +24,10 @@ When('the add reminder save button is pressed', () => addReminder.pressSave());
 
 When('the add reminder input is cleared', () => addReminder.clear());
 
-When('we add a reminder with the text {string}', text =>
+When(/we add a reminder with the text (.*)/, text =>
   addButton
     .press()
-    .then(() => addReminder.type(text))
+    .then(() => addReminder.type(text.replace(/"/g, '')))
     .then(() => addReminder.pressSave()));
 
 Then('the edit reminder scene {string} visible', condition =>

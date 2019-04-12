@@ -18,6 +18,7 @@ type Event = () => void;
 
 export interface IPassedDownProps {
   action?: () => void;
+  onLongPress?: () => void;
   baseWidth?: boolean;
   children?: (props: { isHovering: boolean }) => Children;
   fullHeight?: boolean;
@@ -34,6 +35,7 @@ export interface IPassedDownProps {
   iconRight?: boolean;
   disabled?: boolean;
   _dangerouslySetIconColor?: ColorVal;
+  leftAlign?: boolean;
 }
 
 interface IProps extends IPassedDownProps {
@@ -61,6 +63,7 @@ const Button = (props: IProps) => {
     action: props.noButton ? undefined : props.action,
     className: props.disabled ? 'disabled' : '',
     disabled: props.disabled,
+    onLongPress: props.onLongPress,
     style: nativeStylesProp,
     testID: props.testID,
     ...props.buttonEvents,
@@ -102,6 +105,7 @@ const Button = (props: IProps) => {
           type={props.type}
           isHovering={props.isHovering}
           disabled={props.disabled}
+          leftAlign={!!props.leftAlign}
         >
           {props.text ? (
             <React.Fragment>

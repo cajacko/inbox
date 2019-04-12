@@ -5,6 +5,7 @@ import immutableTransform from 'redux-persist-transform-immutable';
 import thunk from 'redux-thunk';
 import { IJSState, IState, ReducerKey } from 'src/lib/store/reducers';
 import { IAction, Middleware } from 'src/lib/types/libs';
+import getEnvVar from 'src/lib/utils/getEnvVar';
 import isDev from 'src/utils/conditionals/isDev';
 import isTestEnv from 'src/utils/conditionals/isTestEnv';
 import logger from 'src/utils/logger';
@@ -75,10 +76,13 @@ class Store {
     middleware: Middleware[] = [],
     rootReducer?: RootReducer
   ) {
-    const allMiddleware =
-      isDev() && !isTestEnv()
-        ? redux.applyMiddleware(this.loggerMiddleware, thunk, ...middleware)
-        : redux.applyMiddleware(thunk, ...middleware);
+    const logTest = getEnvVar('LOG_REDUX_IN_TESTS') || !isTestEnv();
+
+    const shouldLog = isDev() && logTest;
+
+    const allMiddleware = shouldLog
+      ? redux.applyMiddleware(this.loggerMiddleware, thunk, ...middleware)
+      : redux.applyMiddleware(thunk, ...middleware);
 
     const reducer = redux.combineReducers(reducers);
 
