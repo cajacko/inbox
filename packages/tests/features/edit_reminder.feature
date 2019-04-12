@@ -46,12 +46,12 @@ Feature: Edit reminder
     And the add reminder save button is pressed
     Then the "1st" reminder status "will be" "Error"
 
-  Scenario: Edit a reminder orders it to the top
+  Scenario: Edit a reminder does not order it to the top
     When we add a reminder with the text "1st item"
     And the "2nd" reminder is pressed
     And the text " - edited" is typed into the add reminder input
     And the add reminder save button is pressed
-    Then the text for the "1st" reminder "is" "Edit a reminder - edited"
+    Then the text for the "2nd" reminder "is" "Edit a reminder - edited"
 
   @bug
   Scenario: Editing the text on a snoozed reminder keeps it as snoozed

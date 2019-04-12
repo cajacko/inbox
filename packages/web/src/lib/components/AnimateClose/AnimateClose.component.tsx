@@ -10,6 +10,7 @@ interface IProps {
     height: Animated.AnimatedInterpolation;
   }) => Children;
   height: number;
+  testID?: string;
 }
 
 /**
@@ -67,7 +68,7 @@ class AnimateCloseComponent extends React.Component<IProps> {
     });
 
     return (
-      <AnimateClose height={height}>
+      <AnimateClose height={height} testID={this.props.testID}>
         {this.props.children({ closeAndRun: this.closeAndRun, height })}
       </AnimateClose>
     );

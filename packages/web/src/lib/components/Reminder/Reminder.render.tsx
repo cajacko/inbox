@@ -63,9 +63,12 @@ const Reminder = (props: IProps) => {
   };
 
   return (
-    <AnimateClose height={Style.containerHeight(true, false)(heightProps)}>
+    <AnimateClose
+      height={Style.containerHeight(true, false)(heightProps)}
+      testID="Reminder"
+    >
       {({ closeAndRun }) => (
-        <Style.Container key={props.id} testID="Reminder" {...heightProps}>
+        <Style.Container key={props.id} {...heightProps}>
           <Style.Content {...props.buttonEvents} {...heightProps}>
             <Button
               analyticsAction="SHOW_EDIT_REMINDER"

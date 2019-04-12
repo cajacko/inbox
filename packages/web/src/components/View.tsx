@@ -10,22 +10,29 @@ interface IProps {
   style?: { [key: string]: any };
 }
 
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
 type Ref = React.RefObject<HTMLDivElement>;
 
 /**
- * Render text on the web
+ * Given the styled component to use, return the view component
  */
-const View = React.forwardRef(({
-  className, testID, children, ...props
-}: IProps, ref: Ref) => (
-    <Container className={mergeClasses(className, testID)} ref={ref} {...props}>
-      {typeof children === 'function' ? children({}) : children}
-    </Container>
-));
+export const withView = (styledComponent: any, shouldWrap: boolean) => {
+  let Container = shouldWrap ? styled(styledComponent) : styledComponent;
+  Container = Container`
+    display: flex;
+    flex-direction: column;
+  `;
 
-export default View;
+  return React.forwardRef(({
+    className, testID, children, ...props
+  }: IProps, ref: Ref) => (
+      <Container
+        className={mergeClasses(className, testID)}
+        ref={ref}
+        {...props}
+      >
+        {typeof children === 'function' ? children({}) : children}
+      </Container>
+  ));
+};
+
+export default withView(styled.div, false);
