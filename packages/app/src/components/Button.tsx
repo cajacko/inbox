@@ -7,13 +7,16 @@ interface IProps {
   children: Children;
   style?: { [key: string]: any };
   testID?: string;
+  onLongPress?: () => void;
 }
 
 /**
  * Render a native button
  */
-const Button = ({ action, children, style }: IProps) => (
-  <TouchableOpacity onPress={action} style={style}>
+const Button = ({
+  action, children, style, onLongPress,
+}: IProps) => (
+  <TouchableOpacity onPress={action} onLongPress={onLongPress} style={style}>
     {children}
   </TouchableOpacity>
 );

@@ -6,12 +6,13 @@ import {
   LogLevel,
   OnLogType,
 } from 'src/lib/types/general';
+import getEnv from 'src/lib/utils/getEnv';
+import getEnvVar from 'src/lib/utils/getEnvVar';
 import history from 'src/lib/utils/history';
 import store from 'src/lib/utils/store';
 import sentry from 'src/modules/Sentry';
 import isDev from 'src/utils/conditionals/isDev';
 import isTestEnv from 'src/utils/conditionals/isTestEnv';
-import getEnv from 'src/utils/getEnv';
 import { version } from '../../../package.json';
 
 /**
@@ -42,7 +43,8 @@ class Sentry {
 
     this.breadcrumbs = [];
 
-    this.enabled = !isDev() && !isTestEnv();
+    const disabled = getEnvVar('DISABLE_SENTRY');
+    this.enabled = !disabled && !isDev() && !isTestEnv();
   }
 
   /**
@@ -107,7 +109,7 @@ class Sentry {
       errorCode = undefined;
     }
 
-    const env = getEnv();
+    const env = getEnv() || 'prod';
     const route = history.location.pathname;
 
     const finalTags: ISentryMessage['tags'] = { route, version, ...tags };

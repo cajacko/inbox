@@ -7,6 +7,7 @@ import {
   remove as removeQueryParam,
   set as setQueryParam,
 } from 'src/lib/utils/queryParam';
+import Keyboard from 'src/modules/Keyboard';
 
 type ComponentType = React.ComponentType<{
   fullScreen: boolean;
@@ -27,10 +28,15 @@ export interface IValue {
   isVisible: boolean;
 }
 
+interface IOpts {
+  fullScreenBreakpoint?: number;
+  hideKeyboardOnOpen?: boolean;
+}
+
 /**
  * Get a modal context, need this so we can have multiple modals
  */
-const withModalContext = (zIndex: number, fullScreenBreakpoint?: number) => {
+const withModalContext = (zIndex: number, opts: IOpts = {}) => {
   const Context = React.createContext({});
   const { Consumer } = Context;
 
@@ -68,6 +74,20 @@ const withModalContext = (zIndex: number, fullScreenBreakpoint?: number) => {
 
       if (state) {
         this.setState(state);
+      }
+    }
+
+    /**
+     * When the component updates, if we've just shown the modal then hide the
+     * keyboard
+     */
+    public componentDidUpdate(prevProps: IProps, prevState: IState) {
+      if (
+        opts.hideKeyboardOnOpen &&
+        !prevState.Component &&
+        this.state.Component
+      ) {
+        Keyboard.hide();
       }
     }
 
@@ -158,7 +178,7 @@ const withModalContext = (zIndex: number, fullScreenBreakpoint?: number) => {
         <Context.Provider value={value}>
           {!!Component && (
             <Modal
-              fullScreenBreakpoint={fullScreenBreakpoint}
+              fullScreenBreakpoint={opts.fullScreenBreakpoint}
               Component={Component}
               props={props}
               hide={this.hide}

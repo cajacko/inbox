@@ -5,10 +5,11 @@ import hookConstants from '../config/hookConstants';
 import browserHooks from '../utils/browserHooks';
 import conditional from '../utils/conditional';
 import { ICondition } from '../utils/ensureCondition';
+import * as env from '../utils/env.json';
 import getSize from '../utils/getSize';
 import log from '../utils/log';
 
-const showBrowser = false;
+const showBrowser = env.SHOW_TEST_BROWSER;
 const shouldClose = !showBrowser;
 const headless = !showBrowser;
 
@@ -52,6 +53,7 @@ class Browser {
   private resolveWaitForNetworkIdle: ResolveWaitForNetworkIdle | null = null;
   private pageId: number = 0;
   private hookValues: { [key: string]: any } = {};
+  private nextBrowser: null | Promise<puppeteer.Browser> = null;
 
   constructor() {
     this.dialogOpen = this.dialogOpen.bind(this);
@@ -84,6 +86,15 @@ class Browser {
     }
 
     this.clearPage();
+    await this.clearBrowser();
+  }
+
+  private async clearBrowser() {
+    if (this.browser && shouldClose) {
+      await this.browser.close();
+    }
+
+    this.browser = null;
   }
 
   public async open(nonHeadless: boolean) {
@@ -135,6 +146,11 @@ class Browser {
     if (this.browser && shouldClose) {
       await this.browser.close();
     }
+
+    if (this.nextBrowser && shouldClose) {
+      const browser = await this.nextBrowser;
+      await browser.close();
+    }
   }
 
   public async navigate(route: string) {
@@ -149,9 +165,11 @@ class Browser {
     const goToPromise = new Promise((resolve, reject) => {
       if (!this.page) throw new Error('No page object to navigate within');
 
-      this.page.goto(`http://localhost:3000${route}?test-env=true`, {
-        waitUntil: 'domcontentloaded',
-      }).then(() => resolve());
+      this.page
+        .goto(`http://localhost:3000${route}?test-env=true`, {
+          waitUntil: 'domcontentloaded',
+        })
+        .then(() => resolve());
 
       navigateLog('navigating, start timeout');
 
@@ -193,7 +211,11 @@ class Browser {
 
     if (!this.page) throw new Error('No page object to set hooks within');
 
-    await this.page.evaluate(browserHooks, this.hooks, hookConstants(this.hookValues));
+    await this.page.evaluate(
+      browserHooks,
+      this.hooks,
+      hookConstants(this.hookValues)
+    );
   }
 
   public async screenshot(path: string) {
@@ -343,9 +365,18 @@ class Browser {
 
       if (this.browser) await this.browser.close();
 
-      this.browser = await puppeteer.launch({
-        headless: this.headless,
-      });
+      const getBrowser = async () =>
+        puppeteer.launch({
+          headless: this.headless,
+        });
+
+      if (this.nextBrowser) {
+        this.browser = await this.nextBrowser;
+      } else {
+        this.browser = await getBrowser();
+      }
+
+      this.nextBrowser = getBrowser();
 
       if (this.page && !this.page.isClosed()) {
         await this.page.close();

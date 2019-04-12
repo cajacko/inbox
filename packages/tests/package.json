@@ -20,6 +20,7 @@
     "chai": "^4.2.0",
     "cucumber": "^5.1.0",
     "deep-diff": "^1.0.2",
+    "dotenv": "^7.0.0",
     "fs-extra": "^7.0.1",
     "graphql-request": "^1.8.2",
     "lodash": "^4.17.11",

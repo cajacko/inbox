@@ -108,5 +108,10 @@
     "label": "Could not open link",
     "message": "Errors.DevError.Message",
     "title": "Errors.DevError.Title"
+  },
+  "100-023": {
+    "label": "Could not get env var",
+    "message": "Errors.DevError.Message",
+    "title": "Errors.DevError.Title"
   }
 }

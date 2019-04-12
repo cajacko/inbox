@@ -7,6 +7,7 @@ import {
   syncSuccess,
 } from 'src/lib/store/sync/actions';
 import api from 'src/lib/utils/api';
+import getEnvVar from 'src/lib/utils/getEnvVar';
 import store from 'src/lib/utils/store';
 import testHook from 'src/utils/testHook';
 import testHookExists from 'src/utils/testHookExists';
@@ -149,6 +150,8 @@ const scheduleSync = (type: SyncType) => {
  * Start the sync cron
  */
 export const startSyncCron = (intervalParam: number = 10000) => {
+  if (getEnvVar('DISABLE_SYNC_CRON')) return;
+
   const interval = testHook('syncCronInterval', intervalParam);
 
   try {

@@ -28,7 +28,7 @@ const borderWidth = 2;
 
 export const reminderSpacing = 16;
 
-export const REMINDER_HEIGHT = 50;
+export const REMINDER_HEIGHT = 60;
 
 export const buttonStyle: React.CSSProperties = {
   flex: 1,
@@ -39,11 +39,10 @@ export const buttonStyle: React.CSSProperties = {
 /**
  * Get the container height - the borders
  */
-const containerHeight = (addLinkHeight: boolean, minusBorders: boolean) => ({
-  hasBottomBorder,
-  hasTopBorder,
-  hasUrl,
-}: IProps) => {
+export const containerHeight = (
+  addLinkHeight: boolean,
+  minusBorders: boolean
+) => ({ hasBottomBorder, hasTopBorder, hasUrl }: IProps) => {
   let height = REMINDER_HEIGHT;
 
   if (minusBorders) {
@@ -53,7 +52,7 @@ const containerHeight = (addLinkHeight: boolean, minusBorders: boolean) => ({
 
   if (hasUrl && addLinkHeight) height += LINK_HEIGHT;
 
-  return unit(height);
+  return height;
 };
 
 interface IProps {
@@ -73,15 +72,16 @@ export const Container = styled(View)<IProps>`
       top: hasTopBorder,
     })}
   flex-direction: column;
-  height: ${containerHeight(true, false)};
+  height: ${props => unit(containerHeight(true, false)(props))};
   background-color: ${BACKGROUND_COLOR};
+  ${platform() === 'web' ? 'box-sizing: border-box;' : ''}
 `;
 
 export const Content = styled(View)<IProps>`
   position: relative;
   z-index: 2;
   flex-direction: row;
-  height: ${containerHeight(false, true)};
+  height: ${props => unit(containerHeight(false, true)(props))};
   background-color: ${BACKGROUND_COLOR};
 `;
 
@@ -95,28 +95,6 @@ export const Inner = styled(View)`
   max-width: 100%;
   ${platform() === 'web' ? 'box-sizing: border-box;' : ''}
   overflow: hidden;
-`;
-
-interface IEditMenuProps {
-  hasLink: boolean;
-}
-
-export const EditMenu = styled(View)<IEditMenuProps>`
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  background-color: ${BACKGROUND_COLOR};
-  z-index: 1;
-  align-items: center;
-  justify-content: center;
-  flex-direction: row;
-  ${padding({ horizontal: reminderSpacing })}
-  ${({ hasLink }) =>
-    border(GREY_LIGHTER, 1, {
-      bottom: hasLink,
-      left: true,
-    })}}
 `;
 
 export const Icon = styled(View)`

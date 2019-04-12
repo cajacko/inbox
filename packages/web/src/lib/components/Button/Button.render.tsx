@@ -18,6 +18,7 @@ type Event = () => void;
 
 export interface IPassedDownProps {
   action?: () => void;
+  onLongPress?: () => void;
   baseWidth?: boolean;
   children?: (props: { isHovering: boolean }) => Children;
   fullHeight?: boolean;
@@ -62,6 +63,7 @@ const Button = (props: IProps) => {
     action: props.noButton ? undefined : props.action,
     className: props.disabled ? 'disabled' : '',
     disabled: props.disabled,
+    onLongPress: props.onLongPress,
     style: nativeStylesProp,
     testID: props.testID,
     ...props.buttonEvents,

@@ -32,6 +32,8 @@ When('the keyboard submit button is pressed', () => driver.pressSubmitKey());
 
 When('the close browser tab button is pressed', () => driver.closePage(false));
 
+When('the browser tab is closed', () => driver.closePage(true));
+
 When('we reload the app', () => driver.reload());
 
 When('we set the network as {string}', type =>

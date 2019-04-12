@@ -13,18 +13,16 @@ import { format } from 'src/lib/utils/dates';
 /**
  * Get the suggested time props
  */
-const getSuggestedTime = (hour: number, minutes: number) => {
-  return {
-    getTime: (date: CustomDate) => {
-      const time = new CustomDate(date);
-      time.setHours(hour);
-      time.setMinutes(minutes);
-      return time;
-    },
-    hour,
-    minutes,
-  };
-};
+const getSuggestedTime = (hour: number, minutes: number) => ({
+  getTime: (date: CustomDate) => {
+    const time = new CustomDate(date);
+    time.setHours(hour);
+    time.setMinutes(minutes);
+    return time;
+  },
+  hour,
+  minutes,
+});
 
 export const suggestedTimes = {
   afternoon: getSuggestedTime(12, 30),
@@ -174,17 +172,22 @@ export const getDates = (onSelect: OnSelect): ISuggestion[] => {
   });
 };
 
+interface IOptions {
+  removeSameTime?: boolean;
+}
+
 /**
  * Get the suggested times
  */
 export const getTimes = (
   date: CustomDate,
   onChangeTime: (date: CustomDate | null) => void,
-  onCustomised: () => void
+  onCustomised: () => void,
+  opts: IOptions = {}
 ): ISuggestedTimes[] => {
   const now = new CustomDate().getTime();
 
-  const suggestions = [
+  let suggestions = [
     {
       label: 'Morning',
       testID: 'TimeSuggestion--Morning',
@@ -209,6 +212,17 @@ export const getTimes = (
 
     return time.getTime() > now;
   });
+
+  if (opts.removeSameTime && suggestions.length === 2) {
+    // There are only 2 suggestions, which means 1 actual time suggestion, as 1
+    // of them is the customised button.
+    // If the currently selected date is the same as the only actual suggested
+    // date then don't return any suggestions
+    suggestions = suggestions.filter(({ time }) =>
+      !time ||
+        time.getHours() !== date.getHours() ||
+        time.getMinutes() !== date.getMinutes());
+  }
 
   return suggestions.map(({ label, time, testID }) => ({
     label,

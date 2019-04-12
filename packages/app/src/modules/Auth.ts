@@ -1,6 +1,8 @@
-import firebase from 'react-native-firebase';
+import firebase, { RNFirebase } from 'react-native-firebase';
 import { GoogleSignin } from 'react-native-google-signin';
 import AppError from 'src/lib/modules/AppError';
+
+export type FirebaseUser = RNFirebase.User;
 
 GoogleSignin.configure();
 
@@ -8,36 +10,6 @@ GoogleSignin.configure();
  * Handle login and logout
  */
 class Auth {
-  /**
-   * Is the user logged in
-   */
-  public static isLoggedIn() {
-    return Auth.getUser()
-      .then(user => !!user)
-      .catch(() => false);
-  }
-
-  /**
-   * Get the user object
-   */
-  public static getUser() {
-    return Promise.resolve(firebase.auth().currentUser).then((user) => {
-      if (!user) {
-        throw new AppError(
-          'Firebase auth resolved but did not return a user object',
-          '100-010'
-        );
-      }
-
-      return user.getIdToken().then(idToken => ({
-        displayName: user.displayName,
-        id: user.uid,
-        idToken,
-        photoURL: user.photoURL,
-      }));
-    });
-  }
-
   /**
    * Log the user in
    */
@@ -60,17 +32,10 @@ class Auth {
   }
 
   /**
-   * Logout the user
+   * Return the firebase auth object
    */
-  public static logout() {
-    return firebase.auth().signOut();
-  }
-
-  /**
-   * Refresh the id token, can't be done with native firebase sdk
-   */
-  public static refreshIdToken() {
-    return Promise.reject(new AppError('Native app cannot retrieve a refresh id token', '100-019'));
+  public static getAuth() {
+    return firebase.auth();
   }
 }
 

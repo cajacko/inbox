@@ -29,6 +29,11 @@ export const setReminder = makeActionCreator(
       ? existingReminder.status
       : 'INBOX';
 
+    // If we've got a new dueDate then set it, otherwise use the existing
+    // dueDate, if that doesn't exist then the due date must be now
+    const finalDueDate =
+      dueDate || (existingReminder ? existingReminder.dueDate : now);
+
     const data: {
       dateCreated: IReminder['dateCreated'];
       dateModified: IReminder['dateModified'];
@@ -37,7 +42,7 @@ export const setReminder = makeActionCreator(
       } = testHook('newReminder', {
         dateCreated: id ? undefined : now,
         dateModified: now,
-        dueDate: dueDate || now,
+        dueDate: finalDueDate,
         id: id || uuid(),
       });
 

@@ -171,7 +171,7 @@ Feature: Snooze
     And the screenshot matches
 
   # Can't be tested yet
-  # Scenario: Snooze menu displays correctly from swipe
+  # Scenario: Snooze menu displays correctly from long press snooze button
 
   # More advanced displays and behaviour of custom date and times are checked in
   # snooze_custom_date.feature
@@ -271,10 +271,11 @@ Feature: Snooze
     And the screenshot matches
 
   # Can't test yet
-  # Scenario: Custom snooze date picker displays correctly from swipe
-  # Scenario: Custom snooze confirm displays correctly from swipe
-  # Scenario: Custom snooze time suggestions displays correctly from swipe
-  # Scenario: Custom snooze time picker displays correctly from swipe
+  # Scenario: Custom snooze date picker displays correctly from long press menu
+  # Scenario: Custom snooze confirm displays correctly from long press menu
+  # Scenario: Custom snooze time suggestions displays correctly from long press menu
+  # Scenario: Custom snooze time picker displays correctly from long press menu
+  # Scenario: Opening the snooze modal closes the keyboard
 
   Scenario: Selecting a snooze suggestion from the hover menu closes the modal
     Given we set the day to monday
@@ -356,7 +357,7 @@ Feature: Snooze
     And the reminder list count "is" "1"
 
   # Cant test this yet
-  # Scenario: Snooze an existing reminder from swipe left
+  # Scenario: Snooze an existing reminder from long press menu
 
   Scenario: Snooze a reminder when create it does not save it
     Given we set the day to monday
@@ -423,10 +424,6 @@ Feature: Snooze
     And the header loading icon "will not be" visible
     When we navigate to the "snoozed" scene
     Then the reminder list count "is" "1"
-
-  # Can't test yet
-  # Scenario: Can swipe to snooze from done scene
-  # Scenario: Can swipe to snooze from snooze scene
 
   Scenario: Can navigate to the snoozed scene from the menu
     Given we have logged in successfully

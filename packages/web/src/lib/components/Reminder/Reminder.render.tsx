@@ -1,14 +1,12 @@
 import * as React from 'react';
 import Check from 'src/lib/assets/icons/Check';
 import Clock from 'src/lib/assets/icons/Clock';
-import EllipsisV from 'src/lib/assets/icons/EllipsisV';
-import Trash from 'src/lib/assets/icons/Trash';
+import AnimateClose from 'src/lib/components/AnimateClose';
 import Button from 'src/lib/components/Button';
 import ReminderLink from 'src/lib/components/ReminderLink';
+import ReminderMenu from 'src/lib/components/ReminderMenu';
 import Status from 'src/lib/components/ReminderStatus';
-import SwipeAndClose from 'src/lib/components/SwipeAndClose';
 import Text from 'src/lib/components/Text';
-import getButtonType from 'src/lib/utils/getButtonType';
 import * as Style from './Reminder.style';
 
 export interface IContainerStateProps {
@@ -35,7 +33,9 @@ type Event = () => void;
 
 export interface IComponentProps {
   edit: () => void;
-  isHovering: boolean;
+  onPress: () => void;
+  onLongPress: () => void;
+  showMenu: boolean;
   buttonEvents: {
     onMouseEnter: Event;
     onMouseLeave: Event;
@@ -55,142 +55,92 @@ interface IProps
 /**
  * Display a list of reminders
  */
-const Reminder = (props: IProps) => (
-  <SwipeAndClose
-    height={Style.REMINDER_HEIGHT}
-    leftComponent={
-      props.isDone ? (
-        undefined
-      ) : (
-        <Style.SwipeContainerLeft>
-          <Check
-            backgroundColor={Style.SWIPE_BACKGROUND_COLOR_LEFT}
-            size={Style.SWIPE_ICON_SIZE}
-          />
-        </Style.SwipeContainerLeft>
-      )
-    }
-    rightComponent={
-      <Style.SwipeContainerRight>
-        <Clock
-          backgroundColor={Style.SWIPE_BACKGROUND_COLOR_RIGHT}
-          size={Style.SWIPE_ICON_SIZE}
-        />
-      </Style.SwipeContainerRight>
-    }
-    onSwipeLeftWaitForClose
-    onSwipeLeftAnimateClose
-    onSwipeLeft={props.onSetDone(!props.isDone)}
-    onSwipeRight={props.onSnooze}
-  >
-    {({ closeAndRun }) => (
-      <Style.Container
-        key={props.id}
-        testID="Reminder"
-        hasBottomBorder={props.isFullWidth ? true : !props.isLast}
-        hasTopBorder={props.isFullWidth && props.isFirst}
-        hasUrl={!!props.url}
-      >
-        <Style.Content
-          {...props.buttonEvents}
-          hasBottomBorder={props.isFullWidth ? true : !props.isLast}
-          hasTopBorder={props.isFullWidth && props.isFirst}
-          hasUrl={!!props.url}
-        >
-          <Button
-            analyticsAction="SHOW_EDIT_REMINDER"
-            analyticsCategory="REMINDER"
-            action={props.edit}
-            testID="Reminder__Button"
-            styles={Style.buttonStyle}
-            disableHover
-          >
-            {() => (
-              <Style.Inner>
-                <Style.TextContainer>
-                  <Style.TextWrapper>
-                  <Text
-                    testID="Reminder__Text"
-                    text={{ _textFromConst: props.text }}
-                    backgroundColor={Style.BACKGROUND_COLOR}
-                    numberOfLines={1}
-                  />
-                  </Style.TextWrapper>
-                </Style.TextContainer>
-                <Style.Symbols>
-                  {props.isSnoozed && (
-                    <Style.Icon testID="Reminder__SnoozedIcon">
-                      <Clock
-                        _dangerouslySetColor={Style.SNOOZED_COLOR}
-                        size={Style.ICON_SIZE}
+const Reminder = (props: IProps) => {
+  const heightProps = {
+    hasBottomBorder: props.isFullWidth ? true : !props.isLast,
+    hasTopBorder: props.isFullWidth && props.isFirst,
+    hasUrl: !!props.url,
+  };
+
+  return (
+    <AnimateClose
+      height={Style.containerHeight(true, false)(heightProps)}
+      testID="Reminder"
+    >
+      {({ closeAndRun }) => (
+        <Style.Container key={props.id} {...heightProps}>
+          <Style.Content {...props.buttonEvents} {...heightProps}>
+            <Button
+              analyticsAction="SHOW_EDIT_REMINDER"
+              analyticsCategory="REMINDER"
+              action={props.onPress}
+              onLongPress={props.onLongPress}
+              testID="Reminder__Button"
+              styles={Style.buttonStyle}
+              disableHover
+            >
+              {() => (
+                <Style.Inner>
+                  <Style.TextContainer>
+                    <Style.TextWrapper>
+                      <Text
+                        testID="Reminder__Text"
+                        text={{ _textFromConst: props.text }}
+                        backgroundColor={Style.BACKGROUND_COLOR}
+                        numberOfLines={1}
                       />
-                    </Style.Icon>
-                  )}
-                  {props.isDone && (
-                    <Style.Icon testID="Reminder__DoneIcon">
-                      <Check
-                        _dangerouslySetColor={Style.CHECK_COLOR}
-                        size={Style.ICON_SIZE}
-                      />
-                    </Style.Icon>
-                  )}
-                  <Status
-                    status={props.saveStatus || 'saved'}
-                    backgroundColor={Style.BACKGROUND_COLOR}
-                  />
-                </Style.Symbols>
-              </Style.Inner>
+                    </Style.TextWrapper>
+                  </Style.TextContainer>
+                  <Style.Symbols>
+                    {props.isSnoozed && (
+                      <Style.Icon testID="Reminder__SnoozedIcon">
+                        <Clock
+                          _dangerouslySetColor={Style.SNOOZED_COLOR}
+                          size={Style.ICON_SIZE}
+                        />
+                      </Style.Icon>
+                    )}
+                    {props.isDone && (
+                      <Style.Icon testID="Reminder__DoneIcon">
+                        <Check
+                          _dangerouslySetColor={Style.CHECK_COLOR}
+                          size={Style.ICON_SIZE}
+                        />
+                      </Style.Icon>
+                    )}
+                    <Status
+                      status={props.saveStatus || 'saved'}
+                      backgroundColor={Style.BACKGROUND_COLOR}
+                    />
+                  </Style.Symbols>
+                </Style.Inner>
+              )}
+            </Button>
+
+            {props.showMenu && (
+              <ReminderMenu
+                edit={props.edit}
+                onSnooze={props.onSnooze}
+                url={props.url}
+                onDelete={props.onDelete}
+                onSetDone={closeAndRun(props.onSetDone(!props.isDone))}
+                reminderSpacing={Style.reminderSpacing}
+                backgroundColor={Style.BACKGROUND_COLOR}
+              />
             )}
-          </Button>
+          </Style.Content>
 
-          {props.isHovering && (
-            <Style.EditMenu testID="Reminder__Hover" hasLink={!!props.url}>
-              <Button
-                type={getButtonType('ICON.GREYED_OUT')}
-                analyticsAction="SNOOZE_HOVER"
-                analyticsCategory="REMINDER"
-                action={props.onSnooze}
-                testID="Reminder__HoverSnooze"
-                icon={Clock}
-              />
-              <Button
-                type={getButtonType('ICON.GREYED_OUT')}
-                analyticsAction="DELETE_HOVER"
-                analyticsCategory="REMINDER"
-                action={props.onDelete}
-                testID="Reminder__HoverDelete"
-                icon={Trash}
-              />
-              <Button
-                type={getButtonType('ICON.GREYED_OUT')}
-                analyticsAction="DONE_HOVER"
-                analyticsCategory="REMINDER"
-                action={closeAndRun(props.onSetDone(!props.isDone))}
-                testID="Reminder__HoverDone"
-                icon={Check}
-              />
-              <Button
-                type={getButtonType('ICON.GREYED_OUT')}
-                analyticsAction="SHOW_EDIT_REMINDER_HOVER"
-                analyticsCategory="REMINDER"
-                action={props.edit}
-                testID="Reminder__HoverEdit"
-                icon={EllipsisV}
-              />
-            </Style.EditMenu>
+          {!!props.url && (
+            <ReminderLink
+              url={props.url}
+              backgroundColor={Style.BACKGROUND_COLOR}
+              padding={Style.reminderSpacing}
+            />
           )}
-        </Style.Content>
-
-        {!!props.url && (
-          <ReminderLink
-            url={props.url}
-            backgroundColor={Style.BACKGROUND_COLOR}
-            padding={Style.reminderSpacing}
-          />
-        )}
-      </Style.Container>
-    )}
-  </SwipeAndClose>
-);
+        </Style.Container>
+      )}
+    </AnimateClose>
+  );
+};
 
 export default Reminder;
