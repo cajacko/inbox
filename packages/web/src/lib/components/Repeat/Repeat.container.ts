@@ -1,4 +1,5 @@
 import { connect } from 'react-redux';
+import CustomDate from 'src/lib/modules/CustomDate';
 import { IState } from 'src/lib/store/reducers';
 import { setReminderRepeat } from 'src/lib/store/repeats/actions';
 import { getRepeatText } from 'src/lib/store/repeats/selectors';
@@ -20,7 +21,8 @@ const mapStateToProps = (state: IState, { id }: IPassedProps) => ({
  * Wrap the dispatch methods and pass to props
  */
 const mapDispatchToProps = (dispatch: Dispatch, { id }: IPassedProps) => ({
-  onSetRepeat: (payload: any) => dispatch(setReminderRepeat(payload)),
+  onSetRepeat: (payload: any, startDate: CustomDate) =>
+    dispatch(setReminderRepeat(payload, startDate)),
 });
 
 export default connect<IContainerStateProps, IContainerDispatchProps>(

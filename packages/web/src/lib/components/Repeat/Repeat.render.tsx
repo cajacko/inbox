@@ -1,9 +1,11 @@
 import * as React from 'react';
 import Button from 'src/lib/components/Button';
+import CustomDateTime from 'src/lib/components/CustomDateTime';
 import DropDown from 'src/lib/components/DropDown';
 import Text from 'src/lib/components/Text';
 import { BACKGROUND_COLORS } from 'src/lib/config/styles/textIconColors';
 import AppError from 'src/lib/modules/AppError';
+import CustomDate from 'src/lib/modules/CustomDate';
 import * as Style from './Repeat.style';
 
 const suggestions = [
@@ -40,17 +42,27 @@ const suggestions = [
 ];
 
 export interface IProps {
-  type: 'INIT' | 'SUGGESTIONS';
+  type: 'INIT' | 'SUGGESTIONS' | 'CUSTOM_DATE_TIME';
   setType: (type: IProps['type']) => () => void;
-  onSetRepeat: (payload: any) => () => void;
+  onOpenRepeatStartDate: (payload: any) => () => void;
   text: string;
+  onSetStartDate: (date: CustomDate) => void;
 }
 
 /**
  * Show the repeat forms
  */
-const Repeat = ({ type, setType, onSetRepeat, text }: IProps) => {
+const Repeat = ({
+  type,
+  setType,
+  onOpenRepeatStartDate,
+  text,
+  onSetStartDate,
+}: IProps) => {
   switch (type) {
+    case 'CUSTOM_DATE_TIME':
+      return <CustomDateTime onSetDateTime={onSetStartDate} />;
+
     case 'INIT':
       return (
         <Style.Container>
@@ -78,12 +90,15 @@ const Repeat = ({ type, setType, onSetRepeat, text }: IProps) => {
               key={suggestion.text._textFromConst}
               analyticsAction="SET_REPEAT_SUGGESTION"
               analyticsCategory="REPEAT"
-              action={onSetRepeat(suggestion.payload)}
+              action={onOpenRepeatStartDate(suggestion.payload)}
               styles={{ flexDirection: 'row' }}
             >
               {() => (
                 <Style.Suggestion>
-                  <Text text={suggestion.text} backgroundColor={BACKGROUND_COLORS.WHITE} />
+                  <Text
+                    text={suggestion.text}
+                    backgroundColor={BACKGROUND_COLORS.WHITE}
+                  />
                 </Style.Suggestion>
               )}
             </Button>

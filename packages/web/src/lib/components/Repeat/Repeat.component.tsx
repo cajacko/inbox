@@ -1,8 +1,9 @@
 import * as React from 'react';
+import CustomDate from 'src/lib/modules/CustomDate';
 import Repeat, { IProps as IRenderProps } from './Repeat.render';
 
 export interface IContainerDispatchProps {
-  onSetRepeat: (payload: any) => void;
+  onSetRepeat: (payload: any, startDate: CustomDate) => void;
 }
 
 export interface IContainerStateProps {
@@ -40,18 +41,28 @@ class RepeatComponent extends React.Component<IProps, IState> {
     };
 
     this.setType = this.setType.bind(this);
-    this.onSetRepeat = this.onSetRepeat.bind(this);
+    this.onSetStartDate = this.onSetStartDate.bind(this);
+    this.onOpenRepeatStartDate = this.onOpenRepeatStartDate.bind(this);
   }
 
   /**
    * Set the repeat details
    */
-  private onSetRepeat(payload: any) {
+  private onOpenRepeatStartDate(payload: any) {
     return () => {
-      this.props.close();
+      this.payload = payload;
 
-      this.props.onSetRepeat(payload);
+      this.setState({ type: 'CUSTOM_DATE_TIME' });
     };
+  }
+
+  /**
+   * When the start date is selected submit everything
+   */
+  private onSetStartDate(startDate: CustomDate) {
+    this.props.close();
+
+    this.props.onSetRepeat(this.payload, startDate);
   }
 
   /**
@@ -63,6 +74,8 @@ class RepeatComponent extends React.Component<IProps, IState> {
     };
   }
 
+  private payload: any;
+
   /**
    * Render the component
    */
@@ -72,7 +85,8 @@ class RepeatComponent extends React.Component<IProps, IState> {
         text={this.props.repeatText}
         type={this.state.type}
         setType={this.setType}
-        onSetRepeat={this.onSetRepeat}
+        onOpenRepeatStartDate={this.onOpenRepeatStartDate}
+        onSetStartDate={this.onSetStartDate}
       />
     );
   }
