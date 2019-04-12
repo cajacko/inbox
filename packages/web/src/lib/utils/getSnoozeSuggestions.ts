@@ -3,10 +3,8 @@ import BusinessTime from 'src/lib/assets/icons/BusinessTime';
 import Couch from 'src/lib/assets/icons/Couch';
 import Moon from 'src/lib/assets/icons/Moon';
 import Sun from 'src/lib/assets/icons/Sun';
-import {
-  ISuggestedTimes,
-  ISuggestion,
-} from 'src/lib/components/Snooze/Snooze.render';
+import { ISuggestedTimes } from 'src/lib/components/CustomDateTime/Container/Container.render';
+import { ISuggestion } from 'src/lib/components/Snooze/Snooze.render';
 import CustomDate from 'src/lib/modules/CustomDate';
 import { format } from 'src/lib/utils/dates';
 

@@ -15,8 +15,12 @@ Feature: Repeating Reminders
   Scenario: Repeating reminder shows correctly in the edit scene
 
   Scenario: The repeat modal displays correctly with no repeat
-  Scenario: The repeat modal displays correctly with a repeat
-  Scenario: Selecting a repeat option displays correctly
+
+  # Scenario Outline with daily/weekly etc
+  # Scenario: The repeat modal displays correctly with a repeat
+  # Scenario: Selecting a repeat option displays the date picker (text for pick a start date?)
+  # Scenario: Picking a date shows the same confirm modal as snooze (..fill in scenarios)
+  # - Error if past date, can select custom time, same time suggestions as snooze
 
   # BEHAVIOUR
 
