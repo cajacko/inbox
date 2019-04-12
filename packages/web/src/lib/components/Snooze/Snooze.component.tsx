@@ -149,9 +149,16 @@ class SnoozeComponent extends React.Component<IProps, IState> {
    * Get the suggested times to display
    */
   private getSuggestedTimes(date: CustomDate) {
-    return getTimes(date, this.onChangeTime, () => {
-      this.setState({ type: 'TIME' });
-    });
+    return getTimes(
+      date,
+      this.onChangeTime,
+      () => {
+        this.setState({ type: 'TIME' });
+      },
+      {
+        removeSameTime: true,
+      }
+    );
   }
 
   private lastType: IState['type'];
