@@ -2,12 +2,12 @@
 import { createTransform } from 'redux-persist';
 import { IApiReminder } from 'src/lib/graphql/types';
 import CustomDate from 'src/lib/modules/CustomDate';
+import { PostActions } from 'src/lib/store/actions';
 import {
   SYNC_FAILED,
   SYNC_REQUESTED,
   SYNC_SUCCESS,
 } from 'src/lib/store/sync/actions';
-import createReducer from 'src/lib/utils/createReducer';
 import {
   DELETE_REMINDER,
   SET_DUE_DATE,
@@ -94,7 +94,7 @@ const setReminder = (
   state: IState,
   id: string,
   reminder: Partial<IReminder>,
-  time: number,
+  time: number
 ): IState => {
   const newReminder = Object.assign({}, state[id] || {}, reminder);
 
@@ -110,9 +110,9 @@ const setReminder = (
  */
 const updateStatus = (
   state: IState,
-  reminders: IReminder[],
+  reminders: Array<IReminder | IApiReminder>,
   saveStatus: IReminder['saveStatus'],
-  time: number,
+  time: number
 ): IState => {
   let newState = state;
 
@@ -123,71 +123,117 @@ const updateStatus = (
   return newState;
 };
 
-export default createReducer<IState>(initialState, {
-  [SET_DUE_DATE]: (state: IState, payload) => setReminder(state, payload.id, {
-    dateModified: payload.time,
-    dueDate: payload.dueDate,
-    saveStatus: 'saving',
-    status: 'INBOX',
-  }, payload.time),
-  [UPDATE_SNOOZED]: (state: IState, { time }) => updateSnoozed(state, time),
-  [SET_REMINDER]: (
-    state: IState,
-    {
-      id, text, dateModified, dateCreated, dueDate, saveStatus, status, time,
+/**
+ * The reminders reducer
+ */
+const reducer = (state: IState = initialState, action: PostActions): IState => {
+  switch (action.type) {
+    case SET_DUE_DATE:
+      return setReminder(
+        state,
+        action.payload.id,
+        {
+          dateModified: action.time,
+          dueDate: action.payload.dueDate,
+          saveStatus: 'saving',
+          status: 'INBOX',
+        },
+        action.time
+      );
+
+    case UPDATE_SNOOZED:
+      return updateSnoozed(state, action.time);
+
+    case SET_REMINDER:
+      return setReminder(
+        state,
+        action.payload.id,
+        {
+          dateCreated: action.payload.dateCreated,
+          dateModified: action.payload.dateModified,
+          dueDate: action.payload.dueDate,
+          id: action.payload.id,
+          saveStatus: action.payload.saveStatus,
+          status: action.payload.status,
+          text: action.payload.text,
+        },
+        action.time
+      );
+
+    case DELETE_REMINDER:
+      return setReminder(
+        state,
+        action.payload.id,
+        {
+          dateModified: action.payload.dateModified,
+          saveStatus: 'saving',
+          status: 'DELETED',
+        },
+        action.time
+      );
+
+    case SYNC_SUCCESS: {
+      const { reminders } = action.payload.newItems;
+
+      if (!reminders) return state;
+
+      let newState: IState = Object.assign({}, state);
+
+      reminders.forEach((reminder) => {
+        if (!reminder) return;
+
+        const existingReminder = newState[reminder.id];
+
+        if (
+          existingReminder &&
+          existingReminder.dateModified > reminder.dateModified
+        ) {
+          return;
+        }
+
+        newState = setReminder(
+          newState,
+          reminder.id,
+          { ...reminder, saveStatus: 'saved' },
+          action.time
+        );
+      });
+
+      return newState;
     }
-  ): IState => setReminder(state, id, {
-    dateCreated,
-    dateModified,
-    dueDate,
-    id,
-    saveStatus,
-    status,
-    text,
-  }, time),
-  [DELETE_REMINDER]: (state, payload): IState => setReminder(state, payload.id, {
-    dateModified: payload.dateModified,
-    saveStatus: 'saving',
-    status: 'DELETED',
-  }, payload.time),
-  [SYNC_SUCCESS]: (
-    state,
-    {
-      time,
-      newItems: { reminders },
-    }: { newItems: { reminders: IApiReminder[] }; time: number }
-  ): IState => {
-    if (!reminders) return state;
 
-    let newState: IState = Object.assign({}, state);
+    case SYNC_REQUESTED:
+      return updateStatus(
+        state,
+        action.payload.changedReminders,
+        'saving',
+        action.time
+      );
 
-    reminders.forEach((reminder) => {
-      if (!reminder) return;
+    case SYNC_FAILED:
+      return updateStatus(
+        state,
+        action.payload.changedReminders,
+        'error',
+        action.time
+      );
 
-      const existingReminder = newState[reminder.id];
+    case TOGGLE_REMINDER_DONE:
+      return setReminder(
+        state,
+        action.payload.id,
+        {
+          dateModified: action.payload.dateModified,
+          dueDate: action.time,
+          saveStatus: 'saving',
+          status: action.payload.isDone ? 'DONE' : 'INBOX',
+        },
+        action.time
+      );
 
-      if (
-        existingReminder &&
-        existingReminder.dateModified > reminder.dateModified
-      ) {
-        return;
-      }
+    default:
+      return state;
+  }
+};
 
-      newState = setReminder(newState, reminder.id, { ...reminder, saveStatus: 'saved' }, time);
-    });
-
-    return newState;
-  },
-  [SYNC_REQUESTED]: (state, { changedReminders, time }) =>
-    updateStatus(state, changedReminders, 'saving', time),
-  [SYNC_FAILED]: (state, { changedReminders, time }) =>
-    updateStatus(state, changedReminders, 'error', time),
-  [TOGGLE_REMINDER_DONE]: (state, {
-    id, dateModified, isDone, time,
-  }) => setReminder(state, id, {
-    dateModified,
-    dueDate: time,
-    saveStatus: 'saving',
-    status: isDone ? 'DONE' : 'INBOX',
-  }, time),
-});
+export default reducer;

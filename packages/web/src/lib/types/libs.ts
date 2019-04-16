@@ -1,8 +1,5 @@
-import {
-  Action,
-  Dispatch as RDispatch,
-  Middleware as RMiddleware,
-} from 'redux';
+import { Dispatch as RDispatch, Middleware as RMiddleware } from 'redux';
+import { PreActions } from 'src/lib/store/actions';
 
 export type Children =
   | JSX.Element[]
@@ -10,21 +7,6 @@ export type Children =
   | React.ReactNode
   | React.ReactNode[];
 
-export interface IPayload {
-  [key: string]: any;
-}
-
-export interface IAction extends Action {
-  payload: IPayload;
-  analytics?: {
-    action?: string;
-    category?: string;
-    label?: string;
-    value?: number;
-    doNotSendEvent?: boolean;
-  };
-}
-
-export type Dispatch = RDispatch<IAction>;
+export type Dispatch = RDispatch<PreActions>;
 
 export type Middleware = RMiddleware<{}, any, any>;

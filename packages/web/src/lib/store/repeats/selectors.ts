@@ -4,11 +4,10 @@ import { IState } from 'src/lib/store/reducers';
 /**
  * Is the reminder a repeated one or not
  */
-export const isRepeated = (state: IState, id?: string) => {
-  // TODO: Actually decide
-  if (state) return true;
+export const isRepeated = (state: IState, id: string) => {
+  if (!id) return false;
 
-  return false;
+  return !!state.repeats[id];
 };
 
 /**

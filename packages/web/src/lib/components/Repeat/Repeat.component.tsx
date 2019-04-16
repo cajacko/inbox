@@ -1,10 +1,10 @@
 import * as React from 'react';
 import CustomDate from 'src/lib/modules/CustomDate';
-import { ActionRepeatTypes } from 'src/lib/store/repeats/reducer';
+import { RepeatTypes } from 'src/lib/store/repeats/reducer';
 import Repeat, { IProps as IRenderProps } from './Repeat.render';
 
 export interface IContainerDispatchProps {
-  onSetRepeat: (type: ActionRepeatTypes, startDate: number) => void;
+  onSetRepeat: (type: RepeatTypes, startDate: number, id: string) => void;
 }
 
 export interface IContainerStateProps {
@@ -63,7 +63,10 @@ class RepeatComponent extends React.Component<IProps, IState> {
   private onSetStartDate(startDate: CustomDate) {
     this.props.close();
 
-    this.props.onSetRepeat(this.payload, startDate.getTime());
+    // TODO: Handle this
+    if (!this.props.id) return;
+
+    this.props.onSetRepeat(this.payload, startDate.getTime(), this.props.id);
   }
 
   /**

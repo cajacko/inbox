@@ -1,5 +1,5 @@
+import { PostActions } from 'src/lib/store/actions';
 import { LOGOUT } from 'src/lib/store/user/actions';
-import createReducer from 'src/lib/utils/createReducer';
 
 export interface IState {
   loginText: string | null;
@@ -13,9 +13,21 @@ const initialState: IState = {
   reloginId: null,
 };
 
-export default createReducer(initialState, {
-  [LOGOUT]: (state, { loginText, reloginId }) => ({
-    loginText: loginText || null,
-    reloginId: reloginId || null,
-  }),
-});
+/**
+ * Handle any additional login state needed. Mainly if we're forcing someone to
+ * re login again
+ */
+const reducer = (state: IState = initialState, action: PostActions): IState => {
+  switch (action.type) {
+    case LOGOUT:
+      return {
+        loginText: action.payload.loginText || null,
+        reloginId: action.payload.reloginId || null,
+      };
+
+    default:
+      return state;
+  }
+};
+
+export default reducer;

@@ -1,4 +1,4 @@
-import createReducer from 'src/lib/utils/createReducer';
+import { PostActions } from 'src/lib/store/actions';
 import { LOGIN, LOGOUT } from './actions';
 
 export interface IState {
@@ -19,8 +19,24 @@ const initialState: IState = {
   refreshToken: null,
 };
 
-export default createReducer(initialState, {
-  [LOGOUT]: () => initialState,
-  [LOGIN]: (state: IState, { user }): IState =>
-    Object.assign({}, state, { isLoggedIn: true, ...(user || {}) }),
-});
+/**
+ * Add the user object to the state when login and clear on logout
+ */
+const reducer = (state: IState = initialState, action: PostActions): IState => {
+  switch (action.type) {
+    case LOGOUT:
+      return initialState;
+
+    case LOGIN:
+      return {
+        ...initialState,
+        ...action.payload.user,
+        isLoggedIn: true,
+      };
+
+    default:
+      return state;
+  }
+};
+
+export default reducer;

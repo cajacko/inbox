@@ -10,7 +10,7 @@ const timeMiddleware: Middleware = () => next => (reduxAction) => {
   const action = Object.assign({}, reduxAction);
 
   if (typeof reduxAction.payload === 'object') {
-    action.payload.time = time;
+    action.time = time;
   }
 
   next({ time, ...reduxAction });

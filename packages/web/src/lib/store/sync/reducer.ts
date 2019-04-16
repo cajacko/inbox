@@ -1,4 +1,4 @@
-import createReducer from 'src/lib/utils/createReducer';
+import { PostActions } from 'src/lib/store/actions';
 import { SyncType } from 'src/lib/utils/sync';
 import { SYNC_FAILED, SYNC_REQUESTED, SYNC_SUCCESS } from './actions';
 
@@ -16,23 +16,35 @@ const initialState: IState = {
   type: 'INIT',
 };
 
-export default createReducer<IState>(initialState, {
-  [SYNC_REQUESTED]: (state, { syncType }: { syncType: SyncType }): IState => ({
-    error: null,
-    syncType,
-    type: 'REQUESTED',
-  }),
-  [SYNC_FAILED]: (
-    state: IState,
-    { error, syncType }: { error: string; syncType: SyncType }
-  ): IState => ({
-    error: error || null,
-    syncType,
-    type: 'FAILED',
-  }),
-  [SYNC_SUCCESS]: (state, { syncType }: { syncType: SyncType }): IState => ({
-    error: null,
-    syncType,
-    type: 'SUCCESS',
-  }),
-});
+/**
+ * The sync reducer
+ */
+const reducer = (state: IState = initialState, action: PostActions) => {
+  switch (action.type) {
+    case SYNC_REQUESTED:
+      return {
+        error: null,
+        syncType: action.payload.syncType,
+        type: 'REQUESTED',
+      };
+
+    case SYNC_FAILED:
+      return {
+        error: action.payload.error || null,
+        syncType: action.payload.syncType,
+        type: 'FAILED',
+      };
+
+    case SYNC_SUCCESS:
+      return {
+        error: null,
+        syncType: action.payload.syncType,
+        type: 'SUCCESS',
+      };
+
+    default:
+      return state;
+  }
+};
+
+export default reducer;

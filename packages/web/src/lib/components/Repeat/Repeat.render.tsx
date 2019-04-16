@@ -6,14 +6,14 @@ import Text from 'src/lib/components/Text';
 import { BACKGROUND_COLORS } from 'src/lib/config/styles/textIconColors';
 import AppError from 'src/lib/modules/AppError';
 import CustomDate from 'src/lib/modules/CustomDate';
-import { ActionRepeatTypes } from 'src/lib/store/repeats/reducer';
+import { RepeatTypes } from 'src/lib/store/repeats/reducer';
 import { Text as TextType } from 'src/lib/types/general';
 import * as Style from './Repeat.style';
 
 const suggestions: Array<{
   key: string;
   payload: {
-    type: ActionRepeatTypes;
+  type: RepeatTypes | 'NO_REPEAT';
   };
   text: TextType;
   }> = [
@@ -57,7 +57,7 @@ const suggestions: Array<{
 export interface IProps {
   type: 'INIT' | 'SUGGESTIONS' | 'CUSTOM_DATE_TIME';
   setType: (type: IProps['type']) => () => void;
-  onOpenRepeatStartDate: (type: ActionRepeatTypes) => () => void;
+  onOpenRepeatStartDate: (type: RepeatTypes | 'NO_REPEAT') => () => void;
   text: string;
   onSetStartDate: (date: CustomDate) => void;
 }

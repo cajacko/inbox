@@ -3,8 +3,9 @@ import * as redux from 'redux';
 import * as reduxPersist from 'redux-persist';
 import immutableTransform from 'redux-persist-transform-immutable';
 import thunk from 'redux-thunk';
+import { PreActions } from 'src/lib/store/actions';
 import { IJSState, IState, ReducerKey } from 'src/lib/store/reducers';
-import { IAction, Middleware } from 'src/lib/types/libs';
+import { Middleware } from 'src/lib/types/libs';
 import getEnvVar from 'src/lib/utils/getEnvVar';
 import isDev from 'src/utils/conditionals/isDev';
 import isTestEnv from 'src/utils/conditionals/isTestEnv';
@@ -165,7 +166,7 @@ class Store {
    * Log in dev mode
    */
   private loggerMiddleware() {
-    return (next: (action: IAction) => any) => (action: IAction) => {
+    return (next: (action: PreActions) => any) => (action: PreActions) => {
       if (this.shouldLogState) logger.debug('REDUX BEFORE', this.getJSState());
 
       logger.debug(`REDUX ACTION: ${action.type}`, action);
