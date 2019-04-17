@@ -1,10 +1,11 @@
 import * as React from 'react';
 import CustomDate from 'src/lib/modules/CustomDate';
-import { RepeatTypes } from 'src/lib/store/repeats/reducer';
+import { RepeatTypes } from 'src/lib/store/reminders/reducer';
 import Repeat, { IProps as IRenderProps } from './Repeat.render';
 
 export interface IContainerDispatchProps {
   onSetRepeat: (type: RepeatTypes, startDate: number, id: string) => void;
+  onRemoveRepeat: (id: string) => void;
 }
 
 export interface IContainerStateProps {
@@ -49,9 +50,9 @@ class RepeatComponent extends React.Component<IProps, IState> {
   /**
    * Set the repeat details
    */
-  private onOpenRepeatStartDate(payload: any) {
+  private onOpenRepeatStartDate(type: RepeatTypes | 'NO_REPEAT') {
     return () => {
-      this.payload = payload;
+      this.type = type;
 
       this.setState({ type: 'CUSTOM_DATE_TIME' });
     };
@@ -66,7 +67,12 @@ class RepeatComponent extends React.Component<IProps, IState> {
     // TODO: Handle this
     if (!this.props.id) return;
 
-    this.props.onSetRepeat(this.payload, startDate.getTime(), this.props.id);
+    if (this.type === 'NO_REPEAT') {
+      this.props.onRemoveRepeat(this.props.id);
+      return;
+    }
+
+    this.props.onSetRepeat(this.type, startDate.getTime(), this.props.id);
   }
 
   /**
@@ -78,7 +84,7 @@ class RepeatComponent extends React.Component<IProps, IState> {
     };
   }
 
-  private payload: any;
+  private type: RepeatTypes | 'NO_REPEAT';
 
   /**
    * Render the component

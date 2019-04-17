@@ -1,11 +1,11 @@
 import {
   IDeleteReminderAction,
+  IRemoveReminderRepeatAction,
   ISetDueDateAction,
   ISetReminderAction,
+  ISetReminderRepeatAction,
   IToggleReminderDoneAction,
-  IUpdateSnoozedAction,
 } from 'src/lib/store/reminders/actions';
-import { ISetReminderRepeatAction } from 'src/lib/store/repeats/actions';
 import {
   ISyncFailedAction,
   ISyncRequestedAction,
@@ -36,23 +36,23 @@ export type PreActions =
   | ILogoutPayload
   | IDeleteReminderAction
   | ISetReminderRepeatAction
-  | IUpdateSnoozedAction
   | ISetReminderAction
   | IToggleReminderDoneAction
   | ISetDueDateAction
   | ISyncRequestedAction
   | ISyncSuccessAction
-  | ISyncFailedAction;
+  | ISyncFailedAction
+  | IRemoveReminderRepeatAction;
 
 export type PostActions =
   | IAction<ILoginPayload>
   | IAction<ILogoutPayload>
   | IAction<IDeleteReminderAction>
   | IAction<ISetReminderRepeatAction>
-  | IAction<IUpdateSnoozedAction>
   | IAction<ISetReminderAction>
   | IAction<IToggleReminderDoneAction>
   | IAction<ISetDueDateAction>
   | IAction<ISyncRequestedAction>
   | IAction<ISyncSuccessAction>
-  | IAction<ISyncFailedAction>;
+  | IAction<ISyncFailedAction>
+  | IAction<IRemoveReminderRepeatAction>;

@@ -1,11 +1,12 @@
 import { connect } from 'react-redux';
+import CustomDate from 'src/lib/modules/CustomDate';
 import { IState } from 'src/lib/store/reducers';
 import {
   deleteReminder,
   setDueDate,
   toggleReminderDone,
 } from 'src/lib/store/reminders/actions';
-import { isRepeated } from 'src/lib/store/repeats/selectors';
+import { isRepeated } from 'src/lib/store/reminders/selectors';
 import { Dispatch } from 'src/lib/types/libs';
 import Reminder from './Reminder.component';
 import {
@@ -21,7 +22,7 @@ const mapStateToProps = (state: IState, { id }: IPassedProps) => ({
   ...state.reminders[id],
   isDone: state.reminders[id].status === 'DONE',
   isRepeated: isRepeated(state, id),
-  isSnoozed: state.reminders[id].status === 'SNOOZED',
+  isSnoozed: state.reminders[id].dueDate > CustomDate.now(),
 });
 
 /**

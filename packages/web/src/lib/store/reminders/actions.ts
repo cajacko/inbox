@@ -2,19 +2,22 @@ import CustomDate from 'src/lib/modules/CustomDate';
 import store from 'src/lib/utils/store';
 import uuid from 'src/lib/utils/uuid';
 import testHook from 'src/utils/testHook';
-import { IReminder } from './reducer';
+import { IReminder, RepeatTypes } from './reducer';
 
 export const SET_REMINDER = 'SET_REMINDER';
 export const DELETE_REMINDER = 'DELETE_REMINDER';
 export const TOGGLE_REMINDER_DONE = 'TOGGLE_REMINDER_DONE';
-export const UPDATE_SNOOZED = 'UPDATE_SNOOZED';
 export const SET_DUE_DATE = 'SET_DUE_DATE';
+export const SET_REMINDER_REPEAT = 'SET_REMINDER_REPEAT';
+export const REMOVE_REMINDER_REPEAT = 'REMOVE_REMINDER_REPEAT';
 
 export const SYNC_ACTIONS = [
   SET_REMINDER,
   DELETE_REMINDER,
   TOGGLE_REMINDER_DONE,
   SET_DUE_DATE,
+  SET_REMINDER_REPEAT,
+  REMOVE_REMINDER_REPEAT,
 ];
 
 export interface ISetReminderAction {
@@ -60,6 +63,7 @@ export const setReminder = (
   return {
     payload: {
       ...data,
+      repeat: null,
       saveStatus: 'saving',
       status,
       text,
@@ -110,19 +114,6 @@ export const toggleReminderDone = (
   return { type: TOGGLE_REMINDER_DONE, payload: { id, dateModified, isDone } };
 };
 
-export interface IUpdateSnoozedAction {
-  type: typeof UPDATE_SNOOZED;
-  payload: {};
-}
-
-/**
- * Update snoozed action
- */
-export const updateSnoozed = (): IUpdateSnoozedAction => ({
-  payload: {},
-  type: UPDATE_SNOOZED,
-});
-
 export interface ISetDueDateAction {
   type: typeof SET_DUE_DATE;
   payload: {
@@ -140,4 +131,46 @@ export const setDueDate = (id: string, dueDate: number): ISetDueDateAction => ({
     id,
   },
   type: SET_DUE_DATE,
+});
+
+export interface ISetReminderRepeatAction {
+  type: typeof SET_REMINDER_REPEAT;
+  payload: {
+    type: RepeatTypes;
+    startDate: number;
+    id: string;
+  };
+}
+
+/**
+ * Action for setting the reminder repeats
+ */
+export const setReminderRepeat = (
+  type: RepeatTypes,
+  startDate: number,
+  id: string
+): ISetReminderRepeatAction => ({
+  payload: {
+    id,
+    startDate,
+    type,
+  },
+  type: SET_REMINDER_REPEAT,
+});
+
+export interface IRemoveReminderRepeatAction {
+  type: typeof REMOVE_REMINDER_REPEAT;
+  payload: {
+    id: string;
+  };
+}
+
+/**
+ * Redux action to remove the reminders repeat
+ */
+export const removeReminderRepeat = (id: string): IRemoveReminderRepeatAction => ({
+  payload: {
+    id,
+  },
+  type: REMOVE_REMINDER_REPEAT,
 });

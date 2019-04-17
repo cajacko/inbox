@@ -5,12 +5,7 @@ import login, {
 import reminders, {
   IJSState as ReminderJSState,
   IState as ReminderState,
-  transform as reminderTransform,
 } from './reminders/reducer';
-import repeats, {
-  IJSState as RepeatsJSState,
-  IState as RepeatsState,
-} from './repeats/reducer';
 import sync, {
   IJSState as SyncJSState,
   IState as SyncState,
@@ -23,7 +18,6 @@ import user, {
 export interface IState {
   login: LoginState;
   reminders: ReminderState;
-  repeats: RepeatsState;
   user: UserState;
   sync: SyncState;
 }
@@ -31,19 +25,17 @@ export interface IState {
 export interface IJSState {
   login: LoginJSState;
   reminders: ReminderJSState;
-  repeats: RepeatsJSState;
   user: UserJSState;
   sync: SyncJSState;
 }
 
 export type ReducerKey = keyof IState;
 
-export const transforms = [reminderTransform];
+export const transforms = [];
 
 export default {
   login,
   reminders,
-  repeats,
   sync,
   user,
 };

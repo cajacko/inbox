@@ -3,6 +3,18 @@ Feature: Repeating Reminders
   I want to have reminders that come up at repeated intervals
   So that I can be reminded about things I have to do regularly
 
+  # TODO:
+  # What happens to the due date of a reminder when remove repeat, what if it
+  # was snoozed as well?
+  #
+  # Remove reminder does not make you pick a date
+  #
+  # The repeating reminders list does not show it as done. If mark as done
+  # within the repeated list then it removes the repeat (with warning)
+  #
+  # When mark a repeated item in INBOX as done, then it comes back from repeat,
+  # it is not marked as done anymore
+
   # DISPLAY
 
   Scenario: Repeat button shows correctly in hover menu

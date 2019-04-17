@@ -11,7 +11,6 @@ import {
 import syncMiddleware from 'src/lib/utils/middleware/sync';
 import time from 'src/lib/utils/middleware/time';
 import sync, { startSyncCron } from 'src/lib/utils/sync';
-import * as updateSnoozedCron from 'src/lib/utils/updateSnoozedCron';
 import Storage from 'src/modules/Storage';
 import isTestEnv from 'src/utils/conditionals/isTestEnv';
 import testHook from 'src/utils/testHook';
@@ -45,7 +44,6 @@ const persist = () => {
         sync('init');
 
         startSyncCron();
-        updateSnoozedCron.start();
       };
 
       if (isTestEnv()) {
