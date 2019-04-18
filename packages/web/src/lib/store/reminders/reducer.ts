@@ -1,167 +1,147 @@
-/* eslint max-lines: 0 */
 import { IApiReminder } from 'src/lib/graphql/types';
 import { PostActions } from 'src/lib/store/actions';
 import {
-  SYNC_FAILED,
-  SYNC_REQUESTED,
-  SYNC_SUCCESS,
-} from 'src/lib/store/sync/actions';
-import {
-  DELETE_REMINDER,
-  REMOVE_REMINDER_REPEAT,
-  SET_DUE_DATE,
-  SET_REMINDER,
-  SET_REMINDER_REPEAT,
-  TOGGLE_REMINDER_DONE,
-} from './actions';
+  addRemindersToLists,
+  sortReminders,
+  updateReminderTiming,
+} from 'src/lib/utils/reminders';
+import { IReminder, IState } from './types';
 
-export type RepeatTypes = 'DAILY' | 'WEEKLY' | 'MONTHLY' | 'YEARLY';
-
-export interface IRepeat {
-  type: RepeatTypes;
-  startDate: number;
-}
-
-export interface IReminder {
-  id: string;
-  text: string;
-  dateModified: number;
-  dateCreated: number;
-  dueDate: number;
-  saveStatus: 'saving' | 'saved' | 'error';
-  status: 'DONE' | 'DELETED' | 'INBOX';
-  repeat: null | IRepeat;
-}
-
-export interface IState {
-  [key: string]: IReminder;
-}
-
-export type IJSState = IState;
-
-const initialState: IState = {};
-
-/**
- * Update or set a new reminder
- */
-const setReminder = (
-  state: IState,
-  id: string,
-  reminder: Partial<IReminder>
-): IState =>
-  Object.assign({}, state, {
-    [id]: Object.assign({}, state[id] || {}, reminder),
-  });
-
-/**
- * Update the status of an array of reminders
- */
-const updateStatus = (
-  state: IState,
-  reminders: Array<IReminder | IApiReminder>,
-  saveStatus: IReminder['saveStatus']
-): IState => {
-  let newState = state;
-
-  reminders.forEach((reminder) => {
-    newState = setReminder(newState, reminder.id, { saveStatus });
-  });
-
-  return newState;
+const initialState: IState = {
+  remindersById: {},
+  remindersByList: {
+    deleted: [],
+    done: [],
+    inbox: [],
+    repeated: [],
+    snoozed: [],
+  },
 };
 
 /**
- * The reminders reducer
+ * Set which reminders should be in which list and order them
+ */
+const setLists = (state: IState, time: number): IState => {
+  const lists = addRemindersToLists(state);
+
+  const orderedLists: IState['remindersByList'] = Object.keys(lists).reduce(
+    (acc, listKey: keyof IState['remindersByList']) => ({
+      ...acc,
+      [listKey]: lists[listKey].sort((a: string, b: string) => {
+        const reminderA = state.remindersById[a];
+        const reminderB = state.remindersById[b];
+
+        const order = sortReminders(reminderA, reminderB, time);
+
+        switch (listKey) {
+          case 'deleted':
+            return order('deletedDate');
+          case 'done':
+            return order('doneDate');
+          case 'inbox':
+            return order('inboxDate');
+          case 'repeated':
+            return order('repeated');
+          case 'snoozed':
+            return order('snoozedDate');
+          default:
+            throw new Error('Boo');
+        }
+      }),
+    }),
+    lists
+  );
+
+  return {
+    ...state,
+    remindersByList: orderedLists,
+  };
+};
+
+/**
+ * Update any reminders dates based on whether their snoozed or repeated times
+ * have come up
+ */
+const updateReminderTimings = (state: IState, time: number): IState => {
+  const remindersById = Object.values(state.remindersById).reduce(
+    (acc, reminder) => {
+      if (!reminder) return acc;
+
+      return {
+        ...acc,
+        [reminder.id]: updateReminderTiming(reminder, time),
+      };
+    },
+    state.remindersById
+  );
+
+  return setLists({ ...state, remindersById }, time);
+};
+
+/**
+ * Set a single reminder
+ */
+const setReminder = (
+  state: IState,
+  reminder: IReminder,
+  time: number,
+  shouldSetLists: boolean
+): IState => {
+  let newState: IState = {
+    ...state,
+    remindersById: {
+      ...state.remindersById,
+      [reminder.id]: reminder,
+    },
+  };
+
+  if (shouldSetLists) newState = setLists(newState, time);
+
+  return updateReminderTimings(newState, time);
+};
+
+/**
+ * Set multiple reminders
+ */
+const setReminders = (
+  state: IState,
+  reminders: IReminder[],
+  time: number
+): IState => {
+  const newState: IState = reminders.reduce(
+    (acc, reminder) => setReminder(acc, reminder, time, false),
+    state
+  );
+
+  return setLists(newState, time);
+};
+
+/**
+ * Convert and api reminder to one for the state
+ */
+const covertReminder = (apiReminder: IApiReminder[]): IReminder[] =>
+  apiReminder.map<IReminder>(reminder => ({
+    ...reminder,
+    saveStatus: 'saved',
+  }));
+
+/**
+ * Reminders reducer
  */
 const reducer = (state: IState = initialState, action: PostActions): IState => {
   switch (action.type) {
-    case SET_DUE_DATE:
-      return setReminder(state, action.payload.id, {
-        dateModified: action.time,
-        dueDate: action.payload.dueDate,
-        saveStatus: 'saving',
-        status: 'INBOX',
-      });
-
-    case SET_REMINDER:
-      return setReminder(state, action.payload.id, {
-        dateCreated: action.payload.dateCreated,
-        dateModified: action.payload.dateModified,
-        dueDate: action.payload.dueDate,
-        id: action.payload.id,
-        saveStatus: action.payload.saveStatus,
-        status: action.payload.status,
-        text: action.payload.text,
-      });
-
-    case DELETE_REMINDER:
-      return setReminder(state, action.payload.id, {
-        dateModified: action.payload.dateModified,
-        saveStatus: 'saving',
-        status: 'DELETED',
-      });
-
-    case SYNC_SUCCESS: {
-      const { reminders } = action.payload.newItems;
-
-      if (!reminders) return state;
-
-      let newState: IState = Object.assign({}, state);
-
-      reminders.forEach((reminder) => {
-        if (!reminder) return;
-
-        const existingReminder = newState[reminder.id];
-
-        if (
-          existingReminder &&
-          existingReminder.dateModified > reminder.dateModified
-        ) {
-          return;
-        }
-
-        newState = setReminder(newState, reminder.id, {
-          ...reminder,
-          saveStatus: 'saved',
-        });
-      });
-
-      return newState;
-    }
-
-    case SYNC_REQUESTED:
-      return updateStatus(state, action.payload.changedReminders, 'saving');
-
-    case SYNC_FAILED:
-      return updateStatus(state, action.payload.changedReminders, 'error');
-
-    case TOGGLE_REMINDER_DONE:
-      return setReminder(state, action.payload.id, {
-        dateModified: action.payload.dateModified,
-        dueDate: action.time,
-        saveStatus: 'saving',
-        status: action.payload.isDone ? 'DONE' : 'INBOX',
-      });
-
-    case SET_REMINDER_REPEAT:
-      return setReminder(state, action.payload.id, {
-        dateModified: action.time,
-        repeat: {
-          startDate: action.payload.startDate,
-          type: action.payload.type,
-        },
-        saveStatus: 'saving',
-        status: 'INBOX',
-      });
-
-    case REMOVE_REMINDER_REPEAT:
-      return setReminder(state, action.payload.id, {
-        dateModified: action.time,
-        repeat: null,
-        saveStatus: 'saving',
-        status: 'INBOX',
-      });
-
+    case 'SET_REMINDER':
+      return setReminder(state, action.payload, action.time, true);
+    case 'SET_REMINDERS':
+      return setReminders(state, action.payload, action.time);
+    case 'UPDATE_REMINDER_TIMINGS':
+      return updateReminderTimings(state, action.time);
+    case 'SYNC_SUCCESS':
+      return setReminders(
+        state,
+        covertReminder(action.payload.newItems.reminders),
+        action.time
+      );
     default:
       return state;
   }

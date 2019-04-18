@@ -2,10 +2,11 @@ import login, {
   IJSState as LoginJSState,
   IState as LoginState,
 } from './login/reducer';
-import reminders, {
+import reminders from './reminders/reducer';
+import {
   IJSState as ReminderJSState,
   IState as ReminderState,
-} from './reminders/reducer';
+} from './reminders/types';
 import sync, {
   IJSState as SyncJSState,
   IState as SyncState,

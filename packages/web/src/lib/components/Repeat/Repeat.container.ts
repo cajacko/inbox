@@ -4,8 +4,8 @@ import {
   removeReminderRepeat,
   setReminderRepeat,
 } from 'src/lib/store/reminders/actions';
-import { RepeatTypes } from 'src/lib/store/reminders/reducer';
 import { getRepeatText } from 'src/lib/store/reminders/selectors';
+import { RepeatSimpleTypes } from 'src/lib/store/reminders/types';
 import { Dispatch } from 'src/lib/types/libs';
 import Repeat, {
   IContainerDispatchProps,
@@ -25,7 +25,7 @@ const mapStateToProps = (state: IState, { id }: IPassedProps) => ({
  */
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   onRemoveRepeat: (id: string) => dispatch(removeReminderRepeat(id)),
-  onSetRepeat: (type: RepeatTypes, startDate: number, id: string) =>
+  onSetRepeat: (type: RepeatSimpleTypes, startDate: number, id: string) =>
     dispatch(setReminderRepeat(type, startDate, id)),
 });
 

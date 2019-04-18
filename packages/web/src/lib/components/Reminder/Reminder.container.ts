@@ -3,7 +3,7 @@ import CustomDate from 'src/lib/modules/CustomDate';
 import { IState } from 'src/lib/store/reducers';
 import {
   deleteReminder,
-  setDueDate,
+  setSnooze,
   toggleReminderDone,
 } from 'src/lib/store/reminders/actions';
 import { isRepeated } from 'src/lib/store/reminders/selectors';
@@ -31,7 +31,7 @@ const mapStateToProps = (state: IState, { id }: IPassedProps) => ({
 const mapDispatchToProps = (dispatch: Dispatch, { id }: IPassedProps) => ({
   onDelete: () => dispatch(deleteReminder(id)),
   onSetDone: (val: boolean) => () => dispatch(toggleReminderDone(id, val)),
-  onSetDueDate: (time: number) => dispatch(setDueDate(id, time)),
+  onSetDueDate: (time: number) => dispatch(setSnooze(id, time)),
 });
 
 export default connect<IContainerStateProps, IContainerDispatchProps>(

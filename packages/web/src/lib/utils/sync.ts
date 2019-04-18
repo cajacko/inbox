@@ -1,6 +1,6 @@
 import { IApiReminder } from 'src/lib/graphql/types';
 import CustomDate from 'src/lib/modules/CustomDate';
-import { IReminder } from 'src/lib/store/reminders/reducer';
+import { IReminder } from 'src/lib/store/reminders/types';
 import {
   syncFailed,
   syncRequested,
@@ -32,23 +32,42 @@ const setNextSyncPromise = () => {
 };
 
 /**
+ * Filter the reminders and ensure the typings
+ */
+function filterReminders(reminders: Array<IReminder | undefined>): IReminder[] {
+  const filteredReminders: IReminder[] = [];
+
+  // TS is very naughty and won't let us use filter here. Go on try.
+  reminders.forEach((reminder) => {
+    if (!!reminder && reminder.saveStatus !== 'saved') {
+      filteredReminders.push(reminder);
+    }
+  });
+
+  return filteredReminders;
+}
+
+/**
  * Get all the reminders which have changed locally
  */
 const getChangedReminders = (): IApiReminder[] => {
-  const { reminders } = store.getState();
+  const {
+    reminders: { remindersById },
+  } = store.getState();
 
-  const reminderArr: IReminder[] = Object.values(reminders);
+  const reminderArr = Object.values(remindersById);
 
-  return reminderArr
-    .filter(({ saveStatus }) => saveStatus !== 'saved')
-    .map(reminder => ({
-      dateCreated: reminder.dateCreated,
-      dateModified: reminder.dateModified,
-      dueDate: reminder.dueDate,
-      id: reminder.id,
-      status: reminder.status,
-      text: reminder.text,
-    }));
+  return filterReminders(reminderArr).map(reminder => ({
+    dateCreated: reminder.dateCreated,
+    dateModified: reminder.dateModified,
+    deletedDate: reminder.deletedDate,
+    doneDate: reminder.doneDate,
+    id: reminder.id,
+    inboxDate: reminder.inboxDate,
+    repeated: reminder.repeated,
+    snoozedDate: reminder.snoozedDate,
+    text: reminder.text,
+  }));
 };
 
 /**

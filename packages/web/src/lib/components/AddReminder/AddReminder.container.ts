@@ -2,8 +2,8 @@ import { connect } from 'react-redux';
 import { IState } from 'src/lib/store/reducers';
 import {
   deleteReminder,
-  setDueDate,
   setReminder,
+  setSnooze,
   toggleReminderDone,
 } from 'src/lib/store/reminders/actions';
 import { isRepeated } from 'src/lib/store/reminders/selectors';
@@ -33,7 +33,7 @@ const mapStateToProps = (state: IState, { id }: IPassedProps) => {
  */
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   delete: (id: string) => dispatch(deleteReminder(id)),
-  onSetDueDate: (id: string, time: number) => dispatch(setDueDate(id, time)),
+  onSetDueDate: (id: string, time: number) => dispatch(setSnooze(id, time)),
   save: (text: string, dueDate?: number, id?: string) =>
     dispatch(setReminder(id, text, dueDate)),
   setDone: (id: string, val: boolean) => dispatch(toggleReminderDone(id, val)),

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import CustomDate from 'src/lib/modules/CustomDate';
-import { RepeatTypes } from 'src/lib/store/reminders/reducer';
+import { RepeatTypes } from 'src/lib/store/reminders/types';
 import Repeat, { IProps as IRenderProps } from './Repeat.render';
 
 export interface IContainerDispatchProps {

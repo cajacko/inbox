@@ -1,8 +1,13 @@
+import { IReminder } from '../store/reminders/types';
+
 export interface IApiReminder {
-  dateCreated: number;
-  dateModified: number;
-  dueDate: number;
-  id: string;
-  text: string;
-  status: 'DONE' | 'DELETED' | 'INBOX';
+  dateCreated: IReminder['dateCreated'];
+  dateModified: IReminder['dateModified'];
+  deletedDate: IReminder['deletedDate'];
+  doneDate: IReminder['doneDate'];
+  id: IReminder['id'];
+  inboxDate: IReminder['inboxDate'];
+  repeated: IReminder['repeated'];
+  snoozedDate: IReminder['snoozedDate'];
+  text: IReminder['text'];
 }
