@@ -4,7 +4,7 @@ import * as reduxPersist from 'redux-persist';
 import immutableTransform from 'redux-persist-transform-immutable';
 import thunk from 'redux-thunk';
 import { PreActions } from 'src/lib/store/actions';
-import { IJSState, IState, ReducerKey } from 'src/lib/store/reducers';
+import { IState, ReducerKey } from 'src/lib/store/reducers';
 import { Middleware } from 'src/lib/types/libs';
 import getEnvVar from 'src/lib/utils/getEnvVar';
 import isDev from 'src/utils/conditionals/isDev';
@@ -144,7 +144,7 @@ class Store {
    * Get the state as a JS object, converting any immutable structures found
    * on the reducer roots
    */
-  public getJSState(): IJSState {
+  public getJSState(): IState {
     const state = this.getState();
 
     const newState = cloneDeep(state);

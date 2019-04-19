@@ -1,14 +1,8 @@
 import { PostActions } from 'src/lib/store/actions';
+import { IState } from 'src/lib/store/types';
 import { LOGOUT } from 'src/lib/store/user/actions';
 
-export interface IState {
-  loginText: string | null;
-  reloginId: string | null;
-}
-
-export type IJSState = IState;
-
-const initialState: IState = {
+const initialState: IState['login'] = {
   loginText: null,
   reloginId: null,
 };
@@ -17,7 +11,10 @@ const initialState: IState = {
  * Handle any additional login state needed. Mainly if we're forcing someone to
  * re login again
  */
-const reducer = (state: IState = initialState, action: PostActions): IState => {
+const reducer = (
+  state: IState['login'] = initialState,
+  action: PostActions
+): IState['login'] => {
   switch (action.type) {
     case LOGOUT:
       return {

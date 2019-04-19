@@ -1,6 +1,6 @@
-import blacklist from 'src/lib/config/storeBlacklist';
 import Store from 'src/lib/modules/Store';
 import reducers, { transforms } from 'src/lib/store/reducers';
+import { BLACKLIST } from 'src/lib/store/types';
 import analytics from 'src/lib/utils/analytics';
 import appLoading from 'src/lib/utils/appLoading';
 import analyticsMiddleWare from 'src/lib/utils/middleware/analytics';
@@ -36,7 +36,7 @@ const persist = () => {
   // Ignore storage mismatch, it does work, and we can't change the lib types
   // (although we probably can somehow)
   // @ts-ignore
-  store.persistStore(Storage, blacklist, transforms).then(() => {
+  store.persistStore(Storage, BLACKLIST, transforms).then(() => {
     if (store.getState().user.isLoggedIn) {
       /**
        * Start the sync

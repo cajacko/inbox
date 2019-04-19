@@ -1,17 +1,8 @@
 import { PostActions } from 'src/lib/store/actions';
+import { IState } from 'src/lib/store/types';
 import { LOGIN, LOGOUT } from './actions';
 
-export interface IState {
-  isLoggedIn: boolean;
-  id: string | null;
-  displayName: string | null;
-  refreshToken?: string | null;
-  photoURL: string | null;
-}
-
-export type IJSState = IState;
-
-const initialState: IState = {
+const initialState: IState['user'] = {
   displayName: null,
   id: null,
   isLoggedIn: false,
@@ -22,7 +13,10 @@ const initialState: IState = {
 /**
  * Add the user object to the state when login and clear on logout
  */
-const reducer = (state: IState = initialState, action: PostActions): IState => {
+const reducer = (
+  state: IState['user'] = initialState,
+  action: PostActions
+): IState['user'] => {
   switch (action.type) {
     case LOGOUT:
       return initialState;

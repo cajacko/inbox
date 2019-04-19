@@ -6,7 +6,7 @@ import Text from 'src/lib/components/Text';
 import { BACKGROUND_COLORS } from 'src/lib/config/styles/textIconColors';
 import AppError from 'src/lib/modules/AppError';
 import CustomDate from 'src/lib/modules/CustomDate';
-import { RepeatTypes } from 'src/lib/store/reminders/types';
+import { RepeatTypes } from 'src/lib/store/types';
 import { Text as TextType } from 'src/lib/types/general';
 import * as Style from './Repeat.style';
 

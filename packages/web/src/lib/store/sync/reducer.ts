@@ -1,16 +1,8 @@
 import { PostActions } from 'src/lib/store/actions';
-import { SyncType } from 'src/lib/utils/sync';
+import { IState } from 'src/lib/store/types';
 import { SYNC_FAILED, SYNC_REQUESTED, SYNC_SUCCESS } from './actions';
 
-export interface IState {
-  type: 'INIT' | 'REQUESTED' | 'FAILED' | 'SUCCESS';
-  error: string | null;
-  syncType: SyncType | null;
-}
-
-export type IJSState = IState;
-
-const initialState: IState = {
+const initialState: IState['sync'] = {
   error: null,
   syncType: null,
   type: 'INIT',
@@ -19,7 +11,7 @@ const initialState: IState = {
 /**
  * The sync reducer
  */
-const reducer = (state: IState = initialState, action: PostActions) => {
+const reducer = (state: IState['sync'] = initialState, action: PostActions) => {
   switch (action.type) {
     case SYNC_REQUESTED:
       return {

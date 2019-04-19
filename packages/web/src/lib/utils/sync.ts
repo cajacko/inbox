@@ -1,11 +1,11 @@
 import { IApiReminder } from 'src/lib/graphql/types';
 import CustomDate from 'src/lib/modules/CustomDate';
-import { IReminder } from 'src/lib/store/reminders/types';
 import {
   syncFailed,
   syncRequested,
   syncSuccess,
 } from 'src/lib/store/sync/actions';
+import { IReminder } from 'src/lib/store/types';
 import api from 'src/lib/utils/api';
 import getEnvVar from 'src/lib/utils/getEnvVar';
 import store from 'src/lib/utils/store';

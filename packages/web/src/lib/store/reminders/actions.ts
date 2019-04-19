@@ -1,9 +1,9 @@
 import CustomDate from 'src/lib/modules/CustomDate';
+import { IReminder, RepeatSimpleTypes } from 'src/lib/store/types';
 import * as reminders from 'src/lib/utils/reminders';
 import store from 'src/lib/utils/store';
 import uuid from 'src/lib/utils/uuid';
 import testHook from 'src/utils/testHook';
-import { IReminder, RepeatSimpleTypes } from './types';
 
 export const SET_REMINDER = 'SET_REMINDER';
 export const SET_REMINDERS = 'SET_REMINDERS';

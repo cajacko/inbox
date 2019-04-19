@@ -5,7 +5,7 @@ import {
   setReminderRepeat,
 } from 'src/lib/store/reminders/actions';
 import { getRepeatText } from 'src/lib/store/reminders/selectors';
-import { RepeatSimpleTypes } from 'src/lib/store/reminders/types';
+import { RepeatSimpleTypes } from 'src/lib/store/types';
 import { Dispatch } from 'src/lib/types/libs';
 import Repeat, {
   IContainerDispatchProps,

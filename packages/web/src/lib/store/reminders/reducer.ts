@@ -1,13 +1,13 @@
 import { IApiReminder } from 'src/lib/graphql/types';
 import { PostActions } from 'src/lib/store/actions';
+import { IReminder, IState } from 'src/lib/store/types';
 import {
   addRemindersToLists,
   sortReminders,
   updateReminderTiming,
 } from 'src/lib/utils/reminders';
-import { IReminder, IState } from './types';
 
-const initialState: IState = {
+const initialState: IState['reminders'] = {
   remindersById: {},
   remindersByList: {
     deleted: [],
@@ -21,11 +21,11 @@ const initialState: IState = {
 /**
  * Set which reminders should be in which list and order them
  */
-const setLists = (state: IState, time: number): IState => {
+const setLists = (state: IState['reminders'], time: number): IState['reminders'] => {
   const lists = addRemindersToLists(state);
 
-  const orderedLists: IState['remindersByList'] = Object.keys(lists).reduce(
-    (acc, listKey: keyof IState['remindersByList']) => ({
+  const orderedLists: IState['reminders']['remindersByList'] = Object.keys(lists).reduce(
+    (acc, listKey: keyof IState['reminders']['remindersByList']) => ({
       ...acc,
       [listKey]: lists[listKey].sort((a: string, b: string) => {
         const reminderA = state.remindersById[a];
@@ -62,7 +62,7 @@ const setLists = (state: IState, time: number): IState => {
  * Update any reminders dates based on whether their snoozed or repeated times
  * have come up
  */
-const updateReminderTimings = (state: IState, time: number): IState => {
+const updateReminderTimings = (state: IState['reminders'], time: number): IState['reminders'] => {
   const remindersById = Object.values(state.remindersById).reduce(
     (acc, reminder) => {
       if (!reminder) return acc;
@@ -82,12 +82,12 @@ const updateReminderTimings = (state: IState, time: number): IState => {
  * Set a single reminder
  */
 const setReminder = (
-  state: IState,
+  state: IState['reminders'],
   reminder: IReminder,
   time: number,
   shouldSetLists: boolean
-): IState => {
-  let newState: IState = {
+): IState['reminders'] => {
+  let newState: IState['reminders'] = {
     ...state,
     remindersById: {
       ...state.remindersById,
@@ -104,11 +104,11 @@ const setReminder = (
  * Set multiple reminders
  */
 const setReminders = (
-  state: IState,
+  state: IState['reminders'],
   reminders: IReminder[],
   time: number
-): IState => {
-  const newState: IState = reminders.reduce(
+): IState['reminders'] => {
+  const newState: IState['reminders'] = reminders.reduce(
     (acc, reminder) => setReminder(acc, reminder, time, false),
     state
   );
@@ -128,7 +128,7 @@ const covertReminder = (apiReminder: IApiReminder[]): IReminder[] =>
 /**
  * Reminders reducer
  */
-const reducer = (state: IState = initialState, action: PostActions): IState => {
+const reducer = (state: IState['reminders'] = initialState, action: PostActions): IState['reminders'] => {
   switch (action.type) {
     case 'SET_REMINDER':
       return setReminder(state, action.payload, action.time, true);

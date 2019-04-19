@@ -1,4 +1,4 @@
-import { IReminder } from '../store/reminders/types';
+import { IReminder } from '../store/types';
 
 export interface IApiReminder {
   dateCreated: IReminder['dateCreated'];

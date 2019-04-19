@@ -1,5 +1,5 @@
 import CustomDate from 'src/lib/modules/CustomDate';
-import { Repeated } from 'src/lib/store/reminders/types';
+import { Repeated } from 'src/lib/store/types';
 
 /**
  * Get the next occurrence of a repeated reminder

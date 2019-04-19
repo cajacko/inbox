@@ -4,7 +4,7 @@ import {
   IState,
   Repeated,
   RepeatSimpleTypes,
-} from 'src/lib/store/reminders/types';
+} from 'src/lib/store/types';
 import getNextOccurrence from 'src/lib/utils/getNextOccurrence';
 
 type ReminderProps < T extends keyof IReminder > = T;
@@ -52,8 +52,8 @@ const editDates = (reminder: IReminder, dates: IDates): IReminder => {
 /**
  * Add reminders to their relevant lists
  */
-export const addRemindersToLists = (state: IState) => {
-  const lists: IState['remindersByList'] = {
+export const addRemindersToLists = (state: IState['reminders']) => {
+  const lists: IState['reminders']['remindersByList'] = {
     deleted: [],
     done: [],
     inbox: [],
