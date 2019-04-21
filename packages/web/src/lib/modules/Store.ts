@@ -1,3 +1,4 @@
+/* eslint max-lines: 0 */
 import cloneDeep from 'lodash/cloneDeep';
 import * as redux from 'redux';
 import * as reduxPersist from 'redux-persist';
@@ -7,6 +8,7 @@ import { PreActions } from 'src/lib/store/actions';
 import { IState, ReducerKey } from 'src/lib/store/reducers';
 import { Middleware } from 'src/lib/types/libs';
 import getEnvVar from 'src/lib/utils/getEnvVar';
+import createMigration, { OnMigrate } from 'src/lib/utils/middleware/createMigration';
 import isDev from 'src/utils/conditionals/isDev';
 import isTestEnv from 'src/utils/conditionals/isTestEnv';
 import logger from 'src/utils/logger';
@@ -22,6 +24,10 @@ type RootReducer = (
   reducer: redux.Reducer<any, redux.AnyAction>
 ) => (state: any, action: redux.AnyAction) => IState;
 
+interface IMigrations {
+  [key: number]: (state: any) => any;
+}
+
 /**
  * Manage the redux store in 1 location
  */
@@ -32,6 +38,7 @@ class Store {
   private shouldLogState: boolean;
   private purgeOnLoad: boolean;
   private persistor: reduxPersist.Persistor | null = null;
+  private onMigrate?: OnMigrate;
 
   /**
    * Initialise the class, setting up promises to check if we've
@@ -44,16 +51,21 @@ class Store {
       shouldLogState,
       purgeOnLoad,
       middleware,
+      migrations,
       rootReducer,
+      onMigrate,
     }: {
     shouldLogState?: boolean;
     purgeOnLoad?: boolean;
     middleware?: Middleware[];
+    migrations?: IMigrations;
     rootReducer?: RootReducer;
+    onMigrate?: OnMigrate;
     } = defaultOptions
   ) {
     this.shouldLogState = !!shouldLogState;
     this.purgeOnLoad = !!purgeOnLoad;
+    this.onMigrate = onMigrate;
 
     // Needs to be bound before any calls to this.setupStore, as that tries to
     // puts it's own binding on it
@@ -63,7 +75,8 @@ class Store {
       reducers,
       existingState,
       middleware,
-      rootReducer
+      rootReducer,
+      migrations
     );
     this.onFinishedPersist = Promise.resolve();
   }
@@ -75,7 +88,8 @@ class Store {
     reducers: redux.ReducersMapObject,
     existingState?: ExistingState,
     middleware: Middleware[] = [],
-    rootReducer?: RootReducer
+    rootReducer?: RootReducer,
+    manifest: IMigrations = {}
   ) {
     const logTest = getEnvVar('LOG_REDUX_IN_TESTS') || !isTestEnv();
 
@@ -85,13 +99,29 @@ class Store {
       ? redux.applyMiddleware(this.loggerMiddleware, thunk, ...middleware)
       : redux.applyMiddleware(thunk, ...middleware);
 
-    const reducer = redux.combineReducers(reducers);
+    // VERSION_REDUCER_KEY is the key of the reducer you want to store the state
+    // version in. You _must_ create this reducer, redux-persist-migrate will
+    // not create it for you.
+    const VERSION_REDUCER_KEY = '_version';
+
+    const reducer: redux.Reducer<any, redux.AnyAction> = redux.combineReducers({
+      ...reducers,
+      [VERSION_REDUCER_KEY]: (state: any = {}) => state,
+    });
+
+    const migration = createMigration(
+      manifest,
+      VERSION_REDUCER_KEY,
+      undefined,
+      this.onMigrate
+    );
 
     this.store = redux.createStore(
       rootReducer ? rootReducer(reducer) : reducer,
       existingState,
       redux.compose(
         allMiddleware,
+        migration,
         reduxPersist.autoRehydrate()
       )
     );

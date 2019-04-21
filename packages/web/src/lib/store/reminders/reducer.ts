@@ -21,7 +21,10 @@ const initialState: IState['reminders'] = {
 /**
  * Set which reminders should be in which list and order them
  */
-const setLists = (state: IState['reminders'], time: number): IState['reminders'] => {
+const setLists = (
+  state: IState['reminders'],
+  time: number
+): IState['reminders'] => {
   const lists = addRemindersToLists(state);
 
   const orderedLists: IState['reminders']['remindersByList'] = Object.keys(lists).reduce(
@@ -62,7 +65,10 @@ const setLists = (state: IState['reminders'], time: number): IState['reminders']
  * Update any reminders dates based on whether their snoozed or repeated times
  * have come up
  */
-const updateReminderTimings = (state: IState['reminders'], time: number): IState['reminders'] => {
+const updateReminderTimings = (
+  state: IState['reminders'],
+  time: number
+): IState['reminders'] => {
   const remindersById = Object.values(state.remindersById).reduce(
     (acc, reminder) => {
       if (!reminder) return acc;
@@ -128,7 +134,10 @@ const covertReminder = (apiReminder: IApiReminder[]): IReminder[] =>
 /**
  * Reminders reducer
  */
-const reducer = (state: IState['reminders'] = initialState, action: PostActions): IState['reminders'] => {
+const reducer = (
+  state: IState['reminders'] = initialState,
+  action: PostActions
+): IState['reminders'] => {
   switch (action.type) {
     case 'SET_REMINDER':
       return setReminder(state, action.payload, action.time, true);
@@ -142,6 +151,9 @@ const reducer = (state: IState['reminders'] = initialState, action: PostActions)
         covertReminder(action.payload.newItems.reminders),
         action.time
       );
+    case 'BUILD_REMINDER_LISTS':
+      return updateReminderTimings(state, action.time);
+
     default:
       return state;
   }

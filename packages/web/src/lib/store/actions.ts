@@ -1,4 +1,5 @@
 import {
+  IBuildReminderListsAction,
   ISetReminderAction,
   ISetRemindersAction,
   IUpdateReminderTimingsAction,
@@ -36,7 +37,8 @@ export type PreActions =
   | ISyncSuccessAction
   | ISyncFailedAction
   | ISetRemindersAction
-  | IUpdateReminderTimingsAction;
+  | IUpdateReminderTimingsAction
+  | IBuildReminderListsAction;
 
 export type PostActions =
   | IAction<ILoginPayload>
@@ -46,4 +48,5 @@ export type PostActions =
   | IAction<ISyncSuccessAction>
   | IAction<ISyncFailedAction>
   | IAction<ISetRemindersAction>
-  | IAction<IUpdateReminderTimingsAction>;
+  | IAction<IUpdateReminderTimingsAction>
+  | IAction<IBuildReminderListsAction>;

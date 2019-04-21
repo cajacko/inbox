@@ -8,6 +8,7 @@ import testHook from 'src/utils/testHook';
 export const SET_REMINDER = 'SET_REMINDER';
 export const SET_REMINDERS = 'SET_REMINDERS';
 export const UPDATE_REMINDER_TIMINGS = 'UPDATE_REMINDER_TIMINGS';
+export const BUILD_REMINDER_LISTS = 'BUILD_REMINDER_LISTS';
 
 export const SYNC_ACTIONS = [
   SET_REMINDER,
@@ -151,4 +152,18 @@ export const setReminderRepeat = (
 export const removeReminderRepeat = (id: string): ISetReminderAction => ({
   payload: reminders.removeReminderRepeat(getReminder(id), CustomDate.now()),
   type: SET_REMINDER,
+});
+
+export interface IBuildReminderListsAction {
+  type: typeof BUILD_REMINDER_LISTS;
+  payload: {};
+}
+
+/**
+ * Triggers the redux action to build the lists of reminders, only really used
+ * post migration as the migration may not have the logic to do this at the time
+ */
+export const buildReminderLists = (): IBuildReminderListsAction => ({
+  payload: {},
+  type: 'BUILD_REMINDER_LISTS',
 });

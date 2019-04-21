@@ -92,7 +92,19 @@
     "typescript": "^3.2.2"
   },
   "jest": {
-    "collectCoverageFrom": ["src/**/*.{js,jsx,ts,tsx}", "!**/*.d.ts"],
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "src/lib/store/migrations/**/*.{js,jsx,ts,tsx}",
+      "!**/*.d.ts"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 100,
+        "functions": 100,
+        "lines": 100,
+        "statements": 100
+      }
+    },
     "setupFiles": ["<rootDir>/config/polyfills.js"],
     "testMatch": [
       "<rootDir>/src/**/__tests__/**/*.(j|t)s?(x)",
@@ -110,7 +122,8 @@
       "[/\\\\]node_modules[/\\\\].+\\.(js|jsx|mjs|ts|tsx)$"
     ],
     "moduleNameMapper": {
-      "^react-native$": "react-native-web"
+      "^react-native$": "react-native-web",
+      "^src/(.*)$": "<rootDir>/src/$1"
     },
     "moduleFileExtensions": [
       "web.ts",
@@ -127,7 +140,7 @@
     ],
     "globals": {
       "ts-jest": {
-        "tsConfigFile": "/Users/charliejackson/Documents/inbox/packages/web/tsconfig.test.json"
+        "tsConfigFile": "/Users/charliejackson/Documents/inbox/packages/web/tsconfig.json"
       }
     }
   },

@@ -1,4 +1,5 @@
 import Store from 'src/lib/modules/Store';
+import { migrations, postMigrate } from 'src/lib/store/migrations';
 import reducers, { transforms } from 'src/lib/store/reducers';
 import { BLACKLIST } from 'src/lib/store/types';
 import analytics from 'src/lib/utils/analytics';
@@ -22,6 +23,8 @@ const initialState = testHook('initialState', undefined);
 const store = new Store(reducers, initialState, {
   middleware: [analyticsMiddleWare, syncMiddleware, logoutMiddleware, time],
   // purgeOnLoad: true,
+  migrations,
+  onMigrate: postMigrate,
   rootReducer,
   shouldLogState: true,
 });
