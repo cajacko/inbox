@@ -30,6 +30,8 @@ class ReminderList {
     selectors.general.ReminderList.Reminder.SnoozeButton;
   private reminderRepeatButtonSelector: ISelector =
     selectors.general.ReminderList.Reminder.RepeatButton;
+  private reminderRepeatIconSelector: ISelector =
+    selectors.general.ReminderList.Reminder.RepeatIcon;
 
   public async count(conditional: ICondition, value: number) {
     return driver.count(
@@ -133,6 +135,8 @@ class ReminderList {
           return this.reminderDoneIconSelector;
         case 'snooze':
           return this.reminderSnoozeIconSelector;
+        case 'repeat':
+          return this.reminderRepeatIconSelector;
         default:
           throw new Error(`Unknown icon given ${icon}`);
       }

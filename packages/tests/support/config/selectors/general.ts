@@ -187,6 +187,10 @@ const general = {
         web: ({ index }: { index: number }) =>
           `.Reminder:nth-child(${index + 1}) .Reminder__HoverRepeat`,
       },
+      RepeatIcon: {
+        web: ({ index }: { index: number }) =>
+          `.Reminder:nth-child(${index + 1}) .Reminder__RepeatedIcon`,
+      },
       SnoozeButton: {
         web: ({ index }: { index: number }) =>
           `.Reminder:nth-child(${index + 1}) .Reminder__HoverSnooze`,
@@ -230,6 +234,9 @@ const general = {
       web: '.RepeatModal__Suggestions',
     },
     web: '.RepeatModal',
+  },
+  Repeated: {
+    web: '.Repeated',
   },
   SnoozeModal: {
     Calendar: {

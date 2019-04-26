@@ -32,7 +32,7 @@ type RepeatedCustom = IRepeatCustomWeekly | IRepeatCustomMonthly;
 
 export type Repeated = RepeatedSimple | RepeatedCustom;
 
-export interface IReminder {
+export interface IReminderNoStatus {
   dateCreated: number;
   dateModified: number;
   deletedDate: number | null;
@@ -40,9 +40,12 @@ export interface IReminder {
   id: string;
   inboxDate: number | null;
   repeated: null | Repeated;
-  saveStatus: 'saving' | 'saved' | 'error';
   snoozedDate: number | null;
   text: string;
+}
+
+export interface IReminder extends IReminderNoStatus {
+  saveStatus: 'saving' | 'saved' | 'error';
 }
 
 export interface IPersistedState {

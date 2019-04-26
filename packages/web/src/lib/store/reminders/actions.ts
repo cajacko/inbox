@@ -1,5 +1,9 @@
 import CustomDate from 'src/lib/modules/CustomDate';
-import { IReminder, RepeatSimpleTypes } from 'src/lib/store/types';
+import {
+  IReminder,
+  IReminderNoStatus,
+  RepeatSimpleTypes,
+} from 'src/lib/store/types';
 import * as reminders from 'src/lib/utils/reminders';
 import store from 'src/lib/utils/store';
 import uuid from 'src/lib/utils/uuid';
@@ -51,6 +55,15 @@ const getReminder = (id: string): IReminder => {
 };
 
 /**
+ * Set the saving status of a reminder, all actions changing a reminder should
+ * use this
+ */
+const setStatus = (reminder: IReminderNoStatus): IReminder => ({
+  ...reminder,
+  saveStatus: 'saving',
+});
+
+/**
  * Set reminder action
  */
 export const setReminder = (
@@ -81,16 +94,15 @@ export const setReminder = (
     });
 
   return {
-    payload: {
+    payload: setStatus({
       ...data,
       deletedDate,
       doneDate,
       inboxDate,
       repeated: null,
-      saveStatus: 'saving',
       snoozedDate,
       text,
-    },
+    }),
     type: SET_REMINDER,
   };
 };
@@ -99,7 +111,7 @@ export const setReminder = (
  * Delete reminder action
  */
 export const deleteReminder = (id: string): ISetReminderAction => ({
-  payload: reminders.deleteReminder(getReminder(id), CustomDate.now()),
+  payload: setStatus(reminders.deleteReminder(getReminder(id), CustomDate.now())),
   type: SET_REMINDER,
 });
 
@@ -110,11 +122,7 @@ export const toggleReminderDone = (
   id: string,
   isDone: boolean
 ): ISetReminderAction => ({
-  payload: reminders.toggleReminderDone(
-    getReminder(id),
-    isDone,
-    CustomDate.now()
-  ),
+  payload: setStatus(reminders.toggleReminderDone(getReminder(id), isDone, CustomDate.now())),
   type: SET_REMINDER,
 });
 
@@ -125,7 +133,7 @@ export const setSnooze = (
   id: string,
   snoozeDate: number
 ): ISetReminderAction => ({
-  payload: reminders.setSnooze(getReminder(id), snoozeDate, CustomDate.now()),
+  payload: setStatus(reminders.setSnooze(getReminder(id), snoozeDate, CustomDate.now())),
   type: SET_REMINDER,
 });
 
@@ -137,12 +145,12 @@ export const setReminderRepeat = (
   startDate: number,
   id: string
 ): ISetReminderAction => ({
-  payload: reminders.setReminderRepeat(
+  payload: setStatus(reminders.setReminderRepeat(
     getReminder(id),
     type,
     startDate,
     CustomDate.now()
-  ),
+  )),
   type: SET_REMINDER,
 });
 
@@ -150,7 +158,7 @@ export const setReminderRepeat = (
  * Redux action to remove the reminders repeat
  */
 export const removeReminderRepeat = (id: string): ISetReminderAction => ({
-  payload: reminders.removeReminderRepeat(getReminder(id), CustomDate.now()),
+  payload: setStatus(reminders.removeReminderRepeat(getReminder(id), CustomDate.now())),
   type: SET_REMINDER,
 });
 

@@ -24,6 +24,7 @@ const migrate = (state: IStateIn): IStateOut => {
 
   Object.values(state.reminders).forEach((reminder) => {
     if (!reminder) return;
+    if (!reminder.id) return;
 
     const newReminder = {
       dateCreated: reminder.dateCreated,

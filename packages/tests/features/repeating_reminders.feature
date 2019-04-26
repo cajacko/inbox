@@ -48,16 +48,17 @@ Feature: Repeating Reminders
     And the screenshot matches
 
   Scenario: Repeated scene shows correctly
-  # Given we preload the api with "1" reminders
-  # And we have logged in successfully
-  # Then the "1st" sync request will be "SUCCESS"
-  # When we repeat the "1st" reminder "every day"
-  # And the header loading icon "will not be" visible
-  # When we navigate to the "repeated" scene
-  # Then the "repeated" route "is" visible
-  # And the "1st" reminder "repeat" icon "is" visible
-  # And the header loading icon "will not be" visible
-  # And the screenshot matches
+    Given we set the day to monday
+    And we preload the api with "1" reminders
+    And we have logged in successfully
+    Then the "1st" sync request will be "SUCCESS"
+    When we repeat the "1st" reminder "every day"
+    And the header loading icon "will not be" visible
+    When we navigate to the "repeated" scene
+    Then the "repeated" route "is" visible
+    And the header loading icon "will not be" visible
+    And the "1st" reminder "repeat" icon "is" visible
+    And the screenshot matches
 
   # TODO:
   Scenario: Repeating reminder shows correctly in the edit scene
@@ -97,8 +98,37 @@ Feature: Repeating Reminders
     And the repeat suggestions "daily" button is pressed
     Then the custom date picker "is" visible
 
+  Scenario: Picking a start date shows the date confirm modal
+    Given we set the day to monday
+    And we preload the api with "1" reminders
+    And we have logged in successfully
+    Then the "1st" sync request will be "SUCCESS"
+    When the we hover over the "1st" reminder
+    And the "1st" reminder hover "repeat" button is pressed
+    Then the repeat modal "is" visible
+    When the repeat suggestions button is pressed
+    And the repeat suggestions "daily" button is pressed
+    Then the custom date picker "is" visible
+    When day "8" in the date picker is pressed
+    Then the snooze reminder confirm modal "is" visible
+
   # Scenario: Picking a date shows the same confirm modal as snooze (..fill in scenarios)
   # - Error if past date, can select custom time, same time suggestions as snooze
+
+  Scenario: Confirming the repeat start date sets the repeat
+    Given we set the day to monday
+    And we preload the api with "1" reminders
+    And we have logged in successfully
+    Then the "1st" sync request will be "SUCCESS"
+    When the we hover over the "1st" reminder
+    And the "1st" reminder hover "repeat" button is pressed
+    Then the repeat modal "is" visible
+    When the repeat suggestions button is pressed
+    And the repeat suggestions "daily" button is pressed
+    Then the custom date picker "is" visible
+    When day "8" in the date picker is pressed
+    And the snooze scene custom save button is pressed
+    Then the snooze reminder confirm modal "is not" visible
 
   # BEHAVIOUR
 
