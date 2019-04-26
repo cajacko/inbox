@@ -28,6 +28,8 @@ class ReminderList {
     selectors.general.ReminderList.Reminder.SnoozeIcon;
   private reminderSnoozeButtonSelector: ISelector =
     selectors.general.ReminderList.Reminder.SnoozeButton;
+  private reminderRepeatButtonSelector: ISelector =
+    selectors.general.ReminderList.Reminder.RepeatButton;
 
   public async count(conditional: ICondition, value: number) {
     return driver.count(
@@ -74,6 +76,9 @@ class ReminderList {
         break;
       case 'edit':
         selector = getSelector(this.reminderEditButtonSelector, { index });
+        break;
+      case 'repeat':
+        selector = getSelector(this.reminderRepeatButtonSelector, { index });
         break;
       default:
         throw new Error('Unknown component given');

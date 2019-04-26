@@ -7,6 +7,7 @@ class DatePicker {
   private datePickerDay = selectors.general.DatePicker.Day;
   private datePickerTime = selectors.general.DatePicker.Time;
   private datePickerTimeContainer = selectors.general.DatePicker.TimeContainer;
+  private datePickerContainer = selectors.general.DatePicker;
 
   public async pressDay(day: number) {
     return driver.press(getSelector(this.datePickerDay, { day }));
@@ -22,6 +23,10 @@ class DatePicker {
 
   public async timeVisible(condition: ICondition) {
     return driver.visible(condition, getSelector(this.datePickerTimeContainer));
+  }
+
+  public async visible(condition: ICondition) {
+    return driver.visible(condition, getSelector(this.datePickerContainer));
   }
 }
 

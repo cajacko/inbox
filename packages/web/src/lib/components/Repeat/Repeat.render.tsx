@@ -12,6 +12,7 @@ import * as Style from './Repeat.style';
 
 const suggestions: Array<{
   key: string;
+  testID?: string;
   payload: {
   type: RepeatTypes | 'NO_REPEAT';
   };
@@ -29,6 +30,7 @@ const suggestions: Array<{
       payload: {
         type: 'DAILY',
       },
+      testID: 'RepeatModal__Suggestion--daily',
       text: { _textFromConst: 'Daily' },
     },
     {
@@ -78,7 +80,7 @@ const Repeat = ({
 
     case 'INIT':
       return (
-        <Style.Container>
+        <Style.Container testID="RepeatModal">
           <Style.Header>
             <Text
               text={{ _textFromConst: 'Repeat' }}
@@ -91,6 +93,7 @@ const Repeat = ({
             action={setType('SUGGESTIONS')}
             analyticsAction="OPEN_DATE"
             analyticsCategory="REPEAT"
+            buttonTestID="RepeatModal__Suggestions"
           />
         </Style.Container>
       );
@@ -105,6 +108,7 @@ const Repeat = ({
               analyticsCategory="REPEAT"
               action={onOpenRepeatStartDate(suggestion.payload.type)}
               styles={{ flexDirection: 'row' }}
+              testID={suggestion.testID}
             >
               {() => (
                 <Style.Suggestion>

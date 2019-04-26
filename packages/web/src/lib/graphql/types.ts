@@ -10,4 +10,6 @@ export interface IApiReminder {
   repeated: IReminder['repeated'];
   snoozedDate: IReminder['snoozedDate'];
   text: IReminder['text'];
+  dueDate?: number; // Depreciated
+  status?: string; // Depreciated
 }

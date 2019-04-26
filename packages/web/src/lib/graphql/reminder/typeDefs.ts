@@ -3,21 +3,35 @@ export const types = `
   scalar Date
 
   type Reminder {
-    id: ReminderID!
-    text: String!
     dateCreated: Date!
     dateModified: Date!
-    dueDate: Date!
-    status: String!
+    deletedDate: Date
+    doneDate: Date
+    id: ReminderID!
+    inboxDate: Date
+    repeated: Date
+    snoozedDate: Date
+    text: String!
+
+    # Depreciated
+    dueDate: Date
+    status: String
   }
 
   input ReminderInput {
-    id: ReminderID!
-    text: String!
     dateCreated: Date
     dateModified: Date!
-    dueDate: Date!
-    status: String!
+    deletedDate: Date
+    doneDate: Date
+    id: ReminderID!
+    inboxDate: Date
+    repeated: Date
+    snoozedDate: Date
+    text: String!
+
+    # Depreciated
+    dueDate: Date
+    status: String
   }
 `;
 

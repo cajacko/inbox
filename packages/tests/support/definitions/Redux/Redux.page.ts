@@ -1,5 +1,6 @@
+import { IPersistedState } from '../../../lib/store/types/index';
 import { set } from '../../config/hookConstants';
-import buildReminderObj from '../../utils/buildReminderObj';
+import * as buildReminderObj from '../../utils/buildReminderObj';
 import driver from '../../utils/driver';
 
 class Redux {
@@ -8,9 +9,20 @@ class Redux {
     nonHeadless: boolean,
     status?: string
   ) {
-    set('initialState', {
-      reminders: buildReminderObj(count, true, status),
-    });
+    const initialState: Partial<IPersistedState> = {
+      reminders: {
+        remindersById: buildReminderObj.redux(count, status),
+        remindersByList: {
+          deleted: [],
+          done: [],
+          inbox: [],
+          repeated: [],
+          snoozed: [],
+        },
+      },
+    };
+
+    set('initialState', initialState);
 
     await driver.addHook('initialState', 'initialState', nonHeadless);
   }

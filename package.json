@@ -10,7 +10,7 @@
     "test:lint": "yarn test:tslint && yarn test:eslint",
     "test:tslint": "tslint -c tslint.json 'packages/**/*.ts*'",
     "test:eslint": "eslint packages --ext .jsx,.js,.ts,.tsx",
-    "start:src": "baf packages/web/src/lib packages/app/src/lib packages/functions/src/lib",
+    "start:src": "baf packages/web/src/lib packages/app/src/lib packages/functions/src/lib packages/tests/lib",
     "build:env": "env-sync .env.local \"packages/*/.envSync\"",
     "start:env": "yarn build:env --watch",
     "build:tslint": "tsc -p tsconfig.rules.json",

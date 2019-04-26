@@ -19,6 +19,9 @@ const general = {
     Input: {
       web: '.AddReminder__Input',
     },
+    Repeat: {
+      web: '.AddReminder__Repeat',
+    },
     Save: {
       web: '.AddReminder__Save',
     },
@@ -40,6 +43,7 @@ const general = {
     TimeContainer: {
       web: '.react-datepicker__time',
     },
+    web: '.react-datepicker__day',
   },
   Done: {
     web: '.Done',
@@ -179,6 +183,10 @@ const general = {
             `.Reminder:nth-child(${index + 1}) .Reminder__LinkText`,
         },
       },
+      RepeatButton: {
+        web: ({ index }: { index: number }) =>
+          `.Reminder:nth-child(${index + 1}) .Reminder__HoverRepeat`,
+      },
       SnoozeButton: {
         web: ({ index }: { index: number }) =>
           `.Reminder:nth-child(${index + 1}) .Reminder__HoverSnooze`,
@@ -213,6 +221,15 @@ const general = {
       web: '.ReminderList__Scroll',
     },
     web: '.ReminderList',
+  },
+  RepeatModal: {
+    Suggestions: {
+      Daily: {
+        web: '.RepeatModal__Suggestion--daily',
+      },
+      web: '.RepeatModal__Suggestions',
+    },
+    web: '.RepeatModal',
   },
   SnoozeModal: {
     Calendar: {

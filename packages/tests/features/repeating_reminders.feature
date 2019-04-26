@@ -17,20 +17,86 @@ Feature: Repeating Reminders
 
   # DISPLAY
 
-  Scenario: Repeat button shows correctly in hover menu
+  # Scenario: The reminder long press menu has a delete button
+  Scenario: The reminder hover menu has a delete button
+    Given we preload the api with "1" reminders
+    And we have logged in successfully
+    Then the "1st" sync request will be "SUCCESS"
+    And the "1st" reminder "repeat" button "is not" visible
+    When the we hover over the "1st" reminder
+    Then the "1st" reminder "repeat" button "is" visible
+
   Scenario: Repeat button shows correctly in edit scene
+    Given we have logged in successfully
+    Then the "1st" sync request will be "SUCCESS"
+    When the "1st" reminder is pressed
+    Then the edit reminder scene "is" visible
+    And the edit scene "repeat button" "is" visible
+
   Scenario: Repeat button shows in the new reminder scene
+    Given we have logged in successfully
+    When the add reminder button is pressed
+    Then the add reminder scene "is" visible
+    And the edit scene "repeat button" "is" visible
+
   Scenario: Repeated is highlighted in the side menu
+    Given we have logged in successfully
+    When we navigate to the "repeated" scene
+    And the menu button is pressed
+    Then the menu "will be" visible
+    And the header loading icon "will not be" visible
+    And the screenshot matches
+
   Scenario: Repeated scene shows correctly
+  # Given we preload the api with "1" reminders
+  # And we have logged in successfully
+  # Then the "1st" sync request will be "SUCCESS"
+  # When we repeat the "1st" reminder "every day"
+  # And the header loading icon "will not be" visible
+  # When we navigate to the "repeated" scene
+  # Then the "repeated" route "is" visible
+  # And the "1st" reminder "repeat" icon "is" visible
+  # And the header loading icon "will not be" visible
+  # And the screenshot matches
 
   # TODO:
   Scenario: Repeating reminder shows correctly in the edit scene
 
   Scenario: The repeat modal displays correctly with no repeat
+    Given we preload the api with "1" reminders
+    And we have logged in successfully
+    Then the "1st" sync request will be "SUCCESS"
+    When the we hover over the "1st" reminder
+    And the "1st" reminder hover "repeat" button is pressed
+    Then the repeat modal "is" visible
+    And the screenshot matches
 
   # Scenario Outline with daily/weekly etc
+
+  Scenario: The repeat suggestions modal displays correctly
+    Given we preload the api with "1" reminders
+    And we have logged in successfully
+    Then the "1st" sync request will be "SUCCESS"
+    When the we hover over the "1st" reminder
+    And the "1st" reminder hover "repeat" button is pressed
+    Then the repeat modal "is" visible
+    When the repeat suggestions button is pressed
+    Then the screenshot matches
+
   # Scenario: The repeat modal displays correctly with a repeat
-  # Scenario: Selecting a repeat option displays the date picker (text for pick a start date?)
+
+  # TODO: Have text for pick a start date on calendar
+  Scenario: Selecting a repeat option displays the date picker
+    Given we preload the api with "1" reminders
+    And we have logged in successfully
+    Then the "1st" sync request will be "SUCCESS"
+    When the we hover over the "1st" reminder
+    And the "1st" reminder hover "repeat" button is pressed
+    Then the repeat modal "is" visible
+    When the repeat suggestions button is pressed
+    And the repeat suggestions "daily" button is pressed
+    Then the custom date picker "is" visible
+
   # Scenario: Picking a date shows the same confirm modal as snooze (..fill in scenarios)
   # - Error if past date, can select custom time, same time suggestions as snooze
 

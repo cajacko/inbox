@@ -6,7 +6,17 @@ import { IApiReminder } from '../types';
 /**
  * Validate the given date
  */
-export const validateDate = (time: number, error: string) => {
+export const validateDate = (
+  time: number | null,
+  error: string,
+  canBeNull: boolean = false
+) => {
+  if (time === null) {
+    if (canBeNull) return;
+
+    throw new Error(error || 'Date failed validation');
+  }
+
   const date = new Date(time);
   const testDate = new Date(2018, 0, 1);
 
@@ -21,7 +31,18 @@ export const setReminder = (reminder: IApiReminder, db: IDb) => {
   try {
     validateDate(reminder.dateCreated, 'Date created is not a valid date');
     validateDate(reminder.dateModified, 'Date modified is not a valid date');
-    validateDate(reminder.dueDate, 'Due date is not a valid date');
+    validateDate(reminder.doneDate, 'Done date is not a valid date', true);
+    validateDate(
+      reminder.deletedDate,
+      'Deleted date is not a valid date',
+      true
+    );
+    validateDate(reminder.inboxDate, 'Inbox date is not a valid date', true);
+    validateDate(
+      reminder.snoozedDate,
+      'Snoozed date is not a valid date',
+      true
+    );
   } catch (e) {
     return Promise.reject(e);
   }
@@ -41,8 +62,8 @@ export const setReminder = (reminder: IApiReminder, db: IDb) => {
 
       return reminder.dateCreated
         ? reminder
-        : // ensuring we always have a created date and due date, shouldn't happen though
-        { dateCreated: now, dueDate: now, ...reminder };
+        : // ensuring we always have a created date, shouldn't happen though
+        { dateCreated: now, ...reminder };
     })
     .then(data => db.set(location, data));
 };
@@ -54,13 +75,15 @@ export const getReminders = (db: IDb) =>
   db.get('reminders').then((reminders?: { [key: string]: IApiReminder }) => {
     if (!reminders) return [];
 
-    return Object.values(reminders)
-      .sort((reminderA, reminderB) => reminderA.dueDate - reminderB.dueDate)
-      .map(reminder => ({
-        // Backup in case we have old data with no dueDate
-        dueDate: reminder.dateCreated,
-        ...reminder,
-      }));
+    return (
+      Object.values(reminders)
+        // .sort((reminderA, reminderB) => reminderA.dueDate - reminderB.dueDate)
+        .map(reminder => ({
+          // Backup in case we have old data with no dueDate
+          dueDate: reminder.dateCreated,
+          ...reminder,
+        }))
+    );
   });
 
 export const Query = {

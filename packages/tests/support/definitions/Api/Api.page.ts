@@ -3,7 +3,7 @@ import { readJSON } from 'fs-extra';
 import graphqlRequest from 'graphql-request';
 import { join } from 'path';
 import { inspect } from 'util';
-import buildReminderObj from '../../utils/buildReminderObj';
+import * as buildReminderObj from '../../utils/buildReminderObj';
 import conditional from '../../utils/conditional';
 import driver from '../../utils/driver';
 import { ICondition } from '../../utils/ensureCondition';
@@ -78,7 +78,7 @@ class Api {
   public getTestData = this.getExpectedData;
 
   public async preloadReminders(count: number, status?: string) {
-    const reminders = buildReminderObj(count, false, status);
+    const reminders = buildReminderObj.api(count, status);
 
     await this.graphqlRequest(
       `

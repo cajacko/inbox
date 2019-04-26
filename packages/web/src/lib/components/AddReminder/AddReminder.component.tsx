@@ -16,7 +16,6 @@ export interface IContainerStateProps {
   isDone: boolean;
   isSnoozed: boolean;
   text?: string;
-  onSetDueDate: (id: string, time: number) => void;
   isRepeated: boolean;
 }
 
@@ -24,6 +23,7 @@ export interface IContainerDispatchProps {
   save: (value: string, dueDate?: number, id?: string) => void;
   delete: (id: string) => void;
   setDone: (id: string, val: boolean) => void;
+  onSetDueDate: (id: string, time: number) => void;
 }
 
 interface IProps

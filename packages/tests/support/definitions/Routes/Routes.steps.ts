@@ -29,6 +29,8 @@ When('we navigate to the {string} scene', (scene) => {
         return driver.navigate('/');
       case 'snoozed':
         return driver.navigate('/snoozed');
+      case 'repeated':
+        return driver.navigate('/repeated');
       default:
         throw new Error(`Did not recognise scene to navigate to ${scene}`);
     }

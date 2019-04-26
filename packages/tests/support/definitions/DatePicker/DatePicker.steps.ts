@@ -12,3 +12,6 @@ When(/the snooze time is set to (.*)/, time =>
 
 Then('the custom time picker {string} visible', condition =>
   datePicker.timeVisible(condition));
+
+Then('the custom date picker {string} visible', condition =>
+  datePicker.visible(condition));

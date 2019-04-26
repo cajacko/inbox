@@ -1,5 +1,5 @@
 /* eslint id-length: 0 */
-import { IState } from 'src/lib/store/reducers';
+import { IReminder, IState } from 'src/lib/store/types';
 
 export type SelectorStatus =
   | 'DELETED'
@@ -34,7 +34,7 @@ export const selectOrderedRemindersKeys = (
 /**
  * Is the reminder a repeated one or not
  */
-export const isRepeated = (state: IState, id: string) => {
+export const isRepeated = (state: IState, id?: string) => {
   if (!id) return false;
 
   const reminder = state.reminders.remindersById[id];
@@ -45,6 +45,32 @@ export const isRepeated = (state: IState, id: string) => {
 };
 
 /**
+ * Is the given reminder done
+ */
+export const isDone = (state: IState, id?: string) => {
+  if (!id) return false;
+
+  const reminder = state.reminders.remindersById[id];
+
+  if (!reminder) return false;
+
+  return !!reminder.doneDate;
+};
+
+/**
+ * Is the given reminder snoozed
+ */
+export const isSnoozed = (state: IState, id?: string) => {
+  if (!id) return false;
+
+  const reminder = state.reminders.remindersById[id];
+
+  if (!reminder) return false;
+
+  return !!reminder.snoozedDate;
+};
+
+/**
  * Get the repeat text to show
  */
 export const getRepeatText = (state: IState, id?: string) => {
@@ -52,4 +78,17 @@ export const getRepeatText = (state: IState, id?: string) => {
   if (state) return 'Does not repeat';
 
   return '';
+};
+
+/**
+ * Get a reminder from the state
+ */
+export const getReminder = (state: IState, id?: string): IReminder | null => {
+  const defaultReminder = null;
+
+  if (!id) return defaultReminder;
+
+  const reminder = state.reminders.remindersById[id];
+
+  return reminder || defaultReminder;
 };

@@ -15,6 +15,8 @@ class AddReminder {
   private doneButtonSelector: ISelector = selectors.general.AddReminder.Done;
   private snoozeButtonSelector: ISelector =
     selectors.general.AddReminder.Snooze;
+  private repeatButtonSelector: ISelector =
+    selectors.general.AddReminder.Repeat;
 
   public async visible(condition: ICondition) {
     return driver.visible(condition, getSelector(this.addReminderSelector));
@@ -60,6 +62,8 @@ class AddReminder {
         return getSelector(this.deleteButtonSelector);
       case 'snooze button':
         return getSelector(this.snoozeButtonSelector);
+      case 'repeat button':
+        return getSelector(this.repeatButtonSelector);
       default:
         throw new Error('No matching component');
     }

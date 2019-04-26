@@ -147,6 +147,8 @@ class ReminderComponent extends React.Component<IProps, IState> {
     // eslint-disable-next-line
     const regex = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gi;
 
+    if (!this.props.text) return undefined;
+
     const results = this.props.text.match(regex);
 
     if (results && results[0]) {

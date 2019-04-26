@@ -1,12 +1,10 @@
-import get from 'lodash/get';
 import isDev from 'src/utils/conditionals/isDev';
 
-const setItem = get(window, 'localStorage.setItem');
-const getItem = get(window, 'localStorage.getItem');
-const userAgent = get(window, 'navigator.userAgent');
-
-if (window.location.href.includes('test-env=true') && setItem) {
-  setItem('isTestEnv', 'true');
+if (
+  window.location.href.includes('test-env=true') &&
+  window.localStorage.setItem
+) {
+  window.localStorage.setItem('isTestEnv', 'true');
 }
 
 /**
@@ -16,7 +14,8 @@ const isTestEnv = () => {
   if (!isDev()) return false;
 
   return (
-    (getItem && getItem('isTestEnv')) || /\bHeadlessChrome\//.test(userAgent)
+    window.localStorage.getItem('isTestEnv') ||
+    /\bHeadlessChrome\//.test(window.navigator.userAgent)
   );
 };
 

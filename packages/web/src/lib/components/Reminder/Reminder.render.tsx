@@ -11,8 +11,8 @@ import Text from 'src/lib/components/Text';
 import * as Style from './Reminder.style';
 
 export interface IContainerStateProps {
-  text: string;
-  saveStatus: 'saving' | 'saved' | 'error';
+  text?: string;
+  saveStatus?: 'saving' | 'saved' | 'error';
   isDone: boolean;
   isSnoozed: boolean;
   isRepeated: boolean;
@@ -59,6 +59,8 @@ interface IProps
  * Display a list of reminders
  */
 const Reminder = (props: IProps) => {
+  if (!props.text) return null;
+
   const heightProps = {
     hasBottomBorder: props.isFullWidth ? true : !props.isLast,
     hasTopBorder: props.isFullWidth && props.isFirst,

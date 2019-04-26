@@ -17,10 +17,13 @@ export const sync = ({
         reminders {
           dateCreated
           dateModified
-          dueDate
+          doneDate
+          deletedDate
+          inboxDate
+          snoozedDate
+          repeated
           id
           text
-          status
         }
       }
     }
