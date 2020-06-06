@@ -12,7 +12,7 @@
   },
   "main": "build/dist/src/index.js",
   "dependencies": {
-    "apollo-server-express": "2.0.4",
+    "apollo-server-express": "2.14.2",
     "cookie-parser": "^1.4.3",
     "cors": "^2.8.5",
     "express": "4.16.3",
