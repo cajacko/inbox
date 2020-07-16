@@ -20,7 +20,7 @@
     "firebase-functions": "^2.1.0",
     "firebase-tools": "^6.3.1",
     "graphql": "0.13.2",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.19",
     "tslib": "^1.9.3"
   },
   "devDependencies": {
